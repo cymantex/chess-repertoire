@@ -26,7 +26,7 @@ export const ChessRepertoireApp = () => {
 
   return (
     <div
-      className="chess-repertoire sm:grid p-3"
+      className="chess-repertoire sm:grid"
       style={{
         // @ts-ignore
         "--cg-width": subtractAppPadding(mainSize),

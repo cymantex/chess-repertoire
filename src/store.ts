@@ -1,28 +1,54 @@
 import { create } from "zustand";
 import { Chess, Move, PAWN } from "chess.js";
 import { Key } from "chessground/types";
-import { CJ_PROMOTION_FLAG } from "@/chessboard/constants.ts";
+import {
+  CG_BLACK,
+  CG_WHITE,
+  CJ_PROMOTION_FLAG,
+} from "@/chessboard/constants.ts";
 import { PieceSymbol } from "chess.js/src/chess.ts";
-import { OpeningExplorerMove } from "@/opening-explorer/OpeningExplorer.tsx";
+
+import { OpeningExplorerMove } from "@/opening-explorer/types.ts";
+import { CgColor } from "@/chessboard/types.ts";
 
 const globalChess = new Chess();
 const startingPositionFen = globalChess.fen();
 
 interface ChessRepertoireStore {
   chess: Chess;
+  orientation: CgColor;
   fen: string;
   lastMove: Move | null;
+  handleRotate: () => void;
+  hoveredOpeningMove: Move | null;
   pendingPromotionMove: Move | null;
+  setHoveredMove: (openingMove: OpeningExplorerMove | null) => void;
   handleChessgroundMove: (from: Key, to: Key) => void;
   handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) => void;
   handlePromotion: (promotion: PieceSymbol) => void;
+  handleUndoLastMove: () => void;
 }
 
 export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
+  orientation: CG_WHITE,
   chess: globalChess,
   fen: startingPositionFen,
   lastMove: null,
+  hoveredOpeningMove: null,
   pendingPromotionMove: null,
+  handleRotate: () =>
+    set((state) => ({
+      ...state,
+      orientation: state.orientation === CG_WHITE ? CG_BLACK : CG_WHITE,
+    })),
+  setHoveredMove: (openingMove) =>
+    set((state) => {
+      return {
+        ...state,
+        hoveredOpeningMove:
+          openingMove === null ? null : findOpeningMove(state, openingMove),
+      };
+    }),
   handlePromotion: (promotion: PieceSymbol) =>
     set((state) => {
       const { pendingPromotionMove, chess } = state;
@@ -41,15 +67,7 @@ export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
       };
     }),
   handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) =>
-    set((state) => {
-      const { chess } = state;
-
-      const pendingMove = chess
-        .moves({ verbose: true })
-        .find((move) => move.san === openingMove.san);
-
-      return handleMove(state, pendingMove);
-    }),
+    set((state) => handleMove(state, findOpeningMove(state, openingMove))),
   handleChessgroundMove: (from: Key, to: Key) =>
     set((state) => {
       const { chess } = state;
@@ -60,7 +78,30 @@ export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
 
       return handleMove(state, pendingMove);
     }),
+  handleUndoLastMove: () =>
+    set((state) => {
+      const { chess } = state;
+
+      chess.undo();
+
+      return {
+        ...state,
+        lastMove: null,
+        fen: chess.fen(),
+      };
+    }),
 }));
+
+const findOpeningMove = (
+  state: ChessRepertoireStore,
+  openingMove: OpeningExplorerMove,
+) => {
+  const { chess } = state;
+
+  return chess
+    .moves({ verbose: true })
+    .find((move) => move.san === openingMove.san);
+};
 
 const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
   const { chess } = state;

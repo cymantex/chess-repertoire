@@ -10,8 +10,8 @@ import {
   PromotionSelectionProps,
 } from "@/chessboard/PromotionSelection/PromotionSelection.tsx";
 import "@/external/chessground/assets/chessground.base.css";
-import "@/external/chessground/assets/chessground.cburnett.css";
-import "@/external/chessground/assets/chessground.brown.css";
+import "@/external/chessground/assets/chessground.cardinal.css";
+import "@/external/chessground/assets/chessground.blue2.css";
 import { calcPossibleDestinations } from "@/chessboard/utils.ts";
 import { useChessRepertoireStore } from "@/store.ts";
 
@@ -23,12 +23,14 @@ export const Chessboard = ({
   promotionSelectionProps,
   ...chessgroundProps
 }: CjChessgroundProps) => {
-  const { movable, events, chessgroundDivProps } = chessgroundProps;
+  const { drawable, movable, events, chessgroundDivProps } = chessgroundProps;
 
   const {
     chess,
     fen,
+    orientation,
     lastMove,
+    hoveredOpeningMove,
     pendingPromotionMove,
     handleChessgroundMove,
     handlePromotion,
@@ -40,6 +42,7 @@ export const Chessboard = ({
     <ChessgroundWrapper
       fen={fen}
       turnColor={turnColor}
+      orientation={orientation}
       movable={{
         free: false,
         dests: calcPossibleDestinations(chess),
@@ -57,6 +60,22 @@ export const Chessboard = ({
         },
         ...chessgroundDivProps,
       }}
+      drawable={
+        hoveredOpeningMove
+          ? {
+              shapes: [
+                {
+                  orig: hoveredOpeningMove?.from,
+                  dest: hoveredOpeningMove?.to,
+                  brush: "blue",
+                },
+              ],
+              ...drawable,
+            }
+          : {
+              ...drawable,
+            }
+      }
     >
       <PromotionSelection
         to={pendingPromotionMove?.to}
