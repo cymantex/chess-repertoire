@@ -1,6 +1,7 @@
 import { Chessboard } from "@/chessboard/Chessboard.tsx";
 import { useLayoutEffect, useState } from "react";
 import { OpeningExplorer } from "@/opening-explorer/OpeningExplorer.tsx";
+import { useChessRepertoireStore } from "@/store.ts";
 
 const BREAKPOINT_SM = 640;
 const SIDEBAR_SIZE = 400;
@@ -11,6 +12,7 @@ const calcMainSize = () =>
   isMobileSize() ? window.innerWidth : window.innerWidth - SIDEBAR_SIZE;
 
 export const ChessRepertoireApp = () => {
+  const { setFenIfValid, setPgnIfValid } = useChessRepertoireStore();
   const [mainSize, setMainSize] = useState(calcMainSize());
 
   useLayoutEffect(() => {
@@ -37,6 +39,27 @@ export const ChessRepertoireApp = () => {
     >
       <main>
         <Chessboard />
+        <label className="flex mt-3">
+          <div className="label mr-3 pr-0">
+            <span className="label-text">FEN</span>
+          </div>
+          <input
+            type="text"
+            placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+            className="input input-bordered w-full"
+            onChange={(e) => setFenIfValid(e.target.value)}
+          />
+        </label>
+        <label className="flex mt-3">
+          <div className="label mr-2 pr-0">
+            <span className="label-text">PGN</span>
+          </div>
+          <textarea
+            rows={3}
+            className="textarea textarea-bordered w-full"
+            onChange={(e) => setPgnIfValid(e.target.value)}
+          />
+        </label>
       </main>
       <aside className="pl-2.5">
         <div className="h-full w-full">

@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { OpeningExplorerResponse } from "@/opening-explorer/types.ts";
+import {
+  CloudEvaluationResponse,
+  OpeningExplorerResponse,
+} from "@/opening-explorer/types.ts";
 
 export const useOpeningExplorerQuery = (fen: string) => {
   const openingExplorerQuery = useQuery<OpeningExplorerResponse>({
@@ -10,9 +13,18 @@ export const useOpeningExplorerQuery = (fen: string) => {
       ),
   });
 
+  const cloudEvaluationQuery = useQuery<CloudEvaluationResponse>({
+    queryKey: [`cloud-evaluation-${fen}`],
+    queryFn: () =>
+      fetch(`https://lichess.org/api/cloud-eval?fen=${fen}`).then((res) =>
+        res.json(),
+      ),
+  });
+
   return {
-    isPending: openingExplorerQuery.isPending,
-    error: openingExplorerQuery.error,
+    isPending: openingExplorerQuery.isPending || cloudEvaluationQuery.isPending,
+    error: openingExplorerQuery.error || cloudEvaluationQuery.error,
     openingExplorerResponse: openingExplorerQuery.data!,
+    cloudEvaluationResponse: cloudEvaluationQuery.data!,
   };
 };

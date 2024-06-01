@@ -33,7 +33,7 @@ export const Chessboard = ({
     hoveredOpeningMove,
     pendingPromotionMove,
     handleChessgroundMove,
-    handlePromotion,
+    promote,
   } = useChessRepertoireStore();
 
   const turnColor: CgColor = chess.turn() === WHITE ? CG_WHITE : CG_BLACK;
@@ -79,7 +79,7 @@ export const Chessboard = ({
     >
       <PromotionSelection
         to={pendingPromotionMove?.to}
-        onPromotion={handlePromotion}
+        onPromotion={promote}
         color={turnColor}
         {...promotionSelectionProps}
       />

@@ -19,14 +19,27 @@ interface ChessRepertoireStore {
   orientation: CgColor;
   fen: string;
   lastMove: Move | null;
-  handleRotate: () => void;
   hoveredOpeningMove: Move | null;
   pendingPromotionMove: Move | null;
-  setHoveredMove: (openingMove: OpeningExplorerMove | null) => void;
+
+  // Load PGN / FEN
+  setFenIfValid: (fen: string) => void;
+  setPgnIfValid: (pgn: string) => void;
+
+  // Chessground
+  rotate: () => void;
   handleChessgroundMove: (from: Key, to: Key) => void;
+  promote: (promotion: PieceSymbol) => void;
+
+  // Opening Explorer
+  setHoveredOpeningMove: (openingMove: OpeningExplorerMove | null) => void;
   handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) => void;
-  handlePromotion: (promotion: PieceSymbol) => void;
-  handleUndoLastMove: () => void;
+
+  // Navigation
+  goToFirstMove: () => void;
+  goToPreviousMove: () => void;
+  goToNextMove: () => void;
+  goToLastMove: () => void;
 }
 
 export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
@@ -36,20 +49,38 @@ export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
   lastMove: null,
   hoveredOpeningMove: null,
   pendingPromotionMove: null,
-  handleRotate: () =>
+
+  // Load PGN / FEN
+  setPgnIfValid: (pgn) =>
+    set((state) => {
+      const { chess } = state;
+
+      try {
+        chess.loadPgn(pgn);
+        return resetState(state);
+      } catch (error) {
+        return state;
+      }
+    }),
+  setFenIfValid: (fen) =>
+    set((state) => {
+      const { chess } = state;
+
+      try {
+        chess.load(fen);
+        return resetState(state);
+      } catch (error) {
+        return state;
+      }
+    }),
+
+  // Chessground
+  rotate: () =>
     set((state) => ({
       ...state,
       orientation: state.orientation === CG_WHITE ? CG_BLACK : CG_WHITE,
     })),
-  setHoveredMove: (openingMove) =>
-    set((state) => {
-      return {
-        ...state,
-        hoveredOpeningMove:
-          openingMove === null ? null : findOpeningMove(state, openingMove),
-      };
-    }),
-  handlePromotion: (promotion: PieceSymbol) =>
+  promote: (promotion: PieceSymbol) =>
     set((state) => {
       const { pendingPromotionMove, chess } = state;
 
@@ -59,15 +90,8 @@ export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
       chess.put({ type: PAWN, color: chess.turn() }, pendingPromotionMove.from);
       chess.move({ ...pendingPromotionMove, promotion });
 
-      return {
-        ...state,
-        lastMove: pendingPromotionMove,
-        pendingPromotionMove: null,
-        fen: chess.fen(),
-      };
+      return resetState(state);
     }),
-  handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) =>
-    set((state) => handleMove(state, findOpeningMove(state, openingMove))),
   handleChessgroundMove: (from: Key, to: Key) =>
     set((state) => {
       const { chess } = state;
@@ -78,19 +102,65 @@ export const useChessRepertoireStore = create<ChessRepertoireStore>((set) => ({
 
       return handleMove(state, pendingMove);
     }),
-  handleUndoLastMove: () =>
+
+  // Opening Explorer
+  handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) =>
+    set((state) => handleMove(state, findOpeningMove(state, openingMove))),
+  setHoveredOpeningMove: (openingMove) =>
+    set((state) => {
+      return {
+        ...state,
+        hoveredOpeningMove:
+          openingMove === null ? null : findOpeningMove(state, openingMove),
+      };
+    }),
+
+  // Navigation
+  goToFirstMove: () =>
+    set((state) => {
+      const { chess } = state;
+
+      chess.reset();
+
+      return resetState(state);
+    }),
+  goToPreviousMove: () =>
     set((state) => {
       const { chess } = state;
 
       chess.undo();
 
-      return {
-        ...state,
-        lastMove: null,
-        fen: chess.fen(),
-      };
+      return resetState(state);
+    }),
+  goToNextMove: () =>
+    set((state) => {
+      const { chess } = state;
+
+      const nextMove = chess.history()[0];
+
+      if (nextMove) {
+        chess.move(nextMove);
+      }
+
+      return resetState(state);
+    }),
+  goToLastMove: () =>
+    set((state) => {
+      const { chess } = state;
+
+      chess.history().forEach((move) => chess.move(move));
+
+      return resetState(state);
     }),
 }));
+
+const resetState = (state: ChessRepertoireStore) => ({
+  ...state,
+  fen: state.chess.fen(),
+  lastMove: null,
+  hoveredOpeningMove: null,
+  pendingPromotionMove: null,
+});
 
 const findOpeningMove = (
   state: ChessRepertoireStore,
