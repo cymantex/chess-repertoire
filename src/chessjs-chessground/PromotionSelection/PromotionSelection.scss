@@ -1,9 +1,10 @@
-.cg-promotion {
+.cj-promotion {
   z-index: 205;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: hsla(37, 7%, 14%, 0.7);
 
   &.cg-wrap {
     position: absolute;
@@ -20,10 +21,17 @@
   .square {
     flex: 1;
     cursor: pointer;
-    background-color: #b0b0b0;
-    box-shadow: inset 0 0 25px 3px rgb(128, 128, 128);
+    border-radius: 50%;
     pointer-events: all;
     transition: all 150ms;
-    background-size: cover;
+    background-color: #b0b0b0;
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &:hover {
+      background-size: 100%;
+      border-radius: 0;
+    }
   }
 }
