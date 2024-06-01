@@ -85,10 +85,9 @@ export const CjChessground = ({
         ...events,
       }}
       chessgroundDivProps={{
-        // TODO: Resize support
         style: {
-          width: "800px",
-          height: "800px",
+          width: "var(--cg-width)",
+          height: "var(--cg-height)",
         },
         ...chessgroundDivProps,
       }}
