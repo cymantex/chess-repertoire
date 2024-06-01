@@ -1,15 +1,16 @@
-import { CjChessground } from "@/chessjs-chessground/CjChessground.tsx";
+import { Chessboard } from "@/chessboard/Chessboard.tsx";
 import { useLayoutEffect, useState } from "react";
+import { OpeningExplorer } from "@/opening-explorer/OpeningExplorer.tsx";
 
 const BREAKPOINT_SM = 640;
-const SIDEBAR_SIZE = 300;
-const MAIN_PADDING_REM = 0.75;
+const SIDEBAR_SIZE = 400;
+const APP_PADDING_REM = 0.75;
 
 const isMobileSize = () => window.innerWidth <= BREAKPOINT_SM;
 const calcMainSize = () =>
   isMobileSize() ? window.innerWidth : window.innerWidth - SIDEBAR_SIZE;
 
-export const RepertoireApp = () => {
+export const ChessRepertoireApp = () => {
   const [mainSize, setMainSize] = useState(calcMainSize());
 
   useLayoutEffect(() => {
@@ -18,27 +19,29 @@ export const RepertoireApp = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getCssCalc = (size: number) =>
+  const subtractAppPadding = (size: number) =>
     isMobileSize()
-      ? `calc(${mainSize}px - ${MAIN_PADDING_REM * 2}rem)`
-      : `calc(${size}px - ${MAIN_PADDING_REM}rem)`;
+      ? `calc(${mainSize}px - ${APP_PADDING_REM * 2}rem)`
+      : `calc(${size}px - ${APP_PADDING_REM}rem)`;
 
   return (
     <div
       className="chess-repertoire sm:grid p-3"
       style={{
         // @ts-ignore
-        "--cg-width": getCssCalc(mainSize),
-        "--cg-height": getCssCalc(mainSize),
-        padding: `${MAIN_PADDING_REM}rem`,
-        gridTemplateColumns: `${getCssCalc(mainSize)} ${getCssCalc(SIDEBAR_SIZE)}`,
+        "--cg-width": subtractAppPadding(mainSize),
+        "--cg-height": subtractAppPadding(mainSize),
+        padding: `${APP_PADDING_REM}rem`,
+        gridTemplateColumns: `${subtractAppPadding(mainSize)} ${subtractAppPadding(SIDEBAR_SIZE)}`,
       }}
     >
       <main>
-        <CjChessground />
+        <Chessboard />
       </main>
       <aside className="pl-2.5">
-        <div className="bg-amber-400 h-full w-full"></div>
+        <div className="h-full w-full">
+          <OpeningExplorer />
+        </div>
       </aside>
     </div>
   );

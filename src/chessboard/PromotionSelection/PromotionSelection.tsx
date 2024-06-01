@@ -6,18 +6,18 @@ import {
   CG_WHITE,
   CJ_PIECE_TO_CG_PIECE,
   COLUMN_NUMBERS,
-} from "@/chessjs-chessground/constants.ts";
+} from "@/chessboard/constants.ts";
 import "./PromotionSelection.scss";
 
 export interface PromotionSelectionProps {
   to?: Square;
-  onPromotionSelection: (promotion: PieceSymbol) => void;
+  onPromotion: (promotion: PieceSymbol) => void;
   color: CgColor;
 }
 
 export const PromotionSelection = ({
   to,
-  onPromotionSelection,
+  onPromotion,
   color,
 }: PromotionSelectionProps) => {
   if (!to) return null;
@@ -37,26 +37,10 @@ export const PromotionSelection = ({
   return (
     <div className="cg-wrap cj-promotion">
       <div className="cj-promotion__column" style={calcPromotionStyle()}>
-        <PromotionSquare
-          piece={QUEEN}
-          color={color}
-          onClick={onPromotionSelection}
-        />
-        <PromotionSquare
-          piece={KNIGHT}
-          color={color}
-          onClick={onPromotionSelection}
-        />
-        <PromotionSquare
-          piece={ROOK}
-          color={color}
-          onClick={onPromotionSelection}
-        />
-        <PromotionSquare
-          piece={BISHOP}
-          color={color}
-          onClick={onPromotionSelection}
-        />
+        <PromotionSquare piece={QUEEN} color={color} onClick={onPromotion} />
+        <PromotionSquare piece={KNIGHT} color={color} onClick={onPromotion} />
+        <PromotionSquare piece={ROOK} color={color} onClick={onPromotion} />
+        <PromotionSquare piece={BISHOP} color={color} onClick={onPromotion} />
       </div>
     </div>
   );
