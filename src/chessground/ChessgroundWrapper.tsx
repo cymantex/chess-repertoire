@@ -19,15 +19,7 @@ export const ChessgroundWrapper = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      ref={wrapperRef}
-      style={{
-        width: "var(---cg-width)",
-        height: "var(---cg-height)",
-        position: "relative",
-      }}
-      {...wrapperDivProps}
-    >
+    <div className="relative" ref={wrapperRef} {...wrapperDivProps}>
       <Chessground
         addDimensionsCssVarsTo={wrapperRef.current!}
         {...chessgroundProps}
