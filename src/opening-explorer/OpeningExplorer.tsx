@@ -12,12 +12,15 @@ import { FaRotate } from "react-icons/fa6";
 export const OpeningExplorer = () => {
   const {
     fen,
-    handleRotate,
+    rotate,
     handleOpeningExplorerMove,
-    handleUndoLastMove,
-    setHoveredMove,
+    goToFirstMove,
+    goToPreviousMove,
+    goToNextMove,
+    goToLastMove,
+    setHoveredOpeningMove,
   } = useChessRepertoireStore();
-  const { isPending, error, openingExplorerResponse } =
+  const { isPending, error, openingExplorerResponse, cloudEvaluationResponse } =
     useOpeningExplorerQuery(fen);
 
   if (isPending)
@@ -28,9 +31,31 @@ export const OpeningExplorer = () => {
   const calcTotalGames = (move: OpeningExplorerMove) =>
     move.black + move.white + move.draws;
 
+  const cpDisplayValue = (cp: number) => (
+    <span className="font-bold">
+      {cp < 0 ? `-0.${Math.abs(cp)}` : `+0.${cp}`}
+    </span>
+  );
+
   return (
     <div className="opening-explorer">
-      <table className="table table-zebra">
+      <table className="table table-sm mb-3">
+        <thead>
+          <tr>
+            <td>Cloud engine evaluation</td>
+          </tr>
+        </thead>
+        <tbody>
+          {cloudEvaluationResponse.pvs?.map((pv) => (
+            <tr className="hover cursor-pointer" key={pv.moves}>
+              <td>
+                {cpDisplayValue(pv.cp)} {pv.moves}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <table className="table table-sm table-zebra">
         <thead>
           <tr>
             <td>Move</td>
@@ -43,8 +68,8 @@ export const OpeningExplorer = () => {
               className="hover cursor-pointer"
               key={move.san}
               onClick={() => handleOpeningExplorerMove(move)}
-              onMouseEnter={() => setHoveredMove(move)}
-              onMouseLeave={() => setHoveredMove(null)}
+              onMouseEnter={() => setHoveredOpeningMove(move)}
+              onMouseLeave={() => setHoveredOpeningMove(null)}
             >
               <td>{move.san}</td>
               <td>{calcTotalGames(move)}</td>
@@ -53,14 +78,11 @@ export const OpeningExplorer = () => {
         </tbody>
       </table>
       <div className="opening-explorer__navigation flex justify-evenly text-2xl pt-3">
-        <FaRotate className="cursor-pointer" onClick={handleRotate} />
-        <FaFastBackward className="cursor-pointer" />
-        <FaStepBackward
-          className="cursor-pointer"
-          onClick={handleUndoLastMove}
-        />
-        <FaStepForward className="cursor-pointer" />
-        <FaFastForward className="cursor-pointer" />
+        <FaRotate className="cursor-pointer" onClick={rotate} />
+        <FaFastBackward className="cursor-pointer" onClick={goToFirstMove} />
+        <FaStepBackward className="cursor-pointer" onClick={goToPreviousMove} />
+        <FaStepForward className="cursor-pointer" onClick={goToNextMove} />
+        <FaFastForward className="cursor-pointer" onClick={goToLastMove} />
       </div>
     </div>
   );
