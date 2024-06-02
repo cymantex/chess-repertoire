@@ -1,26 +1,32 @@
 import { CSSProperties } from "react";
-import { PieceSymbol, Square } from "chess.js/src/chess.ts";
+import { PieceSymbol } from "chess.js/src/chess.ts";
 import { CgColor, Column } from "../types.ts";
-import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
+import { BISHOP, KNIGHT, QUEEN, ROOK, WHITE } from "chess.js";
 import {
+  CG_BLACK,
   CG_WHITE,
   CJ_PIECE_TO_CG_PIECE,
   COLUMN_NUMBERS,
 } from "@/chessboard/constants.ts";
 import "./PromotionSelection.scss";
+import { useChessRepertoireStore } from "@/store/store.ts";
+import {
+  selectChess,
+  selectPendingPromotionMove,
+  selectPromote,
+} from "@/store/selectors.ts";
 
-export interface PromotionSelectionProps {
-  to?: Square;
-  onPromotion: (promotion: PieceSymbol) => void;
-  color: CgColor;
-}
+export const PromotionSelection = () => {
+  const chess = useChessRepertoireStore(selectChess);
+  const pendingPromotionMove = useChessRepertoireStore(
+    selectPendingPromotionMove,
+  );
+  const promote = useChessRepertoireStore(selectPromote);
 
-export const PromotionSelection = ({
-  to,
-  onPromotion,
-  color,
-}: PromotionSelectionProps) => {
-  if (!to) return null;
+  if (!pendingPromotionMove?.to) return null;
+
+  const { to } = pendingPromotionMove;
+  const color: CgColor = chess.turn() === WHITE ? CG_WHITE : CG_BLACK;
 
   // Helps to place the promotion selection on the coordinate where the
   // pawn is about to be promoted
@@ -37,10 +43,10 @@ export const PromotionSelection = ({
   return (
     <div className="cg-wrap cj-promotion">
       <div className="cj-promotion__column" style={calcPromotionStyle()}>
-        <PromotionSquare piece={QUEEN} color={color} onClick={onPromotion} />
-        <PromotionSquare piece={KNIGHT} color={color} onClick={onPromotion} />
-        <PromotionSquare piece={ROOK} color={color} onClick={onPromotion} />
-        <PromotionSquare piece={BISHOP} color={color} onClick={onPromotion} />
+        <PromotionSquare piece={QUEEN} color={color} onClick={promote} />
+        <PromotionSquare piece={KNIGHT} color={color} onClick={promote} />
+        <PromotionSquare piece={ROOK} color={color} onClick={promote} />
+        <PromotionSquare piece={BISHOP} color={color} onClick={promote} />
       </div>
     </div>
   );

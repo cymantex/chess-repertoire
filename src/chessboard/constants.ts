@@ -1,5 +1,7 @@
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "chess.js";
 
+export const FEN_STARTING_POSITION =
+  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 export const COLUMN_NUMBERS = {
   a: 0,
   b: 1,
