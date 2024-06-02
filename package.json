@@ -14,6 +14,7 @@
     "@types/lodash": "^4.17.4",
     "chess.js": "^1.0.0-beta.8",
     "chessground": "^9.1.1",
+    "chessops": "^0.14.1",
     "classnames": "^2.5.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
