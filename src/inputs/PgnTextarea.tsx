@@ -1,7 +1,8 @@
-import { useChessRepertoireStore } from "@/store.ts";
+import { useChessRepertoireStore } from "@/store/store.ts";
+import { selectSetPgnIfValid } from "@/store/selectors.ts";
 
-export const PgnInputField = () => {
-  const { setPgnIfValid } = useChessRepertoireStore();
+export const PgnTextarea = () => {
+  const setPgnIfValid = useChessRepertoireStore(selectSetPgnIfValid);
 
   return (
     <label className="flex mt-3">
