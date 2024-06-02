@@ -8,6 +8,7 @@ import {
 import { useOpeningExplorerQuery } from "@/opening-explorer/useOpeningExplorerQuery.tsx";
 import { OpeningExplorerMove } from "@/opening-explorer/types.ts";
 import { FaRotate } from "react-icons/fa6";
+import { parsePosition, uciMovesToSan } from "@/external/chessops/utils.ts";
 
 export const OpeningExplorer = () => {
   const {
@@ -37,24 +38,30 @@ export const OpeningExplorer = () => {
     </span>
   );
 
+  const chessopsPosition = parsePosition(fen);
+
   return (
     <div className="opening-explorer">
-      <table className="table table-sm mb-3">
-        <thead>
-          <tr>
-            <td>Cloud engine evaluation</td>
-          </tr>
-        </thead>
-        <tbody>
-          {cloudEvaluationResponse.pvs?.map((pv) => (
-            <tr className="hover cursor-pointer" key={pv.moves}>
-              <td>
-                {cpDisplayValue(pv.cp)} {pv.moves}
-              </td>
+      <div className="overflow-x-auto mb-3">
+        <table className="table table-sm">
+          <thead>
+            <tr>
+              <td>Cloud engine evaluation</td>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {cloudEvaluationResponse.pvs?.map((pv) => (
+              <tr className="hover cursor-pointer" key={pv.moves}>
+                <td className="whitespace-nowrap">
+                  {cpDisplayValue(pv.cp)}{" "}
+                  {uciMovesToSan(chessopsPosition, pv.moves)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <table className="table table-sm table-zebra">
         <thead>
           <tr>
