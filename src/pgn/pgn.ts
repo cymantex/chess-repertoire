@@ -1,4 +1,4 @@
-import { ChildNode, defaultGame, Node, PgnNodeData } from "chessops/pgn";
+import { ChildNode, defaultGame, PgnNodeData } from "chessops/pgn";
 import { FEN_STARTING_POSITION } from "@/chessboard/constants.ts";
 import { Pgn } from "@/pgn/types.ts";
 
@@ -19,15 +19,12 @@ export const addMoveToPgn = (
   }
 };
 
-export const findCurrentMove = (
-  pgn: Pgn,
-  previousMoves: string[],
-): Node<PgnNodeData> | undefined => {
+export const findCurrentMove = (pgn: Pgn, previousMoves: string[]) => {
   if (previousMoves.length === 0) {
     return pgn.moves;
   }
 
-  let currentMove: Node<PgnNodeData> | undefined;
+  let currentMove: ChildNode<PgnNodeData> | undefined;
 
   for (const previousMove of previousMoves) {
     if (currentMove) {
