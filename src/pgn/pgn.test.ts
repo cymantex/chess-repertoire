@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { ChildNode, parsePgn, PgnNodeData } from "chessops/pgn";
-import { findCurrentMove } from "@/pgn/pgn.ts";
+import { findCurrentMove, getRemainingMainMoves } from "@/pgn/pgn.ts";
 
 test("findCurrentMove", () => {
   // Arrange
@@ -16,6 +16,17 @@ test("findCurrentMove", () => {
 
   // Assert
   expect(currentMove!.data.san).toEqual("Nf6");
+});
+
+test("getRemainingVariation", () => {
+  // Arrange
+  const pgn = createPgn("1. e4 e5 2. Nf3 Nc6 3. Bb5 a6");
+
+  // Act
+  const remainingVariation = getRemainingMainMoves(pgn, ["e4", "e5", "Nf3"]);
+
+  // Assert
+  expect(remainingVariation).toEqual(["Nc6", "Bb5", "a6"]);
 });
 
 const createPgn = (pgn: string) => ({

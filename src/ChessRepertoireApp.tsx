@@ -2,7 +2,7 @@ import { Chessboard } from "@/chessboard/Chessboard.tsx";
 import { useLayoutEffect, useState } from "react";
 import { CommentTextarea } from "@/inputs/CommentTextarea.tsx";
 import { Sidebar } from "@/sidebar/Sidebar.tsx";
-import { parsePgn } from "chessops/pgn";
+import { useKeyboardShortcuts } from "@/useKeyboardShortcuts.ts";
 
 const BREAKPOINT_MD = 768;
 const SIDEBAR_SIZE = 500;
@@ -14,7 +14,7 @@ const isMobileSize = () => window.innerWidth <= BREAKPOINT_MD;
 const calcMaxScreenHeight = () =>
   window.screen.availHeight - (window.outerHeight - window.innerHeight);
 
-const calcMaxSizeMargin = () => calcMaxScreenHeight() / 5;
+const calcMaxSizeMargin = () => calcMaxScreenHeight() / 4;
 
 const calcMainSize = () => {
   if (isMobileSize()) {
@@ -33,6 +33,8 @@ const calcMainSize = () => {
 
 export const ChessRepertoireApp = () => {
   const [mainSize, setMainSize] = useState(calcMainSize());
+
+  useKeyboardShortcuts();
 
   useLayoutEffect(() => {
     const handleResize = () => setMainSize(calcMainSize());
@@ -53,8 +55,6 @@ export const ChessRepertoireApp = () => {
     gridTemplateColumns: `${subtractAppPadding(mainSize)} ${subtractAppPadding(SIDEBAR_SIZE)}`,
     maxWidth: `calc(${mainSize}px + ${SIDEBAR_SIZE}px + ${APP_PADDING_REM * 2}rem)`,
   });
-
-  console.log(parsePgn("1. e4 e5 (1. c4 e5)"));
 
   return (
     <div className="md:grid ml-auto mr-auto" style={calcAppStyle()}>

@@ -1,6 +1,7 @@
 import { CloudEngineEvaluation } from "@/sidebar/CloudEngineEvaluation.tsx";
 import { OpeningExplorer } from "@/sidebar/OpeningExplorer.tsx";
 import { NavigationMenu } from "@/sidebar/NavigationMenu.tsx";
+import { PgnExplorer } from "@/sidebar/PgnExplorer.tsx";
 
 export const Sidebar = () => {
   return (
@@ -8,6 +9,9 @@ export const Sidebar = () => {
       <div className="w-full" style={{ height: "95vh" }}>
         <div className="h-1/6 overflow-x-auto mb-3">
           <CloudEngineEvaluation />
+        </div>
+        <div className="h-1/6 overflow-x-auto mb-3">
+          <PgnExplorer />
         </div>
         <div className="h-2/6 overflow-y-auto">
           <OpeningExplorer />

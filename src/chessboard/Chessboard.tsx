@@ -1,12 +1,12 @@
-import { WHITE } from "chess.js";
-import { CgColor } from "@/chessboard/types.ts";
-import { CG_BLACK, CG_WHITE } from "@/chessboard/constants.ts";
 import { ChessgroundWrapper } from "@/external/chessground/ChessgroundWrapper.tsx";
 import { PromotionSelection } from "@/chessboard/PromotionSelection/PromotionSelection.tsx";
 import "@/external/chessground/assets/chessground.base.css";
 import "@/external/chessground/assets/chessground.cardinal.css";
 import "@/external/chessground/assets/chessground.blue2.css";
-import { calcPossibleDestinations } from "@/chessboard/utils.ts";
+import {
+  calcPossibleDestinations,
+  determineTurnColor,
+} from "@/chessboard/utils.ts";
 import { useChessRepertoireStore } from "@/store/store.ts";
 import {
   selectChess,
@@ -25,7 +25,7 @@ export const Chessboard = () => {
     selectHandleChessgroundMove,
   );
 
-  const turnColor: CgColor = chess.turn() === WHITE ? CG_WHITE : CG_BLACK;
+  const turnColor = determineTurnColor(chess);
 
   return (
     <ChessgroundWrapper
@@ -45,6 +45,7 @@ export const Chessboard = () => {
           height: "var(--cg-height)",
         },
       }}
+      // TODO: Show priority + Add back shapes onChange
       drawable={
         hoveredOpeningMove
           ? {
