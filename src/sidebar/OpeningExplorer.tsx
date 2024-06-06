@@ -11,14 +11,11 @@ import { FetchError } from "@/sidebar/components/FetchError.tsx";
 import {
   selectFen,
   selectHandleOpeningExplorerMove,
-  selectPgn,
   selectSetHoveredOpeningMove,
 } from "@/store/selectors.ts";
-import { makePgn } from "chessops/pgn";
 
 export const OpeningExplorer = () => {
   const fen = useChessRepertoireStore(selectFen);
-  const pgn = useChessRepertoireStore(selectPgn);
   const setHoveredOpeningMove = useChessRepertoireStore(
     selectSetHoveredOpeningMove,
   );
@@ -33,8 +30,6 @@ export const OpeningExplorer = () => {
       ),
   });
 
-  console.log(makePgn(pgn));
-
   if (isPending) return <Loader />;
   if (error) return <FetchError error={error} />;
 
@@ -47,7 +42,7 @@ export const OpeningExplorer = () => {
     repertoireMoves?.some((move) => move.san === san);
 
   return (
-    <table className="table table-sm table-zebra">
+    <table className="table table-sm table-zebra select-none">
       <thead>
         <tr>
           <td>Move</td>

@@ -15,8 +15,6 @@ export const selectHandleChessgroundMove = (state: ChessRepertoireStore) =>
   state.handleChessgroundMove;
 
 // PGN / FEN
-export const selectSetFenIfValid = (state: ChessRepertoireStore) =>
-  state.setFenIfValid;
 export const selectSetPgnIfValid = (state: ChessRepertoireStore) =>
   state.setPgnIfValid;
 

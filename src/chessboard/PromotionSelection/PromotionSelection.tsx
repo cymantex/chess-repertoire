@@ -1,9 +1,8 @@
 import { CSSProperties } from "react";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { CgColor, Column } from "../types.ts";
-import { BISHOP, KNIGHT, QUEEN, ROOK, WHITE } from "chess.js";
+import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
 import {
-  CG_BLACK,
   CG_WHITE,
   CJ_PIECE_TO_CG_PIECE,
   COLUMN_NUMBERS,
@@ -15,6 +14,7 @@ import {
   selectPendingPromotionMove,
   selectPromote,
 } from "@/store/selectors.ts";
+import { determineTurnColor } from "@/chessboard/utils.ts";
 
 export const PromotionSelection = () => {
   const chess = useChessRepertoireStore(selectChess);
@@ -26,7 +26,7 @@ export const PromotionSelection = () => {
   if (!pendingPromotionMove?.to) return null;
 
   const { to } = pendingPromotionMove;
-  const color: CgColor = chess.turn() === WHITE ? CG_WHITE : CG_BLACK;
+  const color = determineTurnColor(chess);
 
   // Helps to place the promotion selection on the coordinate where the
   // pawn is about to be promoted

@@ -1,4 +1,5 @@
-import { Chess, Square, SQUARES } from "chess.js";
+import { Chess, Square, SQUARES, WHITE } from "chess.js";
+import { CG_BLACK, CG_WHITE } from "@/chessboard/constants.ts";
 
 export const calcPossibleDestinations = (chess: Chess) => {
   const possibleDestinations = new Map<Square, Square[]>();
@@ -14,3 +15,6 @@ export const calcPossibleDestinations = (chess: Chess) => {
 
   return possibleDestinations;
 };
+
+export const determineTurnColor = (chess: Chess) =>
+  chess.turn() === WHITE ? CG_WHITE : CG_BLACK;

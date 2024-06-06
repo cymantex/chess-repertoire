@@ -13,14 +13,18 @@ import { OpeningExplorerMove } from "@/sidebar/types.ts";
 import { CgColor } from "@/chessboard/types.ts";
 import { upsertRepertoireMove } from "@/repertoire-database/database.ts";
 import { Pgn } from "@/pgn/types.ts";
-import { addMoveToPgn, defaultPgn } from "@/pgn/pgn.ts";
+import {
+  addMoveToPgn,
+  defaultPgn,
+  findNextMove,
+  getRemainingMainMoves,
+} from "@/pgn/pgn.ts";
 
 export interface ChessRepertoireStore {
   chess: Chess;
-  pgn: Pgn;
 
-  // PGN / FEN
-  setFenIfValid: (fen: string) => void;
+  // PGN
+  pgn: Pgn;
   setPgnIfValid: (pgn: string) => void;
 
   // Chessground
@@ -57,17 +61,6 @@ export const useChessRepertoireStore = create(
 
         try {
           chess.loadPgn(pgn);
-          return handlePositionStateChange(state);
-        } catch (error) {
-          return state;
-        }
-      }),
-    setFenIfValid: (fen) =>
-      set((state) => {
-        const { chess } = state;
-
-        try {
-          chess.load(fen);
           return handlePositionStateChange(state);
         } catch (error) {
           return state;
@@ -140,10 +133,12 @@ export const useChessRepertoireStore = create(
       set((state) => {
         const { chess } = state;
 
-        const nextMove = chess.history()[0];
+        const nextMove = findNextMove(state.pgn, chess.history());
 
         if (nextMove) {
-          chess.move(nextMove);
+          chess.move(nextMove.data.san);
+        } else {
+          return state;
         }
 
         return handlePositionStateChange(state);
@@ -152,7 +147,14 @@ export const useChessRepertoireStore = create(
       set((state) => {
         const { chess } = state;
 
-        chess.history().forEach((move) => chess.move(move));
+        const remainingMainMoves = getRemainingMainMoves(
+          state.pgn,
+          chess.history(),
+        );
+
+        if (remainingMainMoves.length === 0) return state;
+
+        remainingMainMoves.forEach((move) => chess.move(move));
 
         return handlePositionStateChange(state);
       }),
