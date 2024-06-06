@@ -1,5 +1,5 @@
 import { CloudEngineEvaluation } from "@/components/RepertoireSidebar/components/CloudEngineEvaluation.tsx";
-import { OpeningExplorer } from "@/components/RepertoireSidebar/components/OpeningExplorer.tsx";
+import { OpeningExplorer } from "@/components/RepertoireSidebar/components/OpeningExplorer/OpeningExplorer.tsx";
 import { NavigationMenu } from "@/components/RepertoireSidebar/components/NavigationMenu.tsx";
 import { PgnExplorer } from "@/components/RepertoireSidebar/components/PgnExplorer.tsx";
 

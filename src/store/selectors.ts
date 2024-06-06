@@ -1,4 +1,4 @@
-import { ChessRepertoireStore } from "@/store/store.ts";
+import { ChessRepertoireStore } from "@/store/useRepertoireStore.ts";
 
 export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.pgn.fen;
@@ -13,10 +13,6 @@ export const selectPendingPromotionMove = (state: ChessRepertoireStore) =>
 export const selectPromote = (state: ChessRepertoireStore) => state.promote;
 export const selectHandleChessgroundMove = (state: ChessRepertoireStore) =>
   state.handleChessgroundMove;
-
-// PGN / FEN
-export const selectSetPgnIfValid = (state: ChessRepertoireStore) =>
-  state.setPgnIfValid;
 
 // Opening Explorer
 export const selectHoveredOpeningMove = (state: ChessRepertoireStore) =>

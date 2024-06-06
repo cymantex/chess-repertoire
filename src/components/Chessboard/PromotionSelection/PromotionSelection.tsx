@@ -8,7 +8,7 @@ import {
   COLUMN_NUMBERS,
 } from "@/components/Chessboard/constants.ts";
 import "./PromotionSelection.scss";
-import { useChessRepertoireStore } from "@/store/store.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectChess,
   selectPendingPromotionMove,
@@ -17,11 +17,9 @@ import {
 import { determineTurnColor } from "@/components/Chessboard/utils.ts";
 
 export const PromotionSelection = () => {
-  const chess = useChessRepertoireStore(selectChess);
-  const pendingPromotionMove = useChessRepertoireStore(
-    selectPendingPromotionMove,
-  );
-  const promote = useChessRepertoireStore(selectPromote);
+  const chess = useRepertoireStore(selectChess);
+  const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
+  const promote = useRepertoireStore(selectPromote);
 
   if (!pendingPromotionMove?.to) return null;
 

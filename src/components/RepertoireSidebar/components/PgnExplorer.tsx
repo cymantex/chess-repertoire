@@ -1,9 +1,9 @@
 import { selectPgn } from "@/store/selectors.ts";
-import { useChessRepertoireStore } from "@/store/store.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import { toPgn } from "@/external/chessops/pgn/pgn.ts";
 
 export const PgnExplorer = () => {
-  const pgn = useChessRepertoireStore(selectPgn);
+  const pgn = useRepertoireStore(selectPgn);
 
   return (
     <table className="table table-sm">

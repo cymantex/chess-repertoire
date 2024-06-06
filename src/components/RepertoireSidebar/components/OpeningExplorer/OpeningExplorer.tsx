@@ -1,11 +1,10 @@
-import { useChessRepertoireStore } from "@/store/store.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   OpeningExplorerMove,
   OpeningExplorerResponse,
 } from "@/components/RepertoireSidebar/components/types.ts";
-import { getRepertoireMoves } from "@/repertoire-database/repertoireDatabase.ts";
 import { useQuery } from "@tanstack/react-query";
-import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/MovePriorityMenu.tsx";
+import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MovePriorityMenu.tsx";
 import { Loader } from "@/components/RepertoireSidebar/components/Loader.tsx";
 import { FetchError } from "@/components/RepertoireSidebar/components/FetchError.tsx";
 import {
@@ -13,13 +12,12 @@ import {
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
 } from "@/store/selectors.ts";
+import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
 
 export const OpeningExplorer = () => {
-  const fen = useChessRepertoireStore(selectFen);
-  const setHoveredOpeningMove = useChessRepertoireStore(
-    selectSetHoveredOpeningMove,
-  );
-  const handleOpeningExplorerMove = useChessRepertoireStore(
+  const fen = useRepertoireStore(selectFen);
+  const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
+  const handleOpeningExplorerMove = useRepertoireStore(
     selectHandleOpeningExplorerMove,
   );
   const { isPending, error, data } = useQuery<OpeningExplorerResponse>({
@@ -29,14 +27,13 @@ export const OpeningExplorer = () => {
         res.json(),
       ),
   });
+  const repertoireMoves = useDatabasePositionMoves(fen);
 
   if (isPending) return <Loader />;
   if (error) return <FetchError error={error} />;
 
   const calcTotalGames = (move: OpeningExplorerMove) =>
     move.black + move.white + move.draws;
-
-  const repertoireMoves = getRepertoireMoves(fen);
 
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
@@ -68,7 +65,7 @@ export const OpeningExplorer = () => {
             </td>
             <td>{calcTotalGames(move)}</td>
             <td>
-              <MovePriorityMenu />
+              <MovePriorityMenu move={move} />
             </td>
           </tr>
         ))}

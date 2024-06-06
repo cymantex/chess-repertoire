@@ -11,7 +11,6 @@ import { PieceSymbol } from "chess.js/src/chess.ts";
 
 import { OpeningExplorerMove } from "@/components/RepertoireSidebar/components/types.ts";
 import { CgColor } from "@/components/Chessboard/types.ts";
-import { upsertRepertoireMove } from "@/repertoire-database/repertoireDatabase.ts";
 import { Pgn } from "@/external/chessops/types.ts";
 import {
   addMoveToPgn,
@@ -19,13 +18,13 @@ import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn/pgn.ts";
+import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 
 export interface ChessRepertoireStore {
   chess: Chess;
 
   // PGN
   pgn: Pgn;
-  setPgnIfValid: (pgn: string) => void;
 
   // Chessground
   orientation: CgColor;
@@ -46,26 +45,13 @@ export interface ChessRepertoireStore {
   goToLastMove: () => void;
 }
 
-export const useChessRepertoireStore = create(
+export const useRepertoireStore = create(
   devtools<ChessRepertoireStore>((set) => ({
     pgn: defaultPgn(),
     orientation: CG_WHITE,
     chess: new Chess(),
     hoveredOpeningMove: null,
     pendingPromotionMove: null,
-
-    // Load PGN / FEN
-    setPgnIfValid: (pgn) =>
-      set((state) => {
-        const { chess } = state;
-
-        try {
-          chess.loadPgn(pgn);
-          return handlePositionStateChange(state);
-        } catch (error) {
-          return state;
-        }
-      }),
 
     // Chessground
     rotate: () =>
@@ -178,7 +164,7 @@ const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
 
   if (!pendingMove) return state;
 
-  upsertRepertoireMove(chess.fen(), { san: pendingMove.san });
+  repertoireDatabaseStore.upsertMove(chess.fen(), { san: pendingMove.san });
 
   if (pendingMove.flags.includes(CJ_PROMOTION_FLAG)) {
     // Hide pawn to indicate that the promotion is about to happen
