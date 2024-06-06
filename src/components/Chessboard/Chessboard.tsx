@@ -3,10 +3,6 @@ import { PromotionSelection } from "@/components/Chessboard/PromotionSelection/P
 import "@/external/chessground/assets/chessground.base.css";
 import "@/external/chessground/assets/chessground.cardinal.css";
 import "@/external/chessground/assets/chessground.blue2.css";
-import {
-  calcPossibleDestinations,
-  determineTurnColor,
-} from "@/components/Chessboard/utils.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectChess,
@@ -15,6 +11,10 @@ import {
   selectHoveredOpeningMove,
   selectOrientation,
 } from "@/store/selectors.ts";
+import {
+  calcPossibleDestinations,
+  determineTurnColor,
+} from "@/external/chessjs/utils.ts";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);

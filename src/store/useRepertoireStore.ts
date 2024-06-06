@@ -2,16 +2,9 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { Chess, Move, PAWN } from "chess.js";
 import { Key } from "chessground/types";
-import {
-  CG_BLACK,
-  CG_WHITE,
-  CJ_PROMOTION_FLAG,
-} from "@/components/Chessboard/constants.ts";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 
-import { OpeningExplorerMove } from "@/components/RepertoireSidebar/components/types.ts";
-import { CgColor } from "@/components/Chessboard/types.ts";
-import { Pgn } from "@/external/chessops/types.ts";
+import { Pgn } from "@/external/chessops/defs.ts";
 import {
   addMoveToPgn,
   defaultPgn,
@@ -19,6 +12,10 @@ import {
   getRemainingMainMoves,
 } from "@/external/chessops/pgn/pgn.ts";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
+import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
+import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.ts";
+import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
+import { OpeningExplorerMove } from "@/defs.ts";
 
 export interface ChessRepertoireStore {
   chess: Chess;
@@ -195,7 +192,5 @@ const findOpeningMove = (
 ) => {
   const { chess } = state;
 
-  return chess
-    .moves({ verbose: true })
-    .find((move) => move.san === openingMove.san);
+  return findNextMoveBySan(chess, openingMove.san);
 };

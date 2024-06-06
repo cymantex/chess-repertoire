@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
-import { RepertoirePositionData } from "@/store/database/types.ts";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
+import { RepertoirePositionData } from "@/defs.ts";
 
 export const useDatabasePositionComment = (fen: string) =>
   useDatabasePositionData(fen)?.comment ?? "";

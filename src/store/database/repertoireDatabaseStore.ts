@@ -1,9 +1,6 @@
-import {
-  RepertoireMove,
-  RepertoirePositionData,
-} from "@/store/database/types.ts";
 import { getObject, upsertObject } from "local-storage-superjson";
 import { isEqual } from "lodash";
+import { RepertoireMove, RepertoirePositionData } from "@/defs.ts";
 
 const subscribers = new Set<() => void>();
 
