@@ -1,12 +1,12 @@
 import { ChessgroundWrapper } from "@/external/chessground/ChessgroundWrapper.tsx";
-import { PromotionSelection } from "@/chessboard/PromotionSelection/PromotionSelection.tsx";
+import { PromotionSelection } from "@/components/Chessboard/PromotionSelection/PromotionSelection.tsx";
 import "@/external/chessground/assets/chessground.base.css";
 import "@/external/chessground/assets/chessground.cardinal.css";
 import "@/external/chessground/assets/chessground.blue2.css";
 import {
   calcPossibleDestinations,
   determineTurnColor,
-} from "@/chessboard/utils.ts";
+} from "@/components/Chessboard/utils.ts";
 import { useChessRepertoireStore } from "@/store/store.ts";
 import {
   selectChess,

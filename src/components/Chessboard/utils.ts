@@ -1,5 +1,5 @@
 import { Chess, Square, SQUARES, WHITE } from "chess.js";
-import { CG_BLACK, CG_WHITE } from "@/chessboard/constants.ts";
+import { CG_BLACK, CG_WHITE } from "@/components/Chessboard/constants.ts";
 
 export const calcPossibleDestinations = (chess: Chess) => {
   const possibleDestinations = new Map<Square, Square[]>();

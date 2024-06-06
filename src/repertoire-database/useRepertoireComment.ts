@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   getRepertoireComment,
   upsertRepertoireComment,
-} from "@/repertoire-database/database.ts";
+} from "@/repertoire-database/repertoireDatabase.ts";
 import { selectFen } from "@/store/selectors.ts";
 
 export const useRepertoireComment = () => {

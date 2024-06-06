@@ -2,12 +2,12 @@ import { useChessRepertoireStore } from "@/store/store.ts";
 import {
   OpeningExplorerMove,
   OpeningExplorerResponse,
-} from "@/sidebar/types.ts";
-import { getRepertoireMoves } from "@/repertoire-database/database.ts";
+} from "@/components/RepertoireSidebar/components/types.ts";
+import { getRepertoireMoves } from "@/repertoire-database/repertoireDatabase.ts";
 import { useQuery } from "@tanstack/react-query";
-import { MovePriorityMenu } from "@/sidebar/MovePriorityMenu.tsx";
-import { Loader } from "@/sidebar/components/Loader.tsx";
-import { FetchError } from "@/sidebar/components/FetchError.tsx";
+import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/MovePriorityMenu.tsx";
+import { Loader } from "@/components/RepertoireSidebar/components/Loader.tsx";
+import { FetchError } from "@/components/RepertoireSidebar/components/FetchError.tsx";
 import {
   selectFen,
   selectHandleOpeningExplorerMove,

@@ -6,19 +6,19 @@ import {
   CG_BLACK,
   CG_WHITE,
   CJ_PROMOTION_FLAG,
-} from "@/chessboard/constants.ts";
+} from "@/components/Chessboard/constants.ts";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 
-import { OpeningExplorerMove } from "@/sidebar/types.ts";
-import { CgColor } from "@/chessboard/types.ts";
-import { upsertRepertoireMove } from "@/repertoire-database/database.ts";
-import { Pgn } from "@/pgn/types.ts";
+import { OpeningExplorerMove } from "@/components/RepertoireSidebar/components/types.ts";
+import { CgColor } from "@/components/Chessboard/types.ts";
+import { upsertRepertoireMove } from "@/repertoire-database/repertoireDatabase.ts";
+import { Pgn } from "@/external/chessops/types.ts";
 import {
   addMoveToPgn,
   defaultPgn,
   findNextMove,
   getRemainingMainMoves,
-} from "@/pgn/pgn.ts";
+} from "@/external/chessops/pgn/pgn.ts";
 
 export interface ChessRepertoireStore {
   chess: Chess;
