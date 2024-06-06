@@ -22,7 +22,7 @@ export const NavigationMenu = () => {
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
 
   return (
-    <div className="flex justify-evenly text-2xl pt-3">
+    <div className="flex justify-evenly text-2xl">
       <FaRotate className="cursor-pointer" onClick={rotate} />
       <FaFastBackward className="cursor-pointer" onClick={goToFirstMove} />
       <FaStepBackward className="cursor-pointer" onClick={goToPreviousMove} />

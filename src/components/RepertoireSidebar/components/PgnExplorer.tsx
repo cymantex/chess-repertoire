@@ -6,7 +6,7 @@ export const PgnExplorer = () => {
   const pgn = useRepertoireStore(selectPgn);
 
   return (
-    <table className="table table-sm">
+    <table className="table table-xs">
       <thead>
         <tr>
           <td>PGN</td>

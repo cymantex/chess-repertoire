@@ -8,7 +8,7 @@ export const CommentTextarea = () => {
   const comment = useDatabasePositionComment(fen);
 
   return (
-    <label className="flex mt-3">
+    <label className="md:block hidden mt-2">
       <div className="label mr-2 pr-0">
         <span className="label-text">Comment</span>
       </div>

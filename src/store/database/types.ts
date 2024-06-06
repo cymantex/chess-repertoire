@@ -1,9 +1,9 @@
 export const REPERTOIRE_MOVE_PRIORITY = {
-  KING: 4,
-  QUEEN: 3,
+  KING: 0,
+  QUEEN: 1,
   ROOK: 2,
-  BISHOP: 1,
-  PAWN: 0,
+  BISHOP: 3,
+  PAWN: 4,
 } as const;
 
 export type RepertoireMovePriority =
