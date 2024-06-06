@@ -1,12 +1,7 @@
 import { CSSProperties } from "react";
 import { PieceSymbol } from "chess.js/src/chess.ts";
-import { CgColor, Column } from "../types.ts";
 import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
-import {
-  CG_WHITE,
-  CJ_PIECE_TO_CG_PIECE,
-  COLUMN_NUMBERS,
-} from "@/components/Chessboard/constants.ts";
+import { Column, COLUMN_NUMBERS } from "@/defs.ts";
 import "./PromotionSelection.scss";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
@@ -14,7 +9,10 @@ import {
   selectPendingPromotionMove,
   selectPromote,
 } from "@/store/selectors.ts";
-import { determineTurnColor } from "@/components/Chessboard/utils.ts";
+
+import { determineTurnColor } from "@/external/chessjs/utils.ts";
+import { CG_WHITE, CgColor } from "@/external/chessground/defs.ts";
+import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
 
 export const PromotionSelection = () => {
   const chess = useRepertoireStore(selectChess);

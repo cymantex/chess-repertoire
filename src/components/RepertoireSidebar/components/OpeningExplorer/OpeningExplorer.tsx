@@ -1,8 +1,4 @@
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
-import {
-  OpeningExplorerMove,
-  OpeningExplorerResponse,
-} from "@/components/RepertoireSidebar/components/types.ts";
 import { useQuery } from "@tanstack/react-query";
 import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MovePriorityMenu.tsx";
 import { Loader } from "@/components/RepertoireSidebar/components/Loader.tsx";
@@ -13,6 +9,7 @@ import {
   selectSetHoveredOpeningMove,
 } from "@/store/selectors.ts";
 import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
+import { OpeningExplorerMove, OpeningExplorerResponse } from "@/defs.ts";
 
 export const OpeningExplorer = () => {
   const fen = useRepertoireStore(selectFen);
