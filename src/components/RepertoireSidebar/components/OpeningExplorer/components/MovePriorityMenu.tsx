@@ -14,6 +14,8 @@ import { MouseEventHandler } from "react";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 import { selectFen } from "@/store/selectors.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
+import classNames from "classnames";
 
 interface MovePriorityMenuProps {
   move: OpeningExplorerMove;
@@ -21,6 +23,9 @@ interface MovePriorityMenuProps {
 
 export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
   const fen = useRepertoireStore(selectFen);
+  const databaseMove = useDatabasePositionMoves(fen).find(
+    (databaseMove) => databaseMove.san === move.san,
+  );
 
   const handleMovePriorityClick =
     (priority: RepertoireMovePriority): MouseEventHandler<SVGElement> =>
@@ -34,27 +39,29 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
       console.warn(event);
     };
 
+  const createPriorityIconProps = (priority: RepertoireMovePriority) => ({
+    className: classNames("transition-all hover:scale-150", {
+      "text-yellow-600": databaseMove?.priority === priority,
+    }),
+    onClick: handleMovePriorityClick(priority),
+  });
+
   return (
     <div className="flex gap-2 text-base">
       <FaChessKing
-        className="transition-all hover:scale-150"
-        onClick={handleMovePriorityClick(REPERTOIRE_MOVE_PRIORITY.KING)}
+        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.KING)}
       />
       <FaChessQueen
-        className="transition-all hover:scale-150"
-        onClick={handleMovePriorityClick(REPERTOIRE_MOVE_PRIORITY.QUEEN)}
+        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.QUEEN)}
       />
       <FaChessRook
-        className="transition-all hover:scale-150"
-        onClick={handleMovePriorityClick(REPERTOIRE_MOVE_PRIORITY.ROOK)}
+        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.ROOK)}
       />
       <FaChessBishop
-        className="transition-all hover:scale-150"
-        onClick={handleMovePriorityClick(REPERTOIRE_MOVE_PRIORITY.BISHOP)}
+        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.BISHOP)}
       />
       <FaChessPawn
-        className="transition-all hover:scale-150"
-        onClick={handleMovePriorityClick(REPERTOIRE_MOVE_PRIORITY.PAWN)}
+        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.PAWN)}
       />
     </div>
   );

@@ -28,7 +28,7 @@ export const CloudEngineEvaluation = () => {
   const chessopsPosition = parsePosition(fen);
 
   return (
-    <table className="table table-sm">
+    <table className="table table-xs">
       <thead>
         <tr>
           <td>Cloud engine evaluation</td>
