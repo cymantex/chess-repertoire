@@ -5,7 +5,7 @@ import {
   FaStepBackward,
   FaStepForward,
 } from "react-icons/fa";
-import { useChessRepertoireStore } from "@/store/store.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectGoToFirstMove,
   selectGoToLastMove,
@@ -15,11 +15,11 @@ import {
 } from "@/store/selectors.ts";
 
 export const NavigationMenu = () => {
-  const rotate = useChessRepertoireStore(selectRotate);
-  const goToFirstMove = useChessRepertoireStore(selectGoToFirstMove);
-  const goToPreviousMove = useChessRepertoireStore(selectGoToPreviousMove);
-  const goToNextMove = useChessRepertoireStore(selectGoToNextMove);
-  const goToLastMove = useChessRepertoireStore(selectGoToLastMove);
+  const rotate = useRepertoireStore(selectRotate);
+  const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
+  const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
+  const goToNextMove = useRepertoireStore(selectGoToNextMove);
+  const goToLastMove = useRepertoireStore(selectGoToLastMove);
 
   return (
     <div className="flex justify-evenly text-2xl pt-3">

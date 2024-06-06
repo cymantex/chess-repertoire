@@ -1,7 +1,11 @@
-import { useRepertoireComment } from "@/repertoire-database/useRepertoireComment.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { selectFen } from "@/store/selectors.ts";
+import { useDatabasePositionComment } from "@/store/database/hooks.ts";
+import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 
 export const CommentTextarea = () => {
-  const { comment, setComment } = useRepertoireComment();
+  const fen = useRepertoireStore(selectFen);
+  const comment = useDatabasePositionComment(fen);
 
   return (
     <label className="flex mt-3">
@@ -12,7 +16,9 @@ export const CommentTextarea = () => {
         rows={3}
         className="textarea textarea-bordered w-full"
         value={comment}
-        onChange={(e) => setComment(e.target.value)}
+        onChange={(e) =>
+          repertoireDatabaseStore.upsertComment(fen, e.target.value)
+        }
       />
     </label>
   );

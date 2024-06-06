@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useChessRepertoireStore } from "@/store/store.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectGoToFirstMove,
   selectGoToLastMove,
@@ -8,10 +8,10 @@ import {
 } from "@/store/selectors.ts";
 
 export const useKeyboardShortcuts = () => {
-  const goToFirstMove = useChessRepertoireStore(selectGoToFirstMove);
-  const goToPreviousMove = useChessRepertoireStore(selectGoToPreviousMove);
-  const goToNextMove = useChessRepertoireStore(selectGoToNextMove);
-  const goToLastMove = useChessRepertoireStore(selectGoToLastMove);
+  const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
+  const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
+  const goToNextMove = useRepertoireStore(selectGoToNextMove);
+  const goToLastMove = useRepertoireStore(selectGoToLastMove);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
