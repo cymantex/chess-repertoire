@@ -6,7 +6,7 @@ import {
   CG_WHITE,
   CJ_PIECE_TO_CG_PIECE,
   COLUMN_NUMBERS,
-} from "@/chessboard/constants.ts";
+} from "@/components/Chessboard/constants.ts";
 import "./PromotionSelection.scss";
 import { useChessRepertoireStore } from "@/store/store.ts";
 import {
@@ -14,7 +14,7 @@ import {
   selectPendingPromotionMove,
   selectPromote,
 } from "@/store/selectors.ts";
-import { determineTurnColor } from "@/chessboard/utils.ts";
+import { determineTurnColor } from "@/components/Chessboard/utils.ts";
 
 export const PromotionSelection = () => {
   const chess = useChessRepertoireStore(selectChess);

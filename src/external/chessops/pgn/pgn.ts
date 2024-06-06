@@ -1,6 +1,6 @@
 import { ChildNode, defaultGame, makePgn, PgnNodeData } from "chessops/pgn";
-import { FEN_STARTING_POSITION } from "@/chessboard/constants.ts";
-import { Pgn } from "@/pgn/types.ts";
+import { FEN_STARTING_POSITION } from "@/components/Chessboard/constants.ts";
+import { Pgn } from "@/external/chessops/types.ts";
 
 export const defaultPgn = (): Pgn => ({
   ...defaultGame(),

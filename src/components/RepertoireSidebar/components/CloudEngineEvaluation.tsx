@@ -1,9 +1,9 @@
 import { parsePosition, uciMovesToSan } from "@/external/chessops/utils.ts";
 import { useQuery } from "@tanstack/react-query";
-import { CloudEvaluationResponse } from "@/sidebar/types.ts";
+import { CloudEvaluationResponse } from "@/components/RepertoireSidebar/components/types.ts";
 import { useChessRepertoireStore } from "@/store/store.ts";
-import { Loader } from "@/sidebar/components/Loader.tsx";
-import { FetchError } from "@/sidebar/components/FetchError.tsx";
+import { Loader } from "@/components/RepertoireSidebar/components/Loader.tsx";
+import { FetchError } from "@/components/RepertoireSidebar/components/FetchError.tsx";
 import { selectFen } from "@/store/selectors.ts";
 
 export const CloudEngineEvaluation = () => {

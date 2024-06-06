@@ -1,8 +1,4 @@
-import { Chessboard } from "@/chessboard/Chessboard.tsx";
-import { useLayoutEffect, useState } from "react";
-import { CommentTextarea } from "@/inputs/CommentTextarea.tsx";
-import { Sidebar } from "@/sidebar/Sidebar.tsx";
-import { useKeyboardShortcuts } from "@/useKeyboardShortcuts.ts";
+import { CSSProperties, useLayoutEffect, useState } from "react";
 
 const BREAKPOINT_MD = 768;
 const SIDEBAR_SIZE = 500;
@@ -31,10 +27,8 @@ const calcMainSize = () => {
   return window.innerWidth - SIDEBAR_SIZE - MARGIN;
 };
 
-export const ChessRepertoireApp = () => {
+export const useResizableAppLayoutStyle = (): CSSProperties => {
   const [mainSize, setMainSize] = useState(calcMainSize());
-
-  useKeyboardShortcuts();
 
   useLayoutEffect(() => {
     const handleResize = () => setMainSize(calcMainSize());
@@ -47,22 +41,12 @@ export const ChessRepertoireApp = () => {
       ? `calc(${mainSize}px - ${APP_PADDING_REM * 2}rem)`
       : `calc(${size}px - ${APP_PADDING_REM}rem)`;
 
-  const calcAppStyle = () => ({
+  return {
     // @ts-ignore
     "--cg-width": subtractAppPadding(mainSize),
     "--cg-height": subtractAppPadding(mainSize),
     padding: `${APP_PADDING_REM}rem`,
     gridTemplateColumns: `${subtractAppPadding(mainSize)} ${subtractAppPadding(SIDEBAR_SIZE)}`,
     maxWidth: `calc(${mainSize}px + ${SIDEBAR_SIZE}px + ${APP_PADDING_REM * 2}rem)`,
-  });
-
-  return (
-    <div className="md:grid ml-auto mr-auto" style={calcAppStyle()}>
-      <main>
-        <Chessboard />
-        <CommentTextarea />
-      </main>
-      <Sidebar />
-    </div>
-  );
+  };
 };
