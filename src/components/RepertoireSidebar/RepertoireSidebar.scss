@@ -4,31 +4,30 @@ $navigationHeight: 25px;
 
 .repertoire-sidebar {
   display: grid;
-  grid-template-rows: calc($navigationHeight + $p-2) 1fr 5fr 1fr;
+  grid-template-rows: $navigationHeight 1fr 5fr 1fr;
   gap: $p-2;
   min-height: 50vh;
   width: 100%;
   padding: $p-2;
 
-  &__row:nth-child(1) {
+  &__engine {
     overflow: auto;
     display: none;
   }
 
-  &__row:nth-child(2) {
+  &__pgn {
     overflow: auto;
     display: none;
   }
 
-  &__row:nth-child(3) {
+  &__opening {
     overflow: auto;
     grid-row-start: 2;
     grid-row-end: 5;
   }
 
-  &__row:nth-child(4) {
+  &__navigation {
     grid-row-start: 1;
-    margin-top: $p-2;
   }
 }
 
@@ -38,20 +37,20 @@ $navigationHeight: 25px;
     margin-left: $p-2;
     height: var(--cg-height);
 
-    &__row:nth-child(1) {
+    &__engine {
       display: block;
     }
 
-    &__row:nth-child(2) {
+    &__pgn {
       display: block;
     }
 
-    &__row:nth-child(3) {
+    &__opening {
       grid-row-start: initial;
       grid-row-end: initial;
     }
 
-    &__row:nth-child(4) {
+    &__navigation {
       grid-row-start: initial;
       grid-row-end: initial;
       margin-top: 0;
