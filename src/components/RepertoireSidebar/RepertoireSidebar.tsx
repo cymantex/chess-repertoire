@@ -6,14 +6,14 @@ import "./RepertoireSidebar.scss";
 
 export const RepertoireSidebar = () => {
   return (
-    <aside className="repertoire-sidebar border border-primary">
+    <aside className="repertoire-sidebar border-0 md:border border-primary">
       <div className="repertoire-sidebar__engine border-b border-primary">
         <CloudEngineEvaluation />
       </div>
-      <div className="repertoire-sidebar__pgn border-b border-primary">
+      <div className="repertoire-sidebar__pgn border-0 md:border-b border-primary">
         <PgnExplorer />
       </div>
-      <div className="repertoire-sidebar__opening border-b border-primary">
+      <div className="repertoire-sidebar__opening border-0 md:border-b border-primary">
         <OpeningExplorer />
       </div>
       <div className="repertoire-sidebar__navigation">
