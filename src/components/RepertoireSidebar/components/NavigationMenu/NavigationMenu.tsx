@@ -13,6 +13,7 @@ import {
   selectGoToPreviousMove,
   selectRotate,
 } from "@/store/selectors.ts";
+import { PrioritySettings } from "@/components/RepertoireSidebar/components/NavigationMenu/components/PrioritySettings.tsx";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
@@ -23,11 +24,16 @@ export const NavigationMenu = () => {
 
   return (
     <div className="flex justify-evenly text-2xl">
-      <FaRotate className="cursor-pointer" onClick={rotate} />
+      <PrioritySettings />
       <FaFastBackward className="cursor-pointer" onClick={goToFirstMove} />
       <FaStepBackward className="cursor-pointer" onClick={goToPreviousMove} />
       <FaStepForward className="cursor-pointer" onClick={goToNextMove} />
       <FaFastForward className="cursor-pointer" onClick={goToLastMove} />
+      <FaRotate
+        title="Flip board"
+        className="cursor-pointer"
+        onClick={rotate}
+      />
     </div>
   );
 };
