@@ -9,7 +9,36 @@ import {
   selectSetHoveredOpeningMove,
 } from "@/store/selectors.ts";
 import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
-import { OpeningExplorerMove, OpeningExplorerResponse } from "@/defs.ts";
+import {
+  OpeningExplorerMove,
+  OpeningExplorerResponse,
+  RepertoireMove,
+} from "@/defs.ts";
+import { isNumber, orderBy } from "lodash";
+
+const LARGE_NUMBER = 1000_000_0;
+
+const calcTotalGames = (move: OpeningExplorerMove) =>
+  move.black + move.white + move.draws;
+
+function orderByPriorityThenInRepertoireThenTotalGames(
+  moves: OpeningExplorerMove[],
+  repertoireMoves: RepertoireMove[],
+) {
+  return orderBy(
+    moves,
+    (move) => {
+      const repertoireMove = repertoireMoves.find((m) => m.san === move.san);
+
+      if (isNumber(repertoireMove?.priority))
+        return LARGE_NUMBER - repertoireMove.priority;
+      if (repertoireMove) return LARGE_NUMBER - 1000;
+
+      return calcTotalGames(move);
+    },
+    "desc",
+  );
+}
 
 export const OpeningExplorer = () => {
   const fen = useRepertoireStore(selectFen);
@@ -29,11 +58,13 @@ export const OpeningExplorer = () => {
   if (isPending) return <Loader />;
   if (error) return <FetchError error={error} />;
 
-  const calcTotalGames = (move: OpeningExplorerMove) =>
-    move.black + move.white + move.draws;
-
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
+
+  const moves = orderByPriorityThenInRepertoireThenTotalGames(
+    data.moves,
+    repertoireMoves,
+  );
 
   return (
     <table className="table table-sm table-zebra select-none">
@@ -45,7 +76,7 @@ export const OpeningExplorer = () => {
         </tr>
       </thead>
       <tbody>
-        {data.moves.map((move) => (
+        {moves.map((move) => (
           <tr
             className="hover cursor-pointer"
             key={move.san}
@@ -55,7 +86,9 @@ export const OpeningExplorer = () => {
           >
             <td>
               {isRepertoireMove(move.san) ? (
-                <span className="font-bold">{move.san}</span>
+                <span className="color-board-light-blue font-bold">
+                  {move.san}
+                </span>
               ) : (
                 move.san
               )}

@@ -11,7 +11,7 @@ import {
 } from "@/store/selectors.ts";
 
 import { determineTurnColor } from "@/external/chessjs/utils.ts";
-import { CG_WHITE, CgColor } from "@/external/chessground/defs.ts";
+import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
 
 export const PromotionSelection = () => {

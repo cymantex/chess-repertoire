@@ -15,6 +15,10 @@ export const useKeyboardShortcuts = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.target as Element).tagName.toLowerCase() === "textarea") {
+        return;
+      }
+
       if (event.key === "ArrowLeft") {
         goToPreviousMove();
       } else if (event.key === "ArrowRight") {

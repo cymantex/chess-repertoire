@@ -8,39 +8,36 @@ import {
   selectChess,
   selectFen,
   selectHandleChessgroundMove,
-  selectHoveredOpeningMove,
   selectOrientation,
 } from "@/store/selectors.ts";
 import {
   calcPossibleDestinations,
   determineTurnColor,
 } from "@/external/chessjs/utils.ts";
+import { useNextMovesWithPriority } from "@/components/Chessboard/hooks/useNextMovesWithPriority.tsx";
+import { chessground } from "@/external/chessground/Chessground.tsx";
+import * as cg from "chessground/types";
+import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
+import {
+  createPriorityShapeForSelectedMove,
+  useAutoShapes,
+} from "@/components/Chessboard/hooks/useAutoShapes.tsx";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);
   const fen = useRepertoireStore(selectFen);
   const orientation = useRepertoireStore(selectOrientation);
-  const hoveredOpeningMove = useRepertoireStore(selectHoveredOpeningMove);
   const handleChessgroundMove = useRepertoireStore(selectHandleChessgroundMove);
 
-  // TODO: Get database move priorities and draw shapes
+  const nextMoves = useNextMovesWithPriority();
+  const autoShapes = useAutoShapes();
 
-  const shapes = hoveredOpeningMove
-    ? [
-        {
-          orig: hoveredOpeningMove?.from,
-          dest: hoveredOpeningMove?.to,
-          brush: "blue",
-        },
-      ]
-    : [];
-
-  const turnColor = determineTurnColor(chess);
+  useRestoreAutoShapesAfterSelection(autoShapes);
 
   return (
     <ChessgroundWrapper
       fen={fen}
-      turnColor={turnColor}
+      turnColor={determineTurnColor(chess)}
       orientation={orientation}
       movable={{
         free: false,
@@ -48,6 +45,18 @@ export const Chessboard = () => {
       }}
       events={{
         move: handleChessgroundMove,
+        select: (square: cg.Key) => {
+          if (!chessground) return;
+
+          chessground.setAutoShapes(
+            nextMoves
+              .filter((move) => move.from === square)
+              .map(createPriorityShapeForSelectedMove),
+          );
+        },
+      }}
+      selectable={{
+        enabled: false,
       }}
       chessgroundDivProps={{
         style: {
@@ -57,7 +66,7 @@ export const Chessboard = () => {
       }}
       // TODO: Show priority + Add back shapes onChange
       drawable={{
-        autoShapes: shapes,
+        autoShapes,
       }}
     >
       <PromotionSelection />

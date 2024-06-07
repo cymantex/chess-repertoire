@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.color-board-light-blue {
+  color: rgb(148, 173, 193);
+}
+
+.bg-board-dark-blue {
+  background-color: rgb(101, 129, 149);
+}

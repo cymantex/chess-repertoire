@@ -13,7 +13,7 @@ import {
 } from "@/external/chessops/pgn/pgn.ts";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
-import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.ts";
+import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
 import { OpeningExplorerMove } from "@/defs.ts";
 
@@ -177,10 +177,7 @@ const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
   const nextMove = chess.move(pendingMove);
 
   if (nextMove) {
-    return {
-      ...state,
-      pgn: updateFen(state),
-    };
+    return handlePositionStateChange(state);
   }
 
   return state;
