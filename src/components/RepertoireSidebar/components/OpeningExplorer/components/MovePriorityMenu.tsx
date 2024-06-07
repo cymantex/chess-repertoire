@@ -5,9 +5,9 @@ import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
 import classNames from "classnames";
 import {
-  OpeningExplorerMove,
   REPERTOIRE_MOVE_PRIORITY,
   RepertoireMovePriority,
+  RepertoireOpeningExplorerMove,
 } from "@/defs.ts";
 import { WhitePawn } from "@/external/chessground/components/WhitePawn.tsx";
 import { WhiteKing } from "@/external/chessground/components/WhiteKing.tsx";
@@ -16,7 +16,7 @@ import { WhiteRook } from "@/external/chessground/components/WhiteRook.tsx";
 import { WhiteBishop } from "@/external/chessground/components/WhiteBishop.tsx";
 
 interface MovePriorityMenuProps {
-  move: OpeningExplorerMove;
+  move: RepertoireOpeningExplorerMove;
 }
 
 export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
@@ -40,7 +40,7 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
     className: classNames(
       "transition-all hover:scale-150 rounded cursor-pointer",
       {
-        "bg-board-dark-blue": databaseMove?.priority === priority,
+        "bg-board-dark-square": databaseMove?.priority === priority,
       },
     ),
     onClick: handleMovePriorityClick(priority),

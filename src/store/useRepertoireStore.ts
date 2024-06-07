@@ -15,7 +15,7 @@ import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStor
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
 import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
-import { OpeningExplorerMove } from "@/defs.ts";
+import { RepertoireOpeningExplorerMove } from "@/defs.ts";
 
 export interface ChessRepertoireStore {
   chess: Chess;
@@ -32,8 +32,12 @@ export interface ChessRepertoireStore {
 
   // Opening Explorer
   hoveredOpeningMove: Move | null;
-  setHoveredOpeningMove: (openingMove: OpeningExplorerMove | null) => void;
-  handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) => void;
+  setHoveredOpeningMove: (
+    openingMove: RepertoireOpeningExplorerMove | null,
+  ) => void;
+  handleOpeningExplorerMove: (
+    openingMove: RepertoireOpeningExplorerMove,
+  ) => void;
 
   // Navigation
   goToFirstMove: () => void;
@@ -84,7 +88,7 @@ export const useRepertoireStore = create(
       }),
 
     // Opening Explorer
-    handleOpeningExplorerMove: (openingMove: OpeningExplorerMove) =>
+    handleOpeningExplorerMove: (openingMove) =>
       set((state) => handleMove(state, findOpeningMove(state, openingMove))),
     setHoveredOpeningMove: (openingMove) =>
       set((state) => {
@@ -185,7 +189,7 @@ const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
 
 const findOpeningMove = (
   state: ChessRepertoireStore,
-  openingMove: OpeningExplorerMove,
+  openingMove: RepertoireOpeningExplorerMove,
 ) => {
   const { chess } = state;
 
