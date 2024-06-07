@@ -65,12 +65,19 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
         {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.BISHOP)}
       />
       <WhitePawn {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.PAWN)} />
-      {databaseMove && (
+      {databaseMove ? (
         <FaTrash
           title="Delete move from repertoire"
-          className="transition-all hover:scale-150 cursor-pointer"
+          className={classNames(
+            "transition-all hover:scale-150 rounded cursor-pointer",
+            {
+              "opacity-0": !databaseMove,
+            },
+          )}
           onClick={() => repertoireDatabaseStore.deleteMove(fen, move.san)}
         />
+      ) : (
+        <FaTrash className="opacity-0" />
       )}
     </div>
   );
