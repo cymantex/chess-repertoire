@@ -1,10 +1,15 @@
 import { getObject, upsertObject } from "local-storage-superjson";
 import { isEqual } from "lodash";
-import { RepertoireMove, RepertoirePositionData } from "@/defs.ts";
+import {
+  REPERTOIRE_MOVE_PRIORITY,
+  RepertoireMove,
+  RepertoirePositionData,
+} from "@/defs.ts";
 
 const subscribers = new Set<() => void>();
 
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
+const DEFAULT_PRIORITY = REPERTOIRE_MOVE_PRIORITY.KING;
 const DEFAULT_POSITION_DATA = { moves: [] };
 let currentPositionData: RepertoirePositionData = DEFAULT_POSITION_DATA;
 
@@ -13,7 +18,7 @@ export const repertoireDatabaseStore = {
     subscribers.add(callback);
     return () => subscribers.delete(callback);
   },
-  getSnapshot: (fen: string): RepertoirePositionData => {
+  getPositionDataSnapshot: (fen: string): RepertoirePositionData => {
     const positionData =
       getObject<RepertoirePositionData>(fen) ?? DEFAULT_POSITION_DATA;
 
@@ -27,7 +32,7 @@ export const repertoireDatabaseStore = {
   upsertMove: (fen: string, repertoireMove: RepertoireMove) => {
     upsertObject<RepertoirePositionData>(
       fen,
-      { moves: [repertoireMove] },
+      { moves: [{ priority: DEFAULT_PRIORITY, ...repertoireMove }] },
       (data: RepertoirePositionData) => {
         const { moves } = data;
 
@@ -53,7 +58,7 @@ export const repertoireDatabaseStore = {
 
         return {
           ...data,
-          moves: [...moves, repertoireMove],
+          moves: [...moves, { priority: DEFAULT_PRIORITY, ...repertoireMove }],
         };
       },
     );

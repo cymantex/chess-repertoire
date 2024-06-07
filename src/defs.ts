@@ -1,3 +1,12 @@
+import { Move } from "chess.js";
+import {
+  WHITE_BISHOP_SVG,
+  WHITE_KING_SVG,
+  WHITE_PAWN_SVG,
+  WHITE_QUEEN_SVG,
+  WHITE_ROOK_SVG,
+} from "@/external/chessground/defs.tsx";
+
 export const FEN_STARTING_POSITION =
   "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
@@ -12,6 +21,14 @@ export const COLUMN_NUMBERS = {
   h: 7,
 } as const;
 
+export const PRIORITY_SVG = [
+  WHITE_KING_SVG,
+  WHITE_QUEEN_SVG,
+  WHITE_ROOK_SVG,
+  WHITE_BISHOP_SVG,
+  WHITE_PAWN_SVG,
+] as const;
+
 export const REPERTOIRE_MOVE_PRIORITY = {
   KING: 0,
   QUEEN: 1,
@@ -24,6 +41,10 @@ export type RepertoireMovePriority =
   (typeof REPERTOIRE_MOVE_PRIORITY)[keyof typeof REPERTOIRE_MOVE_PRIORITY];
 
 export type Column = keyof typeof COLUMN_NUMBERS;
+
+export interface PriorityMove extends Move {
+  priority?: RepertoireMovePriority;
+}
 
 export interface RepertoireMove {
   san: string;

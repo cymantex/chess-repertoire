@@ -11,6 +11,6 @@ export const useDatabasePositionMoves = (fen: string) =>
 const useDatabasePositionData = (fen: string) => {
   return useSyncExternalStore<RepertoirePositionData>(
     repertoireDatabaseStore.subscribe,
-    () => repertoireDatabaseStore.getSnapshot(fen),
+    () => repertoireDatabaseStore.getPositionDataSnapshot(fen),
   );
 };

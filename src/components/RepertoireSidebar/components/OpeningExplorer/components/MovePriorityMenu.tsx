@@ -1,10 +1,3 @@
-import {
-  FaChessBishop,
-  FaChessKing,
-  FaChessPawn,
-  FaChessQueen,
-  FaChessRook,
-} from "react-icons/fa6";
 import { MouseEventHandler } from "react";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 import { selectFen } from "@/store/selectors.ts";
@@ -16,6 +9,11 @@ import {
   REPERTOIRE_MOVE_PRIORITY,
   RepertoireMovePriority,
 } from "@/defs.ts";
+import { WhitePawn } from "@/external/chessground/components/WhitePawn.tsx";
+import { WhiteKing } from "@/external/chessground/components/WhiteKing.tsx";
+import { WhiteQueen } from "@/external/chessground/components/WhiteQueen.tsx";
+import { WhiteRook } from "@/external/chessground/components/WhiteRook.tsx";
+import { WhiteBishop } from "@/external/chessground/components/WhiteBishop.tsx";
 
 interface MovePriorityMenuProps {
   move: OpeningExplorerMove;
@@ -34,35 +32,34 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
       event.stopPropagation();
       repertoireDatabaseStore.upsertMove(fen, {
         san: move.san,
-        priority,
+        priority: priority === databaseMove?.priority ? undefined : priority,
       });
-      console.warn(event);
     };
 
   const createPriorityIconProps = (priority: RepertoireMovePriority) => ({
-    className: classNames("transition-all hover:scale-150", {
-      "text-yellow-600": databaseMove?.priority === priority,
-    }),
+    className: classNames(
+      "transition-all hover:scale-150 rounded cursor-pointer",
+      {
+        "bg-board-dark-blue": databaseMove?.priority === priority,
+      },
+    ),
     onClick: handleMovePriorityClick(priority),
   });
 
   return (
-    <div className="flex gap-2 text-base">
-      <FaChessKing
-        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.KING)}
-      />
-      <FaChessQueen
+    <div
+      className="flex gap-2 text-base cursor-default w-max"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <WhiteKing {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.KING)} />
+      <WhiteQueen
         {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.QUEEN)}
       />
-      <FaChessRook
-        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.ROOK)}
-      />
-      <FaChessBishop
+      <WhiteRook {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.ROOK)} />
+      <WhiteBishop
         {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.BISHOP)}
       />
-      <FaChessPawn
-        {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.PAWN)}
-      />
+      <WhitePawn {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.PAWN)} />
     </div>
   );
 };

@@ -16,9 +16,10 @@ export const CommentTextarea = () => {
         rows={3}
         className="textarea textarea-bordered w-full"
         value={comment}
-        onChange={(e) =>
-          repertoireDatabaseStore.upsertComment(fen, e.target.value)
-        }
+        onChange={(e) => {
+          e.stopPropagation();
+          repertoireDatabaseStore.upsertComment(fen, e.target.value);
+        }}
       />
     </label>
   );

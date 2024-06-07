@@ -1,5 +1,5 @@
 import { Chess, Square, SQUARES, WHITE } from "chess.js";
-import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.ts";
+import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 
 export const calcPossibleDestinations = (chess: Chess) => {
   const possibleDestinations = new Map<Square, Square[]>();
@@ -21,3 +21,6 @@ export const findNextMoveBySan = (chess: Chess, san: string) =>
 
 export const determineTurnColor = (chess: Chess) =>
   chess.turn() === WHITE ? CG_WHITE : CG_BLACK;
+
+export const findNextMoves = (chess: Chess, sanList: string[]) =>
+  chess.moves({ verbose: true }).filter((move) => sanList.includes(move.san));
