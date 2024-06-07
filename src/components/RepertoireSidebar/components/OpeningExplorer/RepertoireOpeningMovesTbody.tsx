@@ -12,6 +12,7 @@ import {
   toOrderedRepertoireOpeningExplorerMoves,
 } from "@/components/RepertoireSidebar/components/OpeningExplorer/utils.ts";
 import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MovePriorityMenu.tsx";
+import { userSelectionExists } from "@/external/chessground/utils.ts";
 
 interface RepertoireOpeningMovesProps {
   openingExplorerMoves: OpeningExplorerMove[];
@@ -42,8 +43,12 @@ export const RepertoireOpeningMovesTbody = ({
           className="hover cursor-pointer"
           key={move.san}
           onClick={() => handleOpeningExplorerMove(move)}
-          onMouseEnter={() => setHoveredOpeningMove(move)}
-          onMouseLeave={() => setHoveredOpeningMove(null)}
+          onMouseEnter={() =>
+            !userSelectionExists() && setHoveredOpeningMove(move)
+          }
+          onMouseLeave={() =>
+            !userSelectionExists() && setHoveredOpeningMove(null)
+          }
         >
           <td>
             {isRepertoireMove(move.san) ? (
