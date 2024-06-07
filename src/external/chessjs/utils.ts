@@ -1,5 +1,10 @@
 import { Chess, Square, SQUARES, WHITE } from "chess.js";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
+import {
+  OpeningExplorerMove,
+  RepertoireMove,
+  RepertoireOpeningExplorerMove,
+} from "@/defs.ts";
 
 export const calcPossibleDestinations = (chess: Chess) => {
   const possibleDestinations = new Map<Square, Square[]>();
@@ -24,3 +29,12 @@ export const determineTurnColor = (chess: Chess) =>
 
 export const findNextMoves = (chess: Chess, sanList: string[]) =>
   chess.moves({ verbose: true }).filter((move) => sanList.includes(move.san));
+
+export const toRepertoireOpeningExplorerMoves = (
+  chess: Chess,
+  moves: (OpeningExplorerMove | RepertoireMove)[],
+): RepertoireOpeningExplorerMove[] =>
+  moves.map((move) => {
+    const nextMove = findNextMoveBySan(chess, move.san);
+    return { ...nextMove, ...move } as RepertoireOpeningExplorerMove;
+  });

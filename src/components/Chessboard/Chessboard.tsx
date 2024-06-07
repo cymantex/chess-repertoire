@@ -14,7 +14,7 @@ import {
   calcPossibleDestinations,
   determineTurnColor,
 } from "@/external/chessjs/utils.ts";
-import { useNextMovesWithPriority } from "@/components/Chessboard/hooks/useNextMovesWithPriority.tsx";
+import { useNextMovesWithPriority } from "@/hooks/useNextMovesWithPriority.ts";
 import { chessground } from "@/external/chessground/Chessground.tsx";
 import * as cg from "chessground/types";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
@@ -64,7 +64,6 @@ export const Chessboard = () => {
           height: "var(--cg-height)",
         },
       }}
-      // TODO: Show priority + Add back shapes onChange
       drawable={{
         autoShapes,
       }}

@@ -56,6 +56,10 @@ export interface RepertoirePositionData {
   comment?: string;
 }
 
+export type RepertoireOpeningExplorerMove =
+  | PriorityMove
+  | (PriorityMove & OpeningExplorerMove);
+
 export interface OpeningExplorerMove {
   averageRating: number;
   black: number;

@@ -3,7 +3,7 @@ import { DrawShape } from "chessground/draw";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import { selectHoveredOpeningMove } from "@/store/selectors.ts";
 import { orderBy, uniqBy } from "lodash";
-import { useNextMovesWithPriority } from "@/components/Chessboard/hooks/useNextMovesWithPriority.tsx";
+import { useNextMovesWithPriority } from "@/hooks/useNextMovesWithPriority.ts";
 import { PRIORITY_SVG, PriorityMove } from "@/defs.ts";
 
 export const useAutoShapes = () => {
