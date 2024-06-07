@@ -21,45 +21,9 @@ export const COLUMN_NUMBERS = {
   h: 7,
 } as const;
 
-export const PRIORITY_SVG = [
-  WHITE_KING_SVG,
-  WHITE_QUEEN_SVG,
-  WHITE_ROOK_SVG,
-  WHITE_BISHOP_SVG,
-  WHITE_PAWN_SVG,
-] as const;
-
-export const REPERTOIRE_MOVE_PRIORITY = {
-  KING: 0,
-  QUEEN: 1,
-  ROOK: 2,
-  BISHOP: 3,
-  PAWN: 4,
-} as const;
-
-export type RepertoireMovePriority =
-  (typeof REPERTOIRE_MOVE_PRIORITY)[keyof typeof REPERTOIRE_MOVE_PRIORITY];
-
 export type Column = keyof typeof COLUMN_NUMBERS;
 
-export interface PriorityMove extends Move {
-  priority?: RepertoireMovePriority;
-}
-
-export interface RepertoireMove {
-  san: string;
-  priority?: RepertoireMovePriority;
-}
-
-export interface RepertoirePositionData {
-  moves?: RepertoireMove[];
-  comment?: string;
-}
-
-export type RepertoireOpeningExplorerMove =
-  | PriorityMove
-  | (PriorityMove & OpeningExplorerMove);
-
+// Lichess API
 export interface OpeningExplorerMove {
   averageRating: number;
   black: number;
@@ -85,3 +49,62 @@ export interface CloudEvaluationResponse {
     cp: number;
   }[];
 }
+
+// Repertoire
+export const REPERTOIRE_MOVE_PRIORITY = {
+  KING: 0,
+  QUEEN: 1,
+  ROOK: 2,
+  BISHOP: 3,
+  PAWN: 4,
+} as const;
+
+export const PRIORITY_SVG = [
+  WHITE_KING_SVG,
+  WHITE_QUEEN_SVG,
+  WHITE_ROOK_SVG,
+  WHITE_BISHOP_SVG,
+  WHITE_PAWN_SVG,
+] as const;
+
+export type RepertoireMovePriority =
+  (typeof REPERTOIRE_MOVE_PRIORITY)[keyof typeof REPERTOIRE_MOVE_PRIORITY];
+
+export interface PriorityMove extends Move {
+  priority?: RepertoireMovePriority;
+}
+
+export interface RepertoireMove {
+  san: string;
+  priority?: RepertoireMovePriority;
+}
+
+export interface RepertoirePositionData {
+  moves?: RepertoireMove[];
+  comment?: string;
+}
+
+export type RepertoireOpeningExplorerMove =
+  | PriorityMove
+  | (PriorityMove & OpeningExplorerMove);
+
+// Settings
+export const PRIORITY_SETTING_NO_PRIORITY = 1000;
+export const PRIORITY_SETTING_DONT_SAVE = 10000;
+export const PRIORITY_SETTING = {
+  ...REPERTOIRE_MOVE_PRIORITY,
+  NO_PRIORITY: PRIORITY_SETTING_NO_PRIORITY,
+  DONT_SAVE: PRIORITY_SETTING_DONT_SAVE,
+} as const;
+export type PrioritySetting =
+  (typeof PRIORITY_SETTING)[keyof typeof PRIORITY_SETTING];
+
+export interface RepertoireSettings {
+  prioritySetting: PrioritySetting;
+}
+
+export const SETTINGS_KEY = "repertoireSettings";
+export const DEFAULT_SETTINGS: RepertoireSettings = {
+  prioritySetting: REPERTOIRE_MOVE_PRIORITY.KING,
+};
+export const DEFAULT_POSITION_DATA = { moves: [] };

@@ -14,6 +14,7 @@ import { WhiteKing } from "@/external/chessground/components/WhiteKing.tsx";
 import { WhiteQueen } from "@/external/chessground/components/WhiteQueen.tsx";
 import { WhiteRook } from "@/external/chessground/components/WhiteRook.tsx";
 import { WhiteBishop } from "@/external/chessground/components/WhiteBishop.tsx";
+import { FaTrash } from "react-icons/fa";
 
 interface MovePriorityMenuProps {
   move: RepertoireOpeningExplorerMove;
@@ -30,10 +31,14 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      repertoireDatabaseStore.upsertMove(fen, {
-        san: move.san,
-        priority: priority === databaseMove?.priority ? undefined : priority,
-      });
+      repertoireDatabaseStore.upsertMove(
+        fen,
+        {
+          san: move.san,
+          priority: priority === databaseMove?.priority ? undefined : priority,
+        },
+        false,
+      );
     };
 
   const createPriorityIconProps = (priority: RepertoireMovePriority) => ({
@@ -48,7 +53,7 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
 
   return (
     <div
-      className="flex gap-2 text-base cursor-default w-max"
+      className="flex gap-2 text-base cursor-default items-center w-max"
       onClick={(e) => e.stopPropagation()}
     >
       <WhiteKing {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.KING)} />
@@ -60,6 +65,13 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
         {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.BISHOP)}
       />
       <WhitePawn {...createPriorityIconProps(REPERTOIRE_MOVE_PRIORITY.PAWN)} />
+      {databaseMove && (
+        <FaTrash
+          title="Delete move from repertoire"
+          className="transition-all hover:scale-150 cursor-pointer"
+          onClick={() => repertoireDatabaseStore.deleteMove(fen, move.san)}
+        />
+      )}
     </div>
   );
 };

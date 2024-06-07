@@ -8,6 +8,12 @@ export const useDatabasePositionComment = (fen: string) =>
 export const useDatabasePositionMoves = (fen: string) =>
   useDatabasePositionData(fen)?.moves ?? [];
 
+export const useRepertoireSettings = () =>
+  useSyncExternalStore(
+    repertoireDatabaseStore.subscribe,
+    repertoireDatabaseStore.getRepertoireSettingsSnapshot,
+  );
+
 const useDatabasePositionData = (fen: string) => {
   return useSyncExternalStore<RepertoirePositionData>(
     repertoireDatabaseStore.subscribe,
