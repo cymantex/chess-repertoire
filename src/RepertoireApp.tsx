@@ -6,9 +6,28 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 
 import { exportPgnAsync } from "@/utils/exportPgnAsync.ts";
 import { importPgnAsync } from "@/external/chessops/pgn.ts";
+import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import {
+  selectFen,
+  selectGetCurrentRepertoirePositionData,
+  useCurrentRepertoirePositionComment,
+} from "@/store/selectors.ts";
+import { useEffect } from "react";
 
 export const RepertoireApp = () => {
+  const fen = useRepertoireStore(selectFen);
+  const positionComment = useCurrentRepertoirePositionComment();
+  const getCurrentRepertoirePositionData = useRepertoireStore(
+    selectGetCurrentRepertoirePositionData,
+  );
+
   useKeyboardShortcuts();
+
+  // TODO: Improve handling of initial data fetching
+  useEffect(() => {
+    getCurrentRepertoirePositionData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -17,7 +36,11 @@ export const RepertoireApp = () => {
     >
       <main>
         <Chessboard />
-        <CommentTextarea />
+        <CommentTextarea
+          key={fen + positionComment}
+          fen={fen}
+          positionComment={positionComment}
+        />
         <button onClick={() => exportPgnAsync()}>Export PGN</button>
         <input
           type="file"
@@ -31,15 +54,17 @@ export const RepertoireApp = () => {
             reader.onload = () => {
               const stream = new ReadableStream({
                 start(controller) {
-                  controller.enqueue(reader.result as ArrayBuffer);
+                  controller.enqueue(
+                    new TextEncoder().encode(reader.result as string),
+                  );
                   controller.close();
                 },
               });
 
-              importPgnAsync(stream);
+              return importPgnAsync(stream);
             };
 
-            reader.readAsArrayBuffer(file);
+            reader.readAsText(file);
           }}
         />
       </main>

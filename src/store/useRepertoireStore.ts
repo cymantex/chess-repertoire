@@ -11,14 +11,43 @@ import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
-import { localStorageStore } from "@/store/database/localStorageStore.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
 import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
-import { RepertoireOpeningExplorerMove } from "@/defs.ts";
+import {
+  DEFAULT_POSITION_DATA,
+  RepertoireMove,
+  RepertoireOpeningExplorerMove,
+  RepertoirePositionData,
+} from "@/defs.ts";
+import {
+  deleteMove,
+  getPositionData,
+  upsertRepertoireMove,
+} from "@/store/idbActions.ts";
+
+type SetState = (
+  partial:
+    | Partial<ChessRepertoireStore>
+    | ((
+        state: ChessRepertoireStore,
+      ) => Partial<ChessRepertoireStore> | ChessRepertoireStore)
+    | ChessRepertoireStore,
+  replace?: boolean | undefined,
+) => void;
 
 export interface ChessRepertoireStore {
   chess: Chess;
+
+  // IDB
+  currentRepertoirePositionData: RepertoirePositionData;
+  getCurrentRepertoirePositionData: () => Promise<void>;
+  upsertMove: (
+    fen: string,
+    repertoireMove: RepertoireMove,
+    respectPrioritySettings?: boolean,
+  ) => Promise<void>;
+  deleteMove: (fen: string, san: string) => Promise<void>;
 
   // PGN
   pgn: Pgn;
@@ -27,8 +56,8 @@ export interface ChessRepertoireStore {
   orientation: CgColor;
   pendingPromotionMove: Move | null;
   rotate: () => void;
-  handleChessgroundMove: (from: Key, to: Key) => void;
-  promote: (promotion: PieceSymbol) => void;
+  handleChessgroundMove: (from: Key, to: Key) => Promise<void>;
+  promote: (promotion: PieceSymbol) => Promise<void>;
 
   // Opening Explorer
   hoveredOpeningMove: Move | null;
@@ -40,10 +69,10 @@ export interface ChessRepertoireStore {
   ) => void;
 
   // Navigation
-  goToFirstMove: () => void;
-  goToPreviousMove: () => void;
-  goToNextMove: () => void;
-  goToLastMove: () => void;
+  goToFirstMove: () => Promise<void>;
+  goToPreviousMove: () => Promise<void>;
+  goToNextMove: () => Promise<void>;
+  goToLastMove: () => Promise<void>;
 }
 
 export const useRepertoireStore = create(
@@ -53,6 +82,25 @@ export const useRepertoireStore = create(
     chess: new Chess(),
     hoveredOpeningMove: null,
     pendingPromotionMove: null,
+    currentRepertoirePositionData: DEFAULT_POSITION_DATA,
+
+    // IDB
+    upsertMove: async (
+      fen: string,
+      repertoireMove: RepertoireMove,
+      respectPrioritySettings = true,
+    ) => {
+      await upsertRepertoireMove(fen, repertoireMove, respectPrioritySettings);
+      return updateCurrentRepertoirePositionData(set, fen);
+    },
+    deleteMove: async (fen: string, san: string) => {
+      await deleteMove(fen, san);
+      return updateCurrentRepertoirePositionData(set, fen);
+    },
+    getCurrentRepertoirePositionData: () =>
+      withNonReactiveState(async (state) =>
+        updateCurrentRepertoirePositionData(set, state.chess.fen()),
+      ),
 
     // Chessground
     rotate: () =>
@@ -61,35 +109,44 @@ export const useRepertoireStore = create(
         orientation: state.orientation === CG_WHITE ? CG_BLACK : CG_WHITE,
       })),
     promote: (promotion: PieceSymbol) =>
-      set((state) => {
+      withNonReactiveState((state) => {
         const { pendingPromotionMove, chess } = state;
 
-        if (!pendingPromotionMove) return state;
+        if (!pendingPromotionMove) return Promise.resolve();
 
         // Add back the pawn hidden before doing the promotion
         chess.put(
           { type: PAWN, color: chess.turn() },
           pendingPromotionMove.from,
         );
+        const upsertPromise = upsertRepertoireMove(chess.fen(), {
+          san: pendingPromotionMove.san,
+        });
         addMoveToPgn(state.pgn, pendingPromotionMove.san, chess.history());
         chess.move({ ...pendingPromotionMove, promotion });
 
-        return handlePositionStateChange(state);
+        return handlePositionStateChange({
+          set,
+          state,
+          promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
+        });
       }),
-    handleChessgroundMove: (from: Key, to: Key) =>
-      set((state) => {
+    handleChessgroundMove: async (from: Key, to: Key) =>
+      withNonReactiveState((state) => {
         const { chess } = state;
 
         const pendingMove = chess
           .moves({ verbose: true })
           .find((move) => move.from === from && move.to === to);
 
-        return handleMove(state, pendingMove);
+        return handleMove(set, state, pendingMove);
       }),
 
     // Opening Explorer
     handleOpeningExplorerMove: (openingMove) =>
-      set((state) => handleMove(state, findOpeningMove(state, openingMove))),
+      withNonReactiveState((state) =>
+        handleMove(set, state, findOpeningMove(state, openingMove)),
+      ),
     setHoveredOpeningMove: (openingMove) =>
       set((state) => {
         return {
@@ -101,23 +158,23 @@ export const useRepertoireStore = create(
 
     // Navigation
     goToFirstMove: () =>
-      set((state) => {
+      withNonReactiveState((state) => {
         const { chess } = state;
 
         chess.reset();
 
-        return handlePositionStateChange(state);
+        return handlePositionStateChange({ set, state });
       }),
-    goToPreviousMove: () =>
-      set((state) => {
+    goToPreviousMove: async () =>
+      withNonReactiveState((state) => {
         const { chess } = state;
 
         chess.undo();
 
-        return handlePositionStateChange(state);
+        return handlePositionStateChange({ set, state });
       }),
-    goToNextMove: () =>
-      set((state) => {
+    goToNextMove: async () =>
+      withNonReactiveState((state) => {
         const { chess } = state;
 
         const nextMove = findNextMove(state.pgn, chess.history());
@@ -125,13 +182,13 @@ export const useRepertoireStore = create(
         if (nextMove) {
           chess.move(nextMove.data.san);
         } else {
-          return state;
+          return Promise.resolve();
         }
 
-        return handlePositionStateChange(state);
+        return handlePositionStateChange({ set, state });
       }),
-    goToLastMove: () =>
-      set((state) => {
+    goToLastMove: async () =>
+      withNonReactiveState((state) => {
         const { chess } = state;
 
         const remainingMainMoves = getRemainingMainMoves(
@@ -139,52 +196,92 @@ export const useRepertoireStore = create(
           chess.history(),
         );
 
-        if (remainingMainMoves.length === 0) return state;
+        if (remainingMainMoves.length === 0) return Promise.resolve();
 
         remainingMainMoves.forEach((move) => chess.move(move));
 
-        return handlePositionStateChange(state);
+        return handlePositionStateChange({ set, state });
       }),
   })),
 );
 
-const handlePositionStateChange = (state: ChessRepertoireStore) => ({
-  ...state,
-  pgn: updateFen(state),
-  hoveredOpeningMove: null,
-  pendingPromotionMove: null,
-});
+const handlePositionStateChange = async ({
+  set,
+  state,
+  newState,
+  promisesToResolveBeforeUpdatingPositionData = [],
+}: {
+  set: SetState;
+  state: ChessRepertoireStore;
+  newState?: Partial<ChessRepertoireStore>;
+  promisesToResolveBeforeUpdatingPositionData?: Promise<void>[];
+}): Promise<void> => {
+  const fen = state.chess.fen();
 
-const updateFen = (state: ChessRepertoireStore) => ({
-  ...state.pgn,
-  fen: state.chess.fen(),
-});
+  // Update synchronous state early
+  set({
+    ...state,
+    pgn: {
+      ...state.pgn,
+      fen,
+    },
+    hoveredOpeningMove: null,
+    pendingPromotionMove: null,
+    ...newState,
+  });
 
-const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
+  // IndexedDB related state can wait to be updated
+  await Promise.all(promisesToResolveBeforeUpdatingPositionData);
+
+  return updateCurrentRepertoirePositionData(set, state.chess.fen());
+};
+
+const updateCurrentRepertoirePositionData = async (
+  set: SetState,
+  fen: string,
+) => {
+  const data = await getPositionData(fen);
+  set({ currentRepertoirePositionData: data });
+};
+
+const withNonReactiveState = (
+  callback: (store: ChessRepertoireStore) => Promise<void>,
+): Promise<void> =>
+  callback(useRepertoireStore.getState() as ChessRepertoireStore);
+
+const handleMove = async (
+  set: SetState,
+  state: ChessRepertoireStore,
+  pendingMove?: Move,
+): Promise<void> => {
   const { chess } = state;
 
-  if (!pendingMove) return state;
-
-  localStorageStore.upsertMove(chess.fen(), { san: pendingMove.san });
+  if (!pendingMove) return Promise.resolve();
 
   if (pendingMove.flags.includes(CJ_PROMOTION_FLAG)) {
     // Hide pawn to indicate that the promotion is about to happen
     chess.remove(pendingMove.from);
-    return {
-      ...state,
-      pendingPromotionMove: pendingMove,
-      pgn: updateFen(state),
-    };
+    return handlePositionStateChange({
+      set,
+      state,
+      newState: { pendingPromotionMove: pendingMove },
+    });
   }
+
+  const upsertPromise = upsertRepertoireMove(chess.fen(), {
+    san: pendingMove.san,
+  });
 
   addMoveToPgn(state.pgn, pendingMove.san, chess.history());
   const nextMove = chess.move(pendingMove);
 
   if (nextMove) {
-    return handlePositionStateChange(state);
+    return handlePositionStateChange({
+      set,
+      state,
+      promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
+    });
   }
-
-  return state;
 };
 
 const findOpeningMove = (

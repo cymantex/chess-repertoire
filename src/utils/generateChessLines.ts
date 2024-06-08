@@ -7,26 +7,28 @@ import {
 import { Chess } from "chess.js";
 import { isNumber } from "lodash";
 
-type GetRepertoirePositionData = (fen: string) => RepertoirePositionData | null;
+type GetRepertoirePositionData = (
+  fen: string,
+) => Promise<RepertoirePositionData | undefined>;
 
 interface GenerateChessLinesProps {
   getRepertoirePositionData: GetRepertoirePositionData;
-  position: RepertoirePositionData | null;
+  position: RepertoirePositionData | undefined;
   previousMoves: string[];
 }
 
-export function* generateChessLines({
+export async function* generateChessLines({
   getRepertoirePositionData,
   position,
   previousMoves,
-}: GenerateChessLinesProps): Generator<Chess> {
+}: GenerateChessLinesProps): AsyncGenerator<Chess> {
   if (!position) return;
 
   for (const move of position.moves!) {
-    const chess = createChess(getRepertoirePositionData, previousMoves);
-    makeMove(chess, getRepertoirePositionData, move);
+    const chess = await createChess(getRepertoirePositionData, previousMoves);
+    await makeMove(chess, getRepertoirePositionData, move);
 
-    const nextPosition = getRepertoirePositionData(chess.fen());
+    const nextPosition = await getRepertoirePositionData(chess.fen());
 
     if (hasMoves(nextPosition)) {
       yield* generateChessLines({
@@ -40,53 +42,58 @@ export function* generateChessLines({
   }
 }
 
-const createChess = (
+const createChess = async (
   getRepertoirePositionData: GetRepertoirePositionData,
   previousMoves: string[],
 ) => {
   const chess = new Chess();
-  setRepertoireCommentForCurrentPosition(chess, getRepertoirePositionData);
+  await setRepertoireCommentForCurrentPosition(
+    chess,
+    getRepertoirePositionData,
+  );
 
-  previousMoves.forEach((san) => {
-    const priorityComment = getPriorityCommentForNextMove(
+  for (const san of previousMoves) {
+    const priorityComment = await getPriorityCommentForNextMove(
       chess,
       getRepertoirePositionData,
       san,
     );
     chess.move(san);
-    setRepertoireCommentForCurrentPosition(
+    await setRepertoireCommentForCurrentPosition(
       chess,
       getRepertoirePositionData,
       priorityComment,
     );
-  });
+  }
+
   return chess;
 };
 
-const makeMove = (
+const makeMove = async (
   chess: Chess,
   getRepertoirePositionData: GetRepertoirePositionData,
   move: RepertoireMove,
 ) => {
-  const priorityComment = getPriorityCommentForNextMove(
+  const priorityComment = await getPriorityCommentForNextMove(
     chess,
     getRepertoirePositionData,
     move.san,
   );
   chess.move(move.san);
-  setRepertoireCommentForCurrentPosition(
+  await setRepertoireCommentForCurrentPosition(
     chess,
     getRepertoirePositionData,
     priorityComment,
   );
 };
 
-const getPriorityCommentForNextMove = (
+const getPriorityCommentForNextMove = async (
   chess: Chess,
   getRepertoirePositionData: GetRepertoirePositionData,
   nextSan: string,
 ) => {
-  const nextMove = getRepertoirePositionData(chess.fen())?.moves?.find(
+  const repertoirePositionData = await getRepertoirePositionData(chess.fen());
+  const nextMove = repertoirePositionData?.moves?.find(
     (move) => move.san === nextSan,
   );
 
@@ -95,12 +102,13 @@ const getPriorityCommentForNextMove = (
   }
 };
 
-const setRepertoireCommentForCurrentPosition = (
+const setRepertoireCommentForCurrentPosition = async (
   chess: Chess,
   getRepertoirePositionData: GetRepertoirePositionData,
   priorityComment?: string,
 ) => {
-  const comment = getRepertoirePositionData(chess.fen())?.comment;
+  const repertoirePositionData = await getRepertoirePositionData(chess.fen());
+  const comment = repertoirePositionData?.comment;
 
   if (comment) {
     chess.setComment(comment + (priorityComment ?? ""));
@@ -109,7 +117,7 @@ const setRepertoireCommentForCurrentPosition = (
   }
 };
 
-const hasMoves = (nextPosition: RepertoirePositionData | null) =>
+const hasMoves = (nextPosition?: RepertoirePositionData) =>
   nextPosition &&
   nextPosition?.moves?.length &&
   nextPosition?.moves?.length > 0;

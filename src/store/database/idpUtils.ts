@@ -1,15 +1,14 @@
-import { get, set } from "idb-keyval";
+import { update } from "idb-keyval";
 
-export const upsertObject = async <T>(
+export const upsertIdbObject = async <T>(
   key: string,
   valueIfMissing: T,
   onUpdate: (previousValue: T) => T,
-) => {
-  const existingValue = await get<T>(key);
+) =>
+  update<T>(key, (previousValue) => {
+    if (previousValue) {
+      return onUpdate(previousValue);
+    }
 
-  if (existingValue) {
-    return set(key, onUpdate(existingValue));
-  }
-
-  return set(key, valueIfMissing);
-};
+    return valueIfMissing;
+  });
