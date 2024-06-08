@@ -1,8 +1,11 @@
 import { MouseEventHandler } from "react";
-import { localStorageStore } from "@/store/database/localStorageStore.ts";
-import { selectFen } from "@/store/selectors.ts";
+import {
+  selectDeleteMove,
+  selectFen,
+  selectUpsertMove,
+  useCurrentRepertoirePositionMoves,
+} from "@/store/selectors.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
-import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
 import classNames from "classnames";
 import {
   REPERTOIRE_MOVE_PRIORITY,
@@ -22,7 +25,9 @@ interface MovePriorityMenuProps {
 
 export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
   const fen = useRepertoireStore(selectFen);
-  const databaseMove = useDatabasePositionMoves(fen).find(
+  const upsertMove = useRepertoireStore(selectUpsertMove);
+  const deleteMove = useRepertoireStore(selectDeleteMove);
+  const databaseMove = useCurrentRepertoirePositionMoves().find(
     (databaseMove) => databaseMove.san === move.san,
   );
 
@@ -31,7 +36,7 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
     (event) => {
       event.preventDefault();
       event.stopPropagation();
-      localStorageStore.upsertMove(
+      return upsertMove(
         fen,
         {
           san: move.san,
@@ -74,7 +79,7 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
               "opacity-0": !databaseMove,
             },
           )}
-          onClick={() => localStorageStore.deleteMove(fen, move.san)}
+          onClick={() => deleteMove(fen, move.san)}
         />
       ) : (
         <FaTrash className="opacity-0" />

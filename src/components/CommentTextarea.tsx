@@ -1,11 +1,16 @@
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
-import { selectFen } from "@/store/selectors.ts";
-import { useDatabasePositionComment } from "@/store/database/hooks.ts";
-import { localStorageStore } from "@/store/database/localStorageStore.ts";
+import { useState } from "react";
+import { upsertRepertoireComment } from "@/store/idbActions.ts";
 
-export const CommentTextarea = () => {
-  const fen = useRepertoireStore(selectFen);
-  const comment = useDatabasePositionComment(fen);
+interface CommentTextareaProps {
+  fen: string;
+  positionComment: string;
+}
+
+export const CommentTextarea = ({
+  fen,
+  positionComment,
+}: CommentTextareaProps) => {
+  const [comment, setComment] = useState(positionComment);
 
   return (
     <label className="md:block hidden mt-2">
@@ -18,7 +23,12 @@ export const CommentTextarea = () => {
         value={comment}
         onChange={(e) => {
           e.stopPropagation();
-          localStorageStore.upsertComment(fen, e.target.value);
+          setComment(e.target.value);
+
+          // TODO: Error handling
+          // Deliberately not updating the store here since it could lead
+          // to excessive state updates
+          return upsertRepertoireComment(fen, e.target.value);
         }}
       />
     </label>

@@ -1,12 +1,13 @@
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
-import { selectChess, selectFen } from "@/store/selectors.ts";
-import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
+import {
+  selectChess,
+  useCurrentRepertoirePositionMoves,
+} from "@/store/selectors.ts";
 import { findNextMoves } from "@/external/chessjs/utils.ts";
 
 export const useNextMovesWithPriority = () => {
   const chess = useRepertoireStore(selectChess);
-  const fen = useRepertoireStore(selectFen);
-  const movesWithPriority = useDatabasePositionMoves(fen).filter(
+  const movesWithPriority = useCurrentRepertoirePositionMoves().filter(
     (move) => move.priority !== undefined && move.priority !== null,
   );
 

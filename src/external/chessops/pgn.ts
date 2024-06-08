@@ -1,14 +1,18 @@
 import {
   ChildNode,
   defaultGame,
+  Game,
   makePgn,
   PgnNodeData,
   PgnParser,
 } from "chessops/pgn";
 import { Pgn } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
+import {
+  upsertRepertoireComment,
+  upsertRepertoireMove,
+} from "@/store/idbActions.ts";
 import { Chess } from "chess.js";
-import { localStorageStore } from "@/store/database/localStorageStore.ts";
 
 export const defaultPgn = (): Pgn => ({
   ...defaultGame(),
@@ -23,34 +27,15 @@ export const importPgnAsync = async (stream: ReadableStream) => {
     }
 
     if (game.headers.get("FEN")) {
+      // TODO: Only if not in starting position we should exit
       return;
     }
 
-    const chess = new Chess();
-
-    Array.from(game.moves.mainlineNodes()).forEach((move) => {
-      if (move.data.startingComments) {
-        localStorageStore.upsertComment(
-          chess.fen(),
-          move.data.startingComments.join(""),
-        );
-      }
-
-      // TODO: priority
-      localStorageStore.upsertMove(chess.fen(), { san: move.data.san });
-
-      chess.move(move.data.san);
-
-      if (move.data.comments) {
-        localStorageStore.upsertComment(
-          chess.fen(),
-          move.data.comments.join(""),
-        );
-      }
-    });
+    return importGame(game);
   });
 
   const reader = stream.getReader();
+
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const { done, value } = await reader.read();
@@ -60,6 +45,34 @@ export const importPgnAsync = async (stream: ReadableStream) => {
     }
     parser.parse(new TextDecoder().decode(value), { stream: true });
   }
+};
+
+const importGame = async (game: Game<PgnNodeData>) => {
+  const chess = new Chess();
+  // TODO: Max import depth
+  const mainLine = Array.from(game.moves.mainlineNodes());
+
+  // TODO: Currently faces race-condition with upsertIdbObject getting an
+  // old copy of the data
+  for (const move of mainLine) {
+    if (move.data.startingComments) {
+      await upsertRepertoireComment(
+        chess.fen(),
+        move.data.startingComments.join(""),
+      );
+    }
+
+    // TODO: priority
+    await upsertRepertoireMove(chess.fen(), { san: move.data.san });
+
+    chess.move(move.data.san);
+
+    if (move.data.comments) {
+      await upsertRepertoireComment(chess.fen(), move.data.comments.join(""));
+    }
+  }
+
+  console.log(chess.history());
 };
 
 export const toPgn = (pgn: Pgn) => makePgn(pgn)?.split("\n\n")?.[1] ?? "";

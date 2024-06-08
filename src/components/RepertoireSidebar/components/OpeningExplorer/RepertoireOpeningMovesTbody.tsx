@@ -2,11 +2,10 @@ import { OpeningExplorerMove } from "@/defs.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectChess,
-  selectFen,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
+  useCurrentRepertoirePositionMoves,
 } from "@/store/selectors.ts";
-import { useDatabasePositionMoves } from "@/store/database/hooks.ts";
 import {
   calcTotalGames,
   toOrderedRepertoireOpeningExplorerMoves,
@@ -21,13 +20,12 @@ interface RepertoireOpeningMovesProps {
 export const RepertoireOpeningMovesTbody = ({
   openingExplorerMoves,
 }: RepertoireOpeningMovesProps) => {
-  const fen = useRepertoireStore(selectFen);
   const chess = useRepertoireStore(selectChess);
   const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
   const handleOpeningExplorerMove = useRepertoireStore(
     selectHandleOpeningExplorerMove,
   );
-  const repertoireMoves = useDatabasePositionMoves(fen);
+  const repertoireMoves = useCurrentRepertoirePositionMoves();
 
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
