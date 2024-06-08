@@ -4,8 +4,7 @@ import { RepertoireSidebar } from "@/components/RepertoireSidebar/RepertoireSide
 import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.ts";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 
-import { exportPgnAsync } from "@/utils/exportPgnAsync.ts";
-import { importPgnAsync } from "@/external/chessops/pgn.ts";
+import { exportPgnAsync } from "@/utils/pgn.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectFen,
@@ -13,6 +12,7 @@ import {
   useCurrentRepertoirePositionComment,
 } from "@/store/selectors.ts";
 import { useEffect } from "react";
+import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -41,32 +41,10 @@ export const RepertoireApp = () => {
           fen={fen}
           positionComment={positionComment}
         />
-        <button onClick={() => exportPgnAsync()}>Export PGN</button>
-        <input
-          type="file"
-          className="file-input file-input-ghost w-full max-w-xs"
-          onChange={(e) => {
-            if (!e.target.files) return;
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-              const stream = new ReadableStream({
-                start(controller) {
-                  controller.enqueue(
-                    new TextEncoder().encode(reader.result as string),
-                  );
-                  controller.close();
-                },
-              });
-
-              return importPgnAsync(stream);
-            };
-
-            reader.readAsText(file);
-          }}
-        />
+        <button className="hidden md:block" onClick={exportPgnAsync}>
+          Export PGN
+        </button>
+        <PgnImport />
       </main>
       <RepertoireSidebar />
     </div>
