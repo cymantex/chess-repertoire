@@ -38,3 +38,8 @@ export const toRepertoireOpeningExplorerMoves = (
     const nextMove = findNextMoveBySan(chess, move.san);
     return { ...nextMove, ...move } as RepertoireOpeningExplorerMove;
   });
+
+export const toPgn = (chess: Chess) => {
+  chess.header("Result", "*");
+  return chess.pgn();
+};

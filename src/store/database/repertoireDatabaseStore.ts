@@ -33,8 +33,7 @@ export const repertoireDatabaseStore = {
     return settings;
   },
   getPositionDataSnapshot: (fen: string): RepertoirePositionData => {
-    const positionData =
-      getObject<RepertoirePositionData>(fen) ?? DEFAULT_POSITION_DATA;
+    const positionData = getPositionData(fen) ?? DEFAULT_POSITION_DATA;
 
     if (isEqual(positionData, currentPositionData)) {
       return currentPositionData;
@@ -64,6 +63,9 @@ export const repertoireDatabaseStore = {
     notifySubscribers();
   },
 };
+
+export const getPositionData = (fen: string) =>
+  getObject<RepertoirePositionData>(fen);
 
 const getRepertoireSettings = () =>
   getObject<RepertoireSettings>(SETTINGS_KEY) ?? DEFAULT_SETTINGS;

@@ -3,7 +3,7 @@ import { ChildNode, parsePgn, PgnNodeData } from "chessops/pgn";
 import {
   findCurrentMove,
   getRemainingMainMoves,
-} from "@/external/chessops/pgn/pgn.ts";
+} from "@/external/chessops/pgn.ts";
 
 test("findCurrentMove", () => {
   // Arrange

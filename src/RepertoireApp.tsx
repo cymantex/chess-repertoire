@@ -4,6 +4,8 @@ import { RepertoireSidebar } from "@/components/RepertoireSidebar/RepertoireSide
 import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.ts";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 
+import { exportPgnAsync } from "@/utils/exportPgnAsync.ts";
+
 export const RepertoireApp = () => {
   useKeyboardShortcuts();
 
@@ -15,6 +17,7 @@ export const RepertoireApp = () => {
       <main>
         <Chessboard />
         <CommentTextarea />
+        <button onClick={() => exportPgnAsync()}>Export PGN</button>
       </main>
       <RepertoireSidebar />
     </div>
