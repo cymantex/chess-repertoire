@@ -1,6 +1,6 @@
 import streamSaver from "streamsaver";
 import { generateChessLines } from "@/utils/generateChessLines.ts";
-import { getPositionData } from "@/store/database/repertoireDatabaseStore.ts";
+import { getPositionData } from "@/store/database/localStorageStore.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { toPgn } from "@/external/chessjs/utils.ts";
 
@@ -26,8 +26,6 @@ export const exportPgnAsync = async () => {
     await writer.close().catch(() => {});
   } catch (error) {
     console.error(error);
-    await writer.abort();
-  } finally {
-    window.onbeforeunload = null;
+    await Promise.all([fileStream.abort(), writer.abort()]);
   }
 };

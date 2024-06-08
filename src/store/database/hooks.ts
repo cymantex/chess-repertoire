@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
+import { localStorageStore } from "@/store/database/localStorageStore.ts";
 import { RepertoirePositionData } from "@/defs.ts";
 
 export const useDatabasePositionComment = (fen: string) =>
@@ -10,13 +10,13 @@ export const useDatabasePositionMoves = (fen: string) =>
 
 export const useRepertoireSettings = () =>
   useSyncExternalStore(
-    repertoireDatabaseStore.subscribe,
-    repertoireDatabaseStore.getRepertoireSettingsSnapshot,
+    localStorageStore.subscribe,
+    localStorageStore.getRepertoireSettingsSnapshot,
   );
 
 const useDatabasePositionData = (fen: string) => {
   return useSyncExternalStore<RepertoirePositionData>(
-    repertoireDatabaseStore.subscribe,
-    () => repertoireDatabaseStore.getPositionDataSnapshot(fen),
+    localStorageStore.subscribe,
+    () => localStorageStore.getPositionDataSnapshot(fen),
   );
 };

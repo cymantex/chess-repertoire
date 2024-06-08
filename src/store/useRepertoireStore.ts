@@ -11,7 +11,7 @@ import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
-import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
+import { localStorageStore } from "@/store/database/localStorageStore.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
 import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
@@ -165,7 +165,7 @@ const handleMove = (state: ChessRepertoireStore, pendingMove?: Move) => {
 
   if (!pendingMove) return state;
 
-  repertoireDatabaseStore.upsertMove(chess.fen(), { san: pendingMove.san });
+  localStorageStore.upsertMove(chess.fen(), { san: pendingMove.san });
 
   if (pendingMove.flags.includes(CJ_PROMOTION_FLAG)) {
     // Hide pawn to indicate that the promotion is about to happen

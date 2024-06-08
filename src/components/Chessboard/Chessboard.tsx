@@ -14,14 +14,7 @@ import {
   calcPossibleDestinations,
   determineTurnColor,
 } from "@/external/chessjs/utils.ts";
-import { useNextMovesWithPriority } from "@/hooks/useNextMovesWithPriority.ts";
-import { chessground } from "@/external/chessground/Chessground.tsx";
-import * as cg from "chessground/types";
-import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
-import {
-  createPriorityShapeForSelectedMove,
-  useAutoShapes,
-} from "@/components/Chessboard/hooks/useAutoShapes.tsx";
+import { useRepertoireAutoShapes } from "@/components/Chessboard/hooks/useRepertoireAutoShapes.tsx";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);
@@ -29,10 +22,8 @@ export const Chessboard = () => {
   const orientation = useRepertoireStore(selectOrientation);
   const handleChessgroundMove = useRepertoireStore(selectHandleChessgroundMove);
 
-  const nextMoves = useNextMovesWithPriority();
-  const autoShapes = useAutoShapes();
-
-  useRestoreAutoShapesAfterSelection(autoShapes);
+  const { repertoireAutoShapes, setPriorityShapeForSelection } =
+    useRepertoireAutoShapes();
 
   return (
     <ChessgroundWrapper
@@ -45,15 +36,7 @@ export const Chessboard = () => {
       }}
       events={{
         move: handleChessgroundMove,
-        select: (square: cg.Key) => {
-          if (!chessground) return;
-
-          chessground.setAutoShapes(
-            nextMoves
-              .filter((move) => move.from === square)
-              .map(createPriorityShapeForSelectedMove),
-          );
-        },
+        select: setPriorityShapeForSelection,
       }}
       selectable={{
         enabled: false,
@@ -65,7 +48,7 @@ export const Chessboard = () => {
         },
       }}
       drawable={{
-        autoShapes,
+        autoShapes: repertoireAutoShapes,
       }}
     >
       <PromotionSelection />
