@@ -89,6 +89,7 @@ export type RepertoireOpeningExplorerMove =
   | (PriorityMove & OpeningExplorerMove);
 
 // Settings
+export const PRIORITY_PGN_COMMENT_PREFIX = "__PRIORITY:";
 export const PRIORITY_SETTING_NO_PRIORITY = 1000;
 export const PRIORITY_SETTING_DONT_SAVE = 10000;
 export const PRIORITY_SETTING = {

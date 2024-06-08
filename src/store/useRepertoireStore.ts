@@ -10,7 +10,7 @@ import {
   defaultPgn,
   findNextMove,
   getRemainingMainMoves,
-} from "@/external/chessops/pgn/pgn.ts";
+} from "@/external/chessops/pgn.ts";
 import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
 import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
