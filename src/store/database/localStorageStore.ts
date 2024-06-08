@@ -1,4 +1,3 @@
-import { getObject, upsertObject } from "local-storage-superjson";
 import { isEqual } from "lodash";
 import {
   DEFAULT_POSITION_DATA,
@@ -10,6 +9,7 @@ import {
   RepertoireSettings,
   SETTINGS_KEY,
 } from "@/defs.ts";
+import { getObject, upsertObject } from "local-storage-superjson";
 
 const subscribers = new Set<() => void>();
 
@@ -17,7 +17,7 @@ const notifySubscribers = () => subscribers.forEach((callback) => callback());
 let currentPositionData: RepertoirePositionData = DEFAULT_POSITION_DATA;
 let currentSettings: RepertoireSettings = DEFAULT_SETTINGS;
 
-export const repertoireDatabaseStore = {
+export const localStorageStore = {
   subscribe: (callback: () => void) => {
     subscribers.add(callback);
     return () => subscribers.delete(callback);
@@ -81,7 +81,7 @@ const deleteMove = (fen: string, san: string) => {
   );
 };
 
-function upsertRepertoireSettings(settings: RepertoireSettings) {
+const upsertRepertoireSettings = (settings: RepertoireSettings) => {
   upsertObject<RepertoireSettings>(
     SETTINGS_KEY,
     { ...DEFAULT_SETTINGS, ...settings },
@@ -90,7 +90,7 @@ function upsertRepertoireSettings(settings: RepertoireSettings) {
       ...settings,
     }),
   );
-}
+};
 
 const upsertRepertoireMove = (
   fen: string,
@@ -154,7 +154,7 @@ const upsertRepertoireMove = (
   );
 };
 
-const upsertRepertoireComment = (fen: string, comment: string) => {
+const upsertRepertoireComment = (fen: string, comment: string) =>
   upsertObject<RepertoirePositionData>(
     fen,
     { ...DEFAULT_POSITION_DATA, comment },
@@ -163,4 +163,3 @@ const upsertRepertoireComment = (fen: string, comment: string) => {
       comment,
     }),
   );
-};

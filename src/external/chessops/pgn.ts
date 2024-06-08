@@ -1,11 +1,66 @@
-import { ChildNode, defaultGame, makePgn, PgnNodeData } from "chessops/pgn";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
+import {
+  ChildNode,
+  defaultGame,
+  makePgn,
+  PgnNodeData,
+  PgnParser,
+} from "chessops/pgn";
 import { Pgn } from "@/external/chessops/defs.ts";
+import { INITIAL_FEN } from "chessops/fen";
+import { Chess } from "chess.js";
+import { localStorageStore } from "@/store/database/localStorageStore.ts";
 
 export const defaultPgn = (): Pgn => ({
   ...defaultGame(),
-  fen: FEN_STARTING_POSITION,
+  fen: INITIAL_FEN,
 });
+
+export const importPgnAsync = async (stream: ReadableStream) => {
+  const parser = new PgnParser((game, err) => {
+    if (err) {
+      // Budget exceeded.
+      throw err;
+    }
+
+    if (game.headers.get("FEN")) {
+      return;
+    }
+
+    const chess = new Chess();
+
+    Array.from(game.moves.mainlineNodes()).forEach((move) => {
+      if (move.data.startingComments) {
+        localStorageStore.upsertComment(
+          chess.fen(),
+          move.data.startingComments.join(""),
+        );
+      }
+
+      // TODO: priority
+      localStorageStore.upsertMove(chess.fen(), { san: move.data.san });
+
+      chess.move(move.data.san);
+
+      if (move.data.comments) {
+        localStorageStore.upsertComment(
+          chess.fen(),
+          move.data.comments.join(""),
+        );
+      }
+    });
+  });
+
+  const reader = stream.getReader();
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      parser.parse("");
+      break;
+    }
+    parser.parse(new TextDecoder().decode(value), { stream: true });
+  }
+};
 
 export const toPgn = (pgn: Pgn) => makePgn(pgn)?.split("\n\n")?.[1] ?? "";
 

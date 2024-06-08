@@ -8,7 +8,7 @@ import { WhitePawn } from "@/external/chessground/components/WhitePawn.tsx";
 import { FaBan, FaChessBoard } from "react-icons/fa6";
 import { useRepertoireSettings } from "@/store/database/hooks.ts";
 import { PRIORITY_SETTING, PrioritySetting } from "@/defs.ts";
-import { repertoireDatabaseStore } from "@/store/database/repertoireDatabaseStore.ts";
+import { localStorageStore } from "@/store/database/localStorageStore.ts";
 
 const getPrioritySettingIcon = (prioritySetting: PrioritySetting) => {
   switch (prioritySetting) {
@@ -93,7 +93,7 @@ export const PrioritySettings = () => {
               key={prioritySetting}
               prioritySetting={prioritySetting}
               onClick={() => {
-                repertoireDatabaseStore.upsertSettings({
+                localStorageStore.upsertSettings({
                   prioritySetting,
                 });
                 setShowPriorityMenu(false);
