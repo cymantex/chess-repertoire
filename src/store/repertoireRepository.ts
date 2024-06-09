@@ -6,15 +6,13 @@ import {
   RepertoireMovePriority,
   RepertoirePositionData,
 } from "@/defs.ts";
-import { upsertIdbObject } from "@/store/database/idpUtils.ts";
-import { get } from "idb-keyval";
 import { DrawShape } from "chessground/draw";
+import { idbGet, idbUpsert } from "@/external/idb-keyval/utils.ts";
 
-export const getPositionData = async (fen: string) =>
-  get<RepertoirePositionData>(fen);
+export const getPositionData = async (fen: string) => idbGet(fen);
 
 export const deleteMove = async (fen: string, san: string) =>
-  upsertIdbObject<RepertoirePositionData>(
+  idbUpsert<RepertoirePositionData>(
     fen,
     DEFAULT_POSITION_DATA,
     (data: RepertoirePositionData) => ({
@@ -43,7 +41,7 @@ export const upsertRepertoireMove = async (
     };
   };
 
-  return upsertIdbObject<RepertoirePositionData>(
+  return idbUpsert<RepertoirePositionData>(
     fen,
     { moves: [withSelectedAutomaticPriority(repertoireMove)] },
     (data: RepertoirePositionData) => {
@@ -78,7 +76,7 @@ export const upsertRepertoireMove = async (
 };
 
 export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
-  upsertIdbObject<RepertoirePositionData>(
+  idbUpsert<RepertoirePositionData>(
     fen,
     { ...DEFAULT_POSITION_DATA, shapes },
     (data) => ({
@@ -88,7 +86,7 @@ export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
   );
 
 export const upsertRepertoireComment = async (fen: string, comment: string) =>
-  upsertIdbObject<RepertoirePositionData>(
+  idbUpsert<RepertoirePositionData>(
     fen,
     { ...DEFAULT_POSITION_DATA, comment },
     (data) => ({

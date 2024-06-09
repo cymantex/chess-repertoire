@@ -5,14 +5,14 @@ import {
   FaStepBackward,
   FaStepForward,
 } from "react-icons/fa";
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import {
   selectGoToFirstMove,
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
   selectRotate,
-} from "@/store/selectors.ts";
+} from "@/store/zustand/selectors.ts";
 import { PrioritySettings } from "@/components/RepertoireSidebar/components/NavigationMenu/components/PrioritySettings.tsx";
 
 export const NavigationMenu = () => {

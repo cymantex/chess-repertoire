@@ -4,8 +4,8 @@ import {
   selectDeleteMove,
   selectFen,
   selectUpsertMove,
-} from "@/store/selectors.ts";
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+} from "@/store/zustand/selectors.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import classNames from "classnames";
 import {
   REPERTOIRE_MOVE_PRIORITY,

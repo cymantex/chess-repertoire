@@ -1,6 +1,7 @@
-import { update } from "idb-keyval";
+import { get, update } from "idb-keyval";
+import { RepertoirePositionData } from "@/defs.ts";
 
-export const upsertIdbObject = async <T>(
+export const idbUpsert = async <T>(
   key: string,
   valueIfMissing: T,
   onUpdate: (previousValue: T) => T,
@@ -12,3 +13,5 @@ export const upsertIdbObject = async <T>(
 
     return valueIfMissing;
   });
+
+export const idbGet = async (key: string) => get<RepertoirePositionData>(key);

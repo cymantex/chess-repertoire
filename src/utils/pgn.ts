@@ -2,7 +2,7 @@ import streamSaver from "streamsaver";
 import { generateChessLines } from "@/utils/generateChessLines.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { toPgn } from "@/external/chessjs/utils.ts";
-import { getPositionData } from "@/store/idbActions.ts";
+import { getPositionData } from "@/store/repertoireRepository.ts";
 
 export const exportPgnAsync = async () => {
   const fileStream = streamSaver.createWriteStream("repertoire.pgn");

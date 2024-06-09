@@ -6,9 +6,11 @@ import { WhiteRook } from "@/external/chessground/components/WhiteRook.tsx";
 import { WhiteBishop } from "@/external/chessground/components/WhiteBishop.tsx";
 import { WhitePawn } from "@/external/chessground/components/WhitePawn.tsx";
 import { FaBan, FaChessBoard } from "react-icons/fa6";
-import { useRepertoireSettings } from "@/store/database/hooks.ts";
 import { PRIORITY_SETTING, PrioritySetting } from "@/defs.ts";
-import { localStorageStore } from "@/store/database/localStorageStore.ts";
+import {
+  localStorageStore,
+  useRepertoireSettings,
+} from "@/store/localStorageStore.ts";
 
 const getPrioritySettingIcon = (prioritySetting: PrioritySetting) => {
   switch (prioritySetting) {
