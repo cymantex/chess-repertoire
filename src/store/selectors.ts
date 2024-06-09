@@ -1,7 +1,4 @@
-import {
-  ChessRepertoireStore,
-  useRepertoireStore,
-} from "@/store/useRepertoireStore.ts";
+import { ChessRepertoireStore } from "@/store/useRepertoireStore.ts";
 
 export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.pgn.fen;
@@ -25,12 +22,6 @@ export const selectCurrentRepertoirePositionMoves = (
 export const selectCurrentRepertoirePositionShapes = (
   state: ChessRepertoireStore,
 ) => state.currentRepertoirePositionData?.shapes;
-
-// TODO: Replace with selectors
-export const useCurrentRepertoirePositionComment = () =>
-  useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";
-export const useCurrentRepertoirePositionMoves = () =>
-  useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
 
 // Chessground
 export const selectOrientation = (state: ChessRepertoireStore) =>

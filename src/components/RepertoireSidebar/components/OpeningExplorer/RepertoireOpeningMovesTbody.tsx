@@ -2,9 +2,9 @@ import { OpeningExplorerMove } from "@/defs.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectChess,
+  selectCurrentRepertoirePositionMoves,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
-  useCurrentRepertoirePositionMoves,
 } from "@/store/selectors.ts";
 import {
   calcTotalGames,
@@ -25,7 +25,8 @@ export const RepertoireOpeningMovesTbody = ({
   const handleOpeningExplorerMove = useRepertoireStore(
     selectHandleOpeningExplorerMove,
   );
-  const repertoireMoves = useCurrentRepertoirePositionMoves();
+  const repertoireMoves =
+    useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
 
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
