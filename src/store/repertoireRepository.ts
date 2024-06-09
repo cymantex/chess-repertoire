@@ -7,7 +7,7 @@ import {
   RepertoirePositionData,
 } from "@/defs.ts";
 import { DrawShape } from "chessground/draw";
-import { idbGet, idbUpsert } from "@/external/idb-keyval/utils.ts";
+import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 
 export const getPositionData = async (fen: string) => idbGet(fen);
 
