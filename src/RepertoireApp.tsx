@@ -7,16 +7,17 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 import { exportPgnAsync } from "@/utils/pgn.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
+  selectCurrentRepertoirePositionComment,
   selectFen,
   selectGetCurrentRepertoirePositionData,
-  useCurrentRepertoirePositionComment,
 } from "@/store/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
-  const positionComment = useCurrentRepertoirePositionComment();
+  const positionComment =
+    useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";
   const getCurrentRepertoirePositionData = useRepertoireStore(
     selectGetCurrentRepertoirePositionData,
   );

@@ -1,9 +1,9 @@
 import { MouseEventHandler } from "react";
 import {
+  selectCurrentRepertoirePositionMoves,
   selectDeleteMove,
   selectFen,
   selectUpsertMove,
-  useCurrentRepertoirePositionMoves,
 } from "@/store/selectors.ts";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import classNames from "classnames";
@@ -27,9 +27,9 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
   const fen = useRepertoireStore(selectFen);
   const upsertMove = useRepertoireStore(selectUpsertMove);
   const deleteMove = useRepertoireStore(selectDeleteMove);
-  const databaseMove = useCurrentRepertoirePositionMoves().find(
-    (databaseMove) => databaseMove.san === move.san,
-  );
+  const repertoireMoves =
+    useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
+  const databaseMove = repertoireMoves.find(({ san }) => san === move.san);
 
   const handleMovePriorityClick =
     (priority: RepertoireMovePriority): MouseEventHandler<SVGElement> =>
