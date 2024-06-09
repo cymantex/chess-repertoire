@@ -16,6 +16,7 @@ import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
 import {
   DEFAULT_POSITION_DATA,
+  PrioritySetting,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
   RepertoirePositionData,
@@ -25,6 +26,7 @@ import {
   getPositionData,
   upsertRepertoireMove,
 } from "@/store/idbActions.ts";
+import { getPrioritySetting } from "@/store/database/localStorageStore.ts";
 
 type SetState = (
   partial:
@@ -45,7 +47,7 @@ export interface ChessRepertoireStore {
   upsertMove: (
     fen: string,
     repertoireMove: RepertoireMove,
-    respectPrioritySettings?: boolean,
+    prioritySetting: PrioritySetting,
   ) => Promise<void>;
   deleteMove: (fen: string, san: string) => Promise<void>;
 
@@ -88,9 +90,9 @@ export const useRepertoireStore = create(
     upsertMove: async (
       fen: string,
       repertoireMove: RepertoireMove,
-      respectPrioritySettings = true,
+      prioritySetting: PrioritySetting,
     ) => {
-      await upsertRepertoireMove(fen, repertoireMove, respectPrioritySettings);
+      await upsertRepertoireMove(fen, repertoireMove, prioritySetting);
       return updateCurrentRepertoirePositionData(set, fen);
     },
     deleteMove: async (fen: string, san: string) => {
@@ -119,9 +121,13 @@ export const useRepertoireStore = create(
           { type: PAWN, color: chess.turn() },
           pendingPromotionMove.from,
         );
-        const upsertPromise = upsertRepertoireMove(chess.fen(), {
-          san: pendingPromotionMove.san,
-        });
+        const upsertPromise = upsertRepertoireMove(
+          chess.fen(),
+          {
+            san: pendingPromotionMove.san,
+          },
+          getPrioritySetting(),
+        );
         addMoveToPgn(state.pgn, pendingPromotionMove.san, chess.history());
         chess.move({ ...pendingPromotionMove, promotion });
 
@@ -268,9 +274,13 @@ const handleMove = async (
     });
   }
 
-  const upsertPromise = upsertRepertoireMove(chess.fen(), {
-    san: pendingMove.san,
-  });
+  const upsertPromise = upsertRepertoireMove(
+    chess.fen(),
+    {
+      san: pendingMove.san,
+    },
+    getPrioritySetting(),
+  );
 
   addMoveToPgn(state.pgn, pendingMove.san, chess.history());
   const nextMove = chess.move(pendingMove);

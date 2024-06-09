@@ -2,6 +2,8 @@ import { PrioritySettings } from "@/components/RepertoireSidebar/components/Navi
 
 interface PgnImportSettingsProps {
   playerNames: string[];
+  includeComments: boolean;
+  onToggleIncludeComments: (includeComments: boolean) => void;
   onSelectPlayerName: (playerName: string | null) => void;
 }
 
@@ -10,6 +12,8 @@ const NO_SELECTION = "No selection";
 export const PgnImportSettings = ({
   onSelectPlayerName,
   playerNames,
+  includeComments,
+  onToggleIncludeComments,
 }: PgnImportSettingsProps) => (
   <>
     <div className="divider" />
@@ -18,7 +22,7 @@ export const PgnImportSettings = ({
       <>
         <div className="label">
           <span className="label-text">
-            Player to import the repertoire for (optional):
+            Only set priority for new moves done by player (optional):
           </span>
         </div>
         <select
@@ -28,18 +32,29 @@ export const PgnImportSettings = ({
             onSelectPlayerName(playerName === NO_SELECTION ? null : playerName);
           }}
         >
+          <option>{NO_SELECTION}</option>
           {playerNames.map((playerName) => (
             <option key={playerName}>{playerName}</option>
           ))}
-          <option>{NO_SELECTION}</option>
         </select>
       </>
     )}
     <div className="label mt-4">
       <div className="label-text flex items-center">
-        <span className="mr-2">Priority settings:</span>
         <PrioritySettings />
+        <span className="ml-2">Priority settings</span>
       </div>
+    </div>
+    <div className="form-control mt-4">
+      <label className="label cursor-pointer w-max">
+        <input
+          type="checkbox"
+          className="checkbox"
+          checked={includeComments}
+          onChange={(e) => onToggleIncludeComments(e.target.checked)}
+        />
+        <span className="label-text ml-2">Include comments</span>
+      </label>
     </div>
     <div className="divider" />
   </>
