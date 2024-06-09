@@ -12,6 +12,7 @@ export const selectUpsertMove = (state: ChessRepertoireStore) =>
   state.upsertMove;
 export const selectDeleteMove = (state: ChessRepertoireStore) =>
   state.deleteMove;
+export const selectSetShapes = (state: ChessRepertoireStore) => state.setShapes;
 export const selectGetCurrentRepertoirePositionData = (
   state: ChessRepertoireStore,
 ) => state.getCurrentRepertoirePositionData;
@@ -21,6 +22,9 @@ export const selectCurrentRepertoirePositionComment = (
 export const selectCurrentRepertoirePositionMoves = (
   state: ChessRepertoireStore,
 ) => state.currentRepertoirePositionData?.moves;
+export const selectCurrentRepertoirePositionShapes = (
+  state: ChessRepertoireStore,
+) => state.currentRepertoirePositionData?.shapes;
 
 // TODO: Replace with selectors
 export const useCurrentRepertoirePositionComment = () =>

@@ -24,9 +24,11 @@ import {
 import {
   deleteMove,
   getPositionData,
+  setRepertoireShapes,
   upsertRepertoireMove,
 } from "@/store/idbActions.ts";
 import { getPrioritySetting } from "@/store/database/localStorageStore.ts";
+import { DrawShape } from "chessground/draw";
 
 type SetState = (
   partial:
@@ -58,6 +60,7 @@ export interface ChessRepertoireStore {
   orientation: CgColor;
   pendingPromotionMove: Move | null;
   rotate: () => void;
+  setShapes: (shapes: DrawShape[]) => Promise<void>;
   handleChessgroundMove: (from: Key, to: Key) => Promise<void>;
   promote: (promotion: PieceSymbol) => Promise<void>;
 
@@ -87,6 +90,14 @@ export const useRepertoireStore = create(
     currentRepertoirePositionData: DEFAULT_POSITION_DATA,
 
     // IDB
+    setShapes: async (shapes: DrawShape[]) =>
+      withNonReactiveState(async (state) => {
+        const { chess } = state;
+        const fen = chess.fen();
+
+        await setRepertoireShapes(fen, shapes);
+        return updateCurrentRepertoirePositionData(set, fen);
+      }),
     upsertMove: async (
       fen: string,
       repertoireMove: RepertoireMove,

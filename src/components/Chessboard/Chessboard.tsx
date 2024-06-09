@@ -6,9 +6,11 @@ import "@/external/chessground/assets/chessground.blue2.css";
 import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
 import {
   selectChess,
+  selectCurrentRepertoirePositionShapes,
   selectFen,
   selectHandleChessgroundMove,
   selectOrientation,
+  selectSetShapes,
 } from "@/store/selectors.ts";
 import {
   calcPossibleDestinations,
@@ -21,6 +23,8 @@ export const Chessboard = () => {
   const fen = useRepertoireStore(selectFen);
   const orientation = useRepertoireStore(selectOrientation);
   const handleChessgroundMove = useRepertoireStore(selectHandleChessgroundMove);
+  const shapes = useRepertoireStore(selectCurrentRepertoirePositionShapes);
+  const setShapes = useRepertoireStore(selectSetShapes);
 
   const { repertoireAutoShapes, setPriorityShapeForSelection } =
     useRepertoireAutoShapes();
@@ -48,7 +52,9 @@ export const Chessboard = () => {
         },
       }}
       drawable={{
+        shapes,
         autoShapes: repertoireAutoShapes,
+        onChange: setShapes,
       }}
     >
       <PromotionSelection />
