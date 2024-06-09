@@ -15,15 +15,14 @@ import { addMoveToPgn } from "@/external/chessops/pgn.ts";
  */
 export const handlePositionStateChange = async ({
   set,
-  state,
   newState,
   promisesToResolveBeforeUpdatingPositionData = [],
 }: {
   set: SetState;
-  state: ChessRepertoireStore;
   newState?: Partial<ChessRepertoireStore>;
   promisesToResolveBeforeUpdatingPositionData?: Promise<void>[];
 }): Promise<void> => {
+  const state = getNonReactiveState();
   const fen = state.chess.fen();
 
   // Update synchronous state early
@@ -54,9 +53,9 @@ export const updateCurrentRepertoirePositionData = async (
 
 export const handleMove = async (
   set: SetState,
-  state: ChessRepertoireStore,
   pendingMove?: Move,
 ): Promise<void> => {
+  const state = getNonReactiveState();
   const { chess } = state;
 
   if (!pendingMove) return Promise.resolve();
@@ -66,7 +65,6 @@ export const handleMove = async (
     chess.remove(pendingMove.from);
     return handlePositionStateChange({
       set,
-      state,
       newState: { pendingPromotionMove: pendingMove },
     });
   }
@@ -85,13 +83,10 @@ export const handleMove = async (
   if (nextMove) {
     return handlePositionStateChange({
       set,
-      state,
       promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
     });
   }
 };
 
-export const withNonReactiveState = (
-  callback: (store: ChessRepertoireStore) => Promise<void>,
-): Promise<void> =>
-  callback(useRepertoireStore.getState() as ChessRepertoireStore);
+export const getNonReactiveState = (): ChessRepertoireStore =>
+  useRepertoireStore.getState() as ChessRepertoireStore;

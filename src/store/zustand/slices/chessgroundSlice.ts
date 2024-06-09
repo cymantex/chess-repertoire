@@ -1,12 +1,8 @@
+import { ChessgroundSlice, SetState } from "@/store/zustand/defs.ts";
 import {
-  ChessgroundSlice,
-  ChessRepertoireStore,
-  SetState,
-} from "@/store/zustand/defs.ts";
-import {
+  getNonReactiveState,
   handleMove,
   handlePositionStateChange,
-  withNonReactiveState,
 } from "@/store/zustand/utils.ts";
 import { upsertRepertoireMove } from "@/store/repertoireRepository.ts";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
@@ -14,6 +10,7 @@ import { PieceSymbol } from "chess.js/src/chess.ts";
 import { PAWN } from "chess.js";
 import { getPrioritySetting } from "@/store/localStorageStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
+import { selectChess } from "@/store/zustand/selectors.ts";
 
 export const createChessgroundSlice = (set: SetState): ChessgroundSlice => ({
   orientation: CG_WHITE,
@@ -21,31 +18,24 @@ export const createChessgroundSlice = (set: SetState): ChessgroundSlice => ({
 
   rotate: () =>
     set((state) => ({
-      ...state,
       orientation: state.orientation === CG_WHITE ? CG_BLACK : CG_WHITE,
     })),
 
-  promote: (promotion) =>
-    withNonReactiveState((state) => handlePromotion(set, state, promotion)),
+  promote: (promotion) => handlePromotion(set, promotion),
 
-  handleChessgroundMove: async (from, to) =>
-    withNonReactiveState((state) => {
-      const { chess } = state;
+  handleChessgroundMove: async (from, to) => {
+    const chess = selectChess(getNonReactiveState());
 
-      const pendingMove = chess
-        .moves({ verbose: true })
-        .find((move) => move.from === from && move.to === to);
+    const pendingMove = chess
+      .moves({ verbose: true })
+      .find((move) => move.from === from && move.to === to);
 
-      return handleMove(set, state, pendingMove);
-    }),
+    return handleMove(set, pendingMove);
+  },
 });
 
-export const handlePromotion = (
-  set: SetState,
-  state: ChessRepertoireStore,
-  promotion: PieceSymbol,
-) => {
-  const { pendingPromotionMove, chess } = state;
+export const handlePromotion = (set: SetState, promotion: PieceSymbol) => {
+  const { pendingPromotionMove, chess, pgn } = getNonReactiveState();
 
   if (!pendingPromotionMove) return Promise.resolve();
 
@@ -58,12 +48,11 @@ export const handlePromotion = (
     },
     getPrioritySetting(),
   );
-  addMoveToPgn(state.pgn, pendingPromotionMove.san, chess.history());
+  addMoveToPgn(pgn, pendingPromotionMove.san, chess.history());
   chess.move({ ...pendingPromotionMove, promotion });
 
   return handlePositionStateChange({
     set,
-    state,
     promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
   });
 };

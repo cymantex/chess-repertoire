@@ -1,57 +1,54 @@
 import { NavigationSlice, SetState } from "@/store/zustand/defs.ts";
 import {
+  getNonReactiveState,
   handlePositionStateChange,
-  withNonReactiveState,
 } from "@/store/zustand/utils.ts";
 import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
+import { selectChess } from "@/store/zustand/selectors.ts";
 
 export const createNavigationSlice = (set: SetState): NavigationSlice => ({
-  goToFirstMove: () =>
-    withNonReactiveState((state) => {
-      const { chess } = state;
+  goToFirstMove: () => {
+    const chess = selectChess(getNonReactiveState());
 
-      chess.reset();
+    chess.reset();
 
-      return handlePositionStateChange({ set, state });
-    }),
-  goToPreviousMove: async () =>
-    withNonReactiveState((state) => {
-      const { chess } = state;
+    return handlePositionStateChange({ set });
+  },
 
-      chess.undo();
+  goToPreviousMove: async () => {
+    const chess = selectChess(getNonReactiveState());
 
-      return handlePositionStateChange({ set, state });
-    }),
-  goToNextMove: async () =>
-    withNonReactiveState((state) => {
-      const { chess } = state;
+    chess.undo();
 
-      const nextMove = findNextMove(state.pgn, chess.history());
+    return handlePositionStateChange({ set });
+  },
 
-      if (nextMove) {
-        chess.move(nextMove.data.san);
-      } else {
-        return Promise.resolve();
-      }
+  goToNextMove: async () => {
+    const { chess, pgn } = getNonReactiveState();
 
-      return handlePositionStateChange({ set, state });
-    }),
-  goToLastMove: async () =>
-    withNonReactiveState((state) => {
-      const { chess } = state;
+    const nextMove = findNextMove(pgn, chess.history());
 
-      const remainingMainMoves = getRemainingMainMoves(
-        state.pgn,
-        chess.history(),
-      );
+    if (nextMove) {
+      chess.move(nextMove.data.san);
+    } else {
+      return Promise.resolve();
+    }
 
-      if (remainingMainMoves.length === 0) return Promise.resolve();
+    return handlePositionStateChange({ set });
+  },
 
-      remainingMainMoves.forEach((move) => chess.move(move));
+  goToLastMove: async () => {
+    const { chess, pgn } = getNonReactiveState();
 
-      return handlePositionStateChange({ set, state });
-    }),
+    const remainingMainMoves = getRemainingMainMoves(pgn, chess.history());
+
+    if (remainingMainMoves.length === 0) return Promise.resolve();
+
+    remainingMainMoves.forEach((move) => chess.move(move));
+
+    return handlePositionStateChange({ set });
+  },
 });
