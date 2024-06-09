@@ -13,6 +13,7 @@ import {
   upsertRepertoireMove,
 } from "@/store/idbActions.ts";
 import { Chess } from "chess.js";
+import { DEFAULT_SETTINGS } from "@/defs.ts";
 
 export const defaultPgn = (): Pgn => ({
   ...defaultGame(),
@@ -63,7 +64,11 @@ const importGame = async (game: Game<PgnNodeData>) => {
     }
 
     // TODO: priority
-    await upsertRepertoireMove(chess.fen(), { san: move.data.san });
+    await upsertRepertoireMove(
+      chess.fen(),
+      { san: move.data.san },
+      DEFAULT_SETTINGS.prioritySetting,
+    );
 
     chess.move(move.data.san);
 
