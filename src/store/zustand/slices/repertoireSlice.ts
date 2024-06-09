@@ -1,6 +1,6 @@
 import {
-  deleteMove,
-  setRepertoireShapes,
+  deleteRepertoireMove,
+  setRepertoirePositionShapes,
   upsertRepertoireMove,
 } from "@/store/repertoireRepository.ts";
 import {
@@ -16,7 +16,7 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
 
   setShapes: async (shapes) => {
     const fen = selectFen(getNonReactiveState());
-    await setRepertoireShapes(fen, shapes);
+    await setRepertoirePositionShapes(fen, shapes);
     return updateCurrentRepertoirePosition(set, fen);
   },
   upsertMove: async (fen, repertoireMove, prioritySetting) => {
@@ -24,7 +24,7 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
     return updateCurrentRepertoirePosition(set, fen);
   },
   deleteMove: async (fen, san) => {
-    await deleteMove(fen, san);
+    await deleteRepertoireMove(fen, san);
     return updateCurrentRepertoirePosition(set, fen);
   },
   getCurrentRepertoirePosition: () =>
