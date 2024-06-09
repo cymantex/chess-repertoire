@@ -13,7 +13,7 @@ import {
   selectGoToPreviousMove,
   selectRotate,
 } from "@/store/zustand/selectors.ts";
-import { PrioritySettings } from "@/components/RepertoireSidebar/components/NavigationMenu/components/PrioritySettings.tsx";
+import { PrioritySettings } from "@/components/reused/PrioritySettings.tsx";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
