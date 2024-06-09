@@ -4,22 +4,21 @@ import {
   upsertRepertoireMove,
 } from "@/store/repertoireRepository.ts";
 import {
+  getNonReactiveState,
   updateCurrentRepertoirePositionData,
-  withNonReactiveState,
 } from "@/store/zustand/utils.ts";
 import { RepertoireSlice, SetState } from "@/store/zustand/defs.ts";
 import { DEFAULT_POSITION_DATA } from "@/defs.ts";
+import { selectFen } from "@/store/zustand/selectors.ts";
 
 export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
   currentRepertoirePositionData: DEFAULT_POSITION_DATA,
 
-  setShapes: async (shapes) =>
-    withNonReactiveState(async (state) => {
-      const { chess } = state;
-      const fen = chess.fen();
-      await setRepertoireShapes(fen, shapes);
-      return updateCurrentRepertoirePositionData(set, fen);
-    }),
+  setShapes: async (shapes) => {
+    const fen = selectFen(getNonReactiveState());
+    await setRepertoireShapes(fen, shapes);
+    return updateCurrentRepertoirePositionData(set, fen);
+  },
   upsertMove: async (fen, repertoireMove, prioritySetting) => {
     await upsertRepertoireMove(fen, repertoireMove, prioritySetting);
     return updateCurrentRepertoirePositionData(set, fen);
@@ -29,7 +28,5 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
     return updateCurrentRepertoirePositionData(set, fen);
   },
   getCurrentRepertoirePositionData: () =>
-    withNonReactiveState(async (state) =>
-      updateCurrentRepertoirePositionData(set, state.chess.fen()),
-    ),
+    updateCurrentRepertoirePositionData(set, selectFen(getNonReactiveState())),
 });
