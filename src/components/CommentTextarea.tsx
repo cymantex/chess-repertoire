@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { upsertRepertoireComment } from "@/store/repertoireRepository.ts";
+import { setRepertoirePositionComment } from "@/store/repertoireRepository.ts";
 
 interface CommentTextareaProps {
   fen: string;
@@ -28,7 +28,7 @@ export const CommentTextarea = ({
           // TODO: Error handling
           // Deliberately not updating the store here since it could lead
           // to excessive state updates
-          return upsertRepertoireComment(fen, e.target.value);
+          return setRepertoirePositionComment(fen, e.target.value);
         }}
       />
     </label>

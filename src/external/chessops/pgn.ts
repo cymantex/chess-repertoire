@@ -9,7 +9,7 @@ import {
 import { Pgn } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
 import {
-  upsertRepertoireComment,
+  setRepertoirePositionComment,
   upsertRepertoireMove,
 } from "@/store/repertoireRepository.ts";
 import { Chess } from "chess.js";
@@ -57,7 +57,7 @@ const importGame = async (game: Game<PgnNodeData>) => {
   // old copy of the data
   for (const move of mainLine) {
     if (move.data.startingComments) {
-      await upsertRepertoireComment(
+      await setRepertoirePositionComment(
         chess.fen(),
         move.data.startingComments.join(""),
       );
@@ -73,7 +73,10 @@ const importGame = async (game: Game<PgnNodeData>) => {
     chess.move(move.data.san);
 
     if (move.data.comments) {
-      await upsertRepertoireComment(chess.fen(), move.data.comments.join(""));
+      await setRepertoirePositionComment(
+        chess.fen(),
+        move.data.comments.join(""),
+      );
     }
   }
 

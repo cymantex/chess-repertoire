@@ -12,7 +12,7 @@ import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 export const getRepertoirePosition = async (fen: string) =>
   idbGet<RepertoirePosition>(fen);
 
-export const deleteMove = async (fen: string, san: string) =>
+export const deleteRepertoireMove = async (fen: string, san: string) =>
   idbUpsert<RepertoirePosition>(
     fen,
     DEFAULT_REPERTOIRE_POSITION,
@@ -76,7 +76,10 @@ export const upsertRepertoireMove = async (
   );
 };
 
-export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
+export const setRepertoirePositionShapes = async (
+  fen: string,
+  shapes: DrawShape[],
+) =>
   idbUpsert<RepertoirePosition>(
     fen,
     { ...DEFAULT_REPERTOIRE_POSITION, shapes },
@@ -86,7 +89,10 @@ export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
     }),
   );
 
-export const upsertRepertoireComment = async (fen: string, comment: string) =>
+export const setRepertoirePositionComment = async (
+  fen: string,
+  comment: string,
+) =>
   idbUpsert<RepertoirePosition>(
     fen,
     { ...DEFAULT_REPERTOIRE_POSITION, comment },
