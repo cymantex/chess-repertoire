@@ -1,4 +1,4 @@
-import { ChessRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { ChessRepertoireStore } from "@/store/zustand/defs.ts";
 
 export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.pgn.fen;

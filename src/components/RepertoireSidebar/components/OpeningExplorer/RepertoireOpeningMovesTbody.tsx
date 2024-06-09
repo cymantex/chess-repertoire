@@ -1,11 +1,11 @@
 import { OpeningExplorerMove } from "@/defs.ts";
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionMoves,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
-} from "@/store/selectors.ts";
+} from "@/store/zustand/selectors.ts";
 import {
   calcTotalGames,
   toOrderedRepertoireOpeningExplorerMoves,

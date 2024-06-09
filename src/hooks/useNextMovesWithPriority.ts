@@ -1,8 +1,8 @@
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionMoves,
-} from "@/store/selectors.ts";
+} from "@/store/zustand/selectors.ts";
 import { findNextMoves } from "@/external/chessjs/utils.ts";
 
 export const useNextMovesWithPriority = () => {

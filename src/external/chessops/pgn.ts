@@ -11,7 +11,7 @@ import { INITIAL_FEN } from "chessops/fen";
 import {
   upsertRepertoireComment,
   upsertRepertoireMove,
-} from "@/store/idbActions.ts";
+} from "@/store/repertoireRepository.ts";
 import { Chess } from "chess.js";
 import { DEFAULT_SETTINGS } from "@/defs.ts";
 

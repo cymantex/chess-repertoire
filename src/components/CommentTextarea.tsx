@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { upsertRepertoireComment } from "@/store/idbActions.ts";
+import { upsertRepertoireComment } from "@/store/repertoireRepository.ts";
 
 interface CommentTextareaProps {
   fen: string;

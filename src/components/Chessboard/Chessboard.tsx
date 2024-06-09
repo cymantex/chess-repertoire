@@ -3,7 +3,7 @@ import { PromotionSelection } from "@/components/Chessboard/PromotionSelection/P
 import "@/external/chessground/assets/chessground.base.css";
 import "@/external/chessground/assets/chessground.cardinal.css";
 import "@/external/chessground/assets/chessground.blue2.css";
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionShapes,
@@ -11,7 +11,7 @@ import {
   selectHandleChessgroundMove,
   selectOrientation,
   selectSetShapes,
-} from "@/store/selectors.ts";
+} from "@/store/zustand/selectors.ts";
 import {
   calcPossibleDestinations,
   determineTurnColor,

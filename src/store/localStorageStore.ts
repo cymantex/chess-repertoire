@@ -1,6 +1,7 @@
 import { isEqual } from "lodash";
 import { DEFAULT_SETTINGS, RepertoireSettings, SETTINGS_KEY } from "@/defs.ts";
 import { getObject, upsertObject } from "local-storage-superjson";
+import { useSyncExternalStore } from "react";
 
 const subscribers = new Set<() => void>();
 
@@ -36,7 +37,13 @@ export const localStorageStore = {
   },
 };
 
-export const getRepertoireSettings = () =>
+export const getPrioritySetting = () => getRepertoireSettings().prioritySetting;
+
+const getRepertoireSettings = () =>
   getObject<RepertoireSettings>(SETTINGS_KEY) ?? DEFAULT_SETTINGS;
 
-export const getPrioritySetting = () => getRepertoireSettings().prioritySetting;
+export const useRepertoireSettings = () =>
+  useSyncExternalStore(
+    localStorageStore.subscribe,
+    localStorageStore.getRepertoireSettingsSnapshot,
+  );

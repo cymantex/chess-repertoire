@@ -1,7 +1,7 @@
 import { Move } from "chess.js";
 import { DrawShape } from "chessground/draw";
-import { useRepertoireStore } from "@/store/useRepertoireStore.ts";
-import { selectHoveredOpeningMove } from "@/store/selectors.ts";
+import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { selectHoveredOpeningMove } from "@/store/zustand/selectors.ts";
 import { orderBy, uniqBy } from "lodash";
 import { useNextMovesWithPriority } from "@/hooks/useNextMovesWithPriority.ts";
 import { PRIORITY_SVG, PriorityMove } from "@/defs.ts";
