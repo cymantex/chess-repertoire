@@ -53,6 +53,6 @@ export const handlePromotion = (set: SetState, promotion: PieceSymbol) => {
 
   return handlePositionStateChange({
     set,
-    promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
+    promisesToResolveBeforeUpdatingRepertoirePosition: [upsertPromise],
   });
 };

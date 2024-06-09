@@ -3,7 +3,7 @@ import {
   PrioritySetting,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
-  RepertoirePositionData,
+  RepertoirePosition,
 } from "@/defs.ts";
 import { Pgn } from "@/external/chessops/defs.ts";
 import { CgColor } from "@/external/chessground/defs.tsx";
@@ -37,8 +37,8 @@ export interface ChessgroundSlice {
 }
 
 export interface RepertoireSlice {
-  currentRepertoirePositionData: RepertoirePositionData;
-  getCurrentRepertoirePositionData: () => Promise<void>;
+  currentRepertoirePosition: RepertoirePosition;
+  getCurrentRepertoirePosition: () => Promise<void>;
   upsertMove: (
     fen: string,
     repertoireMove: RepertoireMove,

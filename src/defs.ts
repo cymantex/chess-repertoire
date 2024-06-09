@@ -80,7 +80,7 @@ export interface RepertoireMove {
   priority?: RepertoireMovePriority;
 }
 
-export interface RepertoirePositionData {
+export interface RepertoirePosition {
   moves?: RepertoireMove[];
   comment?: string;
   shapes?: DrawShape[];
@@ -110,4 +110,4 @@ export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   prioritySetting: REPERTOIRE_MOVE_PRIORITY.KING,
 };
-export const DEFAULT_POSITION_DATA = { moves: [] };
+export const DEFAULT_REPERTOIRE_POSITION = { moves: [] };

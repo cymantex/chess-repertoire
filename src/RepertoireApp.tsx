@@ -9,7 +9,7 @@ import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
 import {
   selectCurrentRepertoirePositionComment,
   selectFen,
-  selectGetCurrentRepertoirePositionData,
+  selectGetCurrentRepertoirePosition,
 } from "@/store/zustand/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
@@ -18,15 +18,15 @@ export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
   const positionComment =
     useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";
-  const getCurrentRepertoirePositionData = useRepertoireStore(
-    selectGetCurrentRepertoirePositionData,
+  const getCurrentRepertoirePosition = useRepertoireStore(
+    selectGetCurrentRepertoirePosition,
   );
 
   useKeyboardShortcuts();
 
   // TODO: Improve handling of initial data fetching
   useEffect(() => {
-    getCurrentRepertoirePositionData();
+    getCurrentRepertoirePosition();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

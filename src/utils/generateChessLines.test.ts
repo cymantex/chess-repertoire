@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 import {
   FEN_STARTING_POSITION,
   REPERTOIRE_MOVE_PRIORITY,
-  RepertoirePositionData,
+  RepertoirePosition,
 } from "@/defs.ts";
 import { generateChessLines } from "@/utils/generateChessLines.ts";
 import { toPgn } from "@/external/chessjs/utils.ts";
@@ -14,12 +14,10 @@ const FEN_SICILIAN_NF3 =
   "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
 const expectedHeader = `[Result "*"]\n\n`;
 
-const toPgnList = async (
-  repertoire: Record<string, RepertoirePositionData>,
-) => {
+const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
   const chessList = [];
   const generator = generateChessLines({
-    getRepertoirePositionData: (fen) => Promise.resolve(repertoire[fen]),
+    getRepertoirePosition: (fen) => Promise.resolve(repertoire[fen]),
     position: repertoire[FEN_STARTING_POSITION],
     previousMoves: [],
   });
