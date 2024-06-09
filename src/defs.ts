@@ -6,6 +6,7 @@ import {
   WHITE_QUEEN_SVG,
   WHITE_ROOK_SVG,
 } from "@/external/chessground/defs.tsx";
+import { DrawShape } from "chessground/draw";
 
 export const FEN_STARTING_POSITION =
   "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -82,6 +83,7 @@ export interface RepertoireMove {
 export interface RepertoirePositionData {
   moves?: RepertoireMove[];
   comment?: string;
+  shapes?: DrawShape[];
 }
 
 export type RepertoireOpeningExplorerMove =

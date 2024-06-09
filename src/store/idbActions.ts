@@ -8,6 +8,7 @@ import {
 } from "@/defs.ts";
 import { upsertIdbObject } from "@/store/database/idpUtils.ts";
 import { get } from "idb-keyval";
+import { DrawShape } from "chessground/draw";
 
 export const getPositionData = async (fen: string) =>
   get<RepertoirePositionData>(fen);
@@ -22,7 +23,6 @@ export const deleteMove = async (fen: string, san: string) =>
     }),
   );
 
-// TODO: Take PrioritySettings as an argument instead
 export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,
@@ -76,6 +76,16 @@ export const upsertRepertoireMove = async (
     },
   );
 };
+
+export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
+  upsertIdbObject<RepertoirePositionData>(
+    fen,
+    { ...DEFAULT_POSITION_DATA, shapes },
+    (data) => ({
+      ...data,
+      shapes,
+    }),
+  );
 
 export const upsertRepertoireComment = async (fen: string, comment: string) =>
   upsertIdbObject<RepertoirePositionData>(
