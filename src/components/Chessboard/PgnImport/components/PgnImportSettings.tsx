@@ -1,4 +1,4 @@
-import { PrioritySettings } from "@/components/RepertoireSidebar/components/NavigationMenu/components/PrioritySettings.tsx";
+import { PrioritySettings } from "@/components/reused/PrioritySettings.tsx";
 
 interface PgnImportSettingsProps {
   playerNames: string[];

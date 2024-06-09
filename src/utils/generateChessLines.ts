@@ -47,7 +47,7 @@ const createChess = async (
   previousMoves: string[],
 ) => {
   const chess = new Chess();
-  await setRepertoireCommentForCurrentPosition(chess, getRepertoirePosition);
+  await setCurrentRepertoirePositionComment(chess, getRepertoirePosition);
 
   for (const san of previousMoves) {
     const priorityComment = await getPriorityCommentForNextMove(
@@ -56,7 +56,7 @@ const createChess = async (
       san,
     );
     chess.move(san);
-    await setRepertoireCommentForCurrentPosition(
+    await setCurrentRepertoirePositionComment(
       chess,
       getRepertoirePosition,
       priorityComment,
@@ -77,7 +77,7 @@ const makeMove = async (
     move.san,
   );
   chess.move(move.san);
-  await setRepertoireCommentForCurrentPosition(
+  await setCurrentRepertoirePositionComment(
     chess,
     getRepertoirePosition,
     priorityComment,
@@ -99,7 +99,7 @@ const getPriorityCommentForNextMove = async (
   }
 };
 
-const setRepertoireCommentForCurrentPosition = async (
+const setCurrentRepertoirePositionComment = async (
   chess: Chess,
   getRepertoirePosition: GetRepertoirePosition,
   priorityComment?: string,
