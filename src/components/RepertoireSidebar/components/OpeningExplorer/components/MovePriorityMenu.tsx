@@ -42,7 +42,7 @@ export const MovePriorityMenu = ({ move }: MovePriorityMenuProps) => {
           san: move.san,
           priority: priority === databaseMove?.priority ? undefined : priority,
         },
-        false,
+        priority,
       );
     };
 

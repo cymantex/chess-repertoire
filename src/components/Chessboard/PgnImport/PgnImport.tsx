@@ -8,6 +8,7 @@ export const PgnImport = () => {
   const [file, setFile] = useState<File | null>(null);
   const [playerNames, setPlayerNames] = useState<string[]>([]);
   const [, setPlayerName] = useState<string | null>(null);
+  const [includeComments, setIncludeComments] = useState<boolean>(true);
 
   return (
     <div className="hidden md:block">
@@ -25,7 +26,14 @@ export const PgnImport = () => {
           >
             ✕
           </button>
-          <h3 className="font-bold text-lg mb-4">Import PGN</h3>
+          <h3 className="font-bold text-lg mb-5">Import PGN</h3>
+          <div role="alert" className="alert shadow-lg mb-5">
+            <div>
+              <div className="text-xs">
+                New moves from the PGN will be added to your repertoire.
+              </div>
+            </div>
+          </div>
           <hr className="border-base-200" />
           <PgnFileInput
             onFileUpload={(file, playerNames) => {
@@ -37,6 +45,8 @@ export const PgnImport = () => {
             <PgnImportSettings
               playerNames={playerNames}
               onSelectPlayerName={setPlayerName}
+              includeComments={includeComments}
+              onToggleIncludeComments={setIncludeComments}
             />
           )}
           <div className="modal-action">

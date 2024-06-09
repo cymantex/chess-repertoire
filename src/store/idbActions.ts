@@ -1,11 +1,11 @@
 import {
   DEFAULT_POSITION_DATA,
   PRIORITY_SETTING,
+  PrioritySetting,
   RepertoireMove,
   RepertoireMovePriority,
   RepertoirePositionData,
 } from "@/defs.ts";
-import { getRepertoireSettings } from "@/store/database/localStorageStore.ts";
 import { upsertIdbObject } from "@/store/database/idpUtils.ts";
 import { get } from "idb-keyval";
 
@@ -26,22 +26,14 @@ export const deleteMove = async (fen: string, san: string) =>
 export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,
-  respectPrioritySettings = true,
+  prioritySetting: PrioritySetting,
 ) => {
-  const { prioritySetting } = getRepertoireSettings();
-
-  if (
-    respectPrioritySettings &&
-    prioritySetting === PRIORITY_SETTING.DONT_SAVE
-  ) {
+  if (prioritySetting === PRIORITY_SETTING.DONT_SAVE) {
     return Promise.resolve();
   }
 
   const withSelectedAutomaticPriority = (move: RepertoireMove) => {
-    if (
-      respectPrioritySettings &&
-      prioritySetting === PRIORITY_SETTING.NO_PRIORITY
-    ) {
+    if (prioritySetting === PRIORITY_SETTING.NO_PRIORITY) {
       return move;
     }
 
