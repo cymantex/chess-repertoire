@@ -1,5 +1,5 @@
 import {
-  getPositionData,
+  getRepertoirePosition,
   upsertRepertoireMove,
 } from "@/store/repertoireRepository.ts";
 import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
@@ -16,11 +16,11 @@ import { addMoveToPgn } from "@/external/chessops/pgn.ts";
 export const handlePositionStateChange = async ({
   set,
   newState,
-  promisesToResolveBeforeUpdatingPositionData = [],
+  promisesToResolveBeforeUpdatingRepertoirePosition = [],
 }: {
   set: SetState;
   newState?: Partial<ChessRepertoireStore>;
-  promisesToResolveBeforeUpdatingPositionData?: Promise<void>[];
+  promisesToResolveBeforeUpdatingRepertoirePosition?: Promise<void>[];
 }): Promise<void> => {
   const state = getNonReactiveState();
   const fen = state.chess.fen();
@@ -38,17 +38,17 @@ export const handlePositionStateChange = async ({
   });
 
   // Repository related async state can wait to be updated
-  await Promise.all(promisesToResolveBeforeUpdatingPositionData);
+  await Promise.all(promisesToResolveBeforeUpdatingRepertoirePosition);
 
-  return updateCurrentRepertoirePositionData(set, state.chess.fen());
+  return updateCurrentRepertoirePosition(set, state.chess.fen());
 };
 
-export const updateCurrentRepertoirePositionData = async (
+export const updateCurrentRepertoirePosition = async (
   set: SetState,
   fen: string,
 ) => {
-  const data = await getPositionData(fen);
-  set({ currentRepertoirePositionData: data });
+  const data = await getRepertoirePosition(fen);
+  set({ currentRepertoirePosition: data });
 };
 
 export const handleMove = async (
@@ -83,7 +83,7 @@ export const handleMove = async (
   if (nextMove) {
     return handlePositionStateChange({
       set,
-      promisesToResolveBeforeUpdatingPositionData: [upsertPromise],
+      promisesToResolveBeforeUpdatingRepertoirePosition: [upsertPromise],
     });
   }
 };

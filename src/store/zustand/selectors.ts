@@ -10,18 +10,18 @@ export const selectUpsertMove = (state: ChessRepertoireStore) =>
 export const selectDeleteMove = (state: ChessRepertoireStore) =>
   state.deleteMove;
 export const selectSetShapes = (state: ChessRepertoireStore) => state.setShapes;
-export const selectGetCurrentRepertoirePositionData = (
+export const selectGetCurrentRepertoirePosition = (
   state: ChessRepertoireStore,
-) => state.getCurrentRepertoirePositionData;
+) => state.getCurrentRepertoirePosition;
 export const selectCurrentRepertoirePositionComment = (
   state: ChessRepertoireStore,
-) => state.currentRepertoirePositionData?.comment;
+) => state.currentRepertoirePosition?.comment;
 export const selectCurrentRepertoirePositionMoves = (
   state: ChessRepertoireStore,
-) => state.currentRepertoirePositionData?.moves;
+) => state.currentRepertoirePosition?.moves;
 export const selectCurrentRepertoirePositionShapes = (
   state: ChessRepertoireStore,
-) => state.currentRepertoirePositionData?.shapes;
+) => state.currentRepertoirePosition?.shapes;
 
 // Chessground
 export const selectOrientation = (state: ChessRepertoireStore) =>

@@ -1,21 +1,22 @@
 import {
-  DEFAULT_POSITION_DATA,
+  DEFAULT_REPERTOIRE_POSITION,
   PRIORITY_SETTING,
   PrioritySetting,
   RepertoireMove,
   RepertoireMovePriority,
-  RepertoirePositionData,
+  RepertoirePosition,
 } from "@/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 
-export const getPositionData = async (fen: string) => idbGet(fen);
+export const getRepertoirePosition = async (fen: string) =>
+  idbGet<RepertoirePosition>(fen);
 
 export const deleteMove = async (fen: string, san: string) =>
-  idbUpsert<RepertoirePositionData>(
+  idbUpsert<RepertoirePosition>(
     fen,
-    DEFAULT_POSITION_DATA,
-    (data: RepertoirePositionData) => ({
+    DEFAULT_REPERTOIRE_POSITION,
+    (data: RepertoirePosition) => ({
       ...data,
       moves: data.moves?.filter((move) => move.san !== san),
     }),
@@ -41,10 +42,10 @@ export const upsertRepertoireMove = async (
     };
   };
 
-  return idbUpsert<RepertoirePositionData>(
+  return idbUpsert<RepertoirePosition>(
     fen,
     { moves: [withSelectedAutomaticPriority(repertoireMove)] },
-    (data: RepertoirePositionData) => {
+    (data: RepertoirePosition) => {
       const { moves } = data;
 
       if (!moves) {
@@ -76,9 +77,9 @@ export const upsertRepertoireMove = async (
 };
 
 export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
-  idbUpsert<RepertoirePositionData>(
+  idbUpsert<RepertoirePosition>(
     fen,
-    { ...DEFAULT_POSITION_DATA, shapes },
+    { ...DEFAULT_REPERTOIRE_POSITION, shapes },
     (data) => ({
       ...data,
       shapes,
@@ -86,9 +87,9 @@ export const setRepertoireShapes = async (fen: string, shapes: DrawShape[]) =>
   );
 
 export const upsertRepertoireComment = async (fen: string, comment: string) =>
-  idbUpsert<RepertoirePositionData>(
+  idbUpsert<RepertoirePosition>(
     fen,
-    { ...DEFAULT_POSITION_DATA, comment },
+    { ...DEFAULT_REPERTOIRE_POSITION, comment },
     (data) => ({
       ...data,
       comment,

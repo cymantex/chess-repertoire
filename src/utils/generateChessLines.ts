@@ -2,37 +2,37 @@
 import {
   PRIORITY_PGN_COMMENT_PREFIX,
   RepertoireMove,
-  RepertoirePositionData,
+  RepertoirePosition,
 } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNumber } from "lodash";
 
-type GetRepertoirePositionData = (
+type GetRepertoirePosition = (
   fen: string,
-) => Promise<RepertoirePositionData | undefined>;
+) => Promise<RepertoirePosition | undefined>;
 
 interface GenerateChessLinesProps {
-  getRepertoirePositionData: GetRepertoirePositionData;
-  position: RepertoirePositionData | undefined;
+  getRepertoirePosition: GetRepertoirePosition;
+  position: RepertoirePosition | undefined;
   previousMoves: string[];
 }
 
 export async function* generateChessLines({
-  getRepertoirePositionData,
+  getRepertoirePosition,
   position,
   previousMoves,
 }: GenerateChessLinesProps): AsyncGenerator<Chess> {
   if (!position) return;
 
   for (const move of position.moves!) {
-    const chess = await createChess(getRepertoirePositionData, previousMoves);
-    await makeMove(chess, getRepertoirePositionData, move);
+    const chess = await createChess(getRepertoirePosition, previousMoves);
+    await makeMove(chess, getRepertoirePosition, move);
 
-    const nextPosition = await getRepertoirePositionData(chess.fen());
+    const nextPosition = await getRepertoirePosition(chess.fen());
 
     if (hasMoves(nextPosition)) {
       yield* generateChessLines({
-        getRepertoirePositionData,
+        getRepertoirePosition,
         position: nextPosition!,
         previousMoves: chess.history(),
       });
@@ -43,25 +43,22 @@ export async function* generateChessLines({
 }
 
 const createChess = async (
-  getRepertoirePositionData: GetRepertoirePositionData,
+  getRepertoirePosition: GetRepertoirePosition,
   previousMoves: string[],
 ) => {
   const chess = new Chess();
-  await setRepertoireCommentForCurrentPosition(
-    chess,
-    getRepertoirePositionData,
-  );
+  await setRepertoireCommentForCurrentPosition(chess, getRepertoirePosition);
 
   for (const san of previousMoves) {
     const priorityComment = await getPriorityCommentForNextMove(
       chess,
-      getRepertoirePositionData,
+      getRepertoirePosition,
       san,
     );
     chess.move(san);
     await setRepertoireCommentForCurrentPosition(
       chess,
-      getRepertoirePositionData,
+      getRepertoirePosition,
       priorityComment,
     );
   }
@@ -71,29 +68,29 @@ const createChess = async (
 
 const makeMove = async (
   chess: Chess,
-  getRepertoirePositionData: GetRepertoirePositionData,
+  getRepertoirePosition: GetRepertoirePosition,
   move: RepertoireMove,
 ) => {
   const priorityComment = await getPriorityCommentForNextMove(
     chess,
-    getRepertoirePositionData,
+    getRepertoirePosition,
     move.san,
   );
   chess.move(move.san);
   await setRepertoireCommentForCurrentPosition(
     chess,
-    getRepertoirePositionData,
+    getRepertoirePosition,
     priorityComment,
   );
 };
 
 const getPriorityCommentForNextMove = async (
   chess: Chess,
-  getRepertoirePositionData: GetRepertoirePositionData,
+  getRepertoirePosition: GetRepertoirePosition,
   nextSan: string,
 ) => {
-  const repertoirePositionData = await getRepertoirePositionData(chess.fen());
-  const nextMove = repertoirePositionData?.moves?.find(
+  const repertoirePosition = await getRepertoirePosition(chess.fen());
+  const nextMove = repertoirePosition?.moves?.find(
     (move) => move.san === nextSan,
   );
 
@@ -104,11 +101,11 @@ const getPriorityCommentForNextMove = async (
 
 const setRepertoireCommentForCurrentPosition = async (
   chess: Chess,
-  getRepertoirePositionData: GetRepertoirePositionData,
+  getRepertoirePosition: GetRepertoirePosition,
   priorityComment?: string,
 ) => {
-  const repertoirePositionData = await getRepertoirePositionData(chess.fen());
-  const comment = repertoirePositionData?.comment;
+  const repertoirePosition = await getRepertoirePosition(chess.fen());
+  const comment = repertoirePosition?.comment;
 
   if (comment) {
     chess.setComment(comment + (priorityComment ?? ""));
@@ -117,7 +114,7 @@ const setRepertoireCommentForCurrentPosition = async (
   }
 };
 
-const hasMoves = (nextPosition?: RepertoirePositionData) =>
+const hasMoves = (nextPosition?: RepertoirePosition) =>
   nextPosition &&
   nextPosition?.moves?.length &&
   nextPosition?.moves?.length > 0;
