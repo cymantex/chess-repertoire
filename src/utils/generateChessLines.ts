@@ -1,13 +1,8 @@
 // @ts-ignore
-import {
-  PRIORITY_PGN_COMMENT_PREFIX,
-  RepertoireMove,
-  RepertoirePosition,
-} from "@/defs.ts";
+import { RepertoireMove, RepertoirePosition } from "@/defs.ts";
 import { Chess } from "chess.js";
-import { isNumber } from "lodash";
 
-type GetRepertoirePosition = (
+export type GetRepertoirePosition = (
   fen: string,
 ) => Promise<RepertoirePosition | undefined>;
 
@@ -47,20 +42,10 @@ const createChess = async (
   previousMoves: string[],
 ) => {
   const chess = new Chess();
-  await setCurrentRepertoirePositionComment(chess, getRepertoirePosition);
+  await setRepertoirePositionHeader(chess, getRepertoirePosition);
 
   for (const san of previousMoves) {
-    const priorityComment = await getPriorityCommentForNextMove(
-      chess,
-      getRepertoirePosition,
-      san,
-    );
-    chess.move(san);
-    await setCurrentRepertoirePositionComment(
-      chess,
-      getRepertoirePosition,
-      priorityComment,
-    );
+    await makeMove(chess, getRepertoirePosition, { san });
   }
 
   return chess;
@@ -71,46 +56,19 @@ const makeMove = async (
   getRepertoirePosition: GetRepertoirePosition,
   move: RepertoireMove,
 ) => {
-  const priorityComment = await getPriorityCommentForNextMove(
-    chess,
-    getRepertoirePosition,
-    move.san,
-  );
   chess.move(move.san);
-  await setCurrentRepertoirePositionComment(
-    chess,
-    getRepertoirePosition,
-    priorityComment,
-  );
+  await setRepertoirePositionHeader(chess, getRepertoirePosition);
 };
 
-const getPriorityCommentForNextMove = async (
+const setRepertoirePositionHeader = async (
   chess: Chess,
   getRepertoirePosition: GetRepertoirePosition,
-  nextSan: string,
-) => {
-  const repertoirePosition = await getRepertoirePosition(chess.fen());
-  const nextMove = repertoirePosition?.moves?.find(
-    (move) => move.san === nextSan,
-  );
-
-  if (isNumber(nextMove?.priority)) {
-    return `${PRIORITY_PGN_COMMENT_PREFIX}${nextMove.priority}`;
-  }
-};
-
-const setCurrentRepertoirePositionComment = async (
-  chess: Chess,
-  getRepertoirePosition: GetRepertoirePosition,
-  priorityComment?: string,
 ) => {
   const repertoirePosition = await getRepertoirePosition(chess.fen());
   const comment = repertoirePosition?.comment;
 
   if (comment) {
-    chess.setComment(comment + (priorityComment ?? ""));
-  } else if (priorityComment) {
-    chess.setComment(priorityComment);
+    chess.setComment(comment);
   }
 };
 

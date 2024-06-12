@@ -1,6 +1,6 @@
 import {
+  AnnotatedMove,
   OpeningExplorerMove,
-  PriorityMove,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
 } from "@/defs.ts";
@@ -8,7 +8,7 @@ import { Chess } from "chess.js";
 import { toRepertoireOpeningExplorerMoves } from "@/external/chessjs/utils.ts";
 import { isNumber, orderBy, uniqBy } from "lodash";
 
-const NUMBER_LARGER_THAN_LOWEST_PRIORITY = 1000;
+const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;
 
 export const calcTotalGames = (move: RepertoireOpeningExplorerMove) => {
@@ -17,11 +17,11 @@ export const calcTotalGames = (move: RepertoireOpeningExplorerMove) => {
 };
 
 const isOpeningExplorerMove = (
-  move: OpeningExplorerMove | PriorityMove,
+  move: OpeningExplorerMove | AnnotatedMove,
 ): move is OpeningExplorerMove =>
   (move as OpeningExplorerMove).averageRating !== undefined;
 
-const orderByPriorityThenInRepertoireThenTotalGames = (
+const orderByAnnotationThenInRepertoireThenTotalGames = (
   moves: RepertoireOpeningExplorerMove[],
   repertoireMoves: RepertoireMove[],
 ) =>
@@ -30,11 +30,11 @@ const orderByPriorityThenInRepertoireThenTotalGames = (
     (move) => {
       const repertoireMove = repertoireMoves.find((m) => m.san === move.san);
 
-      if (isNumber(repertoireMove?.priority))
-        return NUMBER_LARGER_THAN_TOTAL_GAMES - repertoireMove.priority;
+      if (isNumber(repertoireMove?.annotation))
+        return NUMBER_LARGER_THAN_TOTAL_GAMES - repertoireMove?.annotation;
       if (repertoireMove)
         return (
-          NUMBER_LARGER_THAN_TOTAL_GAMES - NUMBER_LARGER_THAN_LOWEST_PRIORITY
+          NUMBER_LARGER_THAN_TOTAL_GAMES - NUMBER_LARGER_THAN_WORST_ANNOTATION
         );
       if (isOpeningExplorerMove(move)) return calcTotalGames(move);
 
@@ -52,7 +52,7 @@ export const toOrderedRepertoireOpeningExplorerMoves = (
     chess,
     uniqBy([...moves, ...repertoireMoves], "san"),
   );
-  return orderByPriorityThenInRepertoireThenTotalGames(
+  return orderByAnnotationThenInRepertoireThenTotalGames(
     repertoireOpeningExplorerMoves,
     repertoireMoves,
   );

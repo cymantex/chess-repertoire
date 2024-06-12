@@ -1,4 +1,4 @@
-import { PrioritySettings } from "@/components/reused/PrioritySettings.tsx";
+import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
 
 interface PgnImportSettingsProps {
   playerNames: string[];
@@ -22,7 +22,7 @@ export const PgnImportSettings = ({
       <>
         <div className="label">
           <span className="label-text">
-            Only set priority for new moves done by player (optional):
+            Only set annotation for new moves done by player (optional):
           </span>
         </div>
         <select
@@ -41,8 +41,8 @@ export const PgnImportSettings = ({
     )}
     <div className="label mt-4">
       <div className="label-text flex items-center">
-        <PrioritySettings />
-        <span className="ml-2">Priority settings</span>
+        <AnnotationSettings />
+        <span className="ml-2">Annotation settings</span>
       </div>
     </div>
     <div className="form-control mt-4">
@@ -53,7 +53,9 @@ export const PgnImportSettings = ({
           checked={includeComments}
           onChange={(e) => onToggleIncludeComments(e.target.checked)}
         />
-        <span className="label-text ml-2">Include comments</span>
+        <span className="label-text ml-2">
+          Include comments (overwriting existing ones)
+        </span>
       </label>
     </div>
     <div className="divider" />

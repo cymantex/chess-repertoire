@@ -1,13 +1,13 @@
-import { NavigationSlice, SetState } from "@/store/zustand/defs.ts";
+import { NavigationSlice, SetState } from "@/stores/zustand/defs.ts";
 import {
   getNonReactiveState,
   handlePositionStateChange,
-} from "@/store/zustand/utils.ts";
+} from "@/stores/zustand/utils.ts";
 import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
-import { selectChess } from "@/store/zustand/selectors.ts";
+import { selectChess } from "@/stores/zustand/selectors.ts";
 
 export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   goToFirstMove: () => {

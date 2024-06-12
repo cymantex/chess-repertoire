@@ -1,10 +1,10 @@
-import { ChessRepertoireStore } from "@/store/zustand/defs.ts";
+import { ChessRepertoireStore } from "@/stores/zustand/defs.ts";
 
 export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.pgn.fen;
 export const selectPgn = (state: ChessRepertoireStore) => state.pgn;
 
-// IDB
+// Repertoire
 export const selectUpsertMove = (state: ChessRepertoireStore) =>
   state.upsertMove;
 export const selectDeleteMove = (state: ChessRepertoireStore) =>

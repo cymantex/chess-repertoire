@@ -5,15 +5,15 @@ import {
   FaStepBackward,
   FaStepForward,
 } from "react-icons/fa";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectGoToFirstMove,
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
   selectRotate,
-} from "@/store/zustand/selectors.ts";
-import { PrioritySettings } from "@/components/reused/PrioritySettings.tsx";
+} from "@/stores/zustand/selectors.ts";
+import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
@@ -24,7 +24,7 @@ export const NavigationMenu = () => {
 
   return (
     <div className="flex justify-evenly text-2xl">
-      <PrioritySettings />
+      <AnnotationSettings />
       <FaFastBackward className="cursor-pointer" onClick={goToFirstMove} />
       <FaStepBackward className="cursor-pointer" onClick={goToPreviousMove} />
       <FaStepForward className="cursor-pointer" onClick={goToNextMove} />

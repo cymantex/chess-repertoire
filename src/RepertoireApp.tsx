@@ -5,12 +5,12 @@ import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.t
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 
 import { exportPgnAsync } from "@/utils/pgn.ts";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectCurrentRepertoirePositionComment,
   selectFen,
   selectGetCurrentRepertoirePosition,
-} from "@/store/zustand/selectors.ts";
+} from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
 

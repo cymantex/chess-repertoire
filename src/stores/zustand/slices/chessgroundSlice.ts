@@ -1,16 +1,16 @@
-import { ChessgroundSlice, SetState } from "@/store/zustand/defs.ts";
+import { ChessgroundSlice, SetState } from "@/stores/zustand/defs.ts";
 import {
   getNonReactiveState,
   handleMove,
   handlePositionStateChange,
-} from "@/store/zustand/utils.ts";
-import { upsertRepertoireMove } from "@/store/repertoireRepository.ts";
+} from "@/stores/zustand/utils.ts";
+import { upsertRepertoireMove } from "@/stores/repertoireRepository.ts";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { PAWN } from "chess.js";
-import { getPrioritySetting } from "@/store/localStorageStore.ts";
+import { getAnnotationSetting } from "@/stores/localStorageStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
-import { selectChess } from "@/store/zustand/selectors.ts";
+import { selectChess } from "@/stores/zustand/selectors.ts";
 
 export const createChessgroundSlice = (set: SetState): ChessgroundSlice => ({
   orientation: CG_WHITE,
@@ -46,7 +46,7 @@ export const handlePromotion = (set: SetState, promotion: PieceSymbol) => {
     {
       san: pendingPromotionMove.san,
     },
-    getPrioritySetting(),
+    getAnnotationSetting(),
   );
   addMoveToPgn(pgn, pendingPromotionMove.san, chess.history());
   chess.move({ ...pendingPromotionMove, promotion });

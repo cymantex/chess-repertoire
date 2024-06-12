@@ -1,13 +1,14 @@
 import {
   getRepertoirePosition,
   upsertRepertoireMove,
-} from "@/store/repertoireRepository.ts";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
-import { ChessRepertoireStore, SetState } from "@/store/zustand/defs.ts";
+} from "@/stores/repertoireRepository.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
+import { ChessRepertoireStore, SetState } from "@/stores/zustand/defs.ts";
 import { Move } from "chess.js";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
-import { getPrioritySetting } from "@/store/localStorageStore.ts";
+import { getAnnotationSetting } from "@/stores/localStorageStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
+import { DEFAULT_REPERTOIRE_POSITION } from "@/defs.ts";
 
 /**
  * This function should always be called whenever a change in the position (FEN)
@@ -32,6 +33,7 @@ export const handlePositionStateChange = async ({
       ...state.pgn,
       fen,
     },
+    currentRepertoirePosition: DEFAULT_REPERTOIRE_POSITION,
     hoveredOpeningMove: null,
     pendingPromotionMove: null,
     ...newState,
@@ -74,7 +76,7 @@ export const handleMove = async (
     {
       san: pendingMove.san,
     },
-    getPrioritySetting(),
+    getAnnotationSetting(),
   );
 
   addMoveToPgn(state.pgn, pendingMove.san, chess.history());

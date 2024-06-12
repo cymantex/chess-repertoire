@@ -1,9 +1,9 @@
 import {
+  ANNOTATION_SETTINGS,
+  AnnotationSetting,
   DEFAULT_REPERTOIRE_POSITION,
-  PRIORITY_SETTING,
-  PrioritySetting,
   RepertoireMove,
-  RepertoireMovePriority,
+  RepertoireMoveAnnotation,
   RepertoirePosition,
 } from "@/defs.ts";
 import { DrawShape } from "chessground/draw";
@@ -25,26 +25,26 @@ export const deleteRepertoireMove = async (fen: string, san: string) =>
 export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,
-  prioritySetting: PrioritySetting,
+  annotationSetting: AnnotationSetting,
 ) => {
-  if (prioritySetting === PRIORITY_SETTING.DONT_SAVE) {
+  if (annotationSetting === ANNOTATION_SETTINGS.DONT_SAVE) {
     return Promise.resolve();
   }
 
-  const withSelectedAutomaticPriority = (move: RepertoireMove) => {
-    if (prioritySetting === PRIORITY_SETTING.NO_PRIORITY) {
+  const withSelectedAutomaticAnnotation = (move: RepertoireMove) => {
+    if (annotationSetting === ANNOTATION_SETTINGS.NONE) {
       return move;
     }
 
     return {
-      priority: prioritySetting as RepertoireMovePriority,
+      annotation: annotationSetting as RepertoireMoveAnnotation,
       ...move,
     };
   };
 
   return idbUpsert<RepertoirePosition>(
     fen,
-    { moves: [withSelectedAutomaticPriority(repertoireMove)] },
+    { moves: [withSelectedAutomaticAnnotation(repertoireMove)] },
     (data: RepertoirePosition) => {
       const { moves } = data;
 
@@ -70,7 +70,7 @@ export const upsertRepertoireMove = async (
 
       return {
         ...data,
-        moves: [...moves, withSelectedAutomaticPriority(repertoireMove)],
+        moves: [...moves, withSelectedAutomaticAnnotation(repertoireMove)],
       };
     },
   );

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectGoToFirstMove,
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
-} from "@/store/zustand/selectors.ts";
+} from "@/stores/zustand/selectors.ts";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);

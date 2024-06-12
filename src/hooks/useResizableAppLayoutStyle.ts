@@ -1,7 +1,7 @@
 import { CSSProperties, useLayoutEffect, useState } from "react";
 
 const BREAKPOINT_MD = 768;
-const SIDEBAR_SIZE = 420;
+const SIDEBAR_SIZE = 450;
 const MARGIN = 10; // Additional space to allow for scrollbars
 const APP_PADDING_REM = 0.75;
 

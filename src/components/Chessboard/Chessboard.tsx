@@ -3,7 +3,7 @@ import { PromotionSelection } from "@/components/Chessboard/PromotionSelection/P
 import "@/external/chessground/assets/chessground.base.css";
 import "@/external/chessground/assets/chessground.cardinal.css";
 import "@/external/chessground/assets/chessground.blue2.css";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionShapes,
@@ -11,7 +11,7 @@ import {
   selectHandleChessgroundMove,
   selectOrientation,
   selectSetShapes,
-} from "@/store/zustand/selectors.ts";
+} from "@/stores/zustand/selectors.ts";
 import {
   calcPossibleDestinations,
   determineTurnColor,
@@ -26,7 +26,7 @@ export const Chessboard = () => {
   const shapes = useRepertoireStore(selectCurrentRepertoirePositionShapes);
   const setShapes = useRepertoireStore(selectSetShapes);
 
-  const { repertoireAutoShapes, setPriorityShapeForSelection } =
+  const { repertoireAutoShapes, setAnnotationShapeForSelection } =
     useRepertoireAutoShapes();
 
   return (
@@ -40,7 +40,7 @@ export const Chessboard = () => {
       }}
       events={{
         move: handleChessgroundMove,
-        select: setPriorityShapeForSelection,
+        select: setAnnotationShapeForSelection,
       }}
       selectable={{
         enabled: false,
@@ -55,6 +55,7 @@ export const Chessboard = () => {
         shapes,
         autoShapes: repertoireAutoShapes,
         onChange: setShapes,
+        eraseOnClick: false,
       }}
     >
       <PromotionSelection />
