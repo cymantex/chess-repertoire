@@ -1,5 +1,5 @@
-import { selectPgn } from "@/store/zustand/selectors.ts";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { selectPgn } from "@/stores/zustand/selectors.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { toPgn } from "@/external/chessops/pgn.ts";
 
 export const PgnExplorer = () => {

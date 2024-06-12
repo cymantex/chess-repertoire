@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="24" height="24" viewBox="0 0 18 19" xmlns="http://www.w3.org/2000/svg">
+  <g style="transform: translate(1px, 1px)">
+    <path d="M9,0a9,9,0,1,0,9,9A9,9,0,0,0,9,0Z" style="fill: oklch(var(--b1));"/>
+    <g opacity="0.2"/>
+    <g/>
+  </g>
+</svg>

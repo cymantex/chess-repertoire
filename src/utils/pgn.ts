@@ -2,7 +2,7 @@ import streamSaver from "streamsaver";
 import { generateChessLines } from "@/utils/generateChessLines.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { toPgn } from "@/external/chessjs/utils.ts";
-import { getRepertoirePosition } from "@/store/repertoireRepository.ts";
+import { getRepertoirePosition } from "@/stores/repertoireRepository.ts";
 
 export const exportPgnAsync = async () => {
   const fileStream = streamSaver.createWriteStream("repertoire.pgn");
@@ -21,7 +21,8 @@ export const exportPgnAsync = async () => {
     });
 
     for await (const chess of chessLineGenerator) {
-      const uint8array = new TextEncoder().encode(toPgn(chess) + "\n\n");
+      const pgn = await toPgn(chess, getRepertoirePosition);
+      const uint8array = new TextEncoder().encode(pgn + "\n\n");
       await writer.write(uint8array);
     }
 

@@ -11,7 +11,7 @@ import { INITIAL_FEN } from "chessops/fen";
 import {
   setRepertoirePositionComment,
   upsertRepertoireMove,
-} from "@/store/repertoireRepository.ts";
+} from "@/stores/repertoireRepository.ts";
 import { Chess } from "chess.js";
 import { DEFAULT_SETTINGS } from "@/defs.ts";
 
@@ -63,11 +63,11 @@ const importGame = async (game: Game<PgnNodeData>) => {
       );
     }
 
-    // TODO: priority
+    // TODO: annotation
     await upsertRepertoireMove(
       chess.fen(),
       { san: move.data.san },
-      DEFAULT_SETTINGS.prioritySetting,
+      DEFAULT_SETTINGS.annotationSetting,
     );
 
     chess.move(move.data.san);

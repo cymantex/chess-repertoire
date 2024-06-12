@@ -3,12 +3,12 @@ import { PieceSymbol } from "chess.js/src/chess.ts";
 import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
 import { Column, COLUMN_NUMBERS } from "@/defs.ts";
 import "./PromotionSelection.scss";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectPendingPromotionMove,
   selectPromote,
-} from "@/store/zustand/selectors.ts";
+} from "@/stores/zustand/selectors.ts";
 
 import { determineTurnColor } from "@/external/chessjs/utils.ts";
 import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";

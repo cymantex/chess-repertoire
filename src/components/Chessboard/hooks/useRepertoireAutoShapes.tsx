@@ -1,60 +1,62 @@
 import { Move } from "chess.js";
 import { DrawShape } from "chessground/draw";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
-import { selectHoveredOpeningMove } from "@/store/zustand/selectors.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
+import { selectHoveredOpeningMove } from "@/stores/zustand/selectors.ts";
 import { orderBy, uniqBy } from "lodash";
-import { useNextMovesWithPriority } from "@/hooks/useNextMovesWithPriority.ts";
-import { PRIORITY_SVG, PriorityMove } from "@/defs.ts";
+import { useNextAnnotatedMoves } from "@/hooks/useNextAnnotatedMoves.ts";
+import { AnnotatedMove } from "@/defs.ts";
 import * as cg from "chessground/types";
 import { chessground } from "@/external/chessground/Chessground.tsx";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
+import { ANNOTATIONS } from "@/assets/annotation/defs.ts";
 
 export const useRepertoireAutoShapes = () => {
-  const nextMoves = useNextMovesWithPriority();
+  const nextMoves = useNextAnnotatedMoves();
   const hoveredOpeningMove = useRepertoireStore(selectHoveredOpeningMove);
-  const squaresWithHighestPriority = uniqBy(
-    orderBy(useNextMovesWithPriority(), (move) => move.priority),
+  const squaresWithBestAnnotation = uniqBy(
+    orderBy(nextMoves, (move) => move.annotation),
     (move) => move.from,
   );
 
-  const priorityShapes: DrawShape[] =
-    squaresWithHighestPriority.map(createPriorityShape);
+  const annotationShapes: DrawShape[] = squaresWithBestAnnotation.map(
+    createAnnotationShape,
+  );
 
   const repertoireAutoShapes = hoveredOpeningMove
-    ? [createHoveredOpeningMoveShape(hoveredOpeningMove), ...priorityShapes]
-    : priorityShapes;
+    ? [createHoveredOpeningMoveShape(hoveredOpeningMove), ...annotationShapes]
+    : annotationShapes;
 
   useRestoreAutoShapesAfterSelection(repertoireAutoShapes);
 
   return {
     repertoireAutoShapes,
-    setPriorityShapeForSelection: (square: cg.Key) => {
+    setAnnotationShapeForSelection: (square: cg.Key) => {
       if (!chessground) return;
 
       chessground.setAutoShapes(
         nextMoves
           .filter((move) => move.from === square)
-          .map(createPriorityShapeForSelectedMove),
+          .map(createAnnotationShapeForSelectedMove),
       );
     },
   };
 };
 
-export const createPriorityShapeForSelectedMove = (
-  move: PriorityMove,
+export const createAnnotationShapeForSelectedMove = (
+  move: AnnotatedMove,
 ): DrawShape => ({
   orig: move.from,
   dest: move.to,
   customSvg: {
-    html: PRIORITY_SVG[move.priority!],
+    html: ANNOTATIONS[move.annotation!]?.svg,
     center: "dest",
   },
 });
 
-const createPriorityShape = (move: PriorityMove): DrawShape => ({
+const createAnnotationShape = (move: AnnotatedMove): DrawShape => ({
   orig: move.from,
   customSvg: {
-    html: PRIORITY_SVG[move.priority!],
+    html: ANNOTATIONS[move.annotation!]?.svg,
     center: "orig",
   },
 });

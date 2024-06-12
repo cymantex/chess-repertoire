@@ -1,11 +1,4 @@
 import { Move } from "chess.js";
-import {
-  WHITE_BISHOP_SVG,
-  WHITE_KING_SVG,
-  WHITE_PAWN_SVG,
-  WHITE_QUEEN_SVG,
-  WHITE_ROOK_SVG,
-} from "@/external/chessground/defs.tsx";
 import { DrawShape } from "chessground/draw";
 
 export const FEN_STARTING_POSITION =
@@ -52,62 +45,63 @@ export interface CloudEvaluationResponse {
 }
 
 // Repertoire
-export const REPERTOIRE_MOVE_PRIORITY = {
-  KING: 0,
-  QUEEN: 1,
-  ROOK: 2,
-  BISHOP: 3,
-  PAWN: 4,
+export const REPERTOIRE_ANNOTATION = {
+  BRILLIANT: 100,
+  GOOD: 200,
+  INTERESTING: 300,
+  NEUTRAL: 400,
+  DUBIOUS: 500,
+  BAD: 600,
+  BLUNDER: 700,
 } as const;
 
-export const PRIORITY_SVG = [
-  WHITE_KING_SVG,
-  WHITE_QUEEN_SVG,
-  WHITE_ROOK_SVG,
-  WHITE_BISHOP_SVG,
-  WHITE_PAWN_SVG,
-] as const;
+export type RepertoireMoveAnnotation =
+  (typeof REPERTOIRE_ANNOTATION)[keyof typeof REPERTOIRE_ANNOTATION];
 
-export type RepertoireMovePriority =
-  (typeof REPERTOIRE_MOVE_PRIORITY)[keyof typeof REPERTOIRE_MOVE_PRIORITY];
-
-export interface PriorityMove extends Move {
-  priority?: RepertoireMovePriority;
+export interface AnnotatedMove extends Move {
+  annotation?: RepertoireMoveAnnotation;
 }
 
 export interface RepertoireMove {
   san: string;
-  priority?: RepertoireMovePriority;
+  annotation?: RepertoireMoveAnnotation;
 }
 
 export interface RepertoirePosition {
-  moves?: RepertoireMove[];
+  moves: RepertoireMove[];
   comment?: string;
   shapes?: DrawShape[];
 }
 
-export type RepertoireOpeningExplorerMove =
-  | PriorityMove
-  | (PriorityMove & OpeningExplorerMove);
-
-// Settings
-export const PRIORITY_PGN_COMMENT_PREFIX = "__PRIORITY:";
-export const PRIORITY_SETTING_NO_PRIORITY = 1000;
-export const PRIORITY_SETTING_DONT_SAVE = 10000;
-export const PRIORITY_SETTING = {
-  ...REPERTOIRE_MOVE_PRIORITY,
-  NO_PRIORITY: PRIORITY_SETTING_NO_PRIORITY,
-  DONT_SAVE: PRIORITY_SETTING_DONT_SAVE,
-} as const;
-export type PrioritySetting =
-  (typeof PRIORITY_SETTING)[keyof typeof PRIORITY_SETTING];
-
-export interface RepertoireSettings {
-  prioritySetting: PrioritySetting;
+export interface RepertoirePgnPosition {
+  move?: {
+    san: string;
+    annotation: string;
+  };
+  shapes?: DrawShape[];
 }
 
+export type RepertoireOpeningExplorerMove =
+  | AnnotatedMove
+  | (AnnotatedMove & OpeningExplorerMove);
+
+// Settings
+export const ANNOTATION_SETTING_NONE = 1000;
+export const ANNOTATION_SETTING_DONT_SAVE = 10000;
+export const ANNOTATION_SETTINGS = {
+  ...REPERTOIRE_ANNOTATION,
+  NONE: ANNOTATION_SETTING_NONE,
+  DONT_SAVE: ANNOTATION_SETTING_DONT_SAVE,
+} as const;
+export type AnnotationSetting =
+  (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
+
+export interface RepertoireSettings {
+  annotationSetting: AnnotationSetting;
+}
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
-  prioritySetting: REPERTOIRE_MOVE_PRIORITY.KING,
+  annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
 };
+
 export const DEFAULT_REPERTOIRE_POSITION = { moves: [] };

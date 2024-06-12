@@ -2,14 +2,14 @@ import {
   deleteRepertoireMove,
   setRepertoirePositionShapes,
   upsertRepertoireMove,
-} from "@/store/repertoireRepository.ts";
+} from "@/stores/repertoireRepository.ts";
 import {
   getNonReactiveState,
   updateCurrentRepertoirePosition,
-} from "@/store/zustand/utils.ts";
-import { RepertoireSlice, SetState } from "@/store/zustand/defs.ts";
+} from "@/stores/zustand/utils.ts";
+import { RepertoireSlice, SetState } from "@/stores/zustand/defs.ts";
 import { DEFAULT_REPERTOIRE_POSITION } from "@/defs.ts";
-import { selectFen } from "@/store/zustand/selectors.ts";
+import { selectFen } from "@/stores/zustand/selectors.ts";
 
 export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
   currentRepertoirePosition: DEFAULT_REPERTOIRE_POSITION,
@@ -19,8 +19,8 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
     await setRepertoirePositionShapes(fen, shapes);
     return updateCurrentRepertoirePosition(set, fen);
   },
-  upsertMove: async (fen, repertoireMove, prioritySetting) => {
-    await upsertRepertoireMove(fen, repertoireMove, prioritySetting);
+  upsertMove: async (fen, repertoireMove, annotationSetting) => {
+    await upsertRepertoireMove(fen, repertoireMove, annotationSetting);
     return updateCurrentRepertoirePosition(set, fen);
   },
   deleteMove: async (fen, san) => {

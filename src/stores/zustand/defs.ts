@@ -1,6 +1,6 @@
 import { Chess, Move } from "chess.js";
 import {
-  PrioritySetting,
+  AnnotationSetting,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
   RepertoirePosition,
@@ -42,7 +42,7 @@ export interface RepertoireSlice {
   upsertMove: (
     fen: string,
     repertoireMove: RepertoireMove,
-    prioritySetting: PrioritySetting,
+    annotationSetting: AnnotationSetting,
   ) => Promise<void>;
   deleteMove: (fen: string, san: string) => Promise<void>;
   setShapes: (shapes: DrawShape[]) => Promise<void>;

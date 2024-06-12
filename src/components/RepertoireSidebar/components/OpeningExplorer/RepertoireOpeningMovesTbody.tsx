@@ -1,16 +1,16 @@
 import { OpeningExplorerMove } from "@/defs.ts";
-import { useRepertoireStore } from "@/store/zustand/useRepertoireStore.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionMoves,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
-} from "@/store/zustand/selectors.ts";
+} from "@/stores/zustand/selectors.ts";
 import {
   calcTotalGames,
   toOrderedRepertoireOpeningExplorerMoves,
 } from "@/components/RepertoireSidebar/components/OpeningExplorer/utils.ts";
-import { MovePriorityMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MovePriorityMenu.tsx";
+import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
 
 interface RepertoireOpeningMovesProps {
@@ -60,7 +60,7 @@ export const RepertoireOpeningMovesTbody = ({
           </td>
           <td>{calcTotalGames(move)}</td>
           <td>
-            <MovePriorityMenu move={move} />
+            <MoveAnnotationMenu move={move} />
           </td>
         </tr>
       ))}

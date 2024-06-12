@@ -37,7 +37,8 @@ export const localStorageStore = {
   },
 };
 
-export const getPrioritySetting = () => getRepertoireSettings().prioritySetting;
+export const getAnnotationSetting = () =>
+  getRepertoireSettings().annotationSetting;
 
 const getRepertoireSettings = () =>
   getObject<RepertoireSettings>(SETTINGS_KEY) ?? DEFAULT_SETTINGS;
