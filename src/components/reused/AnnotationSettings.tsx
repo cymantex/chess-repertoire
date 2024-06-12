@@ -5,21 +5,13 @@ import {
   localStorageStore,
   useRepertoireSettings,
 } from "@/stores/localStorageStore.ts";
-import { ANNOTATIONS } from "@/assets/annotation/defs.ts";
-
-const getAnnotationSettingIcon = (annotationSetting: AnnotationSetting) => {
-  if (annotationSetting in ANNOTATIONS) {
-    return ANNOTATIONS[annotationSetting];
-  }
-
-  throw new Error(`Unknown annotation setting: ${annotationSetting}`);
-};
+import { getAnnotation } from "@/assets/annotation/defs.ts";
 
 export const AnnotationSettings = () => {
   const [showAnnotationMenu, setShowAnnotationMenu] = useState(false);
   const { annotationSetting } = useRepertoireSettings();
 
-  const { SettingsIcon } = getAnnotationSettingIcon(annotationSetting);
+  const { SettingsIcon } = getAnnotation(annotationSetting);
 
   return (
     <div
@@ -76,8 +68,7 @@ const AnnotationSettingMenuItem = ({
   annotationSetting: AnnotationSetting;
   onClick: () => void;
 }) => {
-  const { SettingsIcon, displayName } =
-    getAnnotationSettingIcon(annotationSetting);
+  const { SettingsIcon, displayName } = getAnnotation(annotationSetting);
 
   return (
     <li>
