@@ -38,7 +38,7 @@ const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
 };
 
 const toRepertoireHeader = (object: object) =>
-  `[Result "*"]\n[Repertoire "${JSON.stringify(object)}"]\n\n`;
+  `[Result "*"]\n[Repertoire "${JSON.stringify(object).replaceAll('"', "'")}"]\n\n`;
 
 test("No starting position", async () => {
   expect(await toPgnList({ [FEN_E4]: { moves: [{ san: "e5" }] } })).toEqual([]);
