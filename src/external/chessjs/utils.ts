@@ -53,7 +53,7 @@ export const toPgn = async (
   );
   chess.header("Result", "*");
   if (Object.keys(positions).length !== 0) {
-    chess.header("Repertoire", JSON.stringify(positions));
+    chess.header("Repertoire", JSON.stringify(positions).replaceAll('"', "'"));
   }
   return chess.pgn();
 };
