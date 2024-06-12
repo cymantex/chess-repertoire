@@ -70,7 +70,7 @@ const ANNOTATIONS = {
     SettingsIcon: NeutralIcon,
     displayName: "Neutral",
     svg: NeutralSvg,
-    symbol: null,
+    symbol: " ",
   },
   [ANNOTATION_SETTINGS.DUBIOUS]: {
     id: REPERTOIRE_ANNOTATION.DUBIOUS,

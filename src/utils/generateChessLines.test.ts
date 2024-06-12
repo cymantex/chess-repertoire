@@ -57,9 +57,8 @@ test("Multiple starting moves", async () => {
 test("Multiple lines with comments, annotations and shapes", async () => {
   const shapes: DrawShape[] = [{ orig: "g1" }];
   const e4Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BRILLIANT);
-  const nf3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.GOOD);
+  const nf3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.NEUTRAL);
   const nc3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BLUNDER);
-  const e5Annotation = getAnnotation(REPERTOIRE_ANNOTATION.NEUTRAL);
   const game1RepertoireHeader = {
     [FEN_STARTING_POSITION]: {
       move: {
@@ -96,7 +95,7 @@ test("Multiple lines with comments, annotations and shapes", async () => {
       comment: "starting position",
     },
     [FEN_E4]: {
-      moves: [{ san: "e5", annotation: e5Annotation.id }, { san: "c5" }],
+      moves: [{ san: "e5" }, { san: "c5" }],
       comment: "king's pawn",
     },
     [FEN_SICILIAN]: {
