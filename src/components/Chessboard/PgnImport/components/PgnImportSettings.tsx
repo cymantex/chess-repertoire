@@ -39,6 +39,19 @@ export const PgnImportSettings = ({
         </select>
       </>
     )}
+    <div className="form-control mt-4">
+      <div className="label">
+        <span className="label-text">
+          Max move number (leave empty to import entire games):
+        </span>
+      </div>
+      <input
+        type="number"
+        className="input input-bordered w-16"
+        checked={includeComments}
+        onChange={(e) => onToggleIncludeComments(e.target.checked)}
+      />
+    </div>
     <div className="label mt-4">
       <div className="label-text flex items-center">
         <AnnotationSettings />

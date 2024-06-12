@@ -8,7 +8,7 @@ import { AnnotatedMove } from "@/defs.ts";
 import * as cg from "chessground/types";
 import { chessground } from "@/external/chessground/Chessground.tsx";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
-import { ANNOTATIONS } from "@/assets/annotation/defs.ts";
+import { getAnnotation } from "@/assets/annotation/defs.ts";
 
 export const useRepertoireAutoShapes = () => {
   const nextMoves = useNextAnnotatedMoves();
@@ -48,7 +48,7 @@ export const createAnnotationShapeForSelectedMove = (
   orig: move.from,
   dest: move.to,
   customSvg: {
-    html: ANNOTATIONS[move.annotation!]?.svg,
+    html: getAnnotation(move.annotation)?.svg,
     center: "dest",
   },
 });
@@ -56,7 +56,7 @@ export const createAnnotationShapeForSelectedMove = (
 const createAnnotationShape = (move: AnnotatedMove): DrawShape => ({
   orig: move.from,
   customSvg: {
-    html: ANNOTATIONS[move.annotation!]?.svg,
+    html: getAnnotation(move.annotation)?.svg,
     center: "orig",
   },
 });

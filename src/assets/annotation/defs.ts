@@ -43,7 +43,7 @@ export const getAnnotation = (annotation?: number) => {
   return ANNOTATIONS[annotation as RepertoireMoveAnnotation];
 };
 
-export const ANNOTATIONS = {
+const ANNOTATIONS = {
   [ANNOTATION_SETTINGS.BRILLIANT]: {
     id: REPERTOIRE_ANNOTATION.BRILLIANT,
     SettingsIcon: BrilliantIcon,
@@ -70,7 +70,7 @@ export const ANNOTATIONS = {
     SettingsIcon: NeutralIcon,
     displayName: "Neutral",
     svg: NeutralSvg,
-    symbol: " ",
+    symbol: null,
   },
   [ANNOTATION_SETTINGS.DUBIOUS]: {
     id: REPERTOIRE_ANNOTATION.DUBIOUS,
@@ -106,5 +106,5 @@ export const ANNOTATIONS = {
 } as const;
 
 export const ANNOTATION_LIST = Object.values(REPERTOIRE_ANNOTATION).map(
-  (annotation) => ANNOTATIONS[annotation],
+  getAnnotation,
 );

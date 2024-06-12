@@ -88,16 +88,17 @@ const toRepertoirePgnPositions = async (
         fen: history[index].before,
       };
     })
-    .filter((position) => !!position.shapes || !!position.move)
+    .filter(
+      (position) =>
+        !!position.shapes ||
+        !!getAnnotation(position?.move?.annotation)?.symbol,
+    )
     .reduce(
       (pgnPositions, { shapes, move, fen }) => {
         const annotation = getAnnotation(move?.annotation);
-        if (!annotation?.symbol) {
-          console.log("Annotation not found", move?.annotation, move?.san);
-        }
         pgnPositions[fen] = {
           shapes,
-          move: annotation
+          move: annotation?.symbol
             ? {
                 san: move!.san,
                 annotation: annotation.symbol,
