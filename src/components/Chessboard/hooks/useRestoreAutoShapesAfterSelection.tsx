@@ -1,12 +1,16 @@
 import { DrawShape } from "chessground/draw";
 import { useEffect } from "react";
-import { chessground } from "@/external/chessground/Chessground.tsx";
+import {
+  isChessgroundReady,
+  safeSetAutoShapes,
+  userSelectionExists,
+} from "@/external/chessground/utils.ts";
 
 export const useRestoreAutoShapesAfterSelection = (shapes: DrawShape[]) => {
   useEffect(() => {
     const interval = setInterval(() => {
-      if (chessground && !chessground.state.selected) {
-        chessground.setAutoShapes(shapes);
+      if (isChessgroundReady() && !userSelectionExists()) {
+        safeSetAutoShapes(shapes);
       }
     }, 100);
 

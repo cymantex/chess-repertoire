@@ -6,9 +6,9 @@ import { orderBy, uniqBy } from "lodash";
 import { useNextAnnotatedMoves } from "@/hooks/useNextAnnotatedMoves.ts";
 import { AnnotatedMove } from "@/defs.ts";
 import * as cg from "chessground/types";
-import { chessground } from "@/external/chessground/Chessground.tsx";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { safeSetAutoShapes } from "@/external/chessground/utils.ts";
 
 export const useRepertoireAutoShapes = () => {
   const nextMoves = useNextAnnotatedMoves();
@@ -30,15 +30,12 @@ export const useRepertoireAutoShapes = () => {
 
   return {
     repertoireAutoShapes,
-    setAnnotationShapeForSelection: (square: cg.Key) => {
-      if (!chessground) return;
-
-      chessground.setAutoShapes(
+    setAnnotationShapeForSelection: (square: cg.Key) =>
+      safeSetAutoShapes(
         nextMoves
           .filter((move) => move.from === square)
           .map(createAnnotationShapeForSelectedMove),
-      );
-    },
+      ),
   };
 };
 
@@ -64,5 +61,5 @@ const createAnnotationShape = (move: AnnotatedMove): DrawShape => ({
 const createHoveredOpeningMoveShape = (hoveredOpeningMove: Move) => ({
   orig: hoveredOpeningMove?.from,
   dest: hoveredOpeningMove?.to,
-  brush: "blue",
+  brush: "paleBlue",
 });
