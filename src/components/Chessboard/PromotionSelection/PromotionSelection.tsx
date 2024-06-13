@@ -12,7 +12,8 @@ import {
 
 import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
-import { determineTurnColor } from "@/utils/utils.ts";
+
+import { determineTurnColor } from "@/components/Chessboard/utils.ts";
 
 export const PromotionSelection = () => {
   const chess = useRepertoireStore(selectChess);
