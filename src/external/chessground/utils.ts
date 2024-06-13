@@ -1,4 +1,4 @@
-import { chessground } from "@/external/chessground/Chessground.tsx";
+import { chessground } from "./Chessground.tsx";
 import { DrawShape } from "chessground/draw";
 
 export const isChessgroundReady = () => !!chessground;

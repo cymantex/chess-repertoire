@@ -5,8 +5,8 @@ import {
   RepertoireOpeningExplorerMove,
 } from "@/defs.ts";
 import { Chess } from "chess.js";
-import { toRepertoireOpeningExplorerMoves } from "@/external/chessjs/utils.ts";
 import { isNumber, orderBy, uniqBy } from "lodash";
+import { toRepertoireOpeningExplorerMoves } from "@/utils/utils.ts";
 
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;

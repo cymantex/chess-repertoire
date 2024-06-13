@@ -1,9 +1,6 @@
 import { expect, test } from "vitest";
 import { ChildNode, parsePgn, PgnNodeData } from "chessops/pgn";
-import {
-  findCurrentMove,
-  getRemainingMainMoves,
-} from "@/external/chessops/pgn.ts";
+import { findCurrentMove, getRemainingMainMoves } from "./pgn.ts";
 
 test("findCurrentMove", () => {
   // Arrange

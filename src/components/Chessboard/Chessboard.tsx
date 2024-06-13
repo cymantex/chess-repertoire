@@ -12,12 +12,10 @@ import {
   selectOrientation,
   selectSetShapes,
 } from "@/stores/zustand/selectors.ts";
-import {
-  calcPossibleDestinations,
-  determineTurnColor,
-} from "@/external/chessjs/utils.ts";
+import { calcPossibleDestinations } from "@/external/chessjs/utils.ts";
 import { useRepertoireAutoShapes } from "@/components/Chessboard/hooks/useRepertoireAutoShapes.tsx";
 import { DEFAULT_BRUSHES } from "@/external/chessground/defs.tsx";
+import { determineTurnColor } from "@/utils/utils.ts";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);

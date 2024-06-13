@@ -1,5 +1,5 @@
 import { ChildNode, defaultGame, makePgn, PgnNodeData } from "chessops/pgn";
-import { Pgn } from "@/external/chessops/defs.ts";
+import { Pgn } from "./defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
 
 export const defaultPgn = (): Pgn => ({
