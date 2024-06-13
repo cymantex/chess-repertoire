@@ -4,7 +4,6 @@ import { RepertoireSidebar } from "@/components/RepertoireSidebar/RepertoireSide
 import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.ts";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
 
-import { exportPgnAsync } from "@/utils/pgn.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectCurrentRepertoirePositionComment,
@@ -13,6 +12,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
+import { exportPgnAsync } from "@/pgn/export.ts";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);

@@ -1,4 +1,4 @@
-import { extractPlayerNames } from "@/utils/pgn.ts";
+import { extractPlayerNames } from "@/pgn/utils.ts";
 
 interface PgnFileInputProps {
   onFileUpload: (file: File, playerNames: string[]) => void;

@@ -1,8 +1,9 @@
+// WARNING: The streamsaver dependency cannot be imported by a vitest file
 import streamSaver from "streamsaver";
-import { generateChessLines } from "@/utils/generateChessLines.ts";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
-import { toPgn } from "@/external/chessjs/utils.ts";
+import { generateChessLines } from "@/pgn/generateChessLines.ts";
 import { getRepertoirePosition } from "@/stores/repertoireRepository.ts";
+import { FEN_STARTING_POSITION } from "@/defs.ts";
+import { toPgn } from "@/pgn/utils.ts";
 
 export const exportPgnAsync = async () => {
   const fileStream = streamSaver.createWriteStream("repertoire.pgn");
@@ -31,20 +32,4 @@ export const exportPgnAsync = async () => {
     console.error(error);
     await Promise.all([fileStream.abort(), writer.abort()]);
   }
-};
-
-export const extractPlayerNames = (partialPgn: string) => {
-  const playerNames = new Set<string>();
-
-  const whitePlayer = partialPgn.match(/\[White "(.*)"]/);
-  if (whitePlayer) {
-    playerNames.add(whitePlayer[1]);
-  }
-
-  const blackPlayer = partialPgn.match(/\[Black "(.*)"]/);
-  if (blackPlayer) {
-    playerNames.add(blackPlayer[1]);
-  }
-
-  return Array.from(playerNames);
 };

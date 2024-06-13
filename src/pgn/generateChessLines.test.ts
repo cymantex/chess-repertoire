@@ -7,10 +7,10 @@ import {
 import {
   generateChessLines,
   GetRepertoirePosition,
-} from "@/utils/generateChessLines.ts";
-import { toPgn } from "@/external/chessjs/utils.ts";
+} from "@/pgn/generateChessLines.ts";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { DrawShape } from "chessground/draw";
+import { toPgn } from "@/pgn/utils.ts";
 
 const FEN_E4 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1";
 const FEN_SICILIAN =
@@ -93,10 +93,12 @@ test("Multiple lines with comments, annotations and shapes", async () => {
     [FEN_STARTING_POSITION]: {
       moves: [{ san: "e4", annotation: e4Annotation.id }, { san: "c4" }],
       comment: "starting position",
+      shapes: undefined,
     },
     [FEN_E4]: {
-      moves: [{ san: "e5" }, { san: "c5" }],
+      moves: [{ san: "e5", annotation: undefined }, { san: "c5" }],
       comment: "king's pawn",
+      shapes: [],
     },
     [FEN_SICILIAN]: {
       moves: [

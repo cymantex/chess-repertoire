@@ -17,6 +17,7 @@ import {
   determineTurnColor,
 } from "@/external/chessjs/utils.ts";
 import { useRepertoireAutoShapes } from "@/components/Chessboard/hooks/useRepertoireAutoShapes.tsx";
+import { DEFAULT_BRUSHES } from "@/external/chessground/defs.tsx";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);
@@ -56,6 +57,7 @@ export const Chessboard = () => {
         autoShapes: repertoireAutoShapes,
         onChange: setShapes,
         eraseOnClick: false,
+        brushes: DEFAULT_BRUSHES,
       }}
     >
       <PromotionSelection />
