@@ -1,8 +1,8 @@
 import { Move } from "chess.js";
 import { DrawShape } from "chessground/draw";
+import { INITIAL_FEN } from "chessops/fen";
 
-export const FEN_STARTING_POSITION =
-  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+export const FEN_STARTING_POSITION = INITIAL_FEN;
 
 export const COLUMN_NUMBERS = {
   a: 0,
