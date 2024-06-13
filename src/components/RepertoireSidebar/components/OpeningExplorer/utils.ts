@@ -6,7 +6,7 @@ import {
 } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNumber, orderBy, uniqBy } from "lodash";
-import { toRepertoireOpeningExplorerMoves } from "@/utils/utils.ts";
+import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
 
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;
@@ -42,6 +42,15 @@ const orderByAnnotationThenInRepertoireThenTotalGames = (
     },
     "desc",
   );
+
+export const toRepertoireOpeningExplorerMoves = (
+  chess: Chess,
+  moves: (OpeningExplorerMove | RepertoireMove)[],
+): RepertoireOpeningExplorerMove[] =>
+  moves.map((move) => {
+    const nextMove = findNextMoveBySan(chess, move.san);
+    return { ...nextMove, ...move } as RepertoireOpeningExplorerMove;
+  });
 
 export const toOrderedRepertoireOpeningExplorerMoves = (
   chess: Chess,
