@@ -41,15 +41,21 @@ export const handlePromotion = (set: SetState, promotion: PieceSymbol) => {
 
   // Add back the pawn hidden before doing the promotion
   chess.put({ type: PAWN, color: chess.turn() }, pendingPromotionMove.from);
+
+  const fenBeforePromotion = chess.fen();
+  const historyBeforePromotion = chess.history();
+
+  // The pendingPromotionMove does not contain what piece is being promoted to
+  const promotionMove = chess.move({ ...pendingPromotionMove, promotion });
+
   const upsertPromise = upsertRepertoireMove(
-    chess.fen(),
+    fenBeforePromotion,
     {
-      san: pendingPromotionMove.san,
+      san: promotionMove.san,
     },
     getAnnotationSetting(),
   );
-  addMoveToPgn(pgn, pendingPromotionMove.san, chess.history());
-  chess.move({ ...pendingPromotionMove, promotion });
+  addMoveToPgn(pgn, promotionMove.san, historyBeforePromotion);
 
   return handlePositionStateChange({
     set,

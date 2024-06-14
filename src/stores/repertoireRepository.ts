@@ -52,9 +52,9 @@ export const upsertRepertoireMove = async (
         return { ...data, moves: [repertoireMove] };
       }
 
-      const existingMove = moves.find((m) => m.san === repertoireMove.san);
+      const moveExists = moves.some((m) => m.san === repertoireMove.san);
 
-      if (existingMove) {
+      if (moveExists) {
         return {
           ...data,
           moves: moves.map((move) =>
