@@ -1,95 +1,22 @@
-import { ChildNode, Game, parsePgn, PgnNodeData } from "chessops/pgn";
-import { BLACK, Chess, Color, WHITE } from "chess.js";
+import { ChildNode, Game, PgnNodeData } from "chessops/pgn";
 import {
   AnnotationSetting,
   FEN_STARTING_POSITION,
-  RepertoireMove,
+  ImportPgnGameOptions,
+  ImportPgnOptions,
+  ImportPgnPlayerSettings,
   RepertoirePgnPosition,
 } from "@/defs.ts";
-import { DrawShape } from "chessground/draw";
-import { chunk, isNumber } from "lodash";
-import { ANNOTATION_SYMBOLS } from "@/assets/annotation/defs.ts";
+import { BLACK, Chess, Color, WHITE } from "chess.js";
 import { isNotEmptyArray } from "@/utils/utils.ts";
-
-interface PlayerSettings {
-  playerName: string;
-  opponentAnnotationSetting: AnnotationSetting;
-}
+import { isNumber } from "lodash";
+import { ANNOTATION_SYMBOLS } from "@/assets/annotation/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
-export interface ImportPgnOptions {
-  upsertMove: (
-    fen: string,
-    repertoireMove: RepertoireMove,
-    annotationSetting: AnnotationSetting,
-    overrideExistingAnnotation?: boolean,
-  ) => Promise<void>;
-  setShapes: (fen: string, shapes: DrawShape[]) => Promise<void>;
-  setComment: (fen: string, comment: string) => Promise<void>;
-  annotationSetting: AnnotationSetting;
-  playerSettings?: PlayerSettings;
-  includeComments: boolean;
-  includeShapes: boolean;
-  maxMoveNumber?: number;
-  // TODO: Let user decide if annotations should be overridden
-}
-
-export interface ImportPgnProgress {
-  totalGames?: number;
-  gameCount?: number;
-}
-
-interface ImportPgnCallbacks {
-  onProgress: (progress: ImportPgnProgress) => void;
-}
-
-export const importPgnAsync = async (
-  file: File,
-  options: ImportPgnOptions,
-  { onProgress }: ImportPgnCallbacks,
-) => {
-  // TODO: Warn user before leaving page
-
-  // TODO: Worker
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        let gameCount = 0;
-
-        const pgn = event.target!.result as string;
-
-        const games = parsePgn(pgn);
-
-        const reportProgressInterval = setInterval(() => {
-          onProgress({ totalGames: games.length, gameCount });
-        }, 1000);
-
-        const gameChunksList = chunk(games, 200);
-
-        for await (const gameChunk of gameChunksList) {
-          await Promise.all(
-            gameChunk.map((game) =>
-              importGame(game, options)
-                .catch(console.error)
-                .finally(() => gameCount++),
-            ),
-          );
-        }
-
-        clearInterval(reportProgressInterval);
-        resolve(null);
-      };
-      reader.onerror = reject;
-      reader.readAsText(file);
-    }, 0);
-  });
-};
-
 export const importGame = async (
   game: Game<PgnNodeData>,
-  options: ImportPgnOptions,
+  options: ImportPgnGameOptions,
 ) => {
   if (isUnsupportedGame(game)) {
     return;
@@ -121,7 +48,7 @@ const importMove = async (
     setShapes,
     includeComments,
     includeShapes,
-  }: ImportPgnOptions,
+  }: ImportPgnGameOptions,
 ) => {
   const fen = chess.fen();
   const position = repertoirePgnPositions[fen];
@@ -149,7 +76,6 @@ const importMove = async (
     await setComment(chess.fen(), move.data.comments.join(""));
   }
 };
-
 const isUnsupportedGame = (game: Game<PgnNodeData>) => {
   const fenHeader = game.headers.get("FEN");
 
@@ -161,7 +87,6 @@ const isUnsupportedGame = (game: Game<PgnNodeData>) => {
 
   return !!(variantHeader && variantHeader !== "Standard");
 };
-
 const parseImportPgnOptions = (
   game: Game<PgnNodeData>,
   { annotationSetting, maxMoveNumber, playerSettings }: ImportPgnOptions,
@@ -182,7 +107,6 @@ const parseImportPgnOptions = (
     mainLine,
   };
 };
-
 const parseRepertoirePgnPositions = (
   game: Game<PgnNodeData>,
 ): Record<string, RepertoirePgnPosition> => {
@@ -192,11 +116,10 @@ const parseRepertoirePgnPositions = (
 
   return JSON.parse(game.headers.get("Repertoire")!.replaceAll("'", '"'));
 };
-
 const parseAnnotationSettings = (
   game: Game<PgnNodeData>,
   annotationSetting: AnnotationSetting,
-  playerSettings?: PlayerSettings,
+  playerSettings?: ImportPgnPlayerSettings,
 ): Record<
   string,
   { annotation: AnnotationSetting; overrideAnnotation: boolean }
@@ -233,7 +156,6 @@ const parseAnnotationSettings = (
 
   return toDefaultAnnotationSettings(annotationSetting);
 };
-
 const toDefaultAnnotationSettings = (annotationSetting: AnnotationSetting) =>
   ({
     [WHITE]: {
@@ -245,7 +167,6 @@ const toDefaultAnnotationSettings = (annotationSetting: AnnotationSetting) =>
       overrideAnnotation: true,
     },
   }) as const;
-
 const determineAnnotation = (
   move: ChildNode<PgnNodeData>,
   annotationSettings: Record<

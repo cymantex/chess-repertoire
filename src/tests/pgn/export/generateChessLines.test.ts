@@ -7,7 +7,7 @@ import {
 import {
   generateChessLines,
   GetRepertoirePosition,
-} from "@/pgn/generateChessLines.ts";
+} from "@/pgn/export/generateChessLines.ts";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { toPgn } from "@/pgn/utils.ts";

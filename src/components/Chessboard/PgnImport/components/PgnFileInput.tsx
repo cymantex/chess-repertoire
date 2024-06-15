@@ -15,7 +15,6 @@ export const PgnFileInput = ({ onFileUpload, disabled }: PgnFileInputProps) => (
       const file = e.target.files[0];
       if (!file) return;
 
-      // TODO: Validate PGN
       file
         .slice(0, 1000)
         .text()

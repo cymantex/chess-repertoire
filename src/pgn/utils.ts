@@ -1,4 +1,4 @@
-import { GetRepertoirePosition } from "@/pgn/generateChessLines.ts";
+import { GetRepertoirePosition } from "@/pgn/export/generateChessLines.ts";
 import { RepertoirePgnPosition } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNumber, isString, last } from "lodash";

@@ -3,13 +3,12 @@ import { PgnFileInput } from "@/components/Chessboard/PgnImport/components/PgnFi
 import { PgnImportSettings } from "@/components/Chessboard/PgnImport/components/PgnImportSettings.tsx";
 import classNames from "classnames";
 import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
-import { importPgnAsync, ImportPgnProgress } from "@/pgn/import.ts";
+import { importPgnAsync } from "@/pgn/import/importPgnAsync.ts";
 import {
-  setRepertoirePositionComment,
-  setRepertoirePositionShapes,
-  upsertRepertoireMove,
-} from "@/stores/repertoireRepository.ts";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/defs.ts";
+  ANNOTATION_SETTINGS,
+  AnnotationSetting,
+  ImportPgnProgress,
+} from "@/defs.ts";
 import { isNumber } from "lodash";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
@@ -49,9 +48,6 @@ export const PgnImport = () => {
       await importPgnAsync(
         file!,
         {
-          upsertMove: upsertRepertoireMove,
-          setComment: setRepertoirePositionComment,
-          setShapes: setRepertoirePositionShapes,
           annotationSetting: playerAnnotationSetting,
           includeComments,
           includeShapes,
