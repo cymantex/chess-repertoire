@@ -1,6 +1,7 @@
 // @ts-ignore
 import { RepertoireMove, RepertoirePosition } from "@/defs.ts";
 import { Chess } from "chess.js";
+import { isNotEmptyArray } from "@/utils/utils.ts";
 
 export type GetRepertoirePosition = (
   fen: string,
@@ -73,6 +74,4 @@ const setRepertoirePositionHeader = async (
 };
 
 const hasMoves = (nextPosition?: RepertoirePosition) =>
-  nextPosition &&
-  nextPosition?.moves?.length &&
-  nextPosition?.moves?.length > 0;
+  nextPosition && isNotEmptyArray(nextPosition.moves);

@@ -23,7 +23,7 @@ export const exportPgnAsync = async () => {
 
     for await (const chess of chessLineGenerator) {
       const pgn = await toPgn(chess, getRepertoirePosition);
-      const uint8array = new TextEncoder().encode(pgn + "\n\n");
+      const uint8array = new TextEncoder().encode(pgn + "\n\n\n");
       await writer.write(uint8array);
     }
 

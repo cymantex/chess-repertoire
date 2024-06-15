@@ -22,10 +22,12 @@ export const deleteRepertoireMove = async (fen: string, san: string) =>
     }),
   );
 
+// TODO: Would be nice with some object params here instead
 export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,
   annotationSetting: AnnotationSetting,
+  overrideExistingAnnotation = false,
 ) => {
   if (annotationSetting === ANNOTATION_SETTINGS.DONT_SAVE) {
     return Promise.resolve();
@@ -34,6 +36,13 @@ export const upsertRepertoireMove = async (
   const withSelectedAutomaticAnnotation = (move: RepertoireMove) => {
     if (annotationSetting === ANNOTATION_SETTINGS.NONE) {
       return move;
+    }
+
+    if (overrideExistingAnnotation) {
+      return {
+        ...move,
+        annotation: annotationSetting as RepertoireMoveAnnotation,
+      };
     }
 
     return {
@@ -48,20 +57,25 @@ export const upsertRepertoireMove = async (
     (data: RepertoirePosition) => {
       const { moves } = data;
 
+      const annotatedMove = withSelectedAutomaticAnnotation(repertoireMove);
+
       if (!moves) {
-        return { ...data, moves: [repertoireMove] };
+        return { ...data, moves: [annotatedMove] };
       }
 
       const moveExists = moves.some((m) => m.san === repertoireMove.san);
 
       if (moveExists) {
+        const moveUpdate = overrideExistingAnnotation
+          ? annotatedMove
+          : repertoireMove;
         return {
           ...data,
           moves: moves.map((move) =>
-            move.san === repertoireMove.san
+            move.san === moveUpdate.san
               ? {
                   ...move,
-                  ...repertoireMove,
+                  ...moveUpdate,
                 }
               : move,
           ),
@@ -70,7 +84,7 @@ export const upsertRepertoireMove = async (
 
       return {
         ...data,
-        moves: [...moves, withSelectedAutomaticAnnotation(repertoireMove)],
+        moves: [...moves, annotatedMove],
       };
     },
   );
