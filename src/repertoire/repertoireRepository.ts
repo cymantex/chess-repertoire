@@ -1,3 +1,5 @@
+import { DrawShape } from "chessground/draw";
+import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 import {
   ANNOTATION_SETTINGS,
   AnnotationSetting,
@@ -5,9 +7,7 @@ import {
   RepertoireMove,
   RepertoireMoveAnnotation,
   RepertoirePosition,
-} from "@/defs.ts";
-import { DrawShape } from "chessground/draw";
-import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
+} from "@/repertoire/defs.ts";
 
 export const getRepertoirePosition = async (fen: string) =>
   idbGet<RepertoirePosition>(fen);

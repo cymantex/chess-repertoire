@@ -4,11 +4,11 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectHoveredOpeningMove } from "@/stores/zustand/selectors.ts";
 import { orderBy, uniqBy } from "lodash";
 import { useNextAnnotatedMoves } from "@/hooks/useNextAnnotatedMoves.ts";
-import { AnnotatedMove } from "@/defs.ts";
 import * as cg from "chessground/types";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { safeSetAutoShapes } from "@/external/chessground/utils.ts";
+import { AnnotatedMove } from "@/repertoire/defs.ts";
 
 export const useRepertoireAutoShapes = () => {
   const nextMoves = useNextAnnotatedMoves();

@@ -1,15 +1,15 @@
 import { Chess, Move } from "chess.js";
-import {
-  AnnotationSetting,
-  RepertoireMove,
-  RepertoireOpeningExplorerMove,
-  RepertoirePosition,
-} from "@/defs.ts";
 import { Pgn } from "@/external/chessops/defs.ts";
 import { CgColor } from "@/external/chessground/defs.tsx";
 import { Key } from "chessground/types";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { DrawShape } from "chessground/draw";
+import {
+  AnnotationSetting,
+  RepertoireMove,
+  RepertoireOpeningExplorerMove,
+  RepertoirePosition,
+} from "@/repertoire/defs.ts";
 
 export interface NavigationSlice {
   goToFirstMove: () => Promise<void>;

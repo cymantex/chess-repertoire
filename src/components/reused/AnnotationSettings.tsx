@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/defs.ts";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;

@@ -8,8 +8,8 @@ import {
   updateCurrentRepertoirePosition,
 } from "@/stores/zustand/utils.ts";
 import { RepertoireSlice, SetState } from "@/stores/zustand/defs.ts";
-import { DEFAULT_REPERTOIRE_POSITION } from "@/defs.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
+import { DEFAULT_REPERTOIRE_POSITION } from "@/repertoire/defs.ts";
 
 export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
   currentRepertoirePosition: DEFAULT_REPERTOIRE_POSITION,

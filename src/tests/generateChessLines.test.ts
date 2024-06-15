@@ -1,9 +1,5 @@
 import { expect, test } from "vitest";
-import {
-  FEN_STARTING_POSITION,
-  REPERTOIRE_ANNOTATION,
-  RepertoirePosition,
-} from "@/defs.ts";
+import { FEN_STARTING_POSITION } from "@/defs.ts";
 import {
   generateChessLines,
   GetRepertoirePosition,
@@ -12,6 +8,10 @@ import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { toPgn } from "@/pgn/utils.ts";
 import { FEN_E4, FEN_SICILIAN, FEN_SICILIAN_NF3 } from "@/tests/testUtils.ts";
+import {
+  REPERTOIRE_ANNOTATION,
+  RepertoirePosition,
+} from "@/repertoire/defs.ts";
 
 const resultHeader = `[Result "*"]\n\n`;
 

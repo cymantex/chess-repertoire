@@ -3,9 +3,9 @@ import { PgnImportSettings } from "@/components/Chessboard/PgnImport/components/
 import { ImportProgress } from "@/components/Chessboard/PgnImport/components/ImportProgress.tsx";
 import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
 import { useState } from "react";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/defs.ts";
 import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
 import { isNumber } from "lodash";
+import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
 
 interface PgnImportFormProps {
   importPgnProgress?: Partial<ImportPgnProgress>;

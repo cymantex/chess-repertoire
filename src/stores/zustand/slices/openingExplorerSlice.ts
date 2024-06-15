@@ -1,7 +1,7 @@
 import { OpeningExplorerSlice, SetState } from "@/stores/zustand/defs.ts";
 import { getNonReactiveState, handleMove } from "@/stores/zustand/utils.ts";
-import { RepertoireOpeningExplorerMove } from "@/defs.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
+import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
 
 export const createOpeningExplorerSlice = (
   set: SetState,

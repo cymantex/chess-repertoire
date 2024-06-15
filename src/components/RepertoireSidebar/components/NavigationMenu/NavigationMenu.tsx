@@ -2,6 +2,7 @@ import { FaRotate } from "react-icons/fa6";
 import {
   FaFastBackward,
   FaFastForward,
+  FaSlidersH,
   FaStepBackward,
   FaStepForward,
 } from "react-icons/fa";
@@ -27,6 +28,7 @@ export const NavigationMenu = () => {
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
   const { annotationSetting } = useRepertoireSettings();
 
+  // TODO: Disable buttons not available to click
   return (
     <div className="flex justify-evenly text-2xl">
       <AnnotationSettings
@@ -46,6 +48,7 @@ export const NavigationMenu = () => {
         className="cursor-pointer"
         onClick={rotate}
       />
+      <FaSlidersH className="cursor-pointer" />
     </div>
   );
 };
