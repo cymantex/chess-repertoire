@@ -1,16 +1,17 @@
 import { Game, PgnNodeData, startingPosition } from "chessops/pgn";
 import { isNotEmptyArray } from "@/utils/utils.ts";
 import { isNumber } from "lodash";
-import { INITIAL_FEN, makeFen } from "chessops/fen";
+import { makeFen } from "chessops/fen";
 import { makeSanAndPlay, parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
-import { AnnotationSetting } from "@/defs.ts";
 import {
   ImportPgnGameOptions,
   ImportPgnOptions,
   ImportPgnPlayerSettings,
 } from "@/pgn/import/defs.ts";
+import { AnnotationSetting } from "@/repertoire/defs.ts";
+import { FEN_STARTING_POSITION } from "@/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
@@ -61,7 +62,7 @@ const importMove = async (
 const isUnsupportedGame = (game: Game<PgnNodeData>) => {
   const fenHeader = game.headers.get("FEN");
 
-  if (fenHeader && fenHeader !== INITIAL_FEN) {
+  if (fenHeader && fenHeader !== FEN_STARTING_POSITION) {
     return true;
   }
 

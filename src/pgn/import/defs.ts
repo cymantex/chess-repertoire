@@ -1,4 +1,4 @@
-import { AnnotationSetting, RepertoireMove } from "@/defs.ts";
+import { AnnotationSetting, RepertoireMove } from "@/repertoire/defs.ts";
 
 export interface ImportPgnOptions {
   annotationSetting: AnnotationSetting;

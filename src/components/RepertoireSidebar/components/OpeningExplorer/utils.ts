@@ -1,12 +1,12 @@
-import {
-  AnnotatedMove,
-  OpeningExplorerMove,
-  RepertoireMove,
-  RepertoireOpeningExplorerMove,
-} from "@/defs.ts";
+import { OpeningExplorerMove } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNumber, orderBy, uniqBy } from "lodash";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
+import {
+  AnnotatedMove,
+  RepertoireMove,
+  RepertoireOpeningExplorerMove,
+} from "@/repertoire/defs.ts";
 
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;

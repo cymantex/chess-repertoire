@@ -1,7 +1,11 @@
 import { isEqual } from "lodash";
-import { DEFAULT_SETTINGS, RepertoireSettings, SETTINGS_KEY } from "@/defs.ts";
 import { getObject, upsertObject } from "local-storage-superjson";
 import { useSyncExternalStore } from "react";
+import {
+  DEFAULT_SETTINGS,
+  RepertoireSettings,
+  SETTINGS_KEY,
+} from "@/repertoire/defs.ts";
 
 const subscribers = new Set<() => void>();
 

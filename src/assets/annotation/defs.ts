@@ -5,11 +5,6 @@ import { NeutralIcon } from "@/assets/annotation/components/NeutralIcon.tsx";
 import { BadIcon } from "@/assets/annotation/components/BadIcon.tsx";
 import { BlunderIcon } from "@/assets/annotation/components/BlunderIcon.tsx";
 import { FaBan, FaChessBoard } from "react-icons/fa6";
-import {
-  ANNOTATION_SETTINGS,
-  REPERTOIRE_ANNOTATION,
-  RepertoireMoveAnnotation,
-} from "@/defs.ts";
 import BrilliantSvg from "@/assets/annotation/svg/brilliant.svg?raw";
 import GoodSvg from "@/assets/annotation/svg/good.svg?raw";
 import NeutralSvg from "@/assets/annotation/svg/neutral.svg?raw";
@@ -19,6 +14,11 @@ import InterestingSvg from "@/assets/annotation/svg/interesting.svg?raw";
 import DubiousSvg from "@/assets/annotation/svg/dubious.svg?raw";
 import { InterestingIcon } from "@/assets/annotation/components/InterestingIcon.tsx";
 import { DubiousIcon } from "@/assets/annotation/components/DubiousIcon.tsx";
+import {
+  ANNOTATION_SETTINGS,
+  REPERTOIRE_ANNOTATION,
+  RepertoireMoveAnnotation,
+} from "@/repertoire/defs.ts";
 
 export const DEFAULT_ANNOTATION_STYLES = {
   background: {

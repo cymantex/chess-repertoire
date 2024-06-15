@@ -8,7 +8,8 @@ import { Move } from "chess.js";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
 import { getAnnotationSetting } from "@/stores/localStorageStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
-import { DEFAULT_REPERTOIRE_POSITION } from "@/defs.ts";
+
+import { DEFAULT_REPERTOIRE_POSITION } from "@/repertoire/defs.ts";
 
 /**
  * This function should always be called whenever a change in the position (FEN)

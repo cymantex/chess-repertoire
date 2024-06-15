@@ -7,10 +7,6 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import classNames from "classnames";
-import {
-  RepertoireMoveAnnotation,
-  RepertoireOpeningExplorerMove,
-} from "@/defs.ts";
 import { FaTrash } from "react-icons/fa";
 import {
   ANNOTATION_BACKGROUND_DARK_BLUE,
@@ -18,6 +14,10 @@ import {
   AnnotationProps,
   DEFAULT_ANNOTATION_STYLES,
 } from "@/assets/annotation/defs.ts";
+import {
+  RepertoireMoveAnnotation,
+  RepertoireOpeningExplorerMove,
+} from "@/repertoire/defs.ts";
 
 interface MoveAnnotationMenuProps {
   move: RepertoireOpeningExplorerMove;

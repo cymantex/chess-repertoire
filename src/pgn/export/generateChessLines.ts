@@ -1,7 +1,7 @@
 // @ts-ignore
-import { RepertoirePosition } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNotEmptyArray } from "@/utils/utils.ts";
+import { RepertoirePosition } from "@/repertoire/defs.ts";
 
 export type GetRepertoirePosition = (
   fen: string,
