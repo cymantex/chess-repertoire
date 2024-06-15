@@ -2,14 +2,80 @@ import { useState } from "react";
 import { PgnFileInput } from "@/components/Chessboard/PgnImport/components/PgnFileInput.tsx";
 import { PgnImportSettings } from "@/components/Chessboard/PgnImport/components/PgnImportSettings.tsx";
 import classNames from "classnames";
+import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { importPgnAsync, ImportPgnProgress } from "@/pgn/import.ts";
+import {
+  setRepertoirePositionComment,
+  setRepertoirePositionShapes,
+  upsertRepertoireMove,
+} from "@/stores/repertoireRepository.ts";
+import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/defs.ts";
+import { isNumber } from "lodash";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
+import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 
 export const PgnImport = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [playerNames, setPlayerNames] = useState<string[]>([]);
-  const [, setPlayerName] = useState<string | null>(null);
-  const [includeComments, setIncludeComments] = useState<boolean>(true);
+  const { annotationSetting } = useRepertoireSettings();
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [file, setFile] = useState<File | null>(null);
+
+  const getCurrentRepertoirePosition = useRepertoireStore(
+    selectGetCurrentRepertoirePosition,
+  );
+
+  // ImportPgnSettings
+  const [playerNames, setPlayerNames] = useState<string[]>([]);
+  const [playerName, setPlayerName] = useState<string | undefined>();
+  const [includeComments, setIncludeComments] = useState<boolean>(true);
+  const [maxMoveNumber, setMaxMoveNumber] = useState<number | "">("");
+  const [includeShapes, setIncludeShapes] = useState<boolean>(true);
+  const [opponentAnnotationSetting, setOpponentAnnotationSetting] =
+    useState<AnnotationSetting>(ANNOTATION_SETTINGS.NEUTRAL);
+  const [playerAnnotationSetting, setPlayerAnnotationSetting] =
+    useState(annotationSetting);
+
+  const [importPgnProgress, setImportPgnProgress] = useState<
+    ImportPgnProgress | undefined
+  >();
+
+  const importInProgress = importPgnProgress !== undefined;
+
+  const handlePgnImport = async () => {
+    setImportPgnProgress({});
+
+    try {
+      await importPgnAsync(
+        file!,
+        {
+          upsertMove: upsertRepertoireMove,
+          setComment: setRepertoirePositionComment,
+          setShapes: setRepertoirePositionShapes,
+          annotationSetting: playerAnnotationSetting,
+          includeComments,
+          includeShapes,
+          maxMoveNumber: isNumber(maxMoveNumber) ? maxMoveNumber : undefined,
+          playerSettings: playerName
+            ? { playerName, opponentAnnotationSetting }
+            : undefined,
+        },
+        {
+          onProgress: setImportPgnProgress,
+        },
+      );
+    } catch (error) {
+      // TODO: Properly handle error
+      console.error(error);
+      return;
+    }
+
+    await getCurrentRepertoirePosition();
+
+    setModalOpen(false);
+  };
+
+  // TODO: Throw away component after hiding modal
   return (
     <div className="hidden md:block">
       <button onClick={() => setModalOpen(true)}>Import PGN</button>
@@ -22,6 +88,7 @@ export const PgnImport = () => {
         <div className="modal-box overflow-visible">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            disabled={importInProgress}
             onClick={() => setModalOpen(false)}
           >
             ✕
@@ -36,6 +103,7 @@ export const PgnImport = () => {
           </div>
           <hr className="border-base-200" />
           <PgnFileInput
+            disabled={importInProgress}
             onFileUpload={(file, playerNames) => {
               setFile(file);
               setPlayerNames(playerNames);
@@ -43,21 +111,52 @@ export const PgnImport = () => {
           />
           {file && (
             <PgnImportSettings
+              disabled={importInProgress}
+              selectedPlayerName={playerName}
               playerNames={playerNames}
               onSelectPlayerName={setPlayerName}
               includeComments={includeComments}
               onToggleIncludeComments={setIncludeComments}
+              maxMoveNumber={maxMoveNumber}
+              onMaxMoveNumberChange={setMaxMoveNumber}
+              includeShapes={includeShapes}
+              onToggleIncludeShapes={setIncludeShapes}
+              playerAnnotationSetting={playerAnnotationSetting}
+              onSelectPlayerAnnotationSetting={setPlayerAnnotationSetting}
+              opponentAnnotationSetting={opponentAnnotationSetting}
+              onSelectOpponentAnnotationSetting={setOpponentAnnotationSetting}
             />
           )}
           <div className="modal-action">
             <form method="dialog">
-              <button disabled={!file} className="btn">
-                Upload
+              <button
+                disabled={!file || importInProgress}
+                className="btn btn-loading"
+                onClick={handlePgnImport}
+              >
+                {importInProgress ? (
+                  <ImportProgress progress={importPgnProgress} />
+                ) : (
+                  <span>Upload</span>
+                )}
               </button>
             </form>
           </div>
         </div>
       </dialog>
     </div>
+  );
+};
+
+const ImportProgress = ({ progress }: { progress: ImportPgnProgress }) => {
+  if (!isNumber(progress.gameCount) || !isNumber(progress.totalGames))
+    return <span className="loading loading-spinner"></span>;
+
+  return (
+    <>
+      <span className="loading loading-spinner"></span>
+      Imported {progress.gameCount} of {progress.totalGames} game
+      {progress.gameCount > 1 ? "s" : ""}
+    </>
   );
 };

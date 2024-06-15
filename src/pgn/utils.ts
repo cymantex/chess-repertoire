@@ -1,8 +1,9 @@
 import { GetRepertoirePosition } from "@/pgn/generateChessLines.ts";
 import { RepertoirePgnPosition } from "@/defs.ts";
 import { Chess } from "chess.js";
-import { isArray, isNumber, isString, last } from "lodash";
+import { isNumber, isString, last } from "lodash";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { isNotEmptyArray } from "@/utils/utils.ts";
 
 export const toPgn = async (
   chess: Chess,
@@ -61,7 +62,7 @@ const toRepertoirePgnPositions = async (
       const shapes = position?.shapes ?? [];
 
       return {
-        shapes: shapes.length > 0 ? shapes : undefined,
+        shapes: isNotEmptyArray(shapes) ? shapes : undefined,
         move: position?.moves
           ?.filter((move) => isNumber(move.annotation))
           .find((m) => m.san === move.san),
@@ -70,7 +71,7 @@ const toRepertoirePgnPositions = async (
     })
     .filter(
       (position) =>
-        (isArray(position.shapes) && position.shapes.length > 0) ||
+        isNotEmptyArray(position.shapes) ||
         isString(getAnnotation(position?.move?.annotation)?.symbol),
     )
     .reduce(

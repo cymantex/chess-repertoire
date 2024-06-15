@@ -1,15 +1,20 @@
 import classNames from "classnames";
 import { useState } from "react";
 import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/defs.ts";
-import {
-  localStorageStore,
-  useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 
-export const AnnotationSettings = () => {
+interface AnnotationSettingsProps {
+  disabled?: boolean;
+  annotationSetting: AnnotationSetting;
+  onSelect: (annotationSetting: AnnotationSetting) => void;
+}
+
+export const AnnotationSettings = ({
+  disabled,
+  annotationSetting,
+  onSelect,
+}: AnnotationSettingsProps) => {
   const [showAnnotationMenu, setShowAnnotationMenu] = useState(false);
-  const { annotationSetting } = useRepertoireSettings();
 
   const { SettingsIcon } = getAnnotation(annotationSetting);
 
@@ -21,9 +26,17 @@ export const AnnotationSettings = () => {
     >
       <span
         title="Annotation settings"
-        onClick={() => setShowAnnotationMenu(!showAnnotationMenu)}
+        onClick={() => {
+          if (disabled) return;
+          setShowAnnotationMenu(!showAnnotationMenu);
+        }}
       >
-        <SettingsIcon className="transition-all hover:scale-150 rounded cursor-pointer" />
+        <SettingsIcon
+          className={classNames("transition-all rounded", {
+            "hover:scale-150": !disabled,
+            "cursor-pointer": !disabled,
+          })}
+        />
       </span>
       <div
         className={classNames(
@@ -48,9 +61,7 @@ export const AnnotationSettings = () => {
               key={annotationSetting}
               annotationSetting={annotationSetting}
               onClick={() => {
-                localStorageStore.upsertSettings({
-                  annotationSetting: annotationSetting,
-                });
+                onSelect(annotationSetting);
                 setShowAnnotationMenu(false);
               }}
             />

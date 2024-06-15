@@ -11,12 +11,13 @@ import {
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { toPgn } from "@/pgn/utils.ts";
+import {
+  FEN_E4,
+  FEN_SICILIAN,
+  FEN_SICILIAN_NF3,
+  toRepertoireHeader,
+} from "@/tests/testUtils.ts";
 
-const FEN_E4 = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1";
-const FEN_SICILIAN =
-  "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2";
-const FEN_SICILIAN_NF3 =
-  "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
 const resultHeader = `[Result "*"]\n\n`;
 
 const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
@@ -36,9 +37,6 @@ const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
 
   return pgnList;
 };
-
-const toRepertoireHeader = (object: object) =>
-  `[Result "*"]\n[Repertoire "${JSON.stringify(object).replaceAll('"', "'")}"]\n\n`;
 
 test("No starting position", async () => {
   expect(await toPgnList({ [FEN_E4]: { moves: [{ san: "e5" }] } })).toEqual([]);
