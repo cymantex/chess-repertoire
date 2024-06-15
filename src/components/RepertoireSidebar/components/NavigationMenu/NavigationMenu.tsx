@@ -12,13 +12,17 @@ import {
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
+  selectOpenSidebar,
   selectRotate,
+  selectSidebar,
 } from "@/stores/zustand/selectors.ts";
 import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
 import {
   localStorageStore,
   useRepertoireSettings,
 } from "@/stores/localStorageStore.ts";
+import { SIDEBARS } from "@/defs.ts";
+import classNames from "classnames";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
@@ -26,6 +30,8 @@ export const NavigationMenu = () => {
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
+  const sidebar = useRepertoireStore(selectSidebar);
+  const openSidebar = useRepertoireStore(selectOpenSidebar);
   const { annotationSetting } = useRepertoireSettings();
 
   // TODO: Disable buttons not available to click
@@ -48,7 +54,18 @@ export const NavigationMenu = () => {
         className="cursor-pointer"
         onClick={rotate}
       />
-      <FaSlidersH className="cursor-pointer" />
+      <FaSlidersH
+        className={classNames("cursor-pointer", {
+          "text-primary": sidebar === SIDEBARS.SETTINGS,
+        })}
+        onClick={() => {
+          openSidebar(
+            sidebar === SIDEBARS.OPENING_EXPLORER
+              ? SIDEBARS.SETTINGS
+              : SIDEBARS.OPENING_EXPLORER,
+          );
+        }}
+      />
     </div>
   );
 };

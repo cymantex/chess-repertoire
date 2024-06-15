@@ -1,6 +1,11 @@
 import { idpEntries } from "@/external/idb-keyval/adapter.ts";
 
 self.onmessage = async () => {
-  const entries = await idpEntries();
-  self.postMessage(new TextEncoder().encode(JSON.stringify(entries)));
+  try {
+    const entries = await idpEntries();
+    self.postMessage(new TextEncoder().encode(JSON.stringify(entries)));
+  } catch (err) {
+    console.error(err);
+    self.reportError(err);
+  }
 };

@@ -6,10 +6,12 @@ import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { toPgn } from "@/pgn/utils.ts";
 
 export const exportPgnAsync = async () => {
+  // TODO: Consider generalizing something for streamsaver
   const fileStream = streamSaver.createWriteStream("repertoire.pgn");
   const writer = fileStream.getWriter();
 
-  window.onbeforeunload = () => {
+  // TODO: Deprecated, find better alternatives
+  window.onunload = () => {
     fileStream.abort();
     writer.abort();
   };
@@ -28,8 +30,7 @@ export const exportPgnAsync = async () => {
     }
 
     await writer.close().catch(() => {});
-  } catch (error) {
-    console.error(error);
-    await Promise.all([fileStream.abort(), writer.abort()]);
+  } finally {
+    window.onunload = null;
   }
 };

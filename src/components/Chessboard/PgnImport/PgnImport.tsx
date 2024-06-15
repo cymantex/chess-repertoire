@@ -24,6 +24,10 @@ export const PgnImport = () => {
   const handlePgnImport = async (file: File, options: ImportPgnOptions) => {
     setImportPgnProgress({});
 
+    window.onbeforeunload = (event) => {
+      event.preventDefault();
+    };
+
     try {
       const { gameCount } = await importPgnFile(file!, options, {
         onProgress: setImportPgnProgress,
@@ -37,6 +41,8 @@ export const PgnImport = () => {
     } catch (error) {
       // @ts-ignore
       toast.error(error.message);
+    } finally {
+      window.onbeforeunload = null;
     }
 
     await getCurrentRepertoirePosition();
@@ -46,10 +52,11 @@ export const PgnImport = () => {
   };
 
   return (
-    <div className="hidden md:block">
-      <button onClick={() => setModalOpen(true)}>Import PGN</button>
+    <div>
+      <button className="btn w-full mb-2" onClick={() => setModalOpen(true)}>
+        Import PGN
+      </button>
       <dialog
-        id="my_modal_3"
         className={classNames("modal", {
           "modal-open": modalOpen,
         })}

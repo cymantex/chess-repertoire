@@ -37,6 +37,10 @@ $navigationHeight: 25px;
     margin-left: $p-2;
     height: var(--cg-height);
 
+    &__settings {
+      grid-template-rows: 1fr $navigationHeight;
+    }
+
     &__engine {
       display: block;
     }

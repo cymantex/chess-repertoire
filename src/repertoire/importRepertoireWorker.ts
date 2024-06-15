@@ -6,10 +6,15 @@ self.onmessage = async (event: MessageEvent<File>) => {
   const reader = new FileReader();
 
   reader.onload = async (event) => {
-    const repertoireJson = event.target!.result as string;
-    const entries = JSON.parse(repertoireJson);
-    await idpSetEntries(entries);
-    self.postMessage({ done: true });
+    try {
+      const repertoireJson = event.target!.result as string;
+      const entries = JSON.parse(repertoireJson);
+      await idpSetEntries(entries);
+      self.postMessage({ done: true });
+    } catch (err) {
+      console.error(err);
+      self.reportError(err);
+    }
   };
 
   reader.onerror = (err) => {

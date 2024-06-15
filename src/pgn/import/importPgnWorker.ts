@@ -7,14 +7,19 @@ self.onmessage = async (
     options: ImportPgnOptions;
   }>,
 ) => {
-  const { pgn, options } = event.data;
+  try {
+    const { pgn, options } = event.data;
 
-  const { reportProgressInterval, gameCount, totalGames } = await importPgn(
-    pgn,
-    options,
-    (progress) => self.postMessage(progress),
-  );
+    const { reportProgressInterval, gameCount, totalGames } = await importPgn(
+      pgn,
+      options,
+      (progress) => self.postMessage(progress),
+    );
 
-  clearInterval(reportProgressInterval);
-  self.postMessage({ done: true, gameCount, totalGames });
+    clearInterval(reportProgressInterval);
+    self.postMessage({ done: true, gameCount, totalGames });
+  } catch (err) {
+    console.error(err);
+    self.reportError(err);
+  }
 };
