@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { setRepertoirePositionComment } from "@/stores/repertoireRepository.ts";
+import { setRepertoirePositionComment } from "@/repertoire/repertoireRepository.ts";
 
 interface CommentTextareaProps {
   fen: string;

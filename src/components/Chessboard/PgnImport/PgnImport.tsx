@@ -43,7 +43,6 @@ export const PgnImport = () => {
 
     setModalOpen(false);
     setImportPgnProgress(undefined);
-    // TODO: Notify that import is complete
   };
 
   return (
