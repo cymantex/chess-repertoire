@@ -12,7 +12,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
-import { exportPgnAsync } from "@/pgn/export.ts";
+import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.ts";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);

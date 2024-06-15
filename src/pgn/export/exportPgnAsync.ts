@@ -1,6 +1,6 @@
 // WARNING: The streamsaver dependency cannot be imported by a vitest file
 import streamSaver from "streamsaver";
-import { generateChessLines } from "@/pgn/generateChessLines.ts";
+import { generateChessLines } from "@/pgn/export/generateChessLines.ts";
 import { getRepertoirePosition } from "@/stores/repertoireRepository.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { toPgn } from "@/pgn/utils.ts";
