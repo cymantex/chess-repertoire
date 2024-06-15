@@ -7,11 +7,14 @@ import { createRepertoireSlice } from "@/stores/zustand/slices/repertoireSlice.t
 import { createChessgroundSlice } from "@/stores/zustand/slices/chessgroundSlice.ts";
 import { createNavigationSlice } from "@/stores/zustand/slices/navigationSlice.ts";
 import { createOpeningExplorerSlice } from "@/stores/zustand/slices/openingExplorerSlice.ts";
+import { SIDEBARS } from "@/defs.ts";
 
 export const useRepertoireStore = create(
   devtools<ChessRepertoireStore>((set) => ({
     pgn: defaultPgn(),
     chess: new Chess(),
+    sidebar: SIDEBARS.OPENING_EXPLORER,
+    openSidebar: (sidebar) => set({ sidebar }),
     ...createRepertoireSlice(set),
     ...createChessgroundSlice(set),
     ...createOpeningExplorerSlice(set),

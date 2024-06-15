@@ -34,15 +34,15 @@ export const upsertRepertoireMove = async (
   }
 
   const withSelectedAutomaticAnnotation = (move: RepertoireMove) => {
-    if (annotationSetting === ANNOTATION_SETTINGS.NONE) {
-      return move;
-    }
-
     if (overrideExistingAnnotation) {
       return {
         ...move,
         annotation: annotationSetting as RepertoireMoveAnnotation,
       };
+    }
+
+    if (annotationSetting === ANNOTATION_SETTINGS.NONE) {
+      return move;
     }
 
     return {

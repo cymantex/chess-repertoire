@@ -11,13 +11,6 @@ import {
   selectGetCurrentRepertoirePosition,
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
-import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
-import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.ts";
-import { PgnFileInput } from "@/components/Chessboard/PgnImport/components/PgnFileInput.tsx";
-import {
-  exportRepertoireFile,
-  startImportRepertoireWorker,
-} from "@/repertoire/repertoireIo.ts";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -47,16 +40,6 @@ export const RepertoireApp = () => {
           fen={fen}
           positionComment={positionComment}
         />
-        <button className="hidden md:block" onClick={exportPgnAsync}>
-          Export PGN
-        </button>
-        <button className="hidden md:block" onClick={exportRepertoireFile}>
-          Export DB
-        </button>
-        <PgnFileInput
-          onFileUpload={(file) => startImportRepertoireWorker(file)}
-        />
-        <PgnImport />
       </main>
       <RepertoireSidebar />
     </div>

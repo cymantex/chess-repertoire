@@ -6,13 +6,18 @@ export const exportRepertoireFile = async () => {
   const fileStream = streamSaver.createWriteStream("repertoire.json");
   const writer = fileStream.getWriter();
 
+  // TODO: Deprecated, find better alternatives
+  window.onunload = () => {
+    fileStream.abort();
+    writer.abort();
+  };
+
   try {
     const uint8array = await startExportRepertoireWorker();
     await writer.write(uint8array);
     await writer.close().catch(() => {});
-  } catch (error) {
-    console.error(error);
-    await Promise.all([fileStream.abort(), writer.abort()]);
+  } finally {
+    window.onunload = null;
   }
 };
 
@@ -20,8 +25,9 @@ export const startImportRepertoireWorker = (file: File) =>
   new Promise<void>((resolve, reject) => {
     const worker = new RepertoireImportWorker();
     worker.onmessage = () => resolve();
-    worker.onerror = reject;
-    worker.postMessage({ file });
+    worker.onerror = (err) => reject(err);
+    worker.onmessageerror = (err) => reject(err);
+    worker.postMessage(file);
   });
 
 const startExportRepertoireWorker = () =>
@@ -29,5 +35,6 @@ const startExportRepertoireWorker = () =>
     const worker = new RepertoireExportWorker();
     worker.onmessage = async (event) => resolve(event.data);
     worker.onerror = reject;
+    worker.onmessageerror = reject;
     worker.postMessage("start");
   });

@@ -10,6 +10,7 @@ import {
   RepertoireOpeningExplorerMove,
   RepertoirePosition,
 } from "@/repertoire/defs.ts";
+import { Sidebar } from "@/defs.ts";
 
 export interface NavigationSlice {
   goToFirstMove: () => Promise<void>;
@@ -55,6 +56,9 @@ export interface ChessRepertoireStore
     NavigationSlice {
   chess: Chess;
   pgn: Pgn;
+  sidebar: Sidebar;
+
+  openSidebar: (sidebar: Sidebar) => void;
 }
 
 export type SetState = (
