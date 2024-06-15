@@ -96,10 +96,21 @@ export const ANNOTATION_SETTINGS = {
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
+export const ANNOTATION_SYMBOLS = {
+  "!!": REPERTOIRE_ANNOTATION.BRILLIANT,
+  "!": REPERTOIRE_ANNOTATION.GOOD,
+  "!?": REPERTOIRE_ANNOTATION.INTERESTING,
+  " ": REPERTOIRE_ANNOTATION.NEUTRAL,
+  "?!": REPERTOIRE_ANNOTATION.DUBIOUS,
+  "?": REPERTOIRE_ANNOTATION.BAD,
+  "??": REPERTOIRE_ANNOTATION.BLUNDER,
+} as const;
+
 export interface RepertoireSettings {
   annotationSetting: AnnotationSetting;
 }
 export const SETTINGS_KEY = "repertoireSettings";
+
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
 };
@@ -132,8 +143,8 @@ export interface ImportPgnPlayerSettings {
 }
 
 export interface ImportPgnProgress {
-  totalGames?: number;
-  gameCount?: number;
+  totalGames: number;
+  gameCount: number;
 }
 
 export interface ImportPgnCallbacks {
