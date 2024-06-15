@@ -3,7 +3,7 @@ import { PgnFileInput } from "@/components/Chessboard/PgnImport/components/PgnFi
 import { PgnImportSettings } from "@/components/Chessboard/PgnImport/components/PgnImportSettings.tsx";
 import classNames from "classnames";
 import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
-import { importPgnAsync } from "@/pgn/import/importPgnAsync.ts";
+import { importPgnFile } from "@/pgn/import/importPgnFile.ts";
 import {
   ANNOTATION_SETTINGS,
   AnnotationSetting,
@@ -36,7 +36,7 @@ export const PgnImport = () => {
     useState(annotationSetting);
 
   const [importPgnProgress, setImportPgnProgress] = useState<
-    ImportPgnProgress | undefined
+    Partial<ImportPgnProgress> | undefined
   >();
 
   const importInProgress = importPgnProgress !== undefined;
@@ -45,7 +45,7 @@ export const PgnImport = () => {
     setImportPgnProgress({});
 
     try {
-      await importPgnAsync(
+      await importPgnFile(
         file!,
         {
           annotationSetting: playerAnnotationSetting,
@@ -144,7 +144,11 @@ export const PgnImport = () => {
   );
 };
 
-const ImportProgress = ({ progress }: { progress: ImportPgnProgress }) => {
+const ImportProgress = ({
+  progress,
+}: {
+  progress: Partial<ImportPgnProgress>;
+}) => {
   if (!isNumber(progress.gameCount) || !isNumber(progress.totalGames))
     return <span className="loading loading-spinner"></span>;
 

@@ -19,10 +19,7 @@ export const PgnFileInput = ({ onFileUpload, disabled }: PgnFileInputProps) => (
         .slice(0, 1000)
         .text()
         .then(extractPlayerNames)
-        .then((playerNames) => {
-          onFileUpload(file, playerNames);
-          console.warn(e.target.files);
-        });
+        .then((playerNames) => onFileUpload(file, playerNames));
     }}
   />
 );

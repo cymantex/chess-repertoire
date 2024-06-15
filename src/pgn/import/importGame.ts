@@ -1,16 +1,18 @@
-import { ChildNode, Game, PgnNodeData } from "chessops/pgn";
+import { Game, PgnNodeData, startingPosition } from "chessops/pgn";
+import { isNotEmptyArray } from "@/utils/utils.ts";
+import { isNumber } from "lodash";
+import { INITIAL_FEN, makeFen } from "chessops/fen";
+import { makeSanAndPlay, parseSan } from "chessops/san";
+import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
+import { Position } from "chessops";
 import {
+  ANNOTATION_SYMBOLS,
   AnnotationSetting,
-  FEN_STARTING_POSITION,
   ImportPgnGameOptions,
   ImportPgnOptions,
   ImportPgnPlayerSettings,
   RepertoirePgnPosition,
 } from "@/defs.ts";
-import { BLACK, Chess, Color, WHITE } from "chess.js";
-import { isNotEmptyArray } from "@/utils/utils.ts";
-import { isNumber } from "lodash";
-import { ANNOTATION_SYMBOLS } from "@/assets/annotation/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
@@ -22,26 +24,25 @@ export const importGame = async (
     return;
   }
 
-  const parsedOptions = parseImportPgnOptions(game, options);
+  const { mainLine, ...parsedPgnOptions } = parseImportPgnOptions(
+    game,
+    options,
+  );
 
-  const chess = new Chess();
+  const pos = startingPosition(game.headers).unwrap();
 
-  for (const move of parsedOptions.mainLine) {
-    try {
-      await importMove(move, chess, parsedOptions, options);
-    } catch (error) {
-      console.error(error);
-      console.log(game.headers);
-      console.log(chess.history());
-      return;
-    }
+  for (const move of mainLine) {
+    await importMove(move.data, pos, parsedPgnOptions, options);
   }
 };
 
 const importMove = async (
-  move: ChildNode<PgnNodeData>,
-  chess: Chess,
-  { annotationSettings, repertoirePgnPositions }: ParsedPgnOptions,
+  node: PgnNodeData,
+  pos: Position,
+  {
+    annotationSettings,
+    repertoirePgnPositions,
+  }: Omit<ParsedPgnOptions, "mainLine">,
   {
     upsertMove,
     setComment,
@@ -50,36 +51,38 @@ const importMove = async (
     includeShapes,
   }: ImportPgnGameOptions,
 ) => {
-  const fen = chess.fen();
+  const fen = makeFen(pos.toSetup());
+  const move = parseSan(pos, node.san);
   const position = repertoirePgnPositions[fen];
 
   if (includeShapes && isNotEmptyArray(position?.shapes)) {
     await setShapes(fen, position.shapes);
   }
 
-  if (includeComments && isNotEmptyArray(move.data.startingComments)) {
-    await setComment(fen, move.data.startingComments.join(""));
+  if (includeComments && isNotEmptyArray(node.startingComments)) {
+    await setComment(fen, node.startingComments.join(""));
   }
 
   const { annotation, overrideAnnotation } = determineAnnotation(
-    move,
+    node.san,
     annotationSettings,
-    chess.turn(),
+    pos.turn,
     position,
   );
 
-  await upsertMove(fen, { san: move.data.san }, annotation, overrideAnnotation);
+  await upsertMove(fen, { san: node.san }, annotation, overrideAnnotation);
 
-  chess.move(move.data.san);
+  makeSanAndPlay(pos, move!);
 
-  if (includeComments && isNotEmptyArray(move.data.comments)) {
-    await setComment(chess.fen(), move.data.comments.join(""));
+  if (includeComments && isNotEmptyArray(node.comments)) {
+    await setComment(makeFen(pos.toSetup()), node.comments.join(""));
   }
 };
+
 const isUnsupportedGame = (game: Game<PgnNodeData>) => {
   const fenHeader = game.headers.get("FEN");
 
-  if (fenHeader && fenHeader !== FEN_STARTING_POSITION) {
+  if (fenHeader && fenHeader !== INITIAL_FEN) {
     return true;
   }
 
@@ -87,9 +90,17 @@ const isUnsupportedGame = (game: Game<PgnNodeData>) => {
 
   return !!(variantHeader && variantHeader !== "Standard");
 };
+
 const parseImportPgnOptions = (
   game: Game<PgnNodeData>,
-  { annotationSetting, maxMoveNumber, playerSettings }: ImportPgnOptions,
+  {
+    annotationSetting,
+    maxMoveNumber,
+    playerSettings,
+  }: Pick<
+    ImportPgnOptions,
+    "annotationSetting" | "maxMoveNumber" | "playerSettings"
+  >,
 ) => {
   let mainLine = Array.from(game.moves.mainlineNodes());
 
@@ -107,6 +118,7 @@ const parseImportPgnOptions = (
     mainLine,
   };
 };
+
 const parseRepertoirePgnPositions = (
   game: Game<PgnNodeData>,
 ): Record<string, RepertoirePgnPosition> => {
@@ -116,6 +128,7 @@ const parseRepertoirePgnPositions = (
 
   return JSON.parse(game.headers.get("Repertoire")!.replaceAll("'", '"'));
 };
+
 const parseAnnotationSettings = (
   game: Game<PgnNodeData>,
   annotationSetting: AnnotationSetting,
@@ -132,22 +145,22 @@ const parseAnnotationSettings = (
 
   if (game.headers.get("White") === playerName) {
     return {
-      [WHITE]: {
+      [CG_WHITE]: {
         annotation: annotationSetting,
         overrideAnnotation: true,
       },
-      [BLACK]: {
+      [CG_BLACK]: {
         annotation: opponentAnnotationSetting,
         overrideAnnotation: false,
       },
     } as const;
   } else if (game.headers.get("Black") === playerName) {
     return {
-      [WHITE]: {
+      [CG_WHITE]: {
         annotation: opponentAnnotationSetting,
         overrideAnnotation: false,
       },
-      [BLACK]: {
+      [CG_BLACK]: {
         annotation: annotationSetting,
         overrideAnnotation: true,
       },
@@ -156,27 +169,29 @@ const parseAnnotationSettings = (
 
   return toDefaultAnnotationSettings(annotationSetting);
 };
+
 const toDefaultAnnotationSettings = (annotationSetting: AnnotationSetting) =>
   ({
-    [WHITE]: {
+    [CG_WHITE]: {
       annotation: annotationSetting,
       overrideAnnotation: true,
     },
-    [BLACK]: {
+    [CG_BLACK]: {
       annotation: annotationSetting,
       overrideAnnotation: true,
     },
   }) as const;
+
 const determineAnnotation = (
-  move: ChildNode<PgnNodeData>,
+  san: string,
   annotationSettings: Record<
-    Color,
+    CgColor,
     { annotation: AnnotationSetting; overrideAnnotation: boolean }
   >,
-  turnColor: Color,
+  turnColor: CgColor,
   position?: RepertoirePgnPosition,
 ): { annotation: AnnotationSetting; overrideAnnotation: boolean } => {
-  if (position?.move?.san === move.data.san) {
+  if (position?.move?.san === san) {
     if (position!.move!.annotation in ANNOTATION_SYMBOLS) {
       return {
         annotation:
