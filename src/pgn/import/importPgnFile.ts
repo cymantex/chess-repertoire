@@ -1,17 +1,21 @@
-import { ImportPgnCallbacks, ImportPgnOptions } from "@/defs.ts";
 import ImportPgnWorker from "@/pgn/import/importPgnWorker.ts?worker";
 import ReadPgnWorker from "@/pgn/import/readPgnFileWorker.ts?worker";
 import { importPgn } from "@/pgn/import/importPgn.ts";
+import {
+  ImportPgnCallbacks,
+  ImportPgnOptions,
+  ImportPgnProgress,
+} from "@/pgn/import/defs.ts";
 
 export const importPgnFile = async (
   file: File,
   options: ImportPgnOptions,
   { onProgress }: ImportPgnCallbacks,
-): Promise<void> => {
+): Promise<Partial<ImportPgnProgress>> => {
   const [pgnChunk1, pgnChunk2] = await startReadPgnFileWorker(file);
 
   if (pgnChunk1 === null) {
-    return;
+    return {};
   }
 
   let workerGameCount = 0;
@@ -28,7 +32,7 @@ export const importPgnFile = async (
         })
       : Promise.resolve();
 
-  const reportProgressInterval = await importPgn(
+  const { reportProgressInterval, gameCount, totalGames } = await importPgn(
     pgnChunk1,
     options,
     (progress) =>
@@ -40,6 +44,11 @@ export const importPgnFile = async (
 
   await importPgnPromise;
   clearInterval(reportProgressInterval);
+
+  return {
+    gameCount: gameCount + workerGameCount,
+    totalGames: totalGames + workerTotalGames,
+  };
 };
 
 export const startImportPgnWorker = (
@@ -50,10 +59,10 @@ export const startImportPgnWorker = (
   new Promise((resolve, reject) => {
     const worker = new ImportPgnWorker();
     worker.onmessage = (event) => {
+      onProgress(event.data);
+
       if (event.data.done) {
         resolve();
-      } else {
-        onProgress(event.data);
       }
     };
     worker.onerror = reject;

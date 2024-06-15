@@ -8,8 +8,6 @@ interface PgnImportSettingsProps {
   playerNames: string[];
   includeComments: boolean;
   onToggleIncludeComments: (includeComments: boolean) => void;
-  includeShapes: boolean;
-  onToggleIncludeShapes: (includeShapes: boolean) => void;
   maxMoveNumber: number | "";
   onMaxMoveNumberChange: (maxMoveNumber: number) => void;
   onSelectPlayerName: (playerName?: string) => void;
@@ -34,8 +32,6 @@ export const PgnImportSettings = ({
   onMaxMoveNumberChange,
   includeComments,
   onToggleIncludeComments,
-  includeShapes,
-  onToggleIncludeShapes,
   opponentAnnotationSetting,
   onSelectOpponentAnnotationSetting,
   playerAnnotationSetting,
@@ -121,20 +117,6 @@ export const PgnImportSettings = ({
         />
         <span className="label-text ml-2">
           Include comments (overwriting existing ones)
-        </span>
-      </label>
-    </div>
-    <div className="form-control mt-4">
-      <label className="label cursor-pointer w-max">
-        <input
-          type="checkbox"
-          className="checkbox"
-          checked={includeShapes}
-          disabled={disabled}
-          onChange={(e) => onToggleIncludeShapes(e.target.checked)}
-        />
-        <span className="label-text ml-2">
-          Include shapes (overwriting existing ones)
         </span>
       </label>
     </div>

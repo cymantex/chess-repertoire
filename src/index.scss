@@ -9,3 +9,18 @@
 .bg-board-dark-square {
   background-color: rgb(101, 129, 149);
 }
+
+:root {
+  --toastify-color-light: oklch(var(--bc));
+  --toastify-color-dark: oklch(var(--b1));
+  --toastify-color-info: oklch(var(--in));
+  --toastify-color-success: oklch(var(--inc));
+  --toastify-color-warning: oklch(var(--wa));
+  --toastify-color-error: oklch(var(--er));
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+}

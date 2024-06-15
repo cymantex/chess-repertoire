@@ -1,16 +1,15 @@
-import {
-  ImportPgnGameOptions,
-  ImportPgnOptions,
-  ImportPgnProgress,
-} from "@/defs.ts";
 import { parsePgn } from "chessops/pgn";
 import { chunk } from "lodash";
 import {
   setRepertoirePositionComment,
-  setRepertoirePositionShapes,
   upsertRepertoireMove,
 } from "@/stores/repertoireRepository.ts";
 import { importGame } from "@/pgn/import/importGame.ts";
+import {
+  ImportPgnGameOptions,
+  ImportPgnOptions,
+  ImportPgnProgress,
+} from "@/pgn/import/defs.ts";
 
 export async function importPgn(
   pgn: string,
@@ -22,17 +21,17 @@ export async function importPgn(
   const importGameOptions: ImportPgnGameOptions = {
     ...options,
     setComment: setRepertoirePositionComment,
-    setShapes: setRepertoirePositionShapes,
     upsertMove: upsertRepertoireMove,
   };
 
   let gameCount = 0;
+  const totalGames = games.length;
 
   const reportProgressInterval = setInterval(
     () =>
       onProgress({
         gameCount,
-        totalGames: games.length,
+        totalGames,
       }),
     1000,
   );
@@ -47,5 +46,5 @@ export async function importPgn(
     );
   }
 
-  return reportProgressInterval;
+  return { reportProgressInterval, gameCount, totalGames };
 }

@@ -12,7 +12,12 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
-import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.ts";
+import {
+  exportDb,
+  exportPgnAsync,
+  importDb,
+} from "@/pgn/export/exportPgnAsync.ts";
+import { PgnFileInput } from "@/components/Chessboard/PgnImport/components/PgnFileInput.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -45,6 +50,10 @@ export const RepertoireApp = () => {
         <button className="hidden md:block" onClick={exportPgnAsync}>
           Export PGN
         </button>
+        <button className="hidden md:block" onClick={exportDb}>
+          Export DB
+        </button>
+        <PgnFileInput onFileUpload={(file) => importDb(file)} />
         <PgnImport />
       </main>
       <RepertoireSidebar />

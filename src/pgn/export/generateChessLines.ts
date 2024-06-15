@@ -1,5 +1,5 @@
 // @ts-ignore
-import { RepertoireMove, RepertoirePosition } from "@/defs.ts";
+import { RepertoirePosition } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { isNotEmptyArray } from "@/utils/utils.ts";
 
@@ -14,23 +14,24 @@ interface GenerateChessLinesProps {
 }
 
 export async function* generateChessLines({
-  getRepertoirePosition,
   position,
   previousMoves,
+  getRepertoirePosition,
 }: GenerateChessLinesProps): AsyncGenerator<Chess> {
   if (!position) return;
 
   for (const move of position.moves!) {
-    const chess = await createChess(getRepertoirePosition, previousMoves);
-    await makeMove(chess, getRepertoirePosition, move);
+    const chess = await createChess(previousMoves, getRepertoirePosition);
+    chess.move(move.san);
+    await setCommentIfPresent(chess, getRepertoirePosition);
 
     const nextPosition = await getRepertoirePosition(chess.fen());
 
     if (hasMoves(nextPosition)) {
       yield* generateChessLines({
-        getRepertoirePosition,
         position: nextPosition!,
         previousMoves: chess.history(),
+        getRepertoirePosition,
       });
     } else {
       yield chess;
@@ -39,29 +40,21 @@ export async function* generateChessLines({
 }
 
 const createChess = async (
-  getRepertoirePosition: GetRepertoirePosition,
   previousMoves: string[],
+  getRepertoirePosition: GetRepertoirePosition,
 ) => {
   const chess = new Chess();
-  await setRepertoirePositionHeader(chess, getRepertoirePosition);
+  await setCommentIfPresent(chess, getRepertoirePosition);
 
   for (const san of previousMoves) {
-    await makeMove(chess, getRepertoirePosition, { san });
+    chess.move(san);
+    await setCommentIfPresent(chess, getRepertoirePosition);
   }
 
   return chess;
 };
 
-const makeMove = async (
-  chess: Chess,
-  getRepertoirePosition: GetRepertoirePosition,
-  move: RepertoireMove,
-) => {
-  chess.move(move.san);
-  await setRepertoirePositionHeader(chess, getRepertoirePosition);
-};
-
-const setRepertoirePositionHeader = async (
+const setCommentIfPresent = async (
   chess: Chess,
   getRepertoirePosition: GetRepertoirePosition,
 ) => {
