@@ -4,13 +4,12 @@ import {
   ANNOTATION_SETTINGS,
   AnnotationSetting,
   FEN_STARTING_POSITION,
-  ImportPgnOptions,
   RepertoireMove,
 } from "@/defs.ts";
 import { DrawShape } from "chessground/draw";
-import { FEN_E4, FEN_SICILIAN, toRepertoireHeader } from "@/tests/testUtils.ts";
-import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { FEN_SICILIAN } from "@/tests/testUtils.ts";
 import { importGame } from "@/pgn/import/importGame.ts";
+import { ImportPgnOptions } from "@/pgn/import/defs.ts";
 
 const importPgn = async (
   pgn: string,
@@ -31,13 +30,8 @@ const importPgn = async (
       comments.push(comment);
       return Promise.resolve();
     },
-    setShapes: async (_, drawShapes) => {
-      shapes.push(...drawShapes);
-      return Promise.resolve();
-    },
     annotationSetting: ANNOTATION_SETTINGS.NONE,
     includeComments: true,
-    includeShapes: true,
     ...options,
   });
 
@@ -170,71 +164,5 @@ describe("Player settings", () => {
       ANNOTATION_SETTINGS.BRILLIANT,
       ANNOTATION_SETTINGS.BRILLIANT,
     ]);
-  });
-});
-
-describe("Repertoire position", () => {
-  test("Imports position annotations", async () => {
-    const repertoireHeader = toRepertoireHeader({
-      [FEN_STARTING_POSITION]: {
-        move: {
-          san: "e4",
-          annotation: getAnnotation(ANNOTATION_SETTINGS.BLUNDER).symbol,
-        },
-      },
-      [FEN_E4]: {
-        move: {
-          san: "e5",
-          annotation: getAnnotation(ANNOTATION_SETTINGS.INTERESTING).symbol,
-        },
-      },
-    });
-
-    const { annotations } = await importPgn(repertoireHeader + "1. e4 e5");
-
-    expect(annotations).toEqual([
-      ANNOTATION_SETTINGS.BLUNDER,
-      ANNOTATION_SETTINGS.INTERESTING,
-    ]);
-  });
-
-  test("Imports shapes", async () => {
-    const startingPositionShapes: DrawShape[] = [
-      { orig: "a1" },
-      { orig: "b1" },
-    ];
-    const e4Shapes: DrawShape[] = [{ orig: "c1" }, { orig: "d1" }];
-    const repertoireHeader = toRepertoireHeader({
-      [FEN_STARTING_POSITION]: {
-        shapes: startingPositionShapes,
-      },
-      [FEN_E4]: {
-        shapes: e4Shapes,
-      },
-    });
-
-    const { shapes: importedShapes } = await importPgn(
-      repertoireHeader + "1. e4 e5",
-    );
-
-    expect(importedShapes).toEqual([...startingPositionShapes, ...e4Shapes]);
-  });
-
-  test("Respects includeShapes options", async () => {
-    const startingPositionShapes: DrawShape[] = [{ orig: "a1" }];
-    const repertoireHeader = toRepertoireHeader({
-      [FEN_STARTING_POSITION]: {
-        shapes: startingPositionShapes,
-      },
-    });
-
-    const { shapes: importedShapes } = await importPgn(
-      repertoireHeader + "1. e4 e5",
-      {
-        includeShapes: false,
-      },
-    );
-
-    expect(importedShapes).toEqual([]);
   });
 });

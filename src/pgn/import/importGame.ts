@@ -3,16 +3,14 @@ import { isNotEmptyArray } from "@/utils/utils.ts";
 import { isNumber } from "lodash";
 import { INITIAL_FEN, makeFen } from "chessops/fen";
 import { makeSanAndPlay, parseSan } from "chessops/san";
-import { CG_BLACK, CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
+import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
+import { AnnotationSetting } from "@/defs.ts";
 import {
-  ANNOTATION_SYMBOLS,
-  AnnotationSetting,
   ImportPgnGameOptions,
   ImportPgnOptions,
   ImportPgnPlayerSettings,
-  RepertoirePgnPosition,
-} from "@/defs.ts";
+} from "@/pgn/import/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
@@ -39,36 +37,17 @@ export const importGame = async (
 const importMove = async (
   node: PgnNodeData,
   pos: Position,
-  {
-    annotationSettings,
-    repertoirePgnPositions,
-  }: Omit<ParsedPgnOptions, "mainLine">,
-  {
-    upsertMove,
-    setComment,
-    setShapes,
-    includeComments,
-    includeShapes,
-  }: ImportPgnGameOptions,
+  { annotationSettings }: Omit<ParsedPgnOptions, "mainLine">,
+  { upsertMove, setComment, includeComments }: ImportPgnGameOptions,
 ) => {
   const fen = makeFen(pos.toSetup());
   const move = parseSan(pos, node.san);
-  const position = repertoirePgnPositions[fen];
-
-  if (includeShapes && isNotEmptyArray(position?.shapes)) {
-    await setShapes(fen, position.shapes);
-  }
 
   if (includeComments && isNotEmptyArray(node.startingComments)) {
     await setComment(fen, node.startingComments.join(""));
   }
 
-  const { annotation, overrideAnnotation } = determineAnnotation(
-    node.san,
-    annotationSettings,
-    pos.turn,
-    position,
-  );
+  const { annotation, overrideAnnotation } = annotationSettings[pos.turn];
 
   await upsertMove(fen, { san: node.san }, annotation, overrideAnnotation);
 
@@ -114,19 +93,8 @@ const parseImportPgnOptions = (
       annotationSetting,
       playerSettings,
     ),
-    repertoirePgnPositions: parseRepertoirePgnPositions(game),
     mainLine,
   };
-};
-
-const parseRepertoirePgnPositions = (
-  game: Game<PgnNodeData>,
-): Record<string, RepertoirePgnPosition> => {
-  if (!game.headers.has("Repertoire")) {
-    return {};
-  }
-
-  return JSON.parse(game.headers.get("Repertoire")!.replaceAll("'", '"'));
 };
 
 const parseAnnotationSettings = (
@@ -181,27 +149,3 @@ const toDefaultAnnotationSettings = (annotationSetting: AnnotationSetting) =>
       overrideAnnotation: true,
     },
   }) as const;
-
-const determineAnnotation = (
-  san: string,
-  annotationSettings: Record<
-    CgColor,
-    { annotation: AnnotationSetting; overrideAnnotation: boolean }
-  >,
-  turnColor: CgColor,
-  position?: RepertoirePgnPosition,
-): { annotation: AnnotationSetting; overrideAnnotation: boolean } => {
-  if (position?.move?.san === san) {
-    if (position!.move!.annotation in ANNOTATION_SYMBOLS) {
-      return {
-        annotation:
-          ANNOTATION_SYMBOLS[
-            position!.move!.annotation as keyof typeof ANNOTATION_SYMBOLS
-          ],
-        overrideAnnotation: true,
-      };
-    }
-  }
-
-  return annotationSettings[turnColor]!;
-};

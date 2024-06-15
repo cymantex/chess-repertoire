@@ -11,12 +11,7 @@ import {
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { toPgn } from "@/pgn/utils.ts";
-import {
-  FEN_E4,
-  FEN_SICILIAN,
-  FEN_SICILIAN_NF3,
-  toRepertoireHeader,
-} from "@/tests/testUtils.ts";
+import { FEN_E4, FEN_SICILIAN, FEN_SICILIAN_NF3 } from "@/tests/testUtils.ts";
 
 const resultHeader = `[Result "*"]\n\n`;
 
@@ -31,7 +26,7 @@ const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
   });
 
   for await (const chess of generator) {
-    const pgn = await toPgn(chess, getRepertoirePosition);
+    const pgn = await toPgn(chess);
     pgnList.push(pgn);
   }
 
@@ -57,35 +52,6 @@ test("Multiple lines with comments, annotations and shapes", async () => {
   const e4Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BRILLIANT);
   const nf3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.NEUTRAL);
   const nc3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BLUNDER);
-  const game1RepertoireHeader = {
-    [FEN_STARTING_POSITION]: {
-      move: {
-        san: "e4",
-        annotation: e4Annotation.symbol,
-      },
-    },
-  };
-  const game2RepertoireHeader = {
-    ...game1RepertoireHeader,
-    [FEN_SICILIAN]: {
-      move: {
-        san: "Nf3",
-        annotation: nf3Annotation.symbol,
-      },
-    },
-    [FEN_SICILIAN_NF3]: {
-      shapes,
-    },
-  };
-  const game3RepertoireHeader = {
-    ...game1RepertoireHeader,
-    [FEN_SICILIAN]: {
-      move: {
-        san: "Nc3",
-        annotation: nc3Annotation.symbol,
-      },
-    },
-  };
 
   const pgnList = await toPgnList({
     [FEN_STARTING_POSITION]: {
@@ -114,15 +80,14 @@ test("Multiple lines with comments, annotations and shapes", async () => {
 
   expect(pgnList.length).toBe(4);
   expect(pgnList[0]).toEqual(
-    toRepertoireHeader(game1RepertoireHeader) +
-      "{starting position} 1. e4 {king's pawn} e5 *",
+    resultHeader + "{starting position} 1. e4 {king's pawn} e5 *",
   );
   expect(pgnList[1]).toEqual(
-    toRepertoireHeader(game2RepertoireHeader) +
+    resultHeader +
       "{starting position} 1. e4 {king's pawn} c5 {sicilian} 2. Nf3 {sicilian Nf3} *",
   );
   expect(pgnList[2]).toEqual(
-    toRepertoireHeader(game3RepertoireHeader) +
+    resultHeader +
       "{starting position} 1. e4 {king's pawn} c5 {sicilian} 2. Nc3 *",
   );
   expect(pgnList[3]).toEqual(resultHeader + "{starting position} 1. c4 *");

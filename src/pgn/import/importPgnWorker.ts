@@ -1,5 +1,5 @@
-import { ImportPgnOptions } from "@/defs.ts";
 import { importPgn } from "@/pgn/import/importPgn.ts";
+import { ImportPgnOptions } from "@/pgn/import/defs.ts";
 
 self.onmessage = async (
   event: MessageEvent<{
@@ -9,10 +9,12 @@ self.onmessage = async (
 ) => {
   const { pgn, options } = event.data;
 
-  const reportProgressInterval = await importPgn(pgn, options, (progress) =>
-    self.postMessage(progress),
+  const { reportProgressInterval, gameCount, totalGames } = await importPgn(
+    pgn,
+    options,
+    (progress) => self.postMessage(progress),
   );
 
   clearInterval(reportProgressInterval);
-  self.postMessage({ done: true });
+  self.postMessage({ done: true, gameCount, totalGames });
 };

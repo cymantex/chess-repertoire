@@ -1,4 +1,4 @@
-import { get, update } from "idb-keyval";
+import { entries, get, setMany, update } from "idb-keyval";
 
 export const idbUpsert = async <T>(
   key: string,
@@ -14,3 +14,10 @@ export const idbUpsert = async <T>(
   });
 
 export const idbGet = async <T>(key: string) => get<T>(key);
+
+export const idpEntries = async <TKey extends IDBValidKey, TValue>() =>
+  entries<TKey, TValue>();
+
+export const idpSetEntries = async <TKey extends IDBValidKey, TValue>(
+  entries: [TKey, TValue][],
+) => setMany(entries);
