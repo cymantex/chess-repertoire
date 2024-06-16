@@ -10,7 +10,7 @@ import { getObject } from "local-storage-superjson";
 
 const queryClient = new QueryClient();
 
-const theme = getObject<RepertoireSettings>(SETTINGS_KEY)?.theme ?? "dark";
+const theme = getObject<RepertoireSettings>(SETTINGS_KEY)?.theme ?? "black";
 document.documentElement.setAttribute("data-theme", theme);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
