@@ -29,6 +29,7 @@ export const Chessboard = () => {
   const { repertoireAutoShapes, setAnnotationShapeForSelection } =
     useRepertoireAutoShapes();
 
+  // TODO: Change orientation of coordinates to match Lichess
   return (
     <ChessgroundWrapper
       fen={fen}
