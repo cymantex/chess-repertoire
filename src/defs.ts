@@ -13,6 +13,18 @@ export const COLUMN_NUMBERS = {
   h: 7,
 } as const;
 
+export const DAISY_UI_THEMES = [
+  "black",
+  "business",
+  "coffee",
+  "dark",
+  "dim",
+  "dracula",
+  "forest",
+  "luxury",
+  "night",
+] as const;
+
 export type Column = keyof typeof COLUMN_NUMBERS;
 
 // Lichess API

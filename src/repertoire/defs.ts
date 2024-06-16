@@ -1,7 +1,7 @@
 // Repertoire
 import { DrawShape } from "chessground/draw";
 import { Move } from "chess.js";
-import { OpeningExplorerMove } from "@/defs.ts";
+import { DAISY_UI_THEMES, OpeningExplorerMove } from "@/defs.ts";
 
 export const REPERTOIRE_ANNOTATION = {
   BRILLIANT: 100,
@@ -45,12 +45,15 @@ export const ANNOTATION_SETTINGS = {
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
+export type Theme = (typeof DAISY_UI_THEMES)[number];
 export interface RepertoireSettings {
   annotationSetting: AnnotationSetting;
+  theme: Theme;
 }
 
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
+  theme: "dark",
 };
 export const DEFAULT_REPERTOIRE_POSITION = { moves: [] };

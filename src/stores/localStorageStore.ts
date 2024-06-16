@@ -28,7 +28,7 @@ export const localStorageStore = {
     currentSettings = settings;
     return settings;
   },
-  upsertSettings: (settings: RepertoireSettings) => {
+  upsertSettings: (settings: Partial<RepertoireSettings>) => {
     upsertObject<RepertoireSettings>(
       SETTINGS_KEY,
       { ...DEFAULT_SETTINGS, ...settings },
