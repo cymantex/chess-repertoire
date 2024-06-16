@@ -7,11 +7,11 @@ import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
-import { selectChess } from "@/stores/zustand/selectors.ts";
 
 export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   goToFirstMove: () => {
-    const chess = selectChess(getNonReactiveState());
+    const { chess, pendingPromotionMove } = getNonReactiveState();
+    if (pendingPromotionMove) return Promise.resolve();
 
     chess.reset();
 
@@ -19,7 +19,8 @@ export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   },
 
   goToPreviousMove: async () => {
-    const chess = selectChess(getNonReactiveState());
+    const { chess, pendingPromotionMove } = getNonReactiveState();
+    if (pendingPromotionMove) return Promise.resolve();
 
     chess.undo();
 
@@ -27,7 +28,8 @@ export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   },
 
   goToNextMove: async () => {
-    const { chess, pgn } = getNonReactiveState();
+    const { chess, pgn, pendingPromotionMove } = getNonReactiveState();
+    if (pendingPromotionMove) return Promise.resolve();
 
     const nextMove = findNextMove(pgn, chess.history());
 
@@ -41,7 +43,8 @@ export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   },
 
   goToLastMove: async () => {
-    const { chess, pgn } = getNonReactiveState();
+    const { chess, pgn, pendingPromotionMove } = getNonReactiveState();
+    if (pendingPromotionMove) return Promise.resolve();
 
     const remainingMainMoves = getRemainingMainMoves(pgn, chess.history());
 
