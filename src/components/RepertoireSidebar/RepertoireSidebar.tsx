@@ -8,7 +8,7 @@ import {
   selectGetCurrentRepertoirePosition,
   selectSidebar,
 } from "@/stores/zustand/selectors.ts";
-import { SIDEBARS } from "@/defs.ts";
+import { DAISY_UI_THEMES, SIDEBARS } from "@/defs.ts";
 import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.ts";
 import {
   exportRepertoireFile,
@@ -18,12 +18,18 @@ import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
 import { LoadingModal } from "@/components/reused/LoadingModal.tsx";
 import React, { ChangeEvent, ReactNode, useState } from "react";
 import { toast } from "react-toastify";
+import {
+  localStorageStore,
+  useRepertoireSettings,
+} from "@/stores/localStorageStore.ts";
+import { Theme } from "@/repertoire/defs.ts";
 
 export const RepertoireSidebar = () => {
   const sidebar = useRepertoireStore(selectSidebar);
   const getCurrentRepertoirePosition = useRepertoireStore(
     selectGetCurrentRepertoirePosition,
   );
+  const { theme } = useRepertoireSettings();
 
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const [loadingModalContent, setLoadingModalContent] =
@@ -109,7 +115,6 @@ export const RepertoireSidebar = () => {
   };
 
   // TODO: Clear repertoire
-  // TODO: Theme switcher!
   return (
     <aside className="repertoire-sidebar repertoire-sidebar__settings border-0 md:border border-primary">
       <div className="repertoire-sidebar__pgn-io border-b border-primary">
@@ -120,7 +125,7 @@ export const RepertoireSidebar = () => {
           </div>
         </div>
         <PgnImport />
-        <button className="btn w-full  mb-2" onClick={exportPgnAsync}>
+        <button className="btn w-full mb-2" onClick={exportPgnAsync}>
           Export PGN
         </button>
         <button
@@ -129,7 +134,7 @@ export const RepertoireSidebar = () => {
         >
           Import Repertoire
         </button>
-        <button className="btn w-full" onClick={handleRepertoireExport}>
+        <button className="btn w-full mb-2" onClick={handleRepertoireExport}>
           Export Repertoire
         </button>
         <input
@@ -138,6 +143,33 @@ export const RepertoireSidebar = () => {
           ref={fileInput}
           onChange={handleRepertoireImport}
         />
+        <div role="alert" className="alert bg-base-300 mb-2 text-center block">
+          <div>
+            <h3 className="font-bold text-base">Theme</h3>
+          </div>
+        </div>
+        <select
+          className="select w-full bg-base-200 text-center"
+          onChange={(e) => {
+            if (!e.target.value) return;
+
+            document.documentElement.setAttribute("data-theme", e.target.value);
+
+            localStorageStore.upsertSettings({
+              theme: e.target.value as Theme,
+            });
+          }}
+        >
+          {DAISY_UI_THEMES.map((daisyUiTheme) => (
+            <option
+              key={daisyUiTheme}
+              value={daisyUiTheme}
+              selected={daisyUiTheme === theme}
+            >
+              {daisyUiTheme}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="repertoire-sidebar__navigation">
         <NavigationMenu />
