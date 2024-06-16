@@ -1,4 +1,4 @@
-import { entries, get, setMany, update } from "idb-keyval";
+import { clear, entries, get, setMany, update } from "idb-keyval";
 
 export const idbUpsert = async <T>(
   fen: string,
@@ -15,10 +15,12 @@ export const idbUpsert = async <T>(
 
 export const idbGet = async <T>(fen: string) => get<T>(resetHalfMoveClock(fen));
 
-export const idpEntries = async <TValue>() => entries<string, TValue>();
+export const idbEntries = async <TValue>() => entries<string, TValue>();
 
-export const idpSetEntries = async <TValue>(entries: [string, TValue][]) =>
+export const idbSetEntries = async <TValue>(entries: [string, TValue][]) =>
   setMany(entries);
+
+export const idbClear = async () => clear();
 
 /**
  * The third last character in FEN is dedicated to the halfmove clock.

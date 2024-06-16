@@ -15,14 +15,15 @@ import {
   startImportRepertoireWorker,
 } from "@/repertoire/repertoireIo.ts";
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
-import { LoadingModal } from "@/components/reused/LoadingModal.tsx";
-import React, { ChangeEvent, ReactNode, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import {
   localStorageStore,
   useRepertoireSettings,
 } from "@/stores/localStorageStore.ts";
 import { Theme } from "@/repertoire/defs.ts";
+import { idbClear } from "@/external/idb-keyval/adapter.ts";
+import { modalStore } from "@/stores/modalStore.tsx";
 
 export const RepertoireSidebar = () => {
   const sidebar = useRepertoireStore(selectSidebar);
@@ -30,10 +31,6 @@ export const RepertoireSidebar = () => {
     selectGetCurrentRepertoirePosition,
   );
   const { theme } = useRepertoireSettings();
-
-  const [showLoadingModal, setShowLoadingModal] = useState(false);
-  const [loadingModalContent, setLoadingModalContent] =
-    useState<ReactNode>(null);
 
   const fileInput = React.createRef<HTMLInputElement>();
 
@@ -58,8 +55,7 @@ export const RepertoireSidebar = () => {
 
   // TODO: Extract component
   const handleRepertoireExport = async () => {
-    setShowLoadingModal(true);
-    setLoadingModalContent(
+    modalStore.showLoadingModal(
       <>
         Exporting repertoire... <br />
         <span className="text-sm">(this could take many minutes)</span>
@@ -78,7 +74,7 @@ export const RepertoireSidebar = () => {
       window.onbeforeunload = null;
     }
 
-    setShowLoadingModal(false);
+    modalStore.closeModal();
   };
 
   const handleRepertoireImport = async (
@@ -90,8 +86,7 @@ export const RepertoireSidebar = () => {
 
     window.onbeforeunload = (event) => event.preventDefault();
 
-    setShowLoadingModal(true);
-    setLoadingModalContent(
+    modalStore.showLoadingModal(
       <>
         Importing repertoire... <br />
         <span className="text-sm">(this could take many minutes)</span>
@@ -111,10 +106,38 @@ export const RepertoireSidebar = () => {
 
     await getCurrentRepertoirePosition();
 
-    setShowLoadingModal(false);
+    modalStore.closeModal();
   };
 
-  // TODO: Clear repertoire
+  const handleClearRepertoire = async () => {
+    modalStore.showLoadingModal(
+      <>
+        Clearing repertoire... <br />
+        <span className="text-sm">(this could take many minutes)</span>
+      </>,
+    );
+
+    try {
+      await idbClear();
+      toast.success("Repertoire cleared.");
+    } catch (error) {
+      console.error(error);
+      // @ts-ignore
+      toast.error(`Failed to clear repertoire ${error.message}`);
+    } finally {
+      window.onbeforeunload = null;
+    }
+
+    await getCurrentRepertoirePosition();
+    modalStore.closeModal();
+  };
+
+  const confirmClearRepertoire = async () =>
+    modalStore.showConfirmModal({
+      onConfirm: handleClearRepertoire,
+      children: "Are you sure you want to delete all data in your repertoire?",
+    });
+
   return (
     <aside className="repertoire-sidebar repertoire-sidebar__settings border-0 md:border border-primary">
       <div className="repertoire-sidebar__pgn-io border-b border-primary">
@@ -136,6 +159,9 @@ export const RepertoireSidebar = () => {
         </button>
         <button className="btn w-full mb-2" onClick={handleRepertoireExport}>
           Export Repertoire
+        </button>
+        <button className="btn w-full mb-2" onClick={confirmClearRepertoire}>
+          Clear Repertoire
         </button>
         <input
           type="file"
@@ -174,7 +200,6 @@ export const RepertoireSidebar = () => {
       <div className="repertoire-sidebar__navigation">
         <NavigationMenu />
       </div>
-      <LoadingModal show={showLoadingModal}>{loadingModalContent}</LoadingModal>
     </aside>
   );
 };
