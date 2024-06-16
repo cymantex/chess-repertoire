@@ -14,6 +14,7 @@ import {
   selectGoToNextMove,
   selectGoToPreviousMove,
   selectOpenSidebar,
+  selectPendingPromotionMove,
   selectPgn,
   selectRotate,
   selectSidebar,
@@ -31,6 +32,7 @@ export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
   const chess = useRepertoireStore(selectChess);
   const pgn = useRepertoireStore(selectPgn);
+  const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
@@ -39,9 +41,10 @@ export const NavigationMenu = () => {
   const openSidebar = useRepertoireStore(selectOpenSidebar);
   const { annotationSetting } = useRepertoireSettings();
 
-  const history = chess.history();
-  const previousMoveExists = history.length > 0;
-  const nextMoveExists = hasNextMove(pgn, history);
+  const previousMoveDisabled =
+    !!pendingPromotionMove || chess.history().length <= 0;
+  const nextMoveDisabled =
+    !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
 
   // TODO: Extract component for buttons
   return (
@@ -56,36 +59,36 @@ export const NavigationMenu = () => {
       />
       <button
         className={classNames({
-          "text-base-300": !previousMoveExists,
+          "text-base-300": previousMoveDisabled,
         })}
-        disabled={!previousMoveExists}
+        disabled={previousMoveDisabled}
         onClick={goToFirstMove}
       >
         <FaFastBackward />
       </button>
       <button
         className={classNames({
-          "text-base-300": !previousMoveExists,
+          "text-base-300": previousMoveDisabled,
         })}
-        disabled={!previousMoveExists}
+        disabled={previousMoveDisabled}
         onClick={goToPreviousMove}
       >
         <FaStepBackward />
       </button>
       <button
         className={classNames({
-          "text-base-300": !nextMoveExists,
+          "text-base-300": nextMoveDisabled,
         })}
-        disabled={!nextMoveExists}
+        disabled={nextMoveDisabled}
         onClick={goToNextMove}
       >
         <FaStepForward />
       </button>
       <button
         className={classNames({
-          "text-base-300": !nextMoveExists,
+          "text-base-300": nextMoveDisabled,
         })}
-        disabled={!nextMoveExists}
+        disabled={nextMoveDisabled}
         onClick={goToLastMove}
       >
         <FaFastForward />
