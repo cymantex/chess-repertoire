@@ -26,8 +26,7 @@ const toPgnList = async (repertoire: Record<string, RepertoirePosition>) => {
   });
 
   for await (const chess of generator) {
-    const pgn = await toPgn(chess);
-    pgnList.push(pgn);
+    pgnList.push(toPgn(chess));
   }
 
   return pgnList;
@@ -72,7 +71,7 @@ test("Multiple lines with comments, annotations and shapes", async () => {
       comment: "sicilian",
     },
     [FEN_SICILIAN_NF3]: {
-      moves: [],
+      moves: [{ san: "Nc6" }],
       comment: "sicilian Nf3",
       shapes,
     },
@@ -84,7 +83,7 @@ test("Multiple lines with comments, annotations and shapes", async () => {
   );
   expect(pgnList[1]).toEqual(
     resultHeader +
-      "{starting position} 1. e4 {king's pawn} c5 {sicilian} 2. Nf3 {sicilian Nf3} *",
+      "{starting position} 1. e4 {king's pawn} c5 {sicilian} 2. Nf3 {sicilian Nf3} Nc6 *",
   );
   expect(pgnList[2]).toEqual(
     resultHeader +

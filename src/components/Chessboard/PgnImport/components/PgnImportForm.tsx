@@ -22,6 +22,7 @@ export const PgnImportForm = ({
   const [playerNames, setPlayerNames] = useState<string[]>([]);
   const [playerName, setPlayerName] = useState<string | undefined>();
   const [includeComments, setIncludeComments] = useState<boolean>(true);
+  const [replaceAnnotations, setReplaceAnnotations] = useState<boolean>(true);
   const [maxMoveNumber, setMaxMoveNumber] = useState<number | "">("");
   const [opponentAnnotationSetting, setOpponentAnnotationSetting] =
     useState<AnnotationSetting>(ANNOTATION_SETTINGS.NEUTRAL);
@@ -45,6 +46,8 @@ export const PgnImportForm = ({
           selectedPlayerName={playerName}
           playerNames={playerNames}
           onSelectPlayerName={setPlayerName}
+          replaceAnnotations={replaceAnnotations}
+          onToggleReplaceAnnotations={setReplaceAnnotations}
           includeComments={includeComments}
           onToggleIncludeComments={setIncludeComments}
           maxMoveNumber={maxMoveNumber}
@@ -62,6 +65,7 @@ export const PgnImportForm = ({
             className="btn btn-loading"
             onClick={() =>
               onUpload(file!, {
+                replaceAnnotations,
                 annotationSetting: playerAnnotationSetting,
                 includeComments,
                 maxMoveNumber: isNumber(maxMoveNumber)

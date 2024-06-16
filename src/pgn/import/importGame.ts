@@ -5,11 +5,7 @@ import { makeFen } from "chessops/fen";
 import { makeSanAndPlay, parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
-import {
-  ImportPgnGameOptions,
-  ImportPgnOptions,
-  ImportPgnPlayerSettings,
-} from "@/pgn/import/defs.ts";
+import { ImportPgnGameOptions, ImportPgnOptions } from "@/pgn/import/defs.ts";
 import { AnnotationSetting } from "@/repertoire/defs.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 
@@ -48,11 +44,16 @@ const importMove = async (
     await setComment(fen, node.startingComments.join(""));
   }
 
-  const { annotation, overrideAnnotation } = annotationSettings[pos.turn];
+  const { annotation, replaceAnnotations } = annotationSettings[pos.turn];
 
-  await upsertMove(fen, { san: node.san }, annotation, overrideAnnotation);
+  await upsertMove(fen, { san: node.san }, annotation, replaceAnnotations);
 
-  makeSanAndPlay(pos, move!);
+  try {
+    makeSanAndPlay(pos, move!);
+  } catch (e) {
+    console.error(`Error importing move ${node.san}`, e);
+    return;
+  }
 
   if (includeComments && isNotEmptyArray(node.comments)) {
     await setComment(makeFen(pos.toSetup()), node.comments.join(""));
@@ -73,14 +74,7 @@ const isUnsupportedGame = (game: Game<PgnNodeData>) => {
 
 const parseImportPgnOptions = (
   game: Game<PgnNodeData>,
-  {
-    annotationSetting,
-    maxMoveNumber,
-    playerSettings,
-  }: Pick<
-    ImportPgnOptions,
-    "annotationSetting" | "maxMoveNumber" | "playerSettings"
-  >,
+  { maxMoveNumber, ...options }: ImportPgnOptions,
 ) => {
   let mainLine = Array.from(game.moves.mainlineNodes());
 
@@ -89,25 +83,20 @@ const parseImportPgnOptions = (
   }
 
   return {
-    annotationSettings: parseAnnotationSettings(
-      game,
-      annotationSetting,
-      playerSettings,
-    ),
+    annotationSettings: parseAnnotationSettings(game, options),
     mainLine,
   };
 };
 
 const parseAnnotationSettings = (
   game: Game<PgnNodeData>,
-  annotationSetting: AnnotationSetting,
-  playerSettings?: ImportPgnPlayerSettings,
+  { annotationSetting, playerSettings, replaceAnnotations }: ImportPgnOptions,
 ): Record<
   string,
-  { annotation: AnnotationSetting; overrideAnnotation: boolean }
+  { annotation: AnnotationSetting; replaceAnnotations: boolean }
 > => {
   if (!playerSettings) {
-    return toDefaultAnnotationSettings(annotationSetting);
+    return toDefaultAnnotationSettings(annotationSetting, replaceAnnotations);
   }
 
   const { playerName, opponentAnnotationSetting } = playerSettings;
@@ -116,37 +105,40 @@ const parseAnnotationSettings = (
     return {
       [CG_WHITE]: {
         annotation: annotationSetting,
-        overrideAnnotation: true,
+        replaceAnnotations,
       },
       [CG_BLACK]: {
         annotation: opponentAnnotationSetting,
-        overrideAnnotation: false,
+        replaceAnnotations: false,
       },
     } as const;
   } else if (game.headers.get("Black") === playerName) {
     return {
       [CG_WHITE]: {
         annotation: opponentAnnotationSetting,
-        overrideAnnotation: false,
+        replaceAnnotations: false,
       },
       [CG_BLACK]: {
         annotation: annotationSetting,
-        overrideAnnotation: true,
+        replaceAnnotations,
       },
     } as const;
   }
 
-  return toDefaultAnnotationSettings(annotationSetting);
+  return toDefaultAnnotationSettings(annotationSetting, replaceAnnotations);
 };
 
-const toDefaultAnnotationSettings = (annotationSetting: AnnotationSetting) =>
+const toDefaultAnnotationSettings = (
+  annotationSetting: AnnotationSetting,
+  replaceAnnotations: boolean,
+) =>
   ({
     [CG_WHITE]: {
       annotation: annotationSetting,
-      overrideAnnotation: true,
+      replaceAnnotations,
     },
     [CG_BLACK]: {
       annotation: annotationSetting,
-      overrideAnnotation: true,
+      replaceAnnotations,
     },
   }) as const;

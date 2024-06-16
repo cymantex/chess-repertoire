@@ -6,6 +6,8 @@ interface PgnImportSettingsProps {
   disabled?: boolean;
   selectedPlayerName?: string;
   playerNames: string[];
+  replaceAnnotations: boolean;
+  onToggleReplaceAnnotations: (replaceAnnotations: boolean) => void;
   includeComments: boolean;
   onToggleIncludeComments: (includeComments: boolean) => void;
   maxMoveNumber: number | "";
@@ -30,6 +32,8 @@ export const PgnImportSettings = ({
   playerNames,
   maxMoveNumber,
   onMaxMoveNumberChange,
+  replaceAnnotations,
+  onToggleReplaceAnnotations,
   includeComments,
   onToggleIncludeComments,
   opponentAnnotationSetting,
@@ -44,7 +48,7 @@ export const PgnImportSettings = ({
       <>
         <div className="label">
           <span className="label-text">
-            Set annotations for new moves done by player (optional):
+            Prefer to set annotations for player (optional):
           </span>
         </div>
         <select
@@ -72,9 +76,13 @@ export const PgnImportSettings = ({
           onSelect={onSelectPlayerAnnotationSetting}
         />
         {selectedPlayerName ? (
-          <span className="ml-2 text-sm">Player annotation settings</span>
+          <span className="ml-2 text-sm">
+            Player annotation for moves from PGN
+            <br />
+            <span className="text-xs">(can replace existing annotations)</span>
+          </span>
         ) : (
-          <span className="ml-2 text-sm">Annotation settings</span>
+          <span className="ml-2 text-sm">Annotation for moves from PGN</span>
         )}
       </div>
     </div>
@@ -86,25 +94,33 @@ export const PgnImportSettings = ({
             annotationSetting={opponentAnnotationSetting}
             onSelect={onSelectOpponentAnnotationSetting}
           />
-          <span className="ml-2 text-sm">Opponent(s) annotation settings</span>
+          <span className="ml-2 text-sm">
+            Opponent(s) annotation for moves from PGN
+            <br />
+            <span className="text-xs">
+              (cannot replace existing annotations)
+            </span>
+          </span>
         </div>
       </div>
     )}
     <div className="form-control mt-4">
-      <div className="label">
-        <span className="label-text">
-          Max move number (leave empty to import entire games):
+      <label className="label cursor-pointer w-max">
+        <input
+          type="checkbox"
+          className="checkbox"
+          checked={replaceAnnotations}
+          disabled={disabled}
+          onChange={(e) => onToggleReplaceAnnotations(e.target.checked)}
+        />
+        <span className="label-text ml-2">
+          Replace existing annotations
+          <br />
+          <span className="text-xs">
+            (annotations are otherwise only added for new moves)
+          </span>
         </span>
-      </div>
-      <input
-        type="number"
-        min="1"
-        max="999"
-        disabled={disabled}
-        className="input input-bordered w-16"
-        value={maxMoveNumber}
-        onChange={(e) => onMaxMoveNumberChange(e.target.valueAsNumber)}
-      />
+      </label>
     </div>
     <div className="form-control mt-4">
       <label className="label cursor-pointer w-max">
@@ -116,9 +132,29 @@ export const PgnImportSettings = ({
           onChange={(e) => onToggleIncludeComments(e.target.checked)}
         />
         <span className="label-text ml-2">
-          Include comments (overwriting existing ones)
+          Include comments
+          <br />
+          <span className="text-xs">(replacing existing ones)</span>
         </span>
       </label>
+    </div>
+    <div className="form-control mt-4">
+      <div className="label w-max">
+        <input
+          type="number"
+          min="1"
+          max="999"
+          disabled={disabled}
+          className="input input-bordered w-16"
+          value={maxMoveNumber}
+          onChange={(e) => onMaxMoveNumberChange(e.target.valueAsNumber)}
+        />
+        <span className="label-text ml-2">
+          Max move number
+          <br />
+          <span className="text-xs">(leave empty to import entire games)</span>
+        </span>
+      </div>
     </div>
     <div className="divider" />
   </>

@@ -30,6 +30,7 @@ const importPgn = async (
       comments.push(comment);
       return Promise.resolve();
     },
+    replaceAnnotations: true,
     annotationSetting: ANNOTATION_SETTINGS.NONE,
     includeComments: true,
     ...options,

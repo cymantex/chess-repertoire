@@ -27,7 +27,7 @@ export async function* generateChessLines({
 
     const nextPosition = await getRepertoirePosition(chess.fen());
 
-    if (hasMoves(nextPosition)) {
+    if (isNotEmptyArray(nextPosition?.moves)) {
       yield* generateChessLines({
         position: nextPosition!,
         previousMoves: chess.history(),
@@ -65,6 +65,3 @@ const setCommentIfPresent = async (
     chess.setComment(comment);
   }
 };
-
-const hasMoves = (nextPosition?: RepertoirePosition) =>
-  nextPosition && isNotEmptyArray(nextPosition.moves);
