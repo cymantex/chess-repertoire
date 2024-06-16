@@ -8,11 +8,13 @@ import {
 } from "react-icons/fa";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
+  selectChess,
   selectGoToFirstMove,
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
   selectOpenSidebar,
+  selectPgn,
   selectRotate,
   selectSidebar,
 } from "@/stores/zustand/selectors.ts";
@@ -23,9 +25,12 @@ import {
 } from "@/stores/localStorageStore.ts";
 import { SIDEBARS } from "@/defs.ts";
 import classNames from "classnames";
+import { hasNextMove } from "@/external/chessops/pgn.ts";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
+  const chess = useRepertoireStore(selectChess);
+  const pgn = useRepertoireStore(selectPgn);
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
@@ -34,7 +39,11 @@ export const NavigationMenu = () => {
   const openSidebar = useRepertoireStore(selectOpenSidebar);
   const { annotationSetting } = useRepertoireSettings();
 
-  // TODO: Disable buttons not available to click
+  const history = chess.history();
+  const previousMoveExists = history.length > 0;
+  const nextMoveExists = hasNextMove(pgn, history);
+
+  // TODO: Extract component for buttons
   return (
     <div className="flex justify-evenly text-2xl">
       <AnnotationSettings
@@ -45,16 +54,46 @@ export const NavigationMenu = () => {
           })
         }
       />
-      <FaFastBackward className="cursor-pointer" onClick={goToFirstMove} />
-      <FaStepBackward className="cursor-pointer" onClick={goToPreviousMove} />
-      <FaStepForward className="cursor-pointer" onClick={goToNextMove} />
-      <FaFastForward className="cursor-pointer" onClick={goToLastMove} />
-      <FaRotate
-        title="Flip board"
-        className="cursor-pointer"
-        onClick={rotate}
-      />
-      <FaSlidersH
+      <button
+        className={classNames({
+          "text-base-300": !previousMoveExists,
+        })}
+        disabled={!previousMoveExists}
+        onClick={goToFirstMove}
+      >
+        <FaFastBackward />
+      </button>
+      <button
+        className={classNames({
+          "text-base-300": !previousMoveExists,
+        })}
+        disabled={!previousMoveExists}
+        onClick={goToPreviousMove}
+      >
+        <FaStepBackward />
+      </button>
+      <button
+        className={classNames({
+          "text-base-300": !nextMoveExists,
+        })}
+        disabled={!nextMoveExists}
+        onClick={goToNextMove}
+      >
+        <FaStepForward />
+      </button>
+      <button
+        className={classNames({
+          "text-base-300": !nextMoveExists,
+        })}
+        disabled={!nextMoveExists}
+        onClick={goToLastMove}
+      >
+        <FaFastForward />
+      </button>
+      <button onClick={rotate}>
+        <FaRotate title="Flip board" />
+      </button>
+      <button
         className={classNames("cursor-pointer", {
           "text-primary": sidebar === SIDEBARS.SETTINGS,
         })}
@@ -65,7 +104,9 @@ export const NavigationMenu = () => {
               : SIDEBARS.OPENING_EXPLORER,
           );
         }}
-      />
+      >
+        <FaSlidersH />
+      </button>
     </div>
   );
 };

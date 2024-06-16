@@ -29,6 +29,10 @@ export const findNextMove = (pgn: Pgn, previousMoves: string[]) => {
   }
 };
 
+export const hasNextMove = (pgn: Pgn, previousMoves: string[]) => {
+  return !!findNextMove(pgn, previousMoves);
+};
+
 export const getRemainingMainMoves = (pgn: Pgn, previousMoves: string[]) => {
   const currentMove = findCurrentMove(
     pgn,
