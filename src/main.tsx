@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RepertoireSettings, SETTINGS_KEY } from "@/repertoire/defs.ts";
 import { getObject } from "local-storage-superjson";
+import { ModalContainer } from "@/components/ModalContainer.tsx";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         closeOnClick
         theme="dark"
       />
+      <ModalContainer />
     </QueryClientProvider>
   </React.StrictMode>,
 );
