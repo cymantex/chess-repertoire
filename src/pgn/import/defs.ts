@@ -3,6 +3,7 @@ import { AnnotationSetting, RepertoireMove } from "@/repertoire/defs.ts";
 export interface ImportPgnOptions {
   annotationSetting: AnnotationSetting;
   playerSettings?: ImportPgnPlayerSettings;
+  replaceAnnotations: boolean;
   includeComments: boolean;
   maxMoveNumber?: number;
 }

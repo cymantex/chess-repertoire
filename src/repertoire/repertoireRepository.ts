@@ -27,14 +27,14 @@ export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,
   annotationSetting: AnnotationSetting,
-  overrideExistingAnnotation = false,
+  replaceExistingAnnotation = false,
 ) => {
   if (annotationSetting === ANNOTATION_SETTINGS.DONT_SAVE) {
     return Promise.resolve();
   }
 
   const withSelectedAutomaticAnnotation = (move: RepertoireMove) => {
-    if (overrideExistingAnnotation) {
+    if (replaceExistingAnnotation) {
       return {
         ...move,
         annotation: annotationSetting as RepertoireMoveAnnotation,
@@ -66,7 +66,7 @@ export const upsertRepertoireMove = async (
       const moveExists = moves.some((m) => m.san === repertoireMove.san);
 
       if (moveExists) {
-        const moveUpdate = overrideExistingAnnotation
+        const moveUpdate = replaceExistingAnnotation
           ? annotatedMove
           : repertoireMove;
         return {

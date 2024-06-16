@@ -1,8 +1,8 @@
 import { Chess } from "chess.js";
 
-export const toPgn = async (chess: Chess) => {
+export const toPgn = (chess: Chess) => {
   chess.header("Result", "*");
-  return chess.pgn();
+  return chess.pgn().trimEnd();
 };
 
 export const extractPlayerNames = (partialPgn: string) => {

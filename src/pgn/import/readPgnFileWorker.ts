@@ -7,15 +7,19 @@ self.onmessage = async (event: MessageEvent<File>) => {
   reader.onload = async (event) => {
     try {
       const pgn = event.target!.result as string;
-      const games = pgn.trim().split("\n\n\n");
-      const chunks = chunk(games, games.length / 2);
+      const games = pgn.trim().replace(/\r\n/g, "\n").split("\n\n[");
+      const chunkCount = Math.ceil(games.length / 2);
+      const chunks = chunk(games, chunkCount > 0 ? chunkCount : 1);
 
       if (chunks.length === 0) {
         self.postMessage([null, null]);
       } else if (chunks.length === 1) {
         self.postMessage([chunks[0], null]);
       } else {
-        self.postMessage([chunks[0].join("\n\n\n"), chunks[1].join("\n\n\n")]);
+        self.postMessage([
+          chunks[0].join("\n\n["),
+          "[" + chunks[1].join("\n\n["),
+        ]);
       }
     } catch (err) {
       console.error(err);
