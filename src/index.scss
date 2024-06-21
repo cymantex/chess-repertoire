@@ -10,6 +10,10 @@
   background-color: rgb(101, 129, 149);
 }
 
+.text-table-title {
+  color: var(--fallback-bc,oklch(var(--bc)/0.6));
+}
+
 :root {
   --toastify-color-light: oklch(var(--bc));
   --toastify-color-dark: oklch(var(--b1));

@@ -6,6 +6,8 @@ import { FetchError } from "@/components/reused/FetchError.tsx";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { CloudEvaluationResponse } from "@/defs.ts";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
+import { Eval } from "@/components/reused/Eval.tsx";
+import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
 
 export const CloudEngineEvaluation = () => {
   const fen = useRepertoireStore(selectFen);
@@ -20,12 +22,6 @@ export const CloudEngineEvaluation = () => {
   if (isPending) return <Loader />;
   if (error) return <FetchError error={error} />;
 
-  const cpDisplayValue = (cp: number) => (
-    <span className="font-bold">
-      {cp < 0 ? `${(cp / 100).toFixed(2)}` : `+${(cp / 100).toFixed(2)}`}
-    </span>
-  );
-
   const chessopsPosition = parsePosition(fen);
 
   return (
@@ -39,10 +35,9 @@ export const CloudEngineEvaluation = () => {
         <tbody>
           {data.pvs?.map((pv) => (
             <tr key={pv.moves}>
-              <td className="whitespace-nowrap">
-                {cpDisplayValue(pv.cp)}{" "}
-                {uciMovesToSan(chessopsPosition, pv.moves)}
-              </td>
+              <TdWithOverflowCaret>
+                <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
+              </TdWithOverflowCaret>
             </tr>
           ))}
         </tbody>
