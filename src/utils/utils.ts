@@ -14,12 +14,18 @@ export const toAnalysisResultEvaluation = (result?: {
   mate?: number;
 }) => {
   if (!result) {
-    return "+0.00";
+    console.log(result);
+    return "--.--";
   }
 
   if (result.mate) {
     return `#${result.mate}`;
   }
 
-  return isNumber(result.cp) ? toCpDisplayName(result.cp) : "+0.00";
+  if (!isNumber(result.cp)) {
+    console.log(result);
+    return "--.--";
+  }
+
+  return isNumber(result.cp) ? toCpDisplayName(result.cp) : "--.--";
 };

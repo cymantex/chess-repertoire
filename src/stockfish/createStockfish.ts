@@ -1,4 +1,5 @@
 import StockfishWorker from "stockfish/src/stockfish-nnue-16-single?worker";
+import { isNumber } from "lodash";
 
 const ERROR_STOCKFISH_NOT_STARTED = new Error("Stockfish worker not started");
 
@@ -95,7 +96,7 @@ export const createStockfish = () => {
     fen: string;
     searchTimeInMs: number;
     onAnalysisResult: (result: AnalysisResult) => unknown;
-    onStop: (bestMove: BestMove) => unknown;
+    onStop?: (bestMove: BestMove) => unknown;
     onError: (error: ErrorEvent) => unknown;
   }) => {
     setPosition(fen);
@@ -112,14 +113,11 @@ export const createStockfish = () => {
       if (message.startsWith("info")) {
         const analysisResult = parseAnalysisResult(message);
 
-        if (
-          (analysisResult.pv && analysisResult.pv.length > 1) ||
-          analysisResult.mate
-        ) {
+        if (isAnalysisResult(analysisResult)) {
           onAnalysisResult(analysisResult);
         }
       } else if (message.startsWith("bestmove")) {
-        onStop({
+        onStop?.({
           bestmove: message.split(" ")[1],
           ponder: message.split(" ")[3],
         });
@@ -177,6 +175,12 @@ export const createStockfish = () => {
   };
 
   return stockfish;
+};
+
+const isAnalysisResult = (result: AnalysisResult) => {
+  if (!result.pv) return false;
+  if (result.pv.length > 1 && isNumber(result.cp)) return true;
+  return isNumber(result.mate);
 };
 
 const parseAnalysisResult = (infoMessage: string): AnalysisResult => {

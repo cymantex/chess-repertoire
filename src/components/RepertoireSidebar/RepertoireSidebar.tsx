@@ -8,6 +8,7 @@ import { SIDEBARS } from "@/defs.ts";
 import { SettingsMenu } from "@/components/RepertoireSidebar/components/SettingsMenu/SettingsMenu.tsx";
 import classNames from "classnames";
 import { ChessEngineAnalysis } from "@/components/RepertoireSidebar/components/ChessEngineAnalysis.tsx";
+import { PgnExplorer } from "@/components/PgnExplorer.tsx";
 
 export const RepertoireSidebar = () => {
   const sidebar = useRepertoireStore(selectSidebar);
@@ -18,13 +19,16 @@ export const RepertoireSidebar = () => {
         <div className="overflow-auto border-0 md:border-b border-primary">
           <ChessEngineAnalysis />
         </div>
-        <div className="overflow-auto border-b border-primary">
+        <div className="overflow-auto md:border-b border-primary">
           <CloudEngineEvaluation />
         </div>
-        <div className="repertoire-sidebar__opening border-0 md:border-b border-primary">
+        <div className="overflow-auto md:border-b border-primary">
+          <PgnExplorer />
+        </div>
+        <div className="overflow-auto repertoire-sidebar__opening">
           <OpeningExplorer />
         </div>
-        <div className="repertoire-sidebar__navigation">
+        <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
           <NavigationMenu />
         </div>
       </aside>
@@ -41,10 +45,10 @@ export const RepertoireSidebar = () => {
         "border-primary",
       )}
     >
-      <div className="md:border-b border-primary">
+      <div className="">
         <SettingsMenu />
       </div>
-      <div className="repertoire-sidebar__navigation">
+      <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
         <NavigationMenu />
       </div>
     </aside>

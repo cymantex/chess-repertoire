@@ -5,6 +5,8 @@ import { FetchError } from "@/components/reused/FetchError.tsx";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { OpeningExplorerResponse } from "@/defs.ts";
 import { RepertoireOpeningMovesTbody } from "@/components/RepertoireSidebar/components/OpeningExplorer/RepertoireOpeningMovesTbody.tsx";
+import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
+import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 
 export const OpeningExplorer = () => {
   const fen = useRepertoireStore(selectFen);
@@ -20,15 +22,21 @@ export const OpeningExplorer = () => {
   if (error) return <FetchError error={error} />;
 
   return (
-    <table className="table table-sm table-zebra select-none">
-      <thead>
-        <tr>
+    <AccordingTable
+      section={TOGGLE_SECTIONS.OPENING_EXPLORER}
+      renderTheadTrChildren={(toggleButton) => (
+        <>
           <td>Move</td>
           <td>Games</td>
-          <td>Annotation</td>
-        </tr>
-      </thead>
+          <td>
+            <span>Annotation</span>
+            {toggleButton}
+          </td>
+        </>
+      )}
+      className="table-sm table-zebra select-none"
+    >
       <RepertoireOpeningMovesTbody openingExplorerMoves={data.moves} />
-    </table>
+    </AccordingTable>
   );
 };

@@ -24,7 +24,6 @@ export const TdWithOverflowCaret = ({ children }: { children: ReactNode }) => {
         ref={tdRef}
         className={classNames("overflow-clip", {
           "whitespace-nowrap": !showOverflow,
-          "text-red": overflowing,
         })}
         style={{
           width: "calc(100% - 10px)",
@@ -34,7 +33,7 @@ export const TdWithOverflowCaret = ({ children }: { children: ReactNode }) => {
       </div>
       {(overflowing || showOverflow) && (
         <button
-          className="absolute top-1 right-0"
+          className="absolute top-1 right-1"
           onClick={() => setShowOverflow((prev) => !prev)}
         >
           {showOverflow ? <FaCaretUp /> : <FaCaretDown />}
