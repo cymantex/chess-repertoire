@@ -29,17 +29,17 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
           {
             title: `Draw: ${drawRate.toFixed(2)}%`,
             value: drawRate,
-            color: "rgb(90, 90, 90)",
+            color: "rgb(150, 150, 150)",
           },
           {
             title: `White: ${whiteWinRate.toFixed(2)}%`,
             value: whiteWinRate,
-            color: "rgb(220, 220, 220)",
+            color: "rgb(255, 255, 255)",
           },
           {
             title: `Black: ${blackWinRate.toFixed(2)}%`,
             value: blackWinRate,
-            color: "rgb(10, 10, 10)",
+            color: "rgb(35, 35, 35)",
           },
         ]}
       />
