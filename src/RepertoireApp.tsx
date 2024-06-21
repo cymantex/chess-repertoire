@@ -11,7 +11,6 @@ import {
   selectGetCurrentRepertoirePosition,
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
-import { PgnExplorer } from "@/components/PgnExplorer.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -42,7 +41,6 @@ export const RepertoireApp = () => {
           fen={fen}
           positionComment={positionComment}
         />
-        <PgnExplorer />
       </main>
       <RepertoireSidebar />
     </div>

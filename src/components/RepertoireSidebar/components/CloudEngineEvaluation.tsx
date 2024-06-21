@@ -8,6 +8,8 @@ import { CloudEvaluationResponse } from "@/defs.ts";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
+import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
+import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 
 export const CloudEngineEvaluation = () => {
   const fen = useRepertoireStore(selectFen);
@@ -26,22 +28,23 @@ export const CloudEngineEvaluation = () => {
 
   return (
     <HideOnMobile>
-      <table className="table table-xs">
-        <thead>
-          <tr>
-            <td>Cloud engine evaluation</td>
+      <AccordingTable
+        section={TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION}
+        renderTheadTrChildren={(toggleButton) => (
+          <td>
+            <span>Cloud engine evaluation</span>
+            {toggleButton}
+          </td>
+        )}
+      >
+        {data.pvs?.map((pv) => (
+          <tr key={pv.moves}>
+            <TdWithOverflowCaret>
+              <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
+            </TdWithOverflowCaret>
           </tr>
-        </thead>
-        <tbody>
-          {data.pvs?.map((pv) => (
-            <tr key={pv.moves}>
-              <TdWithOverflowCaret>
-                <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
-              </TdWithOverflowCaret>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        ))}
+      </AccordingTable>
     </HideOnMobile>
   );
 };

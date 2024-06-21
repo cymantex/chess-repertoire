@@ -33,7 +33,7 @@ export const RepertoireOpeningMovesTbody = ({
 
   // TODO: Display stats on hover
   return (
-    <tbody>
+    <>
       {toOrderedRepertoireOpeningExplorerMoves(
         chess,
         openingExplorerMoves,
@@ -65,6 +65,6 @@ export const RepertoireOpeningMovesTbody = ({
           </td>
         </tr>
       ))}
-    </tbody>
+    </>
   );
 };

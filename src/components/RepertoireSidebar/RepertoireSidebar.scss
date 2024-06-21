@@ -1,6 +1,6 @@
 $md: 768px;
 $p-2: 0.5rem;
-$navigationHeight: 25px;
+$navigationHeight: calc(25px + 1rem);
 
 .repertoire-sidebar {
   display: grid;
@@ -10,7 +10,6 @@ $navigationHeight: 25px;
   padding: $p-2;
 
   &__opening {
-    overflow: auto;
     grid-row-start: 2;
     grid-row-end: 5;
   }
@@ -22,17 +21,27 @@ $navigationHeight: 25px;
 
 @media (min-width: $md) {
   .repertoire-sidebar {
-    grid-template-rows: 4fr 3fr 13fr $navigationHeight;
+    grid-template-rows: auto auto auto 1fr $navigationHeight;
     margin-left: $p-2;
     height: 85vh;
+    max-height: 85vh;
+    padding: 0;
+    gap: 0;
 
     &--settings {
       grid-template-rows: 1fr $navigationHeight;
     }
 
     &__opening {
-      grid-row-start: initial;
-      grid-row-end: initial;
+      grid-row-start: 4;
+      grid-row-end: 4;
+      align-self: end;
+      height: 50vh;
+
+      &:has(.table--hidden) {
+        align-self: start;
+        height: auto;
+      }
     }
 
     &__navigation {

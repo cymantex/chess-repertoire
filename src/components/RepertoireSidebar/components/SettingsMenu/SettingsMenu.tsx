@@ -86,7 +86,7 @@ export const SettingsMenu = () => {
           <h3 className="font-bold text-base">Engine</h3>
         </div>
       </div>
-      <div className="p-4 border border-2 border-base-200 mt-2 mb-2 block">
+      <div className="p-4 mt-2 mb-2 block">
         <Range
           min="1"
           max="10"

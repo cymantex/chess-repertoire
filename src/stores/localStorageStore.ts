@@ -6,6 +6,8 @@ import {
   EngineSettings,
   RepertoireSettings,
   SETTINGS_KEY,
+  ToggleSection,
+  ToggleState,
 } from "@/repertoire/defs.ts";
 
 const subscribers = new Set<() => void>();
@@ -28,6 +30,26 @@ export const localStorageStore = {
 
     currentSettings = settings;
     return settings;
+  },
+  upsertClosedSections: (section: ToggleSection, state: ToggleState) => {
+    upsertObject<RepertoireSettings>(
+      SETTINGS_KEY,
+      {
+        ...DEFAULT_SETTINGS,
+        closedSections: {
+          ...DEFAULT_SETTINGS.closedSections,
+          [section]: state,
+        },
+      },
+      (existingSettings) => ({
+        ...existingSettings,
+        closedSections: {
+          ...existingSettings.closedSections,
+          [section]: state,
+        },
+      }),
+    );
+    notifySubscribers();
   },
   upsertEngineSettings: (settings: Partial<EngineSettings>) => {
     upsertObject<RepertoireSettings>(

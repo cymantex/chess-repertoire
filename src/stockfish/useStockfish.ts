@@ -30,7 +30,7 @@ export const useStockfish = ({
     const position = parseFen(fen).unwrap();
 
     const normalizeCp = (uciCp?: number) => {
-      if (!uciCp) return undefined;
+      if (!isNumber(uciCp)) return undefined;
       return uciCp * (position.turn === CG_WHITE ? 1 : -1);
     };
 
@@ -77,8 +77,11 @@ export const useStockfish = ({
     position.turn === CG_WHITE ? "desc" : "asc",
   );
 
+  const analysisResultsExists = Object.keys(analysisResults).length > 0;
+
   return {
-    analysing,
+    disabled: !analysing && analysisResultsExists,
+    analysing: analysing || analysisResultsExists,
     analysisResults: analysisResultsOrderedByMateThenCp,
     toggleAnalysis: async () => {
       if (analysing) {
