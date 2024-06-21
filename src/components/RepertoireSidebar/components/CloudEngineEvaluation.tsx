@@ -5,6 +5,7 @@ import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { CloudEvaluationResponse } from "@/defs.ts";
+import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 
 export const CloudEngineEvaluation = () => {
   const fen = useRepertoireStore(selectFen);
@@ -21,29 +22,31 @@ export const CloudEngineEvaluation = () => {
 
   const cpDisplayValue = (cp: number) => (
     <span className="font-bold">
-      {cp < 0 ? `-0.${Math.abs(cp)}` : `+0.${cp}`}
+      {cp < 0 ? `${(cp / 100).toFixed(2)}` : `+${(cp / 100).toFixed(2)}`}
     </span>
   );
 
   const chessopsPosition = parsePosition(fen);
 
   return (
-    <table className="table table-xs">
-      <thead>
-        <tr>
-          <td>Cloud engine evaluation</td>
-        </tr>
-      </thead>
-      <tbody>
-        {data.pvs?.map((pv) => (
-          <tr key={pv.moves}>
-            <td className="whitespace-nowrap">
-              {cpDisplayValue(pv.cp)}{" "}
-              {uciMovesToSan(chessopsPosition, pv.moves)}
-            </td>
+    <HideOnMobile>
+      <table className="table table-xs">
+        <thead>
+          <tr>
+            <td>Cloud engine evaluation</td>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.pvs?.map((pv) => (
+            <tr key={pv.moves}>
+              <td className="whitespace-nowrap">
+                {cpDisplayValue(pv.cp)}{" "}
+                {uciMovesToSan(chessopsPosition, pv.moves)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </HideOnMobile>
   );
 };

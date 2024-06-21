@@ -11,6 +11,7 @@ import {
   selectGetCurrentRepertoirePosition,
 } from "@/stores/zustand/selectors.ts";
 import { useEffect } from "react";
+import { PgnExplorer } from "@/components/PgnExplorer.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -28,6 +29,7 @@ export const RepertoireApp = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: PGN as accordion
   return (
     <div
       className="md:grid ml-auto mr-auto p-0 md:p-3"
@@ -40,6 +42,7 @@ export const RepertoireApp = () => {
           fen={fen}
           positionComment={positionComment}
         />
+        <PgnExplorer />
       </main>
       <RepertoireSidebar />
     </div>

@@ -18,6 +18,7 @@ import {
   RepertoireMoveAnnotation,
   RepertoireOpeningExplorerMove,
 } from "@/repertoire/defs.ts";
+import { IconButton } from "@/components/reused/IconButton.tsx";
 
 interface MoveAnnotationMenuProps {
   move: RepertoireOpeningExplorerMove;
@@ -69,7 +70,7 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
         <SettingsIcon key={id} {...createAnnotationProps(id)} />
       ))}
       {databaseMove ? (
-        <FaTrash
+        <IconButton
           title="Delete move from repertoire"
           className={classNames(
             "transition-all hover:scale-150 rounded cursor-pointer",
@@ -78,7 +79,9 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
             },
           )}
           onClick={() => deleteMove(fen, move.san)}
-        />
+        >
+          <FaTrash />
+        </IconButton>
       ) : (
         <FaTrash className="opacity-0" />
       )}
