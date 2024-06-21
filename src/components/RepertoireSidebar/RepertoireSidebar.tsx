@@ -45,7 +45,7 @@ export const RepertoireSidebar = () => {
         "border-primary",
       )}
     >
-      <div className="">
+      <div className="overflow-auto">
         <SettingsMenu />
       </div>
       <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
