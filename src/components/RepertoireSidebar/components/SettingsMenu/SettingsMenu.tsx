@@ -103,11 +103,11 @@ export const SettingsMenu = () => {
         />
         <Range
           min="1"
-          max="32"
+          max={navigator.hardwareConcurrency}
           step="1"
           name="Threads"
           className="mb-2"
-          label={`${threads} / 32`}
+          label={`${threads} / ${navigator.hardwareConcurrency}`}
           value={threads}
           onChange={(threads) =>
             localStorageStore.upsertEngineSettings({

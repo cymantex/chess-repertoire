@@ -13,16 +13,15 @@ import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
 import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
+import { ANALYSIS_STATE } from "@/stockfish/defs.ts";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
-  const { disabled, analysing, toggleAnalysis, analysisResults } =
+  const { analysing, toggleAnalysis, analysisResults } =
     useStockfish(engineSettings);
   const firstResult = head(analysisResults);
 
-  // TODO: navigator.deviceMemory
-  // TODO: navigator.hardwareConcurrency
   const fen = useRepertoireStore(selectFen);
   const chessopsPosition = parsePosition(fen);
 
@@ -38,9 +37,9 @@ export const ChessEngineAnalysis = () => {
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
+                  disabled={analysing === ANALYSIS_STATE.STARTING}
                   className="toggle toggle-sm"
-                  disabled={disabled}
-                  checked={analysing}
+                  checked={analysing === ANALYSIS_STATE.ANALYSING}
                   onChange={toggleAnalysis}
                 />
                 <span className="font-bold text-lg">
