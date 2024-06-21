@@ -11,7 +11,13 @@ import { getRepertoireSettings } from "@/stores/localStorageStore.ts";
 const queryClient = new QueryClient();
 
 const theme = getRepertoireSettings().theme;
+const boardTheme = getRepertoireSettings().boardTheme;
+const pieceTheme = getRepertoireSettings().pieceTheme;
 document.documentElement.setAttribute("data-theme", theme);
+document.documentElement.setAttribute("board-theme", boardTheme);
+document.documentElement.setAttribute("piece-theme", pieceTheme);
+import(`@/external/chessground/assets/chessground.pieces.${pieceTheme}.css`);
+import(`@/external/chessground/assets/chessground.board.${boardTheme}.css`);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

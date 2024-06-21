@@ -28,7 +28,7 @@ export const RepertoireApp = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO: PGN as accordion
+  // TODO: Settings for Piece/Board themes
   return (
     <div
       className="md:grid ml-auto mr-auto p-0 md:p-3"

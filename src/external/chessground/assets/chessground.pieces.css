@@ -1,0 +1,48 @@
+.cg-wrap .piece.pawn.white,
+.cg-wrap piece.pawn.white {
+  background-image: var(--piece-pawn-white);
+}
+.cg-wrap .piece.bishop.white,
+.cg-wrap piece.bishop.white {
+  background-image: var(--piece-bishop-white);
+}
+.cg-wrap .piece.knight.white,
+.cg-wrap piece.knight.white {
+  background-image: var(--piece-knight-white);
+}
+.cg-wrap .piece.rook.white,
+.cg-wrap piece.rook.white {
+  background-image: var(--piece-white-rook);
+}
+.cg-wrap .piece.queen.white,
+.cg-wrap piece.queen.white {
+  background-image: var(--piece-white-queen);
+}
+.cg-wrap .piece.king.white,
+.cg-wrap piece.king.white {
+  background-image: var(--piece-white-king);
+}
+.cg-wrap .piece.pawn.black,
+.cg-wrap piece.pawn.black {
+  background-image: var(--piece-black-pawn)
+}
+.cg-wrap .piece.bishop.black,
+.cg-wrap piece.bishop.black {
+  background-image: var(--piece-black-bishop);
+}
+.cg-wrap .piece.knight.black,
+.cg-wrap piece.knight.black {
+  background-image: var(--piece-black-knight);
+}
+.cg-wrap .piece.rook.black,
+.cg-wrap piece.rook.black {
+  background-image: var(--piece-black-rook);
+}
+.cg-wrap .piece.queen.black,
+.cg-wrap piece.queen.black {
+  background-image: var(--piece-black-queen);
+}
+.cg-wrap .piece.king.black,
+.cg-wrap piece.king.black {
+  background-image: var(--piece-black-king);
+}
