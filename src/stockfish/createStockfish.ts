@@ -1,4 +1,4 @@
-// Requires stockfish-nnue-16.wasm to be statically imported
+// Requires stockfish-nnue-16.wasm to be publicly available in the web root
 // For Vite this means it should be located in the dist/assets folder
 import StockfishWorker from "stockfish/src/stockfish-nnue-16.js?worker";
 import {

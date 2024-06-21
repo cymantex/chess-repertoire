@@ -17,18 +17,18 @@ export const RepertoireSidebar = () => {
   if (sidebar === SIDEBARS.OPENING_EXPLORER) {
     return (
       <aside className="repertoire-sidebar border-0 md:border border-primary">
-        <HideOnMobile>
-          <div className="overflow-auto border-0 border-b border-primary">
+        <HideOnMobile className="overflow-auto">
+          <div className="border-0 border-b border-primary">
             <ChessEngineAnalysis />
           </div>
         </HideOnMobile>
-        <HideOnMobile>
-          <div className="overflow-auto border-b border-primary">
+        <HideOnMobile className="overflow-auto">
+          <div className="border-b border-primary">
             <CloudEngineEvaluation />
           </div>
         </HideOnMobile>
-        <HideOnMobile>
-          <div className="overflow-auto border-b border-primary">
+        <HideOnMobile className="overflow-auto">
+          <div className="border-b border-primary">
             <PgnExplorer />
           </div>
         </HideOnMobile>
