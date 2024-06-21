@@ -32,7 +32,7 @@ export const RepertoireSidebar = () => {
             <PgnExplorer />
           </div>
         </HideOnMobile>
-        <div className="overflow-auto repertoire-sidebar__opening">
+        <div className="overflow-auto border-t border-primary repertoire-sidebar__opening">
           <OpeningExplorer />
         </div>
         <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
