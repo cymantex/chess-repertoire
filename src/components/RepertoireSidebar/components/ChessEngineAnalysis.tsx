@@ -24,7 +24,8 @@ export const ChessEngineAnalysis = () => {
   const fen = useRepertoireStore(selectFen);
   const chessopsPosition = parsePosition(fen);
 
-  // TODO: Dropdown for variations
+  const missingColumns = analysing ? multiPv - analysisResults.length : 0;
+
   return (
     <HideOnMobile>
       <AccordingTable
@@ -69,6 +70,11 @@ export const ChessEngineAnalysis = () => {
               <Eval {...result} />{" "}
               {uciMovesToSan(chessopsPosition, result.pv.join(" "))}
             </TdWithOverflowCaret>
+          </tr>
+        ))}
+        {new Array(missingColumns).fill("").map((_, index) => (
+          <tr key={index}>
+            <td className="invisible">Hidden</td>
           </tr>
         ))}
       </AccordingTable>

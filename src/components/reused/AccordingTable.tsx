@@ -25,45 +25,43 @@ export const AccordingTable = ({
   const showBody = closedSections[section] === TOGGLE_STATE.ON;
 
   return (
-    <div>
-      <table
-        className={classNames(
-          "accordion-table table table-xs",
-          {
-            "table--hidden": !showBody,
-          },
-          className,
-        )}
+    <table
+      className={classNames(
+        "accordion-table table table-xs",
+        {
+          "table--hidden": !showBody,
+        },
+        className,
+      )}
+    >
+      <thead className="pt-2 pb-2">
+        <tr className="relative">
+          {renderTheadTrChildren(
+            <button
+              className="absolute right-1 text-lg"
+              onClick={() =>
+                localStorageStore.upsertClosedSections(
+                  section,
+                  showBody ? TOGGLE_STATE.OFF : TOGGLE_STATE.ON,
+                )
+              }
+              style={{
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            >
+              {showBody ? <FaCaretUp /> : <FaCaretDown />}
+            </button>,
+          )}
+        </tr>
+      </thead>
+      <tbody
+        className={classNames({
+          hidden: !showBody,
+        })}
       >
-        <thead className="pt-2 pb-2">
-          <tr className="relative">
-            {renderTheadTrChildren(
-              <button
-                className="absolute right-1 text-lg"
-                onClick={() =>
-                  localStorageStore.upsertClosedSections(
-                    section,
-                    showBody ? TOGGLE_STATE.OFF : TOGGLE_STATE.ON,
-                  )
-                }
-                style={{
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
-              >
-                {showBody ? <FaCaretUp /> : <FaCaretDown />}
-              </button>,
-            )}
-          </tr>
-        </thead>
-        <tbody
-          className={classNames({
-            hidden: !showBody,
-          })}
-        >
-          {children}
-        </tbody>
-      </table>
-    </div>
+        {children}
+      </tbody>
+    </table>
   );
 };

@@ -1,6 +1,6 @@
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AnalysisResult,
   createStockfish,
@@ -26,7 +26,7 @@ export const useStockfish = ({
 
   const position = parseFen(fen).unwrap();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const position = parseFen(fen).unwrap();
 
     const normalizeCp = (uciCp?: number) => {

@@ -14,7 +14,6 @@ export const toAnalysisResultEvaluation = (result?: {
   mate?: number;
 }) => {
   if (!result) {
-    console.log(result);
     return "--.--";
   }
 

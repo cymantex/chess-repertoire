@@ -11,14 +11,17 @@ export const PgnExplorer = () => {
   return (
     <HideOnMobile>
       <AccordingTable
-        renderTheadTrChildren={(toggleButton) => <td>PGN{toggleButton}</td>}
+        renderTheadTrChildren={(toggleButton) => (
+          <td>
+            <span>PGN</span>
+            {toggleButton}
+          </td>
+        )}
         section={TOGGLE_SECTIONS.PGN_EXPLORER}
       >
-        <tbody>
-          <tr>
-            <td>{toPgn(pgn)}</td>
-          </tr>
-        </tbody>
+        <tr>
+          <td>{toPgn(pgn)}</td>
+        </tr>
       </AccordingTable>
     </HideOnMobile>
   );
