@@ -33,23 +33,20 @@ export const RepertoireOpeningMovesTbody = ({
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
 
-  const totalGames = toOrderedRepertoireOpeningExplorerMoves(
+  const orderedOpeningMoves = toOrderedRepertoireOpeningExplorerMoves(
     chess,
     openingExplorerMoves,
     repertoireMoves,
-  )
+  );
+
+  const totalGames = orderedOpeningMoves
     .filter(isOpeningExplorerMove)
     .map(calcTotalGames)
     .reduce((a, b) => a + b, 0);
 
-  // TODO: Display stats on hover
   return (
     <>
-      {toOrderedRepertoireOpeningExplorerMoves(
-        chess,
-        openingExplorerMoves,
-        repertoireMoves,
-      ).map((move) => (
+      {orderedOpeningMoves.map((move) => (
         <tr
           className="hover cursor-pointer"
           key={move.san}
