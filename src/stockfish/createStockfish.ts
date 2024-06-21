@@ -1,4 +1,4 @@
-import StockfishWorker from "stockfish/src/stockfish-nnue-16-single?worker";
+import StockfishWorker from "stockfish/src/stockfish-nnue-16-single.js?worker";
 import { isNumber } from "lodash";
 
 const ERROR_STOCKFISH_NOT_STARTED = new Error("Stockfish worker not started");
