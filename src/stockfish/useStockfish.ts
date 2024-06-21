@@ -54,6 +54,7 @@ export const useStockfish = ({
               },
             })),
           onError: (error) => toast.error(error.message),
+          // TODO: Will clear results when the analysis is done (not wanted)
           onStop: () => setAnalysisResults({}),
         });
     }
