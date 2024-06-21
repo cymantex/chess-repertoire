@@ -79,6 +79,7 @@ export const ERROR_STOCKFISH_NOT_STARTED = "Stockfish worker not started";
 export const ANALYSIS_STATE = {
   STARTING: "STARTING",
   ANALYSING: "ANALYSING",
+  STOPPING: "STOPPING",
   STOPPED: "STOPPED",
 } as const;
 

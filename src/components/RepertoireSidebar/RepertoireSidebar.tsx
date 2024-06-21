@@ -9,6 +9,7 @@ import { SettingsMenu } from "@/components/RepertoireSidebar/components/Settings
 import classNames from "classnames";
 import { ChessEngineAnalysis } from "@/components/RepertoireSidebar/components/ChessEngineAnalysis.tsx";
 import { PgnExplorer } from "@/components/PgnExplorer.tsx";
+import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 
 export const RepertoireSidebar = () => {
   const sidebar = useRepertoireStore(selectSidebar);
@@ -16,15 +17,21 @@ export const RepertoireSidebar = () => {
   if (sidebar === SIDEBARS.OPENING_EXPLORER) {
     return (
       <aside className="repertoire-sidebar border-0 md:border border-primary">
-        <div className="overflow-auto border-0 md:border-b border-primary">
-          <ChessEngineAnalysis />
-        </div>
-        <div className="overflow-auto md:border-b border-primary">
-          <CloudEngineEvaluation />
-        </div>
-        <div className="overflow-auto md:border-b border-primary">
-          <PgnExplorer />
-        </div>
+        <HideOnMobile>
+          <div className="overflow-auto border-0 border-b border-primary">
+            <ChessEngineAnalysis />
+          </div>
+        </HideOnMobile>
+        <HideOnMobile>
+          <div className="overflow-auto border-b border-primary">
+            <CloudEngineEvaluation />
+          </div>
+        </HideOnMobile>
+        <HideOnMobile>
+          <div className="overflow-auto border-b border-primary">
+            <PgnExplorer />
+          </div>
+        </HideOnMobile>
         <div className="overflow-auto repertoire-sidebar__opening">
           <OpeningExplorer />
         </div>

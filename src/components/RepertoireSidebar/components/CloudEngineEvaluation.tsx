@@ -5,7 +5,6 @@ import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { CloudEvaluationResponse } from "@/defs.ts";
-import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
 import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
@@ -21,30 +20,33 @@ export const CloudEngineEvaluation = () => {
       ),
   });
 
-  if (isPending) return <Loader />;
+  if (isPending)
+    return (
+      <div className="p-2">
+        <Loader />
+      </div>
+    );
   if (error) return <FetchError error={error} />;
 
   const chessopsPosition = parsePosition(fen);
 
   return (
-    <HideOnMobile>
-      <AccordingTable
-        section={TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION}
-        renderTheadTrChildren={(toggleButton) => (
-          <td>
-            <span>Cloud engine evaluation</span>
-            {toggleButton}
-          </td>
-        )}
-      >
-        {data.pvs?.map((pv) => (
-          <tr key={pv.moves}>
-            <TdWithOverflowCaret>
-              <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
-            </TdWithOverflowCaret>
-          </tr>
-        ))}
-      </AccordingTable>
-    </HideOnMobile>
+    <AccordingTable
+      section={TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION}
+      renderTheadTrChildren={(toggleButton) => (
+        <td>
+          <span>Cloud engine evaluation</span>
+          {toggleButton}
+        </td>
+      )}
+    >
+      {data.pvs?.map((pv) => (
+        <tr key={pv.moves}>
+          <TdWithOverflowCaret>
+            <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
+          </TdWithOverflowCaret>
+        </tr>
+      ))}
+    </AccordingTable>
   );
 };
