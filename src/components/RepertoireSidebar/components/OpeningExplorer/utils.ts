@@ -11,12 +11,14 @@ import {
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;
 
-export const calcTotalGames = (move: RepertoireOpeningExplorerMove) => {
+export const calcTotalGames = (
+  move: RepertoireOpeningExplorerMove | OpeningExplorerMove,
+) => {
   if (isOpeningExplorerMove(move)) return move.white + move.draws + move.black;
-  return "";
+  return 0;
 };
 
-const isOpeningExplorerMove = (
+export const isOpeningExplorerMove = (
   move: OpeningExplorerMove | AnnotatedMove,
 ): move is OpeningExplorerMove =>
   (move as OpeningExplorerMove).averageRating !== undefined;

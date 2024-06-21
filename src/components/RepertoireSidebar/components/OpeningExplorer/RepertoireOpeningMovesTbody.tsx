@@ -8,10 +8,12 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import {
   calcTotalGames,
+  isOpeningExplorerMove,
   toOrderedRepertoireOpeningExplorerMoves,
 } from "@/components/RepertoireSidebar/components/OpeningExplorer/utils.ts";
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
+import { MoveStats } from "@/components/RepertoireSidebar/components/OpeningExplorer/MoveStats.tsx";
 
 interface RepertoireOpeningMovesProps {
   openingExplorerMoves: OpeningExplorerMove[];
@@ -30,6 +32,15 @@ export const RepertoireOpeningMovesTbody = ({
 
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
+
+  const totalGames = toOrderedRepertoireOpeningExplorerMoves(
+    chess,
+    openingExplorerMoves,
+    repertoireMoves,
+  )
+    .filter(isOpeningExplorerMove)
+    .map(calcTotalGames)
+    .reduce((a, b) => a + b, 0);
 
   // TODO: Display stats on hover
   return (
@@ -59,7 +70,9 @@ export const RepertoireOpeningMovesTbody = ({
               move.san
             )}
           </td>
-          <td>{calcTotalGames(move)}</td>
+          <td>
+            <MoveStats totalGamesForPosition={totalGames} move={move} />
+          </td>
           <td>
             <MoveAnnotationMenu move={move} />
           </td>
