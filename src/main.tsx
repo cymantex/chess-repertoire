@@ -5,13 +5,12 @@ import "./index.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RepertoireSettings, SETTINGS_KEY } from "@/repertoire/defs.ts";
-import { getObject } from "local-storage-superjson";
 import { ModalContainer } from "@/components/ModalContainer.tsx";
+import { getRepertoireSettings } from "@/stores/localStorageStore.ts";
 
 const queryClient = new QueryClient();
 
-const theme = getObject<RepertoireSettings>(SETTINGS_KEY)?.theme ?? "black";
+const theme = getRepertoireSettings().theme;
 document.documentElement.setAttribute("data-theme", theme);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

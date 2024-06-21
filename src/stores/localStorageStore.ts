@@ -1,8 +1,9 @@
 import { isEqual } from "lodash";
-import { getObject, upsertObject } from "local-storage-superjson";
+import { getObject, setObject, upsertObject } from "local-storage-superjson";
 import { useSyncExternalStore } from "react";
 import {
   DEFAULT_SETTINGS,
+  EngineSettings,
   RepertoireSettings,
   SETTINGS_KEY,
 } from "@/repertoire/defs.ts";
@@ -28,6 +29,20 @@ export const localStorageStore = {
     currentSettings = settings;
     return settings;
   },
+  upsertEngineSettings: (settings: Partial<EngineSettings>) => {
+    upsertObject<RepertoireSettings>(
+      SETTINGS_KEY,
+      {
+        ...DEFAULT_SETTINGS,
+        engineSettings: { ...DEFAULT_SETTINGS.engineSettings, ...settings },
+      },
+      (existingSettings) => ({
+        ...existingSettings,
+        engineSettings: { ...existingSettings.engineSettings, ...settings },
+      }),
+    );
+    notifySubscribers();
+  },
   upsertSettings: (settings: Partial<RepertoireSettings>) => {
     upsertObject<RepertoireSettings>(
       SETTINGS_KEY,
@@ -44,8 +59,19 @@ export const localStorageStore = {
 export const getAnnotationSetting = () =>
   getRepertoireSettings().annotationSetting;
 
-const getRepertoireSettings = () =>
-  getObject<RepertoireSettings>(SETTINGS_KEY) ?? DEFAULT_SETTINGS;
+export const getRepertoireSettings = () => {
+  const settings = getObject<RepertoireSettings>(SETTINGS_KEY);
+
+  if (!settings) {
+    setObject(SETTINGS_KEY, DEFAULT_SETTINGS);
+    return DEFAULT_SETTINGS;
+  }
+
+  return {
+    ...DEFAULT_SETTINGS,
+    ...settings,
+  };
+};
 
 export const useRepertoireSettings = () =>
   useSyncExternalStore(

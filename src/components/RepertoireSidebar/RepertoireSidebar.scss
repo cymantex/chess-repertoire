@@ -4,26 +4,10 @@ $navigationHeight: 25px;
 
 .repertoire-sidebar {
   display: grid;
-  grid-template-rows: $navigationHeight 1fr 5fr 1fr;
+  grid-template-rows: $navigationHeight 1fr;
   gap: $p-2;
-  min-height: 50vh;
   width: 100%;
   padding: $p-2;
-
-  &--settings {
-    grid-template-rows: $navigationHeight 1fr;
-  }
-
-
-  &__engine {
-    overflow: auto;
-    display: none;
-  }
-
-  &__pgn {
-    overflow: auto;
-    display: none;
-  }
 
   &__opening {
     overflow: auto;
@@ -38,20 +22,12 @@ $navigationHeight: 25px;
 
 @media (min-width: $md) {
   .repertoire-sidebar {
-    grid-template-rows: 1fr 1fr 5fr $navigationHeight;
+    grid-template-rows: 4fr 3fr 13fr $navigationHeight;
     margin-left: $p-2;
-    height: var(--cg-height);
+    height: 85vh;
 
     &--settings {
       grid-template-rows: 1fr $navigationHeight;
-    }
-
-    &__engine {
-      display: block;
-    }
-
-    &__pgn {
-      display: block;
     }
 
     &__opening {

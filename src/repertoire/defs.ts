@@ -46,14 +46,25 @@ export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
 export type Theme = (typeof DAISY_UI_THEMES)[number];
+export interface EngineSettings {
+  searchTimeSeconds: number;
+  multiPv: number;
+  threads: number;
+}
 export interface RepertoireSettings {
   annotationSetting: AnnotationSetting;
   theme: Theme;
+  engineSettings: EngineSettings;
 }
 
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
-  theme: "dark",
+  theme: "black",
+  engineSettings: {
+    searchTimeSeconds: Infinity,
+    multiPv: 5,
+    threads: 11,
+  },
 };
 export const DEFAULT_REPERTOIRE_POSITION = { moves: [] };

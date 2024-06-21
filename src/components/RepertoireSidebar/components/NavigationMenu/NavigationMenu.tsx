@@ -27,6 +27,7 @@ import {
 import { SIDEBARS } from "@/defs.ts";
 import classNames from "classnames";
 import { hasNextMove } from "@/external/chessops/pgn.ts";
+import { IconButton } from "@/components/reused/IconButton.tsx";
 
 export const NavigationMenu = () => {
   const rotate = useRepertoireStore(selectRotate);
@@ -57,46 +58,22 @@ export const NavigationMenu = () => {
           })
         }
       />
-      <button
-        className={classNames({
-          "text-base-300": previousMoveDisabled,
-        })}
-        disabled={previousMoveDisabled}
-        onClick={goToFirstMove}
-      >
+      <IconButton disabled={previousMoveDisabled} onClick={goToFirstMove}>
         <FaFastBackward />
-      </button>
-      <button
-        className={classNames({
-          "text-base-300": previousMoveDisabled,
-        })}
-        disabled={previousMoveDisabled}
-        onClick={goToPreviousMove}
-      >
+      </IconButton>
+      <IconButton disabled={previousMoveDisabled} onClick={goToPreviousMove}>
         <FaStepBackward />
-      </button>
-      <button
-        className={classNames({
-          "text-base-300": nextMoveDisabled,
-        })}
-        disabled={nextMoveDisabled}
-        onClick={goToNextMove}
-      >
+      </IconButton>
+      <IconButton disabled={nextMoveDisabled} onClick={goToNextMove}>
         <FaStepForward />
-      </button>
-      <button
-        className={classNames({
-          "text-base-300": nextMoveDisabled,
-        })}
-        disabled={nextMoveDisabled}
-        onClick={goToLastMove}
-      >
+      </IconButton>
+      <IconButton disabled={nextMoveDisabled} onClick={goToLastMove}>
         <FaFastForward />
-      </button>
-      <button onClick={rotate}>
+      </IconButton>
+      <IconButton onClick={rotate}>
         <FaRotate title="Flip board" />
-      </button>
-      <button
+      </IconButton>
+      <IconButton
         className={classNames("cursor-pointer", {
           "text-primary": sidebar === SIDEBARS.SETTINGS,
         })}
@@ -109,7 +86,7 @@ export const NavigationMenu = () => {
         }}
       >
         <FaSlidersH />
-      </button>
+      </IconButton>
     </div>
   );
 };

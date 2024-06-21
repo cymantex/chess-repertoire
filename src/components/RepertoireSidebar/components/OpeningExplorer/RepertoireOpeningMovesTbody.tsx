@@ -31,6 +31,7 @@ export const RepertoireOpeningMovesTbody = ({
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
 
+  // TODO: Display stats on hover
   return (
     <tbody>
       {toOrderedRepertoireOpeningExplorerMoves(

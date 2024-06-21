@@ -24,6 +24,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-toastify": "^10.0.5",
+    "stockfish": "^16.0.0",
+    "stockfish-nnue.wasm": "^1.0.0-1946a675.smolnet",
     "streamsaver": "^2.0.6",
     "superjson": "^2.2.1",
     "zustand": "^4.5.2"
