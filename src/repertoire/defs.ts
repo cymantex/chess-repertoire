@@ -84,7 +84,7 @@ export const DEFAULT_SETTINGS: RepertoireSettings = {
   engineSettings: {
     searchTimeSeconds: Infinity,
     multiPv: 5,
-    threads: 11,
+    threads: navigator.hardwareConcurrency,
   },
   closedSections: {
     [TOGGLE_SECTIONS.CHESS_ENGINE_ANALYSIS]: TOGGLE_STATE.ON,
