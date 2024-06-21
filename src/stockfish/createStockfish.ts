@@ -11,6 +11,7 @@ import { ERROR_STOCKFISH_NOT_STARTED, Stockfish } from "@/stockfish/defs.ts";
 
 export const createStockfish = (): Stockfish => {
   let stockfishWorker: Worker | null = null;
+  let subscriber: (message: string) => void;
 
   const sendUciMessage = (message: string) => {
     if (!stockfishWorker) {
@@ -46,8 +47,6 @@ export const createStockfish = (): Stockfish => {
     stop: async () => {
       if (stockfishWorker) {
         sendUciMessage(`stop`);
-        sendUciMessage("isready");
-        await waitUntilMessageReceived(stockfishWorker!, "readyok");
       }
 
       return stockfish;

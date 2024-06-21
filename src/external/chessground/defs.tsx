@@ -37,3 +37,17 @@ export const DEFAULT_BRUSHES: DrawBrushes = {
   pink: { key: "pink", color: "#ee2080", opacity: 0.5, lineWidth: 10 },
   white: { key: "white", color: "white", opacity: 1, lineWidth: 10 },
 };
+
+export const PIECE_THEMES = {
+  CARDINAL: "cardinal",
+  CBURNETT: "cburnett",
+} as const;
+
+export type PieceTheme = (typeof PIECE_THEMES)[keyof typeof PIECE_THEMES];
+
+export const BOARD_THEMES = {
+  BLUE2: "blue2",
+  BROWN: "brown",
+} as const;
+
+export type BoardTheme = (typeof BOARD_THEMES)[keyof typeof BOARD_THEMES];

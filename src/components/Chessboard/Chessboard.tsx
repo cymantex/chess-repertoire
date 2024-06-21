@@ -1,8 +1,8 @@
 import { ChessgroundWrapper } from "@/external/chessground/ChessgroundWrapper.tsx";
 import { PromotionSelection } from "@/components/Chessboard/PromotionSelection/PromotionSelection.tsx";
 import "@/external/chessground/assets/chessground.base.css";
-import "@/external/chessground/assets/chessground.cardinal.css";
-import "@/external/chessground/assets/chessground.blue2.css";
+import "@/external/chessground/assets/chessground.pieces.css";
+import "@/external/chessground/assets/chessground.board.css";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,

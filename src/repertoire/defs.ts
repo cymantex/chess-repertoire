@@ -2,6 +2,12 @@
 import { DrawShape } from "chessground/draw";
 import { Move } from "chess.js";
 import { DAISY_UI_THEMES, OpeningExplorerMove } from "@/defs.ts";
+import {
+  BOARD_THEMES,
+  BoardTheme,
+  PIECE_THEMES,
+  PieceTheme,
+} from "@/external/chessground/defs.tsx";
 
 export const REPERTOIRE_ANNOTATION = {
   BRILLIANT: 100,
@@ -45,7 +51,7 @@ export const ANNOTATION_SETTINGS = {
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
-export type Theme = (typeof DAISY_UI_THEMES)[number];
+export type DaisyUiTheme = (typeof DAISY_UI_THEMES)[number];
 
 export const TOGGLE_SECTIONS = {
   CHESS_ENGINE_ANALYSIS: "CHESS_ENGINE_ANALYSIS",
@@ -72,7 +78,9 @@ export interface EngineSettings {
 
 export interface RepertoireSettings {
   annotationSetting: AnnotationSetting;
-  theme: Theme;
+  theme: DaisyUiTheme;
+  pieceTheme: PieceTheme;
+  boardTheme: BoardTheme;
   engineSettings: EngineSettings;
   closedSections: Record<ToggleSection, ToggleState>;
 }
@@ -81,6 +89,8 @@ export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
   theme: "black",
+  pieceTheme: PIECE_THEMES.CARDINAL,
+  boardTheme: BOARD_THEMES.BLUE2,
   engineSettings: {
     searchTimeSeconds: Infinity,
     multiPv: 5,
