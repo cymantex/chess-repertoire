@@ -21,6 +21,8 @@ export const ChessEngineAnalysis = () => {
     useStockfish(engineSettings);
   const firstResult = head(analysisResults);
 
+  // TODO: navigator.deviceMemory
+  // TODO: navigator.hardwareConcurrency
   const fen = useRepertoireStore(selectFen);
   const chessopsPosition = parsePosition(fen);
 
