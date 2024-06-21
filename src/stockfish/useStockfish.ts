@@ -33,6 +33,7 @@ export const useStockfish = ({
   useEffect(() => {
     const position = parseFen(fen).unwrap();
 
+    // UCI CP values are based on the side to move
     const normalizeCp = (uciCp?: number) => {
       if (!isNumber(uciCp)) return undefined;
       return uciCp * (position.turn === CG_WHITE ? 1 : -1);
@@ -84,10 +85,11 @@ export const useStockfish = ({
   );
 
   return {
-    analysing: analysisState,
+    analysisState,
     analysisResults: analysisResultsOrderedByMateThenCp,
     toggleAnalysis: async () => {
       if (analysisState === ANALYSIS_STATE.ANALYSING) {
+        setAnalysisState(ANALYSIS_STATE.STOPPING);
         await stockfish.stop();
         setAnalysisState(ANALYSIS_STATE.STOPPED);
         return;
