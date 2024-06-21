@@ -1,80 +1,26 @@
-import {
-  AnalysisResult,
-  createStockfish,
-} from "@/stockfish/createStockfish.ts";
-import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
-import { selectChess, selectFen } from "@/stores/zustand/selectors.ts";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { parsePosition, uciMovesToSan } from "@/external/chessops/utils.ts";
-import { head, orderBy } from "lodash";
-import { determineTurnColor } from "@/components/Chessboard/utils.ts";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
-import { searchTimeDisplayName } from "@/utils/utils.ts";
-
-const stockfish = createStockfish();
+import {
+  toAnalysisResultEvaluation,
+  toSearchTimeDisplayName,
+} from "@/utils/utils.ts";
+import { useStockfish } from "@/stockfish/useStockfish.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
+import { selectFen } from "@/stores/zustand/selectors.ts";
+import { head } from "lodash";
+import { Eval } from "@/components/reused/Eval.tsx";
+import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
+  const { analysing, toggleAnalysis, analysisResults } =
+    useStockfish(engineSettings);
+  const firstResult = head(analysisResults);
 
-  const chess = useRepertoireStore(selectChess);
   const fen = useRepertoireStore(selectFen);
-  const [analysing, setAnalysing] = useState(false);
-  const [analysisResults, setAnalysisResults] = useState<
-    Record<string, AnalysisResult>
-  >({});
   const chessopsPosition = parsePosition(fen);
-
-  const turnColor = determineTurnColor(chess);
-
-  // TODO: Based on who is to move
-  const cpDisplayValue = (uciCp: number) => {
-    const cp = uciCp * (turnColor === "white" ? 1 : -1);
-
-    return (
-      <span className="font-bold">
-        {cp < 0 ? `${(cp / 100).toFixed(2)}` : `+${(cp / 100).toFixed(2)}`}
-      </span>
-    );
-  };
-
-  useEffect(() => {
-    if (analysing) {
-      // TODO: Configurable
-      stockfish
-        .stop()
-        .setThreads(threads)
-        .setMultipv(multiPv)
-        .analyze({
-          fen,
-          searchTimeInMs:
-            searchTimeSeconds === Infinity
-              ? Infinity
-              : searchTimeSeconds * 1000,
-          onAnalysisResult: (result) =>
-            setAnalysisResults((prev) => ({
-              ...prev,
-              [result.multipv]: result,
-            })),
-          onError: (error) => toast.error(error.message),
-          onStop: () => setAnalysisResults({}),
-        });
-    }
-
-    return () => {
-      stockfish.stop();
-    };
-  }, [analysing, fen]);
-
-  const analysisResultsOrderedByCp = orderBy(
-    Object.values(analysisResults),
-    (result) => result.cp,
-    "desc",
-  );
-
-  const firstCp = head(analysisResultsOrderedByCp)?.cp ?? 0;
 
   // TODO: Dropdown for variations
   return (
@@ -89,19 +35,12 @@ export const ChessEngineAnalysis = () => {
                     type="checkbox"
                     className="toggle toggle-sm"
                     checked={analysing}
-                    onChange={async () => {
-                      if (analysing) {
-                        stockfish.stop();
-                        setAnalysing(false);
-                        return;
-                      }
-
-                      await stockfish.start();
-                      setAnalysing(true);
-                    }}
+                    onChange={toggleAnalysis}
                   />
                   <span className="font-bold text-lg">
-                    {cpDisplayValue(firstCp)}
+                    <span className="font-bold">
+                      {toAnalysisResultEvaluation(firstResult)}
+                    </span>
                   </span>
                 </div>
                 <div className="font-light">
@@ -112,7 +51,7 @@ export const ChessEngineAnalysis = () => {
                     <p>Lines: {multiPv},</p>
                     <p>Threads: {threads},</p>
                     <p>
-                      Search Time: {searchTimeDisplayName(searchTimeSeconds)}
+                      Search Time: {toSearchTimeDisplayName(searchTimeSeconds)}
                     </p>
                   </div>
                 </div>
@@ -121,17 +60,14 @@ export const ChessEngineAnalysis = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            // TODO: Order by CP
-            analysisResultsOrderedByCp.map((result) => (
-              <tr key={result.multipv}>
-                <td className="whitespace-nowrap">
-                  {cpDisplayValue(result.cp!)}{" "}
-                  {uciMovesToSan(chessopsPosition, result.pv.join(" "))}
-                </td>
-              </tr>
-            ))
-          }
+          {analysisResults.map((result) => (
+            <tr key={result.multipv}>
+              <TdWithOverflowCaret>
+                <Eval {...result} />{" "}
+                {uciMovesToSan(chessopsPosition, result.pv.join(" "))}
+              </TdWithOverflowCaret>
+            </tr>
+          ))}
         </tbody>
       </table>
     </HideOnMobile>

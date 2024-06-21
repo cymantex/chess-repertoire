@@ -13,7 +13,7 @@ import {
 } from "@/components/RepertoireSidebar/components/SettingsMenu/actions.tsx";
 import { useRepertoireImport } from "@/components/RepertoireSidebar/components/SettingsMenu/hooks/useRepertoireImport.tsx";
 import { useClearRepertoire } from "@/components/RepertoireSidebar/components/SettingsMenu/hooks/useClearRepertoire.tsx";
-import { searchTimeDisplayName } from "@/utils/utils.ts";
+import { toSearchTimeDisplayName } from "@/utils/utils.ts";
 import classNames from "classnames";
 
 export const SettingsMenu = () => {
@@ -121,7 +121,7 @@ export const SettingsMenu = () => {
           step="2"
           name="Search Time"
           value={searchTimeSeconds === Infinity ? 32 : searchTimeSeconds}
-          label={searchTimeDisplayName(searchTimeSeconds)}
+          label={toSearchTimeDisplayName(searchTimeSeconds)}
           onChange={(searchTimeSeconds) =>
             localStorageStore.upsertEngineSettings({
               searchTimeSeconds:

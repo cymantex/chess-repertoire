@@ -112,7 +112,10 @@ export const createStockfish = () => {
       if (message.startsWith("info")) {
         const analysisResult = parseAnalysisResult(message);
 
-        if (analysisResult.pv && analysisResult.pv.length > 1) {
+        if (
+          (analysisResult.pv && analysisResult.pv.length > 1) ||
+          analysisResult.mate
+        ) {
           onAnalysisResult(analysisResult);
         }
       } else if (message.startsWith("bestmove")) {
