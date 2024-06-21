@@ -1,5 +1,12 @@
 import { ReactNode } from "react";
+import classNames from "classnames";
 
-export const HideOnMobile = ({ children }: { children: ReactNode }) => (
-  <div className="hidden md:block">{children}</div>
+export const HideOnMobile = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) => (
+  <div className={classNames("hidden md:block", className)}>{children}</div>
 );
