@@ -28,3 +28,22 @@ export const toAnalysisResultEvaluation = (result?: {
 
   return isNumber(result.cp) ? toCpDisplayName(result.cp) : "--.--";
 };
+
+export const downloadUrl = (url: string, fileName: string) => {
+  const link = document.createElement("a");
+  link.download = fileName;
+  link.href = url;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+};
+
+export const downloadUInt8Array = (
+  uint8Array: Uint8Array,
+  fileName: string,
+) => {
+  const url = URL.createObjectURL(new Blob([uint8Array]));
+
+  downloadUrl(url, fileName);
+};

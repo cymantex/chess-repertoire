@@ -82,7 +82,7 @@ export interface RepertoireSettings {
   pieceTheme: PieceTheme;
   boardTheme: BoardTheme;
   engineSettings: EngineSettings;
-  closedSections: Record<ToggleSection, ToggleState>;
+  sections: Record<ToggleSection, ToggleState>;
 }
 
 export const SETTINGS_KEY = "repertoireSettings";
@@ -96,7 +96,7 @@ export const DEFAULT_SETTINGS: RepertoireSettings = {
     multiPv: 5,
     threads: navigator.hardwareConcurrency,
   },
-  closedSections: {
+  sections: {
     [TOGGLE_SECTIONS.CHESS_ENGINE_ANALYSIS]: TOGGLE_STATE.ON,
     [TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION]: TOGGLE_STATE.ON,
     [TOGGLE_SECTIONS.OPENING_EXPLORER]: TOGGLE_STATE.ON,
