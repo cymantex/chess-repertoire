@@ -41,7 +41,6 @@ export const ChessEngineAnalysis = () => {
   const results =
     multiPvDiff < 0 ? analysisResults.slice(0, multiPv) : analysisResults;
 
-  // TODO: Depth (in firstResult)
   return (
     <AccordingTable
       section={TOGGLE_SECTIONS.CHESS_ENGINE_ANALYSIS}
