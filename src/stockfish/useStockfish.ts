@@ -59,9 +59,7 @@ export const useStockfish = ({
           setAnalysisState(ANALYSIS_STATE.STOPPED);
           toast.error(error.message);
         },
-        onTimeout: () => {
-          setAnalysisState(ANALYSIS_STATE.STOPPED);
-        },
+        onTimeout: () => setAnalysisState(ANALYSIS_STATE.STOPPED),
       });
     }
 
@@ -100,6 +98,13 @@ export const useStockfish = ({
 
       stockfish.setThreads(threads).setMultipv(multiPv);
 
+      setAnalysisState(ANALYSIS_STATE.ANALYSING);
+    },
+    changeMultiPv: async (multiPv: number) => {
+      setAnalysisState(ANALYSIS_STATE.STOPPING);
+      await stockfish.stop();
+      await stockfish.start();
+      stockfish.setMultipv(multiPv);
       setAnalysisState(ANALYSIS_STATE.ANALYSING);
     },
   };

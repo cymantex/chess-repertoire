@@ -5,7 +5,6 @@ export const waitUntilMessageReceived = (worker: Worker, message: string) =>
   new Promise<void>((resolve, reject) => {
     worker.onmessage = (event) => {
       const receivedMessage = event.data;
-      console.log(receivedMessage);
 
       if (message === receivedMessage) {
         worker.onmessage = null;

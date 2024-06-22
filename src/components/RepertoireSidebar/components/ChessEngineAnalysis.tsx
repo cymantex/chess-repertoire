@@ -1,5 +1,8 @@
 import { parsePosition, uciMovesToSan } from "@/external/chessops/utils.ts";
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import {
+  localStorageStore,
+  useRepertoireSettings,
+} from "@/stores/localStorageStore.ts";
 import {
   toAnalysisResultEvaluation,
   toSearchTimeDisplayName,
@@ -13,18 +16,30 @@ import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx
 import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { ANALYSIS_STATE } from "@/stockfish/defs.ts";
+import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
+import { IconButton } from "@/components/reused/IconButton.tsx";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
-  const { analysisState, toggleAnalysis, analysisResults } =
+  const { analysisState, toggleAnalysis, analysisResults, changeMultiPv } =
     useStockfish(engineSettings);
   const firstResult = head(analysisResults);
 
   const fen = useRepertoireStore(selectFen);
   const chessopsPosition = parsePosition(fen);
 
-  const missingColumns = analysisState ? multiPv - analysisResults.length : 0;
+  // Could either be that we have more multiPv than results or the other way around
+  const multiPvDiff = analysisState ? multiPv - analysisResults.length : 0;
+
+  const handleMultiPvChange = (multiPv: number) => {
+    if (multiPv < 1 || multiPv > 10) return;
+    localStorageStore.upsertEngineSettings({ multiPv });
+    return changeMultiPv(multiPv);
+  };
+
+  const results =
+    multiPvDiff < 0 ? analysisResults.slice(0, multiPv) : analysisResults;
 
   // TODO +/- button for multiPv
   // TODO: Depth (in firstResult)
@@ -61,17 +76,30 @@ export const ChessEngineAnalysis = () => {
                 <p>Search Time: {toSearchTimeDisplayName(searchTimeSeconds)}</p>
               </div>
             </div>
-            <div className="ml-auto pr-4">
-              <button>+</button>
-              <span>/</span>
-              <button>-</button>
+            <div className="flex items-center gap-2 ml-auto pr-4">
+              <IconButton
+                title="Add line"
+                className="text-lg transition-all hover:scale-150"
+                disabled={multiPv === 10}
+                onClick={() => handleMultiPvChange(multiPv + 1)}
+              >
+                <FaSquarePlus />
+              </IconButton>
+              <IconButton
+                title="Remove line"
+                className="text-lg transition-all hover:scale-150"
+                disabled={multiPv === 1}
+                onClick={() => handleMultiPvChange(multiPv - 1)}
+              >
+                <FaSquareMinus />
+              </IconButton>
             </div>
           </div>
           {toggleButton}
         </td>
       )}
     >
-      {analysisResults.map((result) => (
+      {results.map((result) => (
         <tr key={result.multipv}>
           <TdWithOverflowCaret>
             <Eval {...result} />{" "}
@@ -79,11 +107,12 @@ export const ChessEngineAnalysis = () => {
           </TdWithOverflowCaret>
         </tr>
       ))}
-      {new Array(missingColumns).fill("").map((_, index) => (
-        <tr key={index}>
-          <td className="invisible">Hidden</td>
-        </tr>
-      ))}
+      {multiPvDiff > 0 &&
+        new Array(multiPvDiff).fill("").map((_, index) => (
+          <tr key={index}>
+            <td className="invisible">Hidden</td>
+          </tr>
+        ))}
     </AccordingTable>
   );
 };
