@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+  <rect y="0.039" width="18" height="17.958" style="stroke: rgb(0, 0, 0); fill: rgb(148, 173, 193); stroke-width: 0px;" transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 0, 0)"/>
+  <g transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, -1.0000000521540633, -0.9833590901159734)">
+    <rect x="9.978" y="10" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="1.032" y="1.043" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="10" y="0.991" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="5.5" y="5.5" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="14.476" y="5.5" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="1" y="10" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="5.477" y="14.5" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+    <rect x="14.474" y="14.5" width="4.5" height="4.5" style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(101, 129, 149);"/>
+  </g>
+  <g transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 0, 0)"/>
+  <rect x="0.007" width="17.973" height="18" style="stroke: rgb(0, 0, 0); fill: rgba(255, 255, 255, 0); stroke-width: 0.1px;" transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 0, 0)"/>
+</svg>

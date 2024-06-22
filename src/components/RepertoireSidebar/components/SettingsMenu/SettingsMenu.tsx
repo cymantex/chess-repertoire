@@ -1,5 +1,5 @@
 import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
-import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.ts";
+import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.tsx";
 import {
   localStorageStore,
   useRepertoireSettings,

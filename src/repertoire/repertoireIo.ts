@@ -1,24 +1,10 @@
-import streamSaver from "streamsaver";
 import RepertoireImportWorker from "@/repertoire/importRepertoireWorker.ts?worker";
 import RepertoireExportWorker from "@/repertoire/exportRepertoireWorker.ts?worker";
+import { downloadUInt8Array } from "@/utils/utils.ts";
 
 export const exportRepertoireFile = async () => {
-  const fileStream = streamSaver.createWriteStream("repertoire.json");
-  const writer = fileStream.getWriter();
-
-  // TODO: Deprecated, find better alternatives
-  window.onunload = () => {
-    fileStream.abort();
-    writer.abort();
-  };
-
-  try {
-    const uint8array = await startExportRepertoireWorker();
-    await writer.write(uint8array);
-    await writer.close().catch(() => {});
-  } finally {
-    window.onunload = null;
-  }
+  const uint8array = await startExportRepertoireWorker();
+  downloadUInt8Array(uint8array, "repertoire.json");
 };
 
 export const startImportRepertoireWorker = (file: File) =>

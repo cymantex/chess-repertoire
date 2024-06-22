@@ -31,51 +31,44 @@ export const localStorageStore = {
     currentSettings = settings;
     return settings;
   },
-  upsertClosedSections: (section: ToggleSection, state: ToggleState) => {
-    upsertObject<RepertoireSettings>(
-      SETTINGS_KEY,
-      {
-        ...DEFAULT_SETTINGS,
-        closedSections: {
-          ...DEFAULT_SETTINGS.closedSections,
-          [section]: state,
-        },
+  upsertSections: (section: ToggleSection, state: ToggleState) => {
+    _upsertSettings((prevSettings) => ({
+      sections: {
+        ...DEFAULT_SETTINGS.sections,
+        ...prevSettings.sections,
+        [section]: state,
       },
-      (existingSettings) => ({
-        ...existingSettings,
-        closedSections: {
-          ...existingSettings.closedSections,
-          [section]: state,
-        },
-      }),
-    );
+    }));
     notifySubscribers();
   },
   upsertEngineSettings: (settings: Partial<EngineSettings>) => {
-    upsertObject<RepertoireSettings>(
-      SETTINGS_KEY,
-      {
-        ...DEFAULT_SETTINGS,
-        engineSettings: { ...DEFAULT_SETTINGS.engineSettings, ...settings },
+    _upsertSettings((prevSettings) => ({
+      engineSettings: {
+        ...DEFAULT_SETTINGS.engineSettings,
+        ...prevSettings.engineSettings,
+        ...settings,
       },
-      (existingSettings) => ({
-        ...existingSettings,
-        engineSettings: { ...existingSettings.engineSettings, ...settings },
-      }),
-    );
+    }));
     notifySubscribers();
   },
   upsertSettings: (settings: Partial<RepertoireSettings>) => {
-    upsertObject<RepertoireSettings>(
-      SETTINGS_KEY,
-      { ...DEFAULT_SETTINGS, ...settings },
-      (existingSettings) => ({
-        ...existingSettings,
-        ...settings,
-      }),
-    );
+    _upsertSettings(() => settings);
     notifySubscribers();
   },
+};
+
+const _upsertSettings = (
+  update: (prevSettings: RepertoireSettings) => Partial<RepertoireSettings>,
+) => {
+  upsertObject<RepertoireSettings>(
+    SETTINGS_KEY,
+    { ...DEFAULT_SETTINGS, ...update(DEFAULT_SETTINGS) },
+    (existingSettings) => ({
+      ...DEFAULT_SETTINGS,
+      ...existingSettings,
+      ...update(existingSettings),
+    }),
+  );
 };
 
 export const getAnnotationSetting = () =>

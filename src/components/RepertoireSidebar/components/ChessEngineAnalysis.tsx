@@ -26,6 +26,8 @@ export const ChessEngineAnalysis = () => {
 
   const missingColumns = analysisState ? multiPv - analysisResults.length : 0;
 
+  // TODO +/- button for multiPv
+  // TODO: Depth (in firstResult)
   return (
     <AccordingTable
       section={TOGGLE_SECTIONS.CHESS_ENGINE_ANALYSIS}

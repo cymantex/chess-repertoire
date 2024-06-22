@@ -21,8 +21,8 @@ export const AccordingTable = ({
   className,
   section,
 }: AccordingTableProps) => {
-  const { closedSections } = useRepertoireSettings();
-  const showBody = closedSections[section] === TOGGLE_STATE.ON;
+  const { sections } = useRepertoireSettings();
+  const showBody = sections[section] === TOGGLE_STATE.ON;
 
   return (
     <table
@@ -40,7 +40,7 @@ export const AccordingTable = ({
             <button
               className="absolute right-1 text-lg"
               onClick={() =>
-                localStorageStore.upsertClosedSections(
+                localStorageStore.upsertSections(
                   section,
                   showBody ? TOGGLE_STATE.OFF : TOGGLE_STATE.ON,
                 )
