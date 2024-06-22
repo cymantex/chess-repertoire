@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { useState } from "react";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
+import { modalStore } from "@/stores/modalStore.tsx";
+import { Modal } from "@/components/reused/Modal.tsx";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;
@@ -14,21 +15,22 @@ export const AnnotationSettings = ({
   annotationSetting,
   onSelect,
 }: AnnotationSettingsProps) => {
-  const [showAnnotationMenu, setShowAnnotationMenu] = useState(false);
-
   const { SettingsIcon } = getAnnotation(annotationSetting);
 
   return (
-    <div
-      className={classNames("dropdown md:dropdown-top", {
-        "dropdown-open": showAnnotationMenu,
-      })}
-    >
+    <div>
       <span
         title="Annotation settings"
         onClick={() => {
           if (disabled) return;
-          setShowAnnotationMenu(!showAnnotationMenu);
+          modalStore.setModal(
+            <AnnotationSettingsModal
+              onSelect={(setting) => {
+                onSelect(setting);
+                modalStore.closeModal();
+              }}
+            />,
+          );
         }}
       >
         <SettingsIcon
@@ -38,39 +40,37 @@ export const AnnotationSettings = ({
           })}
         />
       </span>
-      <div
-        className={classNames(
-          "dropdown-content p-2 bg-base-100 rounded-box w-64",
-          {
-            hidden: !showAnnotationMenu,
-          },
-        )}
-      >
-        <div role="alert" className="alert shadow-lg mb-2">
-          <div>
-            <h3 className="font-bold text-base">Annotation settings</h3>
-            <div className="text-xs">
-              Here you can change how new moves should be annotated in your
-              repertoire.
-            </div>
-          </div>
-        </div>
-        <ul className="menu p-0">
-          {Object.values(ANNOTATION_SETTINGS).map((annotationSetting) => (
-            <AnnotationSettingMenuItem
-              key={annotationSetting}
-              annotationSetting={annotationSetting}
-              onClick={() => {
-                onSelect(annotationSetting);
-                setShowAnnotationMenu(false);
-              }}
-            />
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
+
+const AnnotationSettingsModal = ({
+  onSelect,
+}: {
+  onSelect: (setting: AnnotationSetting) => unknown;
+}) => (
+  <Modal show>
+    <Modal.CloseButton onClick={() => modalStore.closeModal()} />
+    <Modal.Title>Annotation settings</Modal.Title>
+    <div role="alert" className="alert shadow-lg mb-2">
+      <div>
+        <div className="text-xs">
+          Here you can change how new moves should be annotated in your
+          repertoire, or if they should added at all.
+        </div>
+      </div>
+    </div>
+    <ul className="menu p-0">
+      {Object.values(ANNOTATION_SETTINGS).map((annotationSetting) => (
+        <AnnotationSettingMenuItem
+          key={annotationSetting}
+          annotationSetting={annotationSetting}
+          onClick={() => onSelect(annotationSetting)}
+        />
+      ))}
+    </ul>
+  </Modal>
+);
 
 const AnnotationSettingMenuItem = ({
   annotationSetting,

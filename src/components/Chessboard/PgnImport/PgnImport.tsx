@@ -51,7 +51,6 @@ export const PgnImport = () => {
     setImportPgnProgress(undefined);
   };
 
-  // TODO: Show download links as a tooltip
   return (
     <div>
       <button className="btn w-full mb-2" onClick={() => setModalOpen(true)}>
@@ -71,24 +70,6 @@ export const PgnImport = () => {
             ✕
           </button>
           <h3 className="font-bold text-lg mb-5">Import PGN</h3>
-          <div role="alert" className="alert shadow-lg mb-5">
-            <div>
-              <div className="text-xs">
-                Add moves from a PGN to your repertoire. Works well with PGN
-                exports from lichess and chess.com.
-                <br />
-                <br />
-                Download lichess games through:
-                <br />
-                <pre>https://lichess.org/api/games/user/{"{username}"}</pre>
-                <br />
-                Download chess.com games through:
-                <br />
-                <pre>https://www.chess.com/games/archive/{"{username}"}</pre>
-              </div>
-            </div>
-          </div>
-          <hr className="border-base-200" />
           <PgnImportForm
             key={modalOpen ? "open" : "closed"}
             onUpload={handlePgnImport}
