@@ -24,7 +24,7 @@ export const importPgnFile = async (
   // noinspection ES6MissingAwait
   const importPgnPromise =
     pgnChunk2 !== null
-      ? startImportPgnWorker(pgnChunk1, options, {
+      ? startImportPgnWorker(pgnChunk2, options, {
           onProgress: (progress) => {
             workerGameCount = progress.gameCount;
             workerTotalGames = progress.totalGames;

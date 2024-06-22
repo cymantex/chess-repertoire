@@ -83,6 +83,21 @@ test("Respects annotationSetting option", async () => {
   ]);
 });
 
+test("Respects annotations", async () => {
+  const { annotations } = await importPgn(
+    "1. e4!! c5! 2. Nf3!? Nc6?! 3. d4? cxd4??",
+  );
+
+  expect(annotations).toEqual([
+    ANNOTATION_SETTINGS.BRILLIANT,
+    ANNOTATION_SETTINGS.GOOD,
+    ANNOTATION_SETTINGS.INTERESTING,
+    ANNOTATION_SETTINGS.DUBIOUS,
+    ANNOTATION_SETTINGS.BAD,
+    ANNOTATION_SETTINGS.BLUNDER,
+  ]);
+});
+
 describe("Unsupported games", () => {
   test("Non-standard variant", async () => {
     const variantHeader = '[Variant "Atomic"]\n\n';
