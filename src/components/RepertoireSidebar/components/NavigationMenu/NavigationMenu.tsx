@@ -47,7 +47,6 @@ export const NavigationMenu = () => {
   const nextMoveDisabled =
     !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
 
-  // TODO: Extract component for buttons
   return (
     <div className="flex justify-evenly text-2xl">
       <AnnotationSettings
