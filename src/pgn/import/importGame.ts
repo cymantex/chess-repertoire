@@ -6,7 +6,7 @@ import { makeSanAndPlay, parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
 import { ImportPgnGameOptions, ImportPgnOptions } from "@/pgn/import/defs.ts";
-import { AnnotationSetting } from "@/repertoire/defs.ts";
+import { AnnotationSetting, REPERTOIRE_ANNOTATION } from "@/repertoire/defs.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
@@ -45,8 +45,14 @@ const importMove = async (
   }
 
   const { annotation, replaceAnnotations } = annotationSettings[pos.turn];
+  const moveAnnotation = extractMoveAnnotation(node);
 
-  await upsertMove(fen, { san: node.san }, annotation, replaceAnnotations);
+  await upsertMove(
+    fen,
+    { san: node.san },
+    moveAnnotation ?? annotation,
+    replaceAnnotations,
+  );
 
   try {
     makeSanAndPlay(pos, move!);
@@ -57,6 +63,33 @@ const importMove = async (
 
   if (includeComments && isNotEmptyArray(node.comments)) {
     await setComment(makeFen(pos.toSetup()), node.comments.join(""));
+  }
+};
+
+const extractMoveAnnotation = (
+  node: PgnNodeData,
+): AnnotationSetting | undefined => {
+  if (!isNotEmptyArray(node.nags)) {
+    return;
+  }
+
+  const nag = node.nags[0]!;
+
+  switch (nag) {
+    case 1:
+      return REPERTOIRE_ANNOTATION.GOOD;
+    case 2:
+      return REPERTOIRE_ANNOTATION.BAD;
+    case 3:
+      return REPERTOIRE_ANNOTATION.BRILLIANT;
+    case 4:
+      return REPERTOIRE_ANNOTATION.BLUNDER;
+    case 5:
+      return REPERTOIRE_ANNOTATION.INTERESTING;
+    case 6:
+      return REPERTOIRE_ANNOTATION.DUBIOUS;
+    default:
+      return;
   }
 };
 
