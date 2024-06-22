@@ -24,7 +24,7 @@ export const ConfirmModal = ({
       <button className="btn mr-2" onClick={onConfirm}>
         Yes
       </button>
-      <button className="btn btn-secondary" onClick={onCancel}>
+      <button autoFocus className="btn btn-secondary" onClick={onCancel}>
         No
       </button>
     </div>
