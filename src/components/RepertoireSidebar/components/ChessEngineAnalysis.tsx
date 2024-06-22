@@ -41,7 +41,6 @@ export const ChessEngineAnalysis = () => {
   const results =
     multiPvDiff < 0 ? analysisResults.slice(0, multiPv) : analysisResults;
 
-  // TODO +/- button for multiPv
   // TODO: Depth (in firstResult)
   return (
     <AccordingTable
@@ -69,6 +68,7 @@ export const ChessEngineAnalysis = () => {
             <div className="font-light">
               <div className="flex gap-1">
                 <p>Stockfish 16 NNUE</p>
+                <p>Depth: {firstResult?.depth ?? 0}</p>
               </div>
               <div className="flex gap-1">
                 <p>Lines: {multiPv},</p>
