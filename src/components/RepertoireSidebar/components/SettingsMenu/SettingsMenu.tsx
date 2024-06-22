@@ -8,6 +8,8 @@ import { DAISY_UI_THEMES } from "@/defs.ts";
 import React, { InputHTMLAttributes, ReactNode } from "react";
 import { modalStore } from "@/stores/modalStore.tsx";
 import {
+  changeBoardTheme,
+  changePieceTheme,
   changeTheme,
   exportRepertoire,
 } from "@/components/RepertoireSidebar/components/SettingsMenu/actions.tsx";
@@ -15,9 +17,16 @@ import { useRepertoireImport } from "@/components/RepertoireSidebar/components/S
 import { useClearRepertoire } from "@/components/RepertoireSidebar/components/SettingsMenu/hooks/useClearRepertoire.tsx";
 import { toSearchTimeDisplayName } from "@/utils/utils.ts";
 import classNames from "classnames";
+import {
+  BOARD_THEMES,
+  BoardTheme,
+  PIECE_THEMES,
+  PieceTheme,
+} from "@/external/chessground/defs.tsx";
 
 export const SettingsMenu = () => {
-  const { theme, engineSettings } = useRepertoireSettings();
+  const { theme, boardTheme, pieceTheme, engineSettings } =
+    useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
 
   const fileInput = React.createRef<HTMLInputElement>();
@@ -80,17 +89,48 @@ export const SettingsMenu = () => {
       />
       <div role="alert" className="alert bg-base-300 mb-2 text-center block">
         <div>
-          <h3 className="font-bold text-base">Theme</h3>
+          <h3 className="font-bold text-base">Theming</h3>
         </div>
       </div>
       <select
-        className="select w-full bg-base-200 text-center"
+        className="select w-full mb-2 bg-base-200 text-center"
         onChange={changeTheme}
         value={theme}
       >
+        <option disabled selected>
+          Site theme
+        </option>
         {DAISY_UI_THEMES.map((daisyUiTheme) => (
           <option key={daisyUiTheme} value={daisyUiTheme}>
             {daisyUiTheme}
+          </option>
+        ))}
+      </select>
+      <select
+        className="select w-full mb-2 bg-base-200 text-center"
+        onChange={(e) => changeBoardTheme(e.target.value as BoardTheme)}
+        value={boardTheme}
+      >
+        <option disabled selected>
+          Board theme
+        </option>
+        {Object.values(BOARD_THEMES).map((boardTheme) => (
+          <option key={boardTheme} value={boardTheme}>
+            {boardTheme}
+          </option>
+        ))}
+      </select>
+      <select
+        className="select w-full bg-base-200 text-center"
+        onChange={(e) => changePieceTheme(e.target.value as PieceTheme)}
+        value={pieceTheme}
+      >
+        <option disabled selected>
+          Piece theme
+        </option>
+        {Object.values(PIECE_THEMES).map((pieceTheme) => (
+          <option key={pieceTheme} value={pieceTheme}>
+            {pieceTheme}
           </option>
         ))}
       </select>
