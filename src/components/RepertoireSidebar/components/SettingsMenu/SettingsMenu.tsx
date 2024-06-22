@@ -97,9 +97,7 @@ export const SettingsMenu = () => {
         onChange={changeTheme}
         value={theme}
       >
-        <option disabled selected>
-          Site theme
-        </option>
+        <option disabled>Site theme</option>
         {DAISY_UI_THEMES.map((daisyUiTheme) => (
           <option key={daisyUiTheme} value={daisyUiTheme}>
             {daisyUiTheme}
@@ -111,9 +109,7 @@ export const SettingsMenu = () => {
         onChange={(e) => changeBoardTheme(e.target.value as BoardTheme)}
         value={boardTheme}
       >
-        <option disabled selected>
-          Board theme
-        </option>
+        <option disabled>Board theme</option>
         {Object.values(BOARD_THEMES).map((boardTheme) => (
           <option key={boardTheme} value={boardTheme}>
             {boardTheme}
@@ -125,9 +121,7 @@ export const SettingsMenu = () => {
         onChange={(e) => changePieceTheme(e.target.value as PieceTheme)}
         value={pieceTheme}
       >
-        <option disabled selected>
-          Piece theme
-        </option>
+        <option disabled>Piece theme</option>
         {Object.values(PIECE_THEMES).map((pieceTheme) => (
           <option key={pieceTheme} value={pieceTheme}>
             {pieceTheme}

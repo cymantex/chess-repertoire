@@ -61,6 +61,11 @@ export const ChessEngineAnalysis = () => {
                 <p>Search Time: {toSearchTimeDisplayName(searchTimeSeconds)}</p>
               </div>
             </div>
+            <div className="ml-auto pr-4">
+              <button>+</button>
+              <span>/</span>
+              <button>-</button>
+            </div>
           </div>
           {toggleButton}
         </td>
