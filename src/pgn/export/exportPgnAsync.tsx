@@ -1,21 +1,22 @@
-import { generateChessLines } from "@/pgn/export/generateChessLines.ts";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
-import { toPgn } from "@/pgn/utils.ts";
-import { getRepertoirePosition } from "@/repertoire/repertoireRepository.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { toast } from "react-toastify";
 import { downloadUrl } from "@/utils/utils.ts";
+import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
 
 export const exportPgnAsync = async () => {
   try {
-    modalStore.showLoadingModal(
-      <>
-        Exporting PGN... <br />
-        <span className="text-sm">(this could take hours...)</span>
-      </>,
+    modalStore.showLoadingModal("Exporting PGN...");
+    const blob = await startExportPgnWorker((exportedGames) =>
+      modalStore.showLoadingModal(
+        <>
+          Exporting PGN... <br />
+          <span className="text-sm">(exported games: {exportedGames})</span>
+        </>,
+      ),
     );
-    await exportPgn();
+    downloadUrl(URL.createObjectURL(blob), "repertoire.pgn");
   } catch (error) {
+    console.trace();
     console.error(error);
     // @ts-ignore
     toast.error(`Failed to export repertoire ${error.message}`);
@@ -24,27 +25,21 @@ export const exportPgnAsync = async () => {
   }
 };
 
-async function exportPgn() {
-  const chessLineGenerator = generateChessLines({
-    getRepertoirePosition,
-    position: await getRepertoirePosition(FEN_STARTING_POSITION),
-    previousMoves: [],
-  });
-
-  const readableStream = new ReadableStream({
-    async start(controller) {
-      for await (const chess of chessLineGenerator) {
-        const pgn = toPgn(chess) + "\n\n\n";
-        const uint8array = new TextEncoder().encode(pgn);
-        controller.enqueue(uint8array);
+const startExportPgnWorker = (
+  onProgress: (exportedGames: number) => void,
+): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const worker = new ExportPgnWorker();
+    worker.onmessage = (event) => {
+      if (event.data.exportedGames) {
+        onProgress(event.data.exportedGames);
       }
-      controller.close();
-    },
+      if (event.data.blob) {
+        resolve(event.data.blob);
+      }
+    };
+    worker.onerror = reject;
+    worker.onmessageerror = reject;
+    worker.postMessage("start");
   });
-
-  const response = new Response(readableStream, {
-    headers: { "Content-Type": "text/plain" },
-  });
-  const blob = await response.blob();
-  downloadUrl(URL.createObjectURL(blob), "repertoire.pgn");
-}
+};
