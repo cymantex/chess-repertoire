@@ -1,39 +1,5 @@
 import { isNumber } from "lodash";
-import {
-  AnalysisResult,
-  BestMove,
-  ErrorSubscriber,
-  MessageSubscriber,
-} from "@/stockfish/defs.ts";
-
-export const waitUntilMessageReceived2 = (
-  subscribeToMessage: (subscriber: MessageSubscriber) => unknown,
-  unsubscribeToMessage: (subscriber: MessageSubscriber) => unknown,
-  subscribeToError: (subscriber: ErrorSubscriber) => unknown,
-  unsubscribeToError: (subscriber: ErrorSubscriber) => unknown,
-  sendMessage: () => unknown,
-  message: string,
-) => {
-  return new Promise<void>((resolve, reject) => {
-    const waitUntilMessageReceived = (receivedMessage: string) => {
-      if (message === receivedMessage) {
-        unsubscribeToMessage(waitUntilMessageReceived);
-        unsubscribeToError(rejectOnError);
-        resolve();
-      }
-    };
-
-    const rejectOnError = () => {
-      unsubscribeToMessage(rejectOnError);
-      unsubscribeToError(rejectOnError);
-      reject();
-    };
-
-    subscribeToMessage(waitUntilMessageReceived);
-    subscribeToError(rejectOnError);
-    sendMessage();
-  });
-};
+import { AnalysisResult, BestMove } from "@/stockfish/defs.ts";
 
 export const isAnalysisResult = (
   result: Partial<AnalysisResult>,
