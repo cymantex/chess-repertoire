@@ -1,11 +1,6 @@
 import { CSSProperties, useLayoutEffect, useState } from "react";
-
-const BREAKPOINT_MD = 768;
-const SIDEBAR_SIZE = 450;
-const MARGIN = 10; // Additional space to allow for scrollbars
-const APP_PADDING_REM = 0.75;
-
-const isMobileSize = () => window.innerWidth <= BREAKPOINT_MD;
+import { APP_PADDING_REM, MARGIN, SIDEBAR_SIZE } from "@/defs.ts";
+import { isMobileSize } from "@/utils/utils.ts";
 
 const calcMaxScreenHeight = () =>
   window.screen.availHeight - (window.outerHeight - window.innerHeight);

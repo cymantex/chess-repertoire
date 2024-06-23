@@ -1,5 +1,5 @@
-import { CloudEngineEvaluation } from "@/components/RepertoireSidebar/components/CloudEngineEvaluation.tsx";
-import { OpeningExplorer } from "@/components/RepertoireSidebar/components/OpeningExplorer/OpeningExplorer.tsx";
+import { CloudEngineEvaluationTable } from "@/components/RepertoireSidebar/components/CloudEngineEvaluation/CloudEngineEvaluationTable.tsx";
+import { OpeningExplorerTable } from "@/components/RepertoireSidebar/components/OpeningExplorer/OpeningExplorerTable.tsx";
 import { NavigationMenu } from "@/components/RepertoireSidebar/components/NavigationMenu/NavigationMenu.tsx";
 import "./RepertoireSidebar.scss";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
@@ -24,7 +24,7 @@ export const RepertoireSidebar = () => {
         </HideOnMobile>
         <HideOnMobile className="overflow-auto">
           <div className="border-b border-primary">
-            <CloudEngineEvaluation />
+            <CloudEngineEvaluationTable />
           </div>
         </HideOnMobile>
         <HideOnMobile className="overflow-auto">
@@ -33,7 +33,7 @@ export const RepertoireSidebar = () => {
           </div>
         </HideOnMobile>
         <div className="overflow-auto border-t border-primary repertoire-sidebar__opening">
-          <OpeningExplorer />
+          <OpeningExplorerTable />
         </div>
         <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
           <NavigationMenu />

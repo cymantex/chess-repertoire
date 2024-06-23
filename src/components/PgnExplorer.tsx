@@ -1,8 +1,8 @@
 import { selectPgn } from "@/stores/zustand/selectors.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { toPgn } from "@/external/chessops/pgn.ts";
-import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
+import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 
 export const PgnExplorer = () => {
   const pgn = useRepertoireStore(selectPgn);
@@ -16,10 +16,13 @@ export const PgnExplorer = () => {
         </td>
       )}
       section={TOGGLE_SECTIONS.PGN_EXPLORER}
-    >
-      <tr>
-        <td>{toPgn(pgn)}</td>
-      </tr>
-    </AccordingTable>
+      renderChildren={(collapsed) =>
+        !collapsed ? (
+          <tr>
+            <td>{toPgn(pgn)}</td>
+          </tr>
+        ) : null
+      }
+    />
   );
 };

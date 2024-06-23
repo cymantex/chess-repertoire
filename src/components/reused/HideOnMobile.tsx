@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
+import { isMobileSize } from "@/utils/utils.ts";
 
 export const HideOnMobile = ({
   className,
@@ -8,5 +9,7 @@ export const HideOnMobile = ({
   className?: string;
   children: ReactNode;
 }) => (
-  <div className={classNames("hidden md:block", className)}>{children}</div>
+  <div className={classNames("hidden md:block", className)}>
+    {!isMobileSize() && children}
+  </div>
 );

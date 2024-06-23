@@ -1,4 +1,5 @@
 import { isNumber } from "lodash";
+import { BREAKPOINT_MD } from "@/defs.ts";
 
 export const isNotEmptyArray = <T>(array?: T[]): array is T[] =>
   Array.isArray(array) && array.length > 0;
@@ -47,3 +48,5 @@ export const downloadUInt8Array = (
 
   downloadUrl(url, fileName);
 };
+
+export const isMobileSize = () => window.innerWidth <= BREAKPOINT_MD;

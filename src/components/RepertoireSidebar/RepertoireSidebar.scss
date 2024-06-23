@@ -5,9 +5,7 @@ $navigationHeight: calc(25px + 1rem);
 .repertoire-sidebar {
   display: grid;
   grid-template-rows: $navigationHeight 1fr;
-  gap: $p-2;
   width: 100%;
-  padding: $p-2;
 
   &__opening {
     grid-row-start: 2;
