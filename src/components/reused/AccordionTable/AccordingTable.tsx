@@ -50,7 +50,7 @@ export const AccordingTable = ({
                 transform: "translateY(-50%)",
               }}
             >
-              {collapsed ? <FaCaretUp /> : <FaCaretDown />}
+              {collapsed ? <FaCaretDown /> : <FaCaretUp />}
             </button>,
           )}
         </tr>
