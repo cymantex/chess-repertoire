@@ -35,21 +35,28 @@ cg-board square.current-premove {
   background-color: var(--cg-square-current-premove-background-color);
 }
 
-/** Alternating colors in rank/file/square labels */
-.cg-wrap coords:nth-child(odd) coord:nth-child(even),
-.cg-wrap coords.squares:nth-child(even) coord:nth-child(odd),
-.cg-wrap.orientation-black coords.files:nth-child(even) coord:nth-child(odd),
-.cg-wrap coords.files:nth-child(even) coord:nth-child(even) {
+.cg-wrap coords {
   font-size: 12px;
   font-weight: 700;
-  color: var(--cg-coords-odd-even-color);
 }
 
-.cg-wrap coords:nth-child(odd) coord:nth-child(odd),
-.cg-wrap coords.squares:nth-child(even) coord:nth-child(even),
+/** Alternating colors in rank/file/square labels */
+.cg-wrap coords.files:nth-child(even) coord:nth-child(odd),
+.cg-wrap coords:nth-child(odd) coord:nth-child(even) {
+  color: var(--cg-coords-dark-square-color);
+}
+
+.cg-wrap coords.files:nth-child(even) coord:nth-child(even),
+.cg-wrap coords:nth-child(odd) coord:nth-child(odd) {
+  color: var(--cg-coords-light-square-color);
+}
+
+.cg-wrap.orientation-black coords.files:nth-child(even) coord:nth-child(odd),
+.cg-wrap.orientation-black coords:nth-child(odd) coord:nth-child(even) {
+  color: var(--cg-coords-light-square-color);
+}
+
 .cg-wrap.orientation-black coords.files:nth-child(even) coord:nth-child(even),
-.cg-wrap coords.files:nth-child(even) coord:nth-child(odd) {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--cg-coords-odd-odd-color);
+.cg-wrap.orientation-black coords:nth-child(odd) coord:nth-child(odd) {
+  color: var(--cg-coords-dark-square-color);
 }
