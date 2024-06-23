@@ -21,3 +21,5 @@ export const useRepertoireStore = create(
     ...createNavigationSlice(set),
   })),
 );
+
+useRepertoireStore.getState().getCurrentRepertoirePosition();

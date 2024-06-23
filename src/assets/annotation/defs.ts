@@ -4,7 +4,6 @@ import { GoodIcon } from "@/assets/annotation/components/GoodIcon.tsx";
 import { NeutralIcon } from "@/assets/annotation/components/NeutralIcon.tsx";
 import { BadIcon } from "@/assets/annotation/components/BadIcon.tsx";
 import { BlunderIcon } from "@/assets/annotation/components/BlunderIcon.tsx";
-import { FaBan, FaChessBoard } from "react-icons/fa6";
 import BrilliantSvg from "@/assets/annotation/svg/brilliant.svg?raw";
 import GoodSvg from "@/assets/annotation/svg/good.svg?raw";
 import NeutralSvg from "@/assets/annotation/svg/neutral.svg?raw";
@@ -19,6 +18,8 @@ import {
   REPERTOIRE_ANNOTATION,
   RepertoireMoveAnnotation,
 } from "@/repertoire/defs.ts";
+import { RiZzzFill } from "react-icons/ri";
+import { FaSave } from "react-icons/fa";
 
 export const DEFAULT_ANNOTATION_STYLES = {
   background: {
@@ -94,13 +95,13 @@ const ANNOTATIONS = {
     symbol: "??",
   },
   [ANNOTATION_SETTINGS.NONE]: {
-    SettingsIcon: FaChessBoard, // TODO: Better icon
-    displayName: "No annotation",
+    SettingsIcon: FaSave,
+    displayName: "Save without any annotation",
     symbol: "",
   },
   [ANNOTATION_SETTINGS.DONT_SAVE]: {
-    SettingsIcon: FaBan,
-    displayName: "Don't save played moves",
+    SettingsIcon: RiZzzFill,
+    displayName: "Don't save new moves into repertoire",
     symbol: "",
   },
 } as const;

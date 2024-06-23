@@ -51,12 +51,12 @@ const AnnotationSettingsModal = ({
 }) => (
   <Modal show>
     <Modal.CloseButton onClick={() => modalStore.closeModal()} />
-    <Modal.Title>Annotation settings</Modal.Title>
+    <Modal.Title>New move settings</Modal.Title>
     <div role="alert" className="alert shadow-lg mb-2">
       <div>
         <div className="text-xs">
-          Here you can change how new moves should be annotated in your
-          repertoire, or if they should added at all.
+          Here you can change if new moves should be added to your repertoire
+          and what annotation they should have.
         </div>
       </div>
     </div>
