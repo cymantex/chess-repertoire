@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { Modal } from "@/components/reused/Modal.tsx";
+import { Modal } from "@/components/reused/Modal/Modal.tsx";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;

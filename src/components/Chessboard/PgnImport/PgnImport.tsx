@@ -1,5 +1,4 @@
 import { useState } from "react";
-import classNames from "classnames";
 import { importPgnFile } from "@/pgn/import/importPgnFile.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
@@ -7,9 +6,10 @@ import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
 import { PgnImportForm } from "@/components/Chessboard/PgnImport/components/PgnImportForm.tsx";
 import { toast } from "react-toastify";
 import { isNumber } from "lodash";
+import { Modal } from "@/components/reused/Modal/Modal.tsx";
 
 export const PgnImport = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const getCurrentRepertoirePosition = useRepertoireStore(
     selectGetCurrentRepertoirePosition,
@@ -47,36 +47,27 @@ export const PgnImport = () => {
 
     await getCurrentRepertoirePosition();
 
-    setModalOpen(false);
+    setShowModal(false);
     setImportPgnProgress(undefined);
   };
 
   return (
     <div>
-      <button className="btn w-full mb-2" onClick={() => setModalOpen(true)}>
+      <button className="btn w-full mb-2" onClick={() => setShowModal(true)}>
         Import PGN
       </button>
-      <dialog
-        className={classNames("modal", {
-          "modal-open": modalOpen,
-        })}
-      >
-        <div className="modal-box">
-          <button
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            disabled={importInProgress}
-            onClick={() => setModalOpen(false)}
-          >
-            ✕
-          </button>
-          <h3 className="font-bold text-lg mb-5">Import PGN</h3>
-          <PgnImportForm
-            key={modalOpen ? "open" : "closed"}
-            onUpload={handlePgnImport}
-            importPgnProgress={importPgnProgress}
-          />
-        </div>
-      </dialog>
+      <Modal show={showModal}>
+        <Modal.CloseButton
+          onClick={() => setShowModal(false)}
+          disabled={importInProgress}
+        />
+        <Modal.Title>Import PGN</Modal.Title>
+        <PgnImportForm
+          key={showModal ? "open" : "closed"}
+          onUpload={handlePgnImport}
+          importPgnProgress={importPgnProgress}
+        />
+      </Modal>
     </div>
   );
 };
