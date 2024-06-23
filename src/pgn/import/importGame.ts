@@ -79,7 +79,7 @@ const extractMoveAnnotation = (
     case 1:
       return REPERTOIRE_ANNOTATION.GOOD;
     case 2:
-      return REPERTOIRE_ANNOTATION.BAD;
+      return REPERTOIRE_ANNOTATION.NEUTRAL;
     case 3:
       return REPERTOIRE_ANNOTATION.BRILLIANT;
     case 4:
