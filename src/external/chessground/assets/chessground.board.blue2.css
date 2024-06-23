@@ -17,6 +17,6 @@
       rgba(158, 0, 0, 0) 100%
   );
   --cg-square-current-premove-background-color: rgba(20, 30, 85, 0.5);
-  --cg-coords-odd-even-color: rgb(84, 111, 130);
-  --cg-coords-odd-odd-color: rgb(151, 178, 199);
+  --cg-coords-light-square-color: rgb(84, 111, 130);
+  --cg-coords-dark-square-color: rgb(151, 178, 199);
 }

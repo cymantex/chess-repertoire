@@ -33,6 +33,7 @@ export const Chessboard = () => {
   return (
     <ChessgroundWrapper
       fen={fen}
+      coordinates
       turnColor={determineTurnColor(chess)}
       orientation={orientation}
       movable={{
