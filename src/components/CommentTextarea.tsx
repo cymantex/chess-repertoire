@@ -27,7 +27,6 @@ export const CommentTextarea = ({
             e.stopPropagation();
             setComment(e.target.value);
 
-            // TODO: Error handling
             // Deliberately not updating the store here since it could lead
             // to excessive state updates
             return setRepertoirePositionComment(fen, e.target.value);

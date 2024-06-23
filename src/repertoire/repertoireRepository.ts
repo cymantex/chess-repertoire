@@ -22,7 +22,6 @@ export const deleteRepertoireMove = async (fen: string, san: string) =>
     }),
   );
 
-// TODO: Would be nice with some object params here instead
 export const upsertRepertoireMove = async (
   fen: string,
   repertoireMove: RepertoireMove,

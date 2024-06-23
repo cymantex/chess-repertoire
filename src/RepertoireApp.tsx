@@ -8,25 +8,14 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectCurrentRepertoirePositionComment,
   selectFen,
-  selectGetCurrentRepertoirePosition,
 } from "@/stores/zustand/selectors.ts";
-import { useEffect } from "react";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
   const positionComment =
     useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";
-  const getCurrentRepertoirePosition = useRepertoireStore(
-    selectGetCurrentRepertoirePosition,
-  );
 
   useKeyboardShortcuts();
-
-  // TODO: Improve handling of initial data fetching
-  useEffect(() => {
-    getCurrentRepertoirePosition();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div
