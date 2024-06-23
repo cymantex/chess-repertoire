@@ -80,6 +80,13 @@ export type ToggleSection =
 
 export type ToggleState = (typeof TOGGLE_STATE)[keyof typeof TOGGLE_STATE];
 
+export const OPENING_EXPLORER_API = {
+  MASTERS: "masters",
+  LICHESS: "lichess",
+};
+export type OpeningExplorerApi =
+  (typeof OPENING_EXPLORER_API)[keyof typeof OPENING_EXPLORER_API];
+
 export interface EngineSettings {
   searchTimeSeconds: number;
   multiPv: number;
@@ -93,6 +100,7 @@ export interface RepertoireSettings {
   boardTheme: BoardTheme;
   engineSettings: EngineSettings;
   sections: Record<ToggleSection, ToggleState>;
+  openingExplorerApi: OpeningExplorerApi;
 }
 
 export const SETTINGS_KEY = "repertoireSettings";
@@ -101,6 +109,7 @@ export const DEFAULT_SETTINGS: RepertoireSettings = {
   theme: "black",
   pieceTheme: PIECE_THEMES.CARDINAL,
   boardTheme: BOARD_THEMES.BLUE2,
+  openingExplorerApi: OPENING_EXPLORER_API.MASTERS,
   engineSettings: {
     searchTimeSeconds: Infinity,
     multiPv: 5,
