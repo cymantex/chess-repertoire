@@ -1,9 +1,9 @@
 import { ReactNode, useSyncExternalStore } from "react";
-import { LoadingModal } from "@/components/reused/LoadingModal.tsx";
+import { LoadingModal } from "@/components/reused/Modal/LoadingModal.tsx";
 import {
   ConfirmModal,
   ConfirmModalProps,
-} from "@/components/reused/ConfirmModal.tsx";
+} from "@/components/reused/Modal/ConfirmModal.tsx";
 
 const subscribers = new Set<() => void>();
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
