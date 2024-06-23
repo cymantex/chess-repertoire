@@ -7,7 +7,11 @@ import {
   parsePartialAnalysisResult,
   waitUntilMessageReceived,
 } from "@/stockfish/utils.ts";
-import { ERROR_STOCKFISH_NOT_STARTED, Stockfish } from "@/stockfish/defs.ts";
+import {
+  ERROR_STOCKFISH_NOT_STARTED,
+  Stockfish,
+  StockfishOption,
+} from "@/stockfish/defs.ts";
 
 export const createStockfish = (): Stockfish => {
   let stockfishWorker: Worker | null = null;
@@ -21,8 +25,8 @@ export const createStockfish = (): Stockfish => {
     return stockfish;
   };
 
-  const setOption = (name: string, value: string) =>
-    sendUciMessage(`setoption name ${name} value ${value}`);
+  const setOption = (option: StockfishOption, value: string | number) =>
+    sendUciMessage(`setoption name ${option} value ${value}`);
 
   const setPosition = (fen: string) => sendUciMessage(`position fen ${fen}`);
 
@@ -50,7 +54,7 @@ export const createStockfish = (): Stockfish => {
 
       return stockfish;
     },
-    analyze: ({
+    analyse: ({
       fen,
       searchTimeInMs,
       onAnalysisResult,
@@ -88,16 +92,13 @@ export const createStockfish = (): Stockfish => {
         }
       };
       stockfishWorker!.onerror = onError;
-      stockfishWorker!.onmessageerror = (error) => {
+      stockfishWorker!.onmessageerror = (error) =>
         onError(new ErrorEvent(error.data));
-      };
 
       return stockfish;
     },
     setOption,
     setPosition,
-    setMultipv: (multipv) => setOption("multipv", multipv.toString()),
-    setThreads: (threads) => setOption("threads", threads.toString()),
     isStarted: () => !!stockfishWorker,
     worker: stockfishWorker,
   };

@@ -11,6 +11,7 @@ import {
   ANALYSIS_STATE,
   AnalysisResult,
   AnalysisState,
+  STOCKFISH_OPTIONS,
 } from "@/stockfish/defs.ts";
 
 const stockfish = createStockfish();
@@ -28,19 +29,19 @@ export const useStockfish = ({
     Record<string, Record<string, AnalysisResult>>
   >({});
 
-  const position = parseFen(fen).unwrap();
+  const whiteToMove = parseFen(fen).unwrap().turn === CG_WHITE;
 
   useEffect(() => {
-    const position = parseFen(fen).unwrap();
-
-    // UCI CP values are based on the side to move
+    // UCI CP values are based on the side to move. For example if black is to
+    // move a positive value means that black is better and a negative value
+    // means that white is better.
     const normalizeCp = (uciCp?: number) => {
       if (!isNumber(uciCp)) return undefined;
-      return uciCp * (position.turn === CG_WHITE ? 1 : -1);
+      return uciCp * (whiteToMove ? 1 : -1);
     };
 
     if (analysisState === ANALYSIS_STATE.ANALYSING && stockfish.isStarted()) {
-      stockfish.analyze({
+      stockfish.analyse({
         fen,
         searchTimeInMs:
           searchTimeSeconds === Infinity ? Infinity : searchTimeSeconds * 1000,
@@ -66,20 +67,18 @@ export const useStockfish = ({
     return () => {
       stockfish.stop();
     };
-  }, [multiPv, threads, searchTimeSeconds, analysisState, fen]);
+  }, [whiteToMove, multiPv, threads, searchTimeSeconds, analysisState, fen]);
 
   const analysisResultsOrderedByMateThenCp = orderBy(
     Object.values(analysisResults[fen] ?? {}),
     (result) => {
       if (isNumber(result.mate)) {
-        return position.turn === CG_WHITE
-          ? 1000 / result.mate
-          : -1000 / result.mate;
+        return whiteToMove ? 1000 / result.mate : -1000 / result.mate;
       }
 
       return result.cp!;
     },
-    position.turn === CG_WHITE ? "desc" : "asc",
+    whiteToMove ? "desc" : "asc",
   );
 
   return {
@@ -96,7 +95,9 @@ export const useStockfish = ({
       setAnalysisState(ANALYSIS_STATE.STARTING);
       await stockfish.start();
 
-      stockfish.setThreads(threads).setMultipv(multiPv);
+      stockfish
+        .setOption(STOCKFISH_OPTIONS.threads, threads)
+        .setOption(STOCKFISH_OPTIONS.multiPv, multiPv);
 
       setAnalysisState(ANALYSIS_STATE.ANALYSING);
     },
@@ -104,7 +105,7 @@ export const useStockfish = ({
       setAnalysisState(ANALYSIS_STATE.STOPPING);
       await stockfish.stop();
       await stockfish.start();
-      stockfish.setMultipv(multiPv);
+      stockfish.setOption(STOCKFISH_OPTIONS.multiPv, multiPv);
       setAnalysisState(ANALYSIS_STATE.ANALYSING);
     },
   };

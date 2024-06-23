@@ -50,19 +50,19 @@ export interface AnalysisResult {
   nodes: number;
 }
 
+interface AnalyseParams {
+  fen: string;
+  searchTimeInMs: number;
+  onAnalysisResult: (result: AnalysisResult) => unknown;
+  onError: (error: ErrorEvent) => unknown;
+  onBestMove?: (bestMove: BestMove) => unknown;
+  onTimeout?: () => unknown;
+}
+
 export interface Stockfish {
-  setOption: (name: string, value: string) => Stockfish;
-  setMultipv: (multipv: number) => Stockfish;
-  setThreads: (threads: number) => Stockfish;
+  setOption: (option: StockfishOption, value: string | number) => Stockfish;
   setPosition: (fen: string) => Stockfish;
-  analyze: (options: {
-    fen: string;
-    searchTimeInMs: number;
-    onAnalysisResult: (result: AnalysisResult) => unknown;
-    onError: (error: ErrorEvent) => unknown;
-    onBestMove?: (bestMove: BestMove) => unknown;
-    onTimeout?: () => unknown;
-  }) => Stockfish;
+  analyse: (params: AnalyseParams) => Stockfish;
   start: () => Promise<void>;
   stop: () => Promise<Stockfish>;
   isStarted: () => boolean;
@@ -75,6 +75,98 @@ export interface BestMove {
 }
 
 export const ERROR_STOCKFISH_NOT_STARTED = "Stockfish worker not started";
+
+/**
+ * @property {string} threads - The number of CPU threads used for searching
+ * a position. For best performance, set this equal to the number of CPU cores available.
+ * @property {string} hash - The size of the hash table in MB. It is recommended
+ * to set Hash after setting Threads.
+ * @property {string} clearHash - Clear the hash table.
+ * @property {string} ponder - Let Stockfish ponder its next move while the
+ * opponent is thinking.
+ * @property {string} multipv - Output the N best lines (principal variations,
+ * PVs) when searching. Leave at 1 for best performance.
+ * @property {string} useNnue - Toggle between the NNUE and classical evaluation
+ * functions. If set to "true", the network parameters must be available to load
+ * from file (see also EvalFile), if they are not embedded in the binary.
+ * @property {string} evalFile - The name of the file of the NNUE evaluation
+ * parameters. Depending on the GUI the filename might have to include the
+ * full path to the folder/directory that contains the file. Other locations,
+ * such as the directory that contains the binary and the working directory,
+ * are also searched.
+ * @property {string} uciAnalyseMode - An option handled by your GUI.
+ * @property {string} uciChess960 - An option handled by your GUI. If true,
+ * Stockfish will play Chess960.
+ * @property {string} uciShowWdl - If enabled, show approximate WDL statistics
+ * as part of the engine output. These WDL numbers model expected game outcomes
+ * for a given evaluation and game ply for engine self-play at fishtest LTC
+ * conditions (60+0.6s per game).
+ * @property {string} uciLimitStrength - Enable weaker play aiming for an Elo
+ * rating as set by UCI_Elo. This option overrides Skill Level.
+ * @property {string} uciElo - If enabled by UCI_LimitStrength, aim for an
+ * engine strength of the given Elo. This Elo rating has been calibrated at a
+ * time control of 60s+0.6s and anchored to CCRL 40/4.
+ * @property {string} skillLevel - Lower the Skill Level in order to make
+ * Stockfish play weaker (see also UCI_LimitStrength). Internally, MultiPV is
+ * enabled, and with a certain probability depending on the Skill Level a
+ * weaker move will be played.
+ * @property {string} syzygyPath - Path to the folders/directories storing the
+ * Syzygy tablebase files. Multiple directories are to be separated by ";" on
+ * Windows and by ":" on Unix-based operating systems. Do not use spaces around
+ * the ";" or ":".
+ * @property {string} syzygyProbeDepth - Minimum remaining search depth for
+ * which a position is probed. Set this option to a higher value to probe less
+ * aggressively if you experience too much slowdown (in terms of nps) due to
+ * tablebase probing.
+ * @property {string} syzygy50MoveRule - Disable to let fifty-move rule draws
+ * detected by Syzygy tablebase probes count as wins or losses. This is useful
+ * for ICCF correspondence games.
+ * @property {string} syzygyProbeLimit - Limit Syzygy tablebase probing to
+ * positions with at most this many pieces left (including kings and pawns).
+ * @property {string} moveOverhead - Assume a time delay of x ms due to network
+ * and GUI overheads. This is useful to avoid losses on time in those cases.
+ * @property {string} slowMover - Lower values will make Stockfish take less
+ * time in games, higher values will make it think longer.
+ * @property {string} nodestime - Tells the engine to use nodes searched
+ * instead of wall time to account for elapsed time. Useful for engine testing.
+ * @property {string} debugLogFile - Write all communication to and from the
+ * engine into a text file.
+ * @property {string} compiler - Give information about the compiler and
+ * environment used for building a binary.
+ * @property {string} d - Display the current position, with ascii art and fen.
+ * @property {string} eval - Return the evaluation of the current position.
+ * @property {string} flip - Flips the side to move.
+ */
+export const STOCKFISH_OPTIONS = {
+  multiPv: "MultiPV",
+  threads: "Threads",
+  hash: "Hash",
+  clearHash: "Clear Hash",
+  ponder: "Ponder",
+  useNnue: "Use NNUE",
+  evalFile: "EvalFile",
+  uciAnalyseMode: "UCI_AnalyseMode",
+  uciChess960: "UCI_Chess960",
+  uciShowWdl: "UCI_ShowWDL",
+  uciLimitStrength: "UCI_LimitStrength",
+  uciElo: "UCI_Elo",
+  skillLevel: "Skill Level",
+  syzygyPath: "SyzygyPath",
+  syzygyProbeDepth: "SyzygyProbeDepth",
+  syzygy50MoveRule: "Syzygy50MoveRule",
+  syzygyProbeLimit: "SyzygyProbeLimit",
+  moveOverhead: "Move Overhead",
+  slowMover: "Slow Mover",
+  nodestime: "nodestime",
+  debugLogFile: "Debug Log File",
+  compiler: "compiler",
+  d: "d",
+  eval: "eval",
+  flip: "flip",
+} as const;
+
+export type StockfishOption =
+  (typeof STOCKFISH_OPTIONS)[keyof typeof STOCKFISH_OPTIONS];
 
 export const ANALYSIS_STATE = {
   STARTING: "STARTING",
