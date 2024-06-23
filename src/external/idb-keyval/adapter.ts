@@ -29,5 +29,5 @@ export const idbClear = async () => clear();
  * would normally be considered transpositions in the opening to be seen as
  * different. Which means it causes more harm than good.
  */
-const resetHalfMoveClock = (fen: string) =>
+export const resetHalfMoveClock = (fen: string) =>
   fen.slice(0, -3) + "0" + fen.slice(-2);

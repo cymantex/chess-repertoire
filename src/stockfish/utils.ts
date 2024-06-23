@@ -45,8 +45,8 @@ const parseMessageInt = (
   const index = messageParts.indexOf(key);
 
   if (index !== -1) {
-    const hashfull = messageParts[index + 1];
-    return parseInt(hashfull, 10);
+    const messagePart = messageParts[index + 1];
+    return parseInt(messagePart, 10);
   }
 
   return undefined;
