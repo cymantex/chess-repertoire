@@ -36,8 +36,8 @@ export const createStockfish = (): Stockfish => {
   const waitUntilMessageReceived = (
     sendMessage: () => unknown,
     messageToReceive: string,
-  ) =>
-    new Promise<void>((resolve, reject) => {
+  ) => {
+    const promise = new Promise<void>((resolve, reject) => {
       const waitUntilMessageSubscriber = (receivedMessage: string) => {
         if (messageToReceive === receivedMessage) {
           internalMessageSubscribers.delete(waitUntilMessageSubscriber);
@@ -55,6 +55,16 @@ export const createStockfish = (): Stockfish => {
       internalErrorSubscribers.add(rejectOnErrorSubscriber);
       sendMessage();
     });
+
+    const timeoutPromise = new Promise<void>((_, reject) => {
+      const id = setTimeout(() => {
+        clearTimeout(id);
+        reject(`Timed out waiting to receive message: ${messageToReceive}`);
+      }, 5000);
+    });
+
+    return Promise.race([promise, timeoutPromise]);
+  };
 
   const stockfish: Stockfish = {
     start: async (logMessages = false) => {
