@@ -18,15 +18,17 @@ import { MoveStats } from "@/components/RepertoireSidebar/components/OpeningExpl
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";
+import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
 
 export const OpeningExplorerTbody = () => {
   const fen = useRepertoireStore(selectFen);
+  const { openingExplorerApi } = useRepertoireSettings();
   const { isPending, error, data } = useQuery<OpeningExplorerResponse>({
     queryKey: [`opening-explorer-${fen}`],
     queryFn: () =>
-      fetch(`https://explorer.lichess.ovh/masters?fen=${fen}`).then((res) =>
-        res.json(),
-      ),
+      fetch(
+        `https://explorer.lichess.ovh/${openingExplorerApi}?fen=${fen}`,
+      ).then((res) => res.json()),
   });
 
   const chess = useRepertoireStore(selectChess);
