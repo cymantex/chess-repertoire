@@ -66,7 +66,6 @@ export interface Stockfish {
   start: () => Promise<void>;
   stop: () => Promise<Stockfish>;
   isStarted: () => boolean;
-  worker: Worker | null;
 }
 
 export interface BestMove {
@@ -177,3 +176,6 @@ export const ANALYSIS_STATE = {
 
 export type AnalysisState =
   (typeof ANALYSIS_STATE)[keyof typeof ANALYSIS_STATE];
+
+export type MessageSubscriber = (message: string) => void;
+export type ErrorSubscriber = (error: ErrorEvent) => void;

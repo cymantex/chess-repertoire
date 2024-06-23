@@ -5,7 +5,6 @@ import {
   isAnalysisResult,
   parseBestMove,
   parsePartialAnalysisResult,
-  waitUntilMessageReceived,
 } from "@/stockfish/utils.ts";
 import {
   ERROR_STOCKFISH_NOT_STARTED,
@@ -15,6 +14,10 @@ import {
 
 export const createStockfish = (): Stockfish => {
   let stockfishWorker: Worker | null = null;
+  const internalMessageSubscribers = new Set<(message: string) => void>();
+  const internalErrorSubscribers = new Set<(error: ErrorEvent) => void>();
+  const externalMessageSubscribers = new Set<(message: string) => void>();
+  const externalErrorSubscribers = new Set<(error: ErrorEvent) => void>();
 
   const sendUciMessage = (message: string) => {
     if (!stockfishWorker) {
@@ -30,26 +33,84 @@ export const createStockfish = (): Stockfish => {
 
   const setPosition = (fen: string) => sendUciMessage(`position fen ${fen}`);
 
+  const waitUntilMessageReceived = (
+    sendMessage: () => unknown,
+    messageToReceive: string,
+  ) =>
+    new Promise<void>((resolve, reject) => {
+      const waitUntilMessageSubscriber = (receivedMessage: string) => {
+        if (messageToReceive === receivedMessage) {
+          internalMessageSubscribers.delete(waitUntilMessageSubscriber);
+          internalErrorSubscribers.delete(rejectOnErrorSubscriber);
+          resolve();
+        }
+      };
+      const rejectOnErrorSubscriber = () => {
+        internalMessageSubscribers.delete(waitUntilMessageSubscriber);
+        internalErrorSubscribers.delete(rejectOnErrorSubscriber);
+        reject();
+      };
+
+      internalMessageSubscribers.add(waitUntilMessageSubscriber);
+      internalErrorSubscribers.add(rejectOnErrorSubscriber);
+      sendMessage();
+    });
+
   const stockfish: Stockfish = {
-    start: async () => {
+    start: async (logMessages = false) => {
       if (stockfishWorker) {
         return;
       }
 
       const worker = new StockfishWorker();
 
-      worker.postMessage("uci");
-      await waitUntilMessageReceived(worker, "uciok");
+      worker!.onmessage = (event) => {
+        internalMessageSubscribers.forEach((subscriber) =>
+          subscriber(event.data),
+        );
+        externalMessageSubscribers.forEach((subscriber) =>
+          subscriber(event.data),
+        );
 
-      worker.postMessage("isready");
-      await waitUntilMessageReceived(worker, "readyok");
+        if (logMessages) {
+          console.log(event.data);
+        }
+      };
+      worker!.onerror = (error) => {
+        internalErrorSubscribers.forEach((subscriber) => subscriber(error));
+        externalErrorSubscribers.forEach((subscriber) => subscriber(error));
+
+        if (logMessages) {
+          console.error(error);
+        }
+      };
+      worker!.onmessageerror = (error) => {
+        externalErrorSubscribers.forEach((subscriber) =>
+          subscriber(new ErrorEvent(error.data)),
+        );
+
+        if (logMessages) {
+          console.error(error);
+        }
+      };
+
+      await waitUntilMessageReceived(() => worker.postMessage("uci"), "uciok");
+      await waitUntilMessageReceived(
+        () => worker.postMessage("isready"),
+        "readyok",
+      );
 
       stockfishWorker = worker;
-      stockfish.worker = worker;
     },
     stop: async () => {
       if (stockfishWorker) {
-        sendUciMessage(`stop`);
+        externalMessageSubscribers.clear();
+        externalErrorSubscribers.clear();
+        sendUciMessage("stop");
+        await waitUntilMessageReceived(
+          () => stockfishWorker!.postMessage("isready"),
+          "readyok",
+        );
       }
 
       return stockfish;
@@ -78,9 +139,7 @@ export const createStockfish = (): Stockfish => {
         }, searchTimeInMs);
       }
 
-      stockfishWorker!.onmessage = (event) => {
-        const message = event.data;
-
+      externalMessageSubscribers.add((message) => {
         if (message.startsWith("info")) {
           const analysisResult = parsePartialAnalysisResult(message);
 
@@ -90,17 +149,14 @@ export const createStockfish = (): Stockfish => {
         } else if (message.startsWith("bestmove")) {
           onBestMove?.(parseBestMove(message));
         }
-      };
-      stockfishWorker!.onerror = onError;
-      stockfishWorker!.onmessageerror = (error) =>
-        onError(new ErrorEvent(error.data));
+      });
+      externalErrorSubscribers.add(onError);
 
       return stockfish;
     },
     setOption,
     setPosition,
     isStarted: () => !!stockfishWorker,
-    worker: stockfishWorker,
   };
 
   return stockfish;

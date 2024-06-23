@@ -1,21 +1,39 @@
 import { isNumber } from "lodash";
-import { AnalysisResult, BestMove } from "@/stockfish/defs.ts";
+import {
+  AnalysisResult,
+  BestMove,
+  ErrorSubscriber,
+  MessageSubscriber,
+} from "@/stockfish/defs.ts";
 
-export const waitUntilMessageReceived = (worker: Worker, message: string) =>
-  new Promise<void>((resolve, reject) => {
-    worker.onmessage = (event) => {
-      const receivedMessage = event.data;
-
+export const waitUntilMessageReceived2 = (
+  subscribeToMessage: (subscriber: MessageSubscriber) => unknown,
+  unsubscribeToMessage: (subscriber: MessageSubscriber) => unknown,
+  subscribeToError: (subscriber: ErrorSubscriber) => unknown,
+  unsubscribeToError: (subscriber: ErrorSubscriber) => unknown,
+  sendMessage: () => unknown,
+  message: string,
+) => {
+  return new Promise<void>((resolve, reject) => {
+    const waitUntilMessageReceived = (receivedMessage: string) => {
       if (message === receivedMessage) {
-        worker.onmessage = null;
-        worker.onmessageerror = console.error;
-        worker.onerror = console.error;
+        unsubscribeToMessage(waitUntilMessageReceived);
+        unsubscribeToError(rejectOnError);
         resolve();
       }
     };
-    worker.onmessageerror = reject;
-    worker.onerror = reject;
+
+    const rejectOnError = () => {
+      unsubscribeToMessage(rejectOnError);
+      unsubscribeToError(rejectOnError);
+      reject();
+    };
+
+    subscribeToMessage(waitUntilMessageReceived);
+    subscribeToError(rejectOnError);
+    sendMessage();
   });
+};
 
 export const isAnalysisResult = (
   result: Partial<AnalysisResult>,
