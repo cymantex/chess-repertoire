@@ -10,26 +10,26 @@ import {
 
 interface AccordingTableProps {
   renderTheadTrChildren: (toggleButton: ReactNode) => React.ReactNode;
-  children: React.ReactNode;
+  renderChildren: (collapsed: boolean) => React.ReactNode;
   className?: string;
   section: ToggleSection;
 }
 
 export const AccordingTable = ({
   renderTheadTrChildren,
-  children,
+  renderChildren,
   className,
   section,
 }: AccordingTableProps) => {
   const { sections } = useRepertoireSettings();
-  const showBody = sections[section] === TOGGLE_STATE.ON;
+  const collapsed = sections[section] === TOGGLE_STATE.OFF;
 
   return (
     <table
       className={classNames(
         "accordion-table table table-xs",
         {
-          "table--hidden": !showBody,
+          "table--hidden": collapsed,
         },
         className,
       )}
@@ -42,7 +42,7 @@ export const AccordingTable = ({
               onClick={() =>
                 localStorageStore.upsertSections(
                   section,
-                  showBody ? TOGGLE_STATE.OFF : TOGGLE_STATE.ON,
+                  collapsed ? TOGGLE_STATE.ON : TOGGLE_STATE.OFF,
                 )
               }
               style={{
@@ -50,17 +50,17 @@ export const AccordingTable = ({
                 transform: "translateY(-50%)",
               }}
             >
-              {showBody ? <FaCaretUp /> : <FaCaretDown />}
+              {collapsed ? <FaCaretUp /> : <FaCaretDown />}
             </button>,
           )}
         </tr>
       </thead>
       <tbody
         className={classNames({
-          hidden: !showBody,
+          hidden: collapsed,
         })}
       >
-        {children}
+        {renderChildren(collapsed)}
       </tbody>
     </table>
   );

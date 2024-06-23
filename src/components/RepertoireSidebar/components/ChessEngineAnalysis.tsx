@@ -13,11 +13,11 @@ import { selectFen } from "@/stores/zustand/selectors.ts";
 import { head } from "lodash";
 import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
-import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { ANALYSIS_STATE } from "@/stockfish/defs.ts";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
 import { IconButton } from "@/components/reused/IconButton.tsx";
+import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
@@ -97,21 +97,26 @@ export const ChessEngineAnalysis = () => {
           {toggleButton}
         </td>
       )}
-    >
-      {results.map((result) => (
-        <tr key={result.multipv}>
-          <TdWithOverflowCaret>
-            <Eval {...result} />{" "}
-            {uciMovesToSan(chessopsPosition, result.pv.join(" "))}
-          </TdWithOverflowCaret>
-        </tr>
-      ))}
-      {multiPvDiff > 0 &&
-        new Array(multiPvDiff).fill("").map((_, index) => (
-          <tr key={index}>
-            <td className="invisible">Hidden</td>
-          </tr>
-        ))}
-    </AccordingTable>
+      renderChildren={(collapsed) =>
+        !collapsed ? (
+          <>
+            {results.map((result) => (
+              <tr key={result.multipv}>
+                <TdWithOverflowCaret>
+                  <Eval {...result} />{" "}
+                  {uciMovesToSan(chessopsPosition, result.pv.join(" "))}
+                </TdWithOverflowCaret>
+              </tr>
+            ))}
+            {multiPvDiff > 0 &&
+              new Array(multiPvDiff).fill("").map((_, index) => (
+                <tr key={index}>
+                  <td className="invisible">Hidden</td>
+                </tr>
+              ))}
+          </>
+        ) : null
+      }
+    />
   );
 };

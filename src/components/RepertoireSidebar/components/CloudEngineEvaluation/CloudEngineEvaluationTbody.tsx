@@ -7,10 +7,8 @@ import { selectFen } from "@/stores/zustand/selectors.ts";
 import { CloudEvaluationResponse } from "@/defs.ts";
 import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
-import { AccordingTable } from "@/components/reused/AccordingTable.tsx";
-import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 
-export const CloudEngineEvaluation = () => {
+export const CloudEngineEvaluationTbody = () => {
   const fen = useRepertoireStore(selectFen);
   const { isPending, error, data } = useQuery<CloudEvaluationResponse>({
     queryKey: [`cloud-evaluation-${fen}`],
@@ -22,24 +20,25 @@ export const CloudEngineEvaluation = () => {
 
   if (isPending)
     return (
-      <div className="p-2">
-        <Loader />
-      </div>
+      <tr>
+        <td>
+          <Loader />
+        </td>
+      </tr>
     );
-  if (error) return <FetchError error={error} />;
+  if (error)
+    return (
+      <tr>
+        <td>
+          <FetchError error={error} />
+        </td>
+      </tr>
+    );
 
   const chessopsPosition = parsePosition(fen);
 
   return (
-    <AccordingTable
-      section={TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION}
-      renderTheadTrChildren={(toggleButton) => (
-        <td>
-          <span>Cloud engine evaluation</span>
-          {toggleButton}
-        </td>
-      )}
-    >
+    <>
       {data.pvs?.map((pv) => (
         <tr key={pv.moves}>
           <TdWithOverflowCaret>
@@ -47,6 +46,6 @@ export const CloudEngineEvaluation = () => {
           </TdWithOverflowCaret>
         </tr>
       ))}
-    </AccordingTable>
+    </>
   );
 };

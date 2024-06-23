@@ -1,8 +1,9 @@
-import { OpeningExplorerMove } from "@/defs.ts";
+import { OpeningExplorerMove, OpeningExplorerResponse } from "@/defs.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionMoves,
+  selectFen,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
 } from "@/stores/zustand/selectors.ts";
@@ -14,14 +15,20 @@ import {
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
 import { MoveStats } from "@/components/RepertoireSidebar/components/OpeningExplorer/MoveStats.tsx";
+import { useQuery } from "@tanstack/react-query";
+import { Loader } from "@/components/reused/Loader.tsx";
+import { FetchError } from "@/components/reused/FetchError.tsx";
 
-interface RepertoireOpeningMovesProps {
-  openingExplorerMoves: OpeningExplorerMove[];
-}
+export const OpeningExplorerTbody = () => {
+  const fen = useRepertoireStore(selectFen);
+  const { isPending, error, data } = useQuery<OpeningExplorerResponse>({
+    queryKey: [`opening-explorer-${fen}`],
+    queryFn: () =>
+      fetch(`https://explorer.lichess.ovh/masters?fen=${fen}`).then((res) =>
+        res.json(),
+      ),
+  });
 
-export const RepertoireOpeningMovesTbody = ({
-  openingExplorerMoves,
-}: RepertoireOpeningMovesProps) => {
   const chess = useRepertoireStore(selectChess);
   const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
   const handleOpeningExplorerMove = useRepertoireStore(
@@ -30,9 +37,26 @@ export const RepertoireOpeningMovesTbody = ({
   const repertoireMoves =
     useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
 
+  if (isPending)
+    return (
+      <tr>
+        <td>
+          <Loader />
+        </td>
+      </tr>
+    );
+  if (error)
+    return (
+      <tr>
+        <td>
+          <FetchError error={error} />
+        </td>
+      </tr>
+    );
+
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
-
+  const openingExplorerMoves: OpeningExplorerMove[] = data.moves;
   const orderedOpeningMoves = toOrderedRepertoireOpeningExplorerMoves(
     chess,
     openingExplorerMoves,
