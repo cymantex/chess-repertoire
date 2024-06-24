@@ -18,8 +18,7 @@ import {
   REPERTOIRE_ANNOTATION,
   RepertoireMoveAnnotation,
 } from "@/repertoire/defs.ts";
-import { RiZzzFill } from "react-icons/ri";
-import { FaSave } from "react-icons/fa";
+import { FaChessBoard, FaRegEye } from "react-icons/fa6";
 
 export const DEFAULT_ANNOTATION_STYLES = {
   background: {
@@ -95,13 +94,13 @@ const ANNOTATIONS = {
     symbol: "??",
   },
   [ANNOTATION_SETTINGS.NONE]: {
-    SettingsIcon: FaSave,
-    displayName: "Save without any annotation",
+    SettingsIcon: FaChessBoard,
+    displayName: "No annotations",
     symbol: "",
   },
   [ANNOTATION_SETTINGS.DONT_SAVE]: {
-    SettingsIcon: RiZzzFill,
-    displayName: "Don't save new moves into repertoire",
+    SettingsIcon: FaRegEye,
+    displayName: "View mode: Don't save any moves played on the board",
     symbol: "",
   },
 } as const;
