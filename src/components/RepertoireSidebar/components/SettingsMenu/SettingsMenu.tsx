@@ -50,23 +50,7 @@ export const SettingsMenu = () => {
         </div>
       </div>
       <PgnImport />
-      <button
-        className="btn w-full mb-2"
-        onClick={() => {
-          modalStore.showConfirmModal({
-            onConfirm: exportPgnAsync,
-            children: (
-              <>
-                <p className="mb-3">Export PGN</p>
-                <p className="text-sm text-error mb-3">
-                  This operation could potentially take hours to complete.
-                </p>
-                <p className="text-sm">Are you sure you want to continue?</p>
-              </>
-            ),
-          });
-        }}
-      >
+      <button className="btn w-full mb-2" onClick={exportPgnAsync}>
         Export PGN
       </button>
       <button
