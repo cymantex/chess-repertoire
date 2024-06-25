@@ -1,27 +1,35 @@
-import { modalStore } from "@/stores/modalStore.tsx";
+import { MODAL_IDS, modalStore } from "@/stores/modalStore.tsx";
 import { toast } from "react-toastify";
-import { downloadUrl } from "@/utils/utils.ts";
+import { downloadUrl, toRepertoireFileName } from "@/utils/utils.ts";
 import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
+import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
+import { LoadingModal } from "@/components/reused/Modal/LoadingModal.tsx";
 
 export const exportPgnAsync = async () => {
   try {
     modalStore.showLoadingModal("Exporting PGN...");
     const blob = await startExportPgnWorker((exportedGames) =>
-      modalStore.showLoadingModal(
-        <>
-          Exporting PGN... <br />
-          <span className="text-sm">(exported games: {exportedGames})</span>
-        </>,
+      modalStore.setModal(
+        <LoadingModal id={MODAL_IDS.LOADING} show>
+          <>
+            Exporting PGN... <br />
+            <span className="text-sm">(exported games: {exportedGames})</span>
+          </>
+        </LoadingModal>,
       ),
     );
-    downloadUrl(URL.createObjectURL(blob), "repertoire.pgn");
+    const repertoireDisplayName = await idbGetSelectedDbDisplayName();
+    downloadUrl(
+      URL.createObjectURL(blob),
+      `${toRepertoireFileName(repertoireDisplayName)}.pgn`,
+    );
   } catch (error) {
     console.trace();
     console.error(error);
     // @ts-ignore
     toast.error(`Failed to export repertoire ${error.message}`);
   } finally {
-    modalStore.closeAllModals();
+    modalStore.closeModal(MODAL_IDS.LOADING);
   }
 };
 

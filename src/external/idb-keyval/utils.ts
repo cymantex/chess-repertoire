@@ -1,6 +1,6 @@
 import { createStore } from "idb-keyval";
 
-export const DEFAULT_DB_DISPLAY_NAME = "default-repertoire";
+export const DEFAULT_DB_DISPLAY_NAME = "default";
 
 const USER_REPERTOIRE_DB_NAME_PREFIX = "user-repertoire";
 

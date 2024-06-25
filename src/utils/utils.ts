@@ -50,3 +50,16 @@ export const downloadUInt8Array = (
 };
 
 export const isMobileSize = () => window.innerWidth <= BREAKPOINT_MD;
+
+export const getCurrentDate = (): string => {
+  const date = new Date();
+  const year = date.getFullYear();
+  // add leading zero if necessary
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  // add leading zero if necessary
+  const day = ("0" + date.getDate()).slice(-2);
+  return `${year}-${month}-${day}`;
+};
+
+export const toRepertoireFileName = (repertoireDisplayName: string) =>
+  `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}-${getCurrentDate()}`;
