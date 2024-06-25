@@ -3,6 +3,7 @@ import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
+import { MODAL_IDS } from "@/defs.ts";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;
@@ -25,9 +26,10 @@ export const AnnotationSettings = ({
           if (disabled) return;
           modalStore.setModal(
             <AnnotationSettingsModal
+              id={MODAL_IDS.ANNOTATION_SETTINGS}
               onSelect={(setting) => {
                 onSelect(setting);
-                modalStore.closeAllModals();
+                modalStore.closeModal(MODAL_IDS.ANNOTATION_SETTINGS);
               }}
             />,
           );
@@ -45,12 +47,14 @@ export const AnnotationSettings = ({
 };
 
 const AnnotationSettingsModal = ({
+  id,
   onSelect,
 }: {
+  id: string;
   onSelect: (setting: AnnotationSetting) => unknown;
 }) => (
-  <Modal show>
-    <Modal.CloseButton onClick={() => modalStore.closeAllModals()} />
+  <Modal id={id} show>
+    <Modal.CloseButton onClick={() => modalStore.closeModal(id)} />
     <Modal.Title>New move settings</Modal.Title>
     <div role="alert" className="alert shadow-lg mb-2">
       <div>

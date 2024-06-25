@@ -23,7 +23,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
   const selectDatabase = useRepertoireStore(selectSelectDatabase);
 
   const handleDeleteDatabase = async (dbDisplayName: string) => {
-    modalStore.showLoadingModal("Deleting database...");
+    modalStore.addLoadingModal("Deleting database...");
 
     try {
       await idbDeleteDatabase(toDbName(dbDisplayName));
@@ -73,7 +73,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
               selectedDatabase={selectedDatabase}
               onSelect={() => selectDatabase(dbName)}
               onDelete={() =>
-                modalStore.showConfirmModal({
+                modalStore.addConfirmModal({
                   children: `Are you sure you want to delete '${dbName}'?`,
                   onConfirm: () => handleDeleteDatabase(dbName),
                 })

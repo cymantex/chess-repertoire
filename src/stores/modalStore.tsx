@@ -18,7 +18,7 @@ export const modalStore = {
   getModalsSnapshot: (): ReactNode[] => {
     return currentModals;
   },
-  showConfirmModal: ({
+  addConfirmModal: ({
     children,
     onConfirm,
     ...props
@@ -37,8 +37,14 @@ export const modalStore = {
         {children}
       </ConfirmModal>,
     ),
-  showLoadingModal: (children: ReactNode) =>
+  addLoadingModal: (children: ReactNode) =>
     modalStore.addModal(
+      <LoadingModal id={MODAL_IDS.LOADING} show>
+        {children}
+      </LoadingModal>,
+    ),
+  setLoadingModal: (children: ReactNode) =>
+    modalStore.setModal(
       <LoadingModal id={MODAL_IDS.LOADING} show>
         {children}
       </LoadingModal>,
@@ -55,14 +61,6 @@ export const modalStore = {
     currentModals = currentModals.filter((modal) =>
       isReactElement(modal) ? modal.props.id !== id : true,
     );
-    notifySubscribers();
-  },
-  // TODO: Prefer closeModal
-  /**
-   * @deprecated
-   */
-  closeAllModals: () => {
-    currentModals = [];
     notifySubscribers();
   },
 };

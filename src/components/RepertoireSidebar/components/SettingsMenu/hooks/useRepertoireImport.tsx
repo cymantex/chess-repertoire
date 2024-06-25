@@ -4,6 +4,7 @@ import { startImportRepertoireWorker } from "@/repertoire/repertoireIo.ts";
 import { toast } from "react-toastify";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
+import { MODAL_IDS } from "@/defs.ts";
 
 export const useRepertoireImport = () => {
   const getCurrentRepertoirePosition = useRepertoireStore(
@@ -17,7 +18,7 @@ export const useRepertoireImport = () => {
 
     window.onbeforeunload = (event) => event.preventDefault();
 
-    modalStore.showLoadingModal(
+    modalStore.addLoadingModal(
       <>
         Importing repertoire... <br />
         <span className="text-sm">(this could take many minutes)</span>
@@ -37,6 +38,6 @@ export const useRepertoireImport = () => {
 
     await getCurrentRepertoirePosition();
 
-    modalStore.closeAllModals();
+    modalStore.closeModal(MODAL_IDS.LOADING);
   };
 };

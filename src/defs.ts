@@ -72,4 +72,5 @@ export const MODAL_IDS = {
   CONFIRM: "confirm-modal",
   LOADING: "loading-modal",
   DATABASE: "database-modal",
+  ANNOTATION_SETTINGS: "ANNOTATION_SETTINGS",
 };

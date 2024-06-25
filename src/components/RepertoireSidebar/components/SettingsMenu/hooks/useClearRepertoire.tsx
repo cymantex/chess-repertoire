@@ -3,6 +3,7 @@ import { idbClear } from "@/external/idb-keyval/adapter.ts";
 import { toast } from "react-toastify";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
+import { MODAL_IDS } from "@/defs.ts";
 
 export const useClearRepertoire = () => {
   const getCurrentRepertoirePosition = useRepertoireStore(
@@ -10,7 +11,7 @@ export const useClearRepertoire = () => {
   );
 
   return async () => {
-    modalStore.showLoadingModal(
+    modalStore.addLoadingModal(
       <>
         Clearing repertoire... <br />
         <span className="text-sm">(this could take many minutes)</span>
@@ -24,11 +25,9 @@ export const useClearRepertoire = () => {
       console.error(error);
       // @ts-ignore
       toast.error(`Failed to clear repertoire ${error.message}`);
-    } finally {
-      window.onbeforeunload = null;
     }
 
     await getCurrentRepertoirePosition();
-    modalStore.closeAllModals();
+    modalStore.closeModal(MODAL_IDS.LOADING);
   };
 };

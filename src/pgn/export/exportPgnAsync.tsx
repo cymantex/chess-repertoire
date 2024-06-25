@@ -3,20 +3,17 @@ import { toast } from "react-toastify";
 import { downloadUrl, toRepertoireFileName } from "@/utils/utils.ts";
 import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
-import { LoadingModal } from "@/components/reused/Modal/LoadingModal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
 
 export const exportPgnAsync = async () => {
   try {
-    modalStore.showLoadingModal("Exporting PGN...");
+    modalStore.addLoadingModal("Exporting PGN...");
     const blob = await startExportPgnWorker((exportedGames) =>
-      modalStore.setModal(
-        <LoadingModal id={MODAL_IDS.LOADING} show>
-          <>
-            Exporting PGN... <br />
-            <span className="text-sm">(exported games: {exportedGames})</span>
-          </>
-        </LoadingModal>,
+      modalStore.setLoadingModal(
+        <>
+          Exporting PGN... <br />
+          <span className="text-sm">(exported games: {exportedGames})</span>
+        </>,
       ),
     );
     const repertoireDisplayName = await idbGetSelectedDbDisplayName();
