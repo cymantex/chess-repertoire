@@ -25,13 +25,20 @@ export const DEFAULT_ANNOTATION_STYLES = {
     fill: "oklch(var(--p))",
   },
   shape: {
-    stroke: "oklch(var(--pc))",
+    fill: "oklch(var(--pc))",
     strokeWidth: "0.1px",
   },
 };
 
-export const ANNOTATION_BACKGROUND_DARK_BLUE = {
-  style: { fill: "rgb(101, 129, 149)" },
+export const ANNOTATION_BACKGROUND_ACTIVE = {
+  style: { fill: "oklch(var(--a))" },
+};
+
+export const ANNOTATION_SHAPE_ACTIVE = {
+  style: {
+    fill: "oklch(var(--ac))",
+    strokeWidth: "0.1px",
+  },
 };
 
 export interface AnnotationProps extends SVGProps<SVGSVGElement> {

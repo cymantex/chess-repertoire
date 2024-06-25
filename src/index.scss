@@ -2,16 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.color-board-light-square {
-  color: rgb(148, 173, 193);
-}
-
-.bg-board-dark-square {
-  background-color: rgb(101, 129, 149);
-}
-
 .text-table-title {
   color: var(--fallback-bc,oklch(var(--bc)/0.6));
+}
+
+[data-theme=black] {
+  --a: 60.42% 0.043 235.67;
+  --ac: 100% 0 0;
 }
 
 :root {
@@ -28,5 +25,3 @@
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--toastify-color-error);
 }
-
-// TODO: Handle the different themes better
