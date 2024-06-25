@@ -4,15 +4,11 @@ import {
   ConfirmModal,
   ConfirmModalProps,
 } from "@/components/reused/Modal/ConfirmModal.tsx";
+import { MODAL_IDS } from "@/defs.ts";
 
 const subscribers = new Set<() => void>();
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
 let currentModals: ReactNode[] = [];
-
-export const MODAL_IDS = {
-  CONFIRM: "confirm-modal",
-  LOADING: "loading-modal",
-};
 
 export const modalStore = {
   subscribe: (callback: () => void) => {
@@ -40,10 +36,6 @@ export const modalStore = {
       >
         {children}
       </ConfirmModal>,
-    ),
-  hasModal: (id: string) =>
-    currentModals.some((modal) =>
-      isReactElement(modal) ? modal.props.id === id : false,
     ),
   showLoadingModal: (children: ReactNode) =>
     modalStore.addModal(
