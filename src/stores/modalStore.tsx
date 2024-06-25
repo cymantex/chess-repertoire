@@ -41,6 +41,10 @@ export const modalStore = {
         {children}
       </ConfirmModal>,
     ),
+  hasModal: (id: string) =>
+    currentModals.some((modal) =>
+      isReactElement(modal) ? modal.props.id === id : false,
+    ),
   showLoadingModal: (children: ReactNode) =>
     modalStore.addModal(
       <LoadingModal id={MODAL_IDS.LOADING} show>
