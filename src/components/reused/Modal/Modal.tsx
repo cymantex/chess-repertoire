@@ -6,6 +6,10 @@ import {
   ReactNode,
 } from "react";
 
+export interface ModalId {
+  id: string;
+}
+
 export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
   show: boolean;
   children: ReactNode;
@@ -23,7 +27,7 @@ export const Modal = ({ show, children, className, ...props }: ModalProps) => (
   </dialog>
 );
 
-interface ModalCloseButtonProps
+export interface ModalCloseButtonProps
   extends Omit<
     DetailedHTMLProps<
       ButtonHTMLAttributes<HTMLButtonElement>,

@@ -12,7 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal.tsx";
+import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
+import { MODAL_IDS } from "@/defs.ts";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
@@ -45,7 +46,11 @@ export const OpeningExplorerTable = () => {
               <div className="flex gap-3">
                 <IconButton
                   className="text-white transition-all hover:scale-125"
-                  onClick={() => modalStore.setModal(<DatabaseModal />)}
+                  onClick={() =>
+                    modalStore.setModal(
+                      <DatabaseModal id={MODAL_IDS.DATABASE} />,
+                    )
+                  }
                 >
                   <FaDatabase />
                 </IconButton>
