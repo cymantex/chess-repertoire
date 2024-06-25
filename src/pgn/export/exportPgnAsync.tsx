@@ -21,7 +21,7 @@ export const exportPgnAsync = async () => {
     // @ts-ignore
     toast.error(`Failed to export repertoire ${error.message}`);
   } finally {
-    modalStore.closeModal();
+    modalStore.closeAllModals();
   }
 };
 

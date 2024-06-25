@@ -27,7 +27,7 @@ export const AnnotationSettings = ({
             <AnnotationSettingsModal
               onSelect={(setting) => {
                 onSelect(setting);
-                modalStore.closeModal();
+                modalStore.closeAllModals();
               }}
             />,
           );
@@ -50,7 +50,7 @@ const AnnotationSettingsModal = ({
   onSelect: (setting: AnnotationSetting) => unknown;
 }) => (
   <Modal show>
-    <Modal.CloseButton onClick={() => modalStore.closeModal()} />
+    <Modal.CloseButton onClick={() => modalStore.closeAllModals()} />
     <Modal.Title>New move settings</Modal.Title>
     <div role="alert" className="alert shadow-lg mb-2">
       <div>

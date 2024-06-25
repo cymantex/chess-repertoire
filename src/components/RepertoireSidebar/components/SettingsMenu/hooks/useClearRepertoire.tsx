@@ -29,6 +29,6 @@ export const useClearRepertoire = () => {
     }
 
     await getCurrentRepertoirePosition();
-    modalStore.closeModal();
+    modalStore.closeAllModals();
   };
 };

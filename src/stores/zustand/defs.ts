@@ -38,6 +38,11 @@ export interface ChessgroundSlice {
 }
 
 export interface RepertoireSlice {
+  databases: string[];
+  selectedDatabase?: string;
+  selectDatabase: (dbDisplayName: string) => Promise<void>;
+  createDatabase: (dbDisplayName: string) => Promise<void>;
+  listDatabases: () => Promise<void>;
   currentRepertoirePosition: RepertoirePosition;
   getCurrentRepertoirePosition: () => Promise<void>;
   upsertMove: (

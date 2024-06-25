@@ -1,7 +1,13 @@
 import { useModalStore } from "@/stores/modalStore.tsx";
 
 export const ModalContainer = () => {
-  const modal = useModalStore();
+  const modals = useModalStore();
 
-  return <div className="modal-container">{modal}</div>;
+  return (
+    <div className="modal-container">
+      {modals.map((modal, i) => (
+        <div key={i}>{modal}</div>
+      ))}
+    </div>
+  );
 };

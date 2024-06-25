@@ -101,6 +101,7 @@ export interface RepertoireSettings {
   engineSettings: EngineSettings;
   sections: Record<ToggleSection, ToggleState>;
   openingExplorerApi: OpeningExplorerApi;
+  selectedDatabase?: string;
 }
 
 export const SETTINGS_KEY = "repertoireSettings";

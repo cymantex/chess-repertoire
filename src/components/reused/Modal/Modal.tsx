@@ -1,17 +1,23 @@
 import classNames from "classnames";
-import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+import {
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 
-interface ModalProps {
+export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
   show: boolean;
   children: ReactNode;
   className?: string;
 }
 
-export const Modal = ({ show, children, className }: ModalProps) => (
+export const Modal = ({ show, children, className, ...props }: ModalProps) => (
   <dialog
     className={classNames("modal", {
       "modal-open": show,
     })}
+    {...props}
   >
     <div className={classNames("modal-box", className)}>{children}</div>
   </dialog>
