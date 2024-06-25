@@ -70,7 +70,6 @@ export const OpeningExplorerTbody = () => {
     .map(calcTotalGames)
     .reduce((a, b) => a + b, 0);
 
-  // TODO: Make it clear which database is selected somehow
   return (
     <>
       {orderedOpeningMoves.map((move) => (
