@@ -37,6 +37,6 @@ export const useRepertoireImport = () => {
 
     await getCurrentRepertoirePosition();
 
-    modalStore.closeModal();
+    modalStore.closeAllModals();
   };
 };

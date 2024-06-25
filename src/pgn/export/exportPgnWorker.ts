@@ -1,12 +1,10 @@
-import {
-  idbEntries,
-  resetHalfMoveClock,
-} from "@/external/idb-keyval/adapter.ts";
+import { idbEntries } from "@/external/idb-keyval/adapter.ts";
 import { RepertoirePosition } from "@/repertoire/defs.ts";
 import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { Chess } from "chess.js";
 import { generateChessLines } from "@/pgn/export/generateChessLines.ts";
 import { toPgn } from "@/pgn/utils.ts";
+import { resetHalfMoveClock } from "@/external/idb-keyval/utils.ts";
 
 self.onmessage = async () => {
   try {

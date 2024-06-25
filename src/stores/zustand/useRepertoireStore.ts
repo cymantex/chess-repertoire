@@ -23,3 +23,4 @@ export const useRepertoireStore = create(
 );
 
 useRepertoireStore.getState().getCurrentRepertoirePosition();
+useRepertoireStore.getState().listDatabases();

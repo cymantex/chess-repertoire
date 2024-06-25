@@ -1,9 +1,6 @@
-import { ReactNode } from "react";
-import { Modal } from "@/components/reused/Modal/Modal.tsx";
+import { Modal, ModalProps } from "@/components/reused/Modal/Modal.tsx";
 
-export interface ConfirmModalProps {
-  show: boolean;
-  children: ReactNode;
+export interface ConfirmModalProps extends ModalProps {
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -13,8 +10,9 @@ export const ConfirmModal = ({
   show,
   onConfirm,
   onCancel,
+  ...props
 }: ConfirmModalProps) => (
-  <Modal className="text-center" show={show}>
+  <Modal className="text-center" show={show} {...props}>
     <Modal.Title>{children}</Modal.Title>
     <button className="btn mr-2" onClick={onConfirm}>
       Yes

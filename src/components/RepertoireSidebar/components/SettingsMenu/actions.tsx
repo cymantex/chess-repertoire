@@ -26,7 +26,7 @@ export async function exportRepertoire() {
     window.onbeforeunload = null;
   }
 
-  modalStore.closeModal();
+  modalStore.closeAllModals();
 }
 
 export const changeTheme = (event: ChangeEvent<HTMLSelectElement>) => {

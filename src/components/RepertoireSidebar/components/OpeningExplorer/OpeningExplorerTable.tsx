@@ -7,10 +7,12 @@ import {
   localStorageStore,
   useRepertoireSettings,
 } from "@/stores/localStorageStore.ts";
-import { FaBook } from "react-icons/fa";
+import { FaBook, FaDatabase } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
+import { modalStore } from "@/stores/modalStore.tsx";
+import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal.tsx";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
@@ -40,16 +42,24 @@ export const OpeningExplorerTable = () => {
           <td>
             <div className="flex justify-between pr-6">
               <span>Annotation</span>
-              <IconButton
-                className="text-white transition-all hover:scale-125"
-                onClick={handleToggleOpeningExplorerApi}
-              >
-                {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
-                  <SiLichess title="Lichess games" />
-                ) : (
-                  <FaBook title="Master games" />
-                )}
-              </IconButton>
+              <div className="flex gap-3">
+                <IconButton
+                  className="text-white transition-all hover:scale-125"
+                  onClick={() => modalStore.setModal(<DatabaseModal />)}
+                >
+                  <FaDatabase />
+                </IconButton>
+                <IconButton
+                  className="text-white transition-all hover:scale-125"
+                  onClick={handleToggleOpeningExplorerApi}
+                >
+                  {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
+                    <SiLichess title="Lichess games" />
+                  ) : (
+                    <FaBook title="Master games" />
+                  )}
+                </IconButton>
+              </div>
             </div>
             {toggleButton}
           </td>

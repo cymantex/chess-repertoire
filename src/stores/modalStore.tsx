@@ -1,4 +1,4 @@
-import { ReactNode, useSyncExternalStore } from "react";
+import { ReactElement, ReactNode, useSyncExternalStore } from "react";
 import { LoadingModal } from "@/components/reused/Modal/LoadingModal.tsx";
 import {
   ConfirmModal,
@@ -7,36 +7,72 @@ import {
 
 const subscribers = new Set<() => void>();
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
-let currentModal: ReactNode = null;
+let currentModals: ReactNode[] = [];
+
+export const MODAL_IDS = {
+  CONFIRM: "confirm-modal",
+  LOADING: "loading-modal",
+};
 
 export const modalStore = {
   subscribe: (callback: () => void) => {
     subscribers.add(callback);
     return () => subscribers.delete(callback);
   },
-  getModalSnapshot: (): ReactNode => {
-    return currentModal;
+  getModalsSnapshot: (): ReactNode[] => {
+    return currentModals;
   },
   showConfirmModal: ({
     children,
+    onConfirm,
     ...props
   }: Pick<ConfirmModalProps, "onConfirm"> & Partial<ConfirmModalProps>) =>
-    modalStore.setModal(
-      <ConfirmModal show onCancel={modalStore.closeModal} {...props}>
+    modalStore.addModal(
+      <ConfirmModal
+        id={MODAL_IDS.CONFIRM}
+        show
+        onCancel={() => modalStore.closeModal(MODAL_IDS.CONFIRM)}
+        onConfirm={() => {
+          onConfirm();
+          modalStore.closeModal(MODAL_IDS.CONFIRM);
+        }}
+        {...props}
+      >
         {children}
       </ConfirmModal>,
     ),
   showLoadingModal: (children: ReactNode) =>
-    modalStore.setModal(<LoadingModal show>{children}</LoadingModal>),
+    modalStore.addModal(
+      <LoadingModal id={MODAL_IDS.LOADING} show>
+        {children}
+      </LoadingModal>,
+    ),
   setModal: (modal: ReactNode) => {
-    currentModal = modal;
+    currentModals = [modal];
     notifySubscribers();
   },
-  closeModal: () => {
-    currentModal = null;
+  addModal: (modal: ReactNode) => {
+    currentModals = [...currentModals, modal];
+    notifySubscribers();
+  },
+  closeModal: (id: string) => {
+    currentModals = currentModals.filter((modal) =>
+      isReactElement(modal) ? modal.props.id !== id : true,
+    );
+    notifySubscribers();
+  },
+  // TODO: Prefer closeModal
+  /**
+   * @deprecated
+   */
+  closeAllModals: () => {
+    currentModals = [];
     notifySubscribers();
   },
 };
 
 export const useModalStore = () =>
-  useSyncExternalStore(modalStore.subscribe, modalStore.getModalSnapshot);
+  useSyncExternalStore(modalStore.subscribe, modalStore.getModalsSnapshot);
+
+const isReactElement = (element: ReactNode): element is ReactElement =>
+  !!element && typeof element === "object" && "props" in element;

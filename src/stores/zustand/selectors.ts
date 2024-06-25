@@ -8,6 +8,15 @@ export const selectOpenSidebar = (state: ChessRepertoireStore) =>
   state.openSidebar;
 
 // Repertoire
+export const selectDatabases = (state: ChessRepertoireStore) => state.databases;
+export const selectSelectedDatabase = (state: ChessRepertoireStore) =>
+  state.selectedDatabase;
+export const selectSelectDatabase = (state: ChessRepertoireStore) =>
+  state.selectDatabase;
+export const selectCreateDatabase = (state: ChessRepertoireStore) =>
+  state.createDatabase;
+export const selectListDatabases = (state: ChessRepertoireStore) =>
+  state.listDatabases;
 export const selectUpsertMove = (state: ChessRepertoireStore) =>
   state.upsertMove;
 export const selectDeleteMove = (state: ChessRepertoireStore) =>
