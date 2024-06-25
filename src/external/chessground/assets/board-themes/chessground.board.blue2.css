@@ -1,0 +1,5 @@
+[board-theme=blue2] {
+  --cg-board-background-image: url('blue2.jpg');
+  --cg-coords-light-square-color: rgb(84, 111, 130);
+  --cg-coords-dark-square-color: rgb(151, 178, 199);
+}

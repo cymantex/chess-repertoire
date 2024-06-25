@@ -39,15 +39,28 @@ export const DEFAULT_BRUSHES: DrawBrushes = {
 };
 
 export const PIECE_THEMES = {
+  ALPHA: "alpha",
   CARDINAL: "cardinal",
   CBURNETT: "cburnett",
+  COMPANION: "companion",
+  COOKE: "cooke",
+  FRESCA: "fresca",
+  GIOCO: "gioco",
+  MERIDA: "merida",
+  MPCHESS: "mpchess",
+  STAUNTY: "staunty",
+  TATIANA: "tatiana",
 } as const;
 
 export type PieceTheme = (typeof PIECE_THEMES)[keyof typeof PIECE_THEMES];
 
 export const BOARD_THEMES = {
   BLUE2: "blue2",
-  BROWN: "brown",
+  GREY: "grey",
+  MARBLE: "marble",
+  MAPLE: "maple",
+  OLIVE: "olive",
+  WOOD2: "wood2",
 } as const;
 
 export type BoardTheme = (typeof BOARD_THEMES)[keyof typeof BOARD_THEMES];

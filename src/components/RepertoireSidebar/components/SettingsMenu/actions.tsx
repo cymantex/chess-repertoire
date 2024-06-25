@@ -47,7 +47,9 @@ export const changePieceTheme = (pieceTheme: PieceTheme) => {
     pieceTheme,
   });
 
-  import(`@/external/chessground/assets/chessground.pieces.${pieceTheme}.css`);
+  import(
+    `@/external/chessground/assets/piece-themes/chessground.pieces.${pieceTheme}.css`
+  );
 };
 
 export const changeBoardTheme = (boardTheme: BoardTheme) => {
@@ -57,5 +59,7 @@ export const changeBoardTheme = (boardTheme: BoardTheme) => {
     boardTheme,
   });
 
-  import(`@/external/chessground/assets/chessground.board.${boardTheme}.css`);
+  import(
+    `@/external/chessground/assets/board-themes/chessground.board.${boardTheme}.css`
+  );
 };
