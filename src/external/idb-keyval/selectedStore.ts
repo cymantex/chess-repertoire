@@ -1,5 +1,5 @@
 import { get, set, UseStore } from "idb-keyval";
-import { createOrGet } from "@/external/idb-keyval/utils.ts";
+import { createOrGet } from "./utils.ts";
 
 const SELECTED_DB_KEY = "selectedRepertoireDb";
 const SETTINGS_STORE = createOrGet("repertoire-settings");

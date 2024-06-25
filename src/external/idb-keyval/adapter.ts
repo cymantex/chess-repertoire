@@ -6,7 +6,7 @@ import {
   getSelectedDbName,
   getSelectedStore,
   persistSelectedStore,
-} from "@/external/idb-keyval/selectedStore.ts";
+} from "./selectedStore.ts";
 import {
   createOrGet,
   DEFAULT_DB_DISPLAY_NAME,
@@ -14,7 +14,7 @@ import {
   resetHalfMoveClock,
   toDisplayName,
   toStoreName,
-} from "@/external/idb-keyval/utils.ts";
+} from "./utils.ts";
 
 export const idbUpsert = async <T>(
   fen: string,
