@@ -10,7 +10,10 @@ import {
 import { FaBook, FaDatabase } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
-import { selectFen } from "@/stores/zustand/selectors.ts";
+import {
+  selectFen,
+  selectSelectedDatabase,
+} from "@/stores/zustand/selectors.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
@@ -18,6 +21,7 @@ import { MODAL_IDS } from "@/defs.ts";
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
   const fen = useRepertoireStore(selectFen);
+  const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
   const { openingExplorerApi } = useRepertoireSettings();
 
   const handleToggleOpeningExplorerApi = async () => {
@@ -42,20 +46,25 @@ export const OpeningExplorerTable = () => {
           <td>Games</td>
           <td>
             <div className="flex justify-between pr-6">
-              <span>Annotation</span>
-              <div className="flex gap-3">
+              <div>Annotation</div>
+              <div className="flex">
+                <div className="flex gap-2 pr-2 border-r border-primary">
+                  <IconButton
+                    className="text-white transition-all hover:scale-125"
+                    onClick={() =>
+                      modalStore.setModal(
+                        <DatabaseModal id={MODAL_IDS.DATABASE} />,
+                      )
+                    }
+                  >
+                    <FaDatabase />
+                  </IconButton>
+                  <span title={selectedDatabase} className="max-w-24 truncate">
+                    {selectedDatabase}
+                  </span>
+                </div>
                 <IconButton
-                  className="text-white transition-all hover:scale-125"
-                  onClick={() =>
-                    modalStore.setModal(
-                      <DatabaseModal id={MODAL_IDS.DATABASE} />,
-                    )
-                  }
-                >
-                  <FaDatabase />
-                </IconButton>
-                <IconButton
-                  className="text-white transition-all hover:scale-125"
+                  className="text-white pl-2 transition-all hover:scale-125"
                   onClick={handleToggleOpeningExplorerApi}
                 >
                   {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
