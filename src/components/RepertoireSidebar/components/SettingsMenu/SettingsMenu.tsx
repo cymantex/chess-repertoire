@@ -4,7 +4,7 @@ import {
   localStorageStore,
   useRepertoireSettings,
 } from "@/stores/localStorageStore.ts";
-import { DAISY_UI_THEMES } from "@/defs.ts";
+import { DAISY_UI_THEMES, MODAL_IDS } from "@/defs.ts";
 import React, { InputHTMLAttributes, ReactNode } from "react";
 import { modalStore } from "@/stores/modalStore.tsx";
 import {
@@ -23,8 +23,13 @@ import {
   PIECE_THEMES,
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
+import { selectSelectedDatabase } from "@/stores/zustand/selectors.ts";
+import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
+import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
 
 export const SettingsMenu = () => {
+  const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
+
   const { theme, boardTheme, pieceTheme, engineSettings } =
     useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
@@ -43,12 +48,23 @@ export const SettingsMenu = () => {
     <>
       <div role="alert" className="alert bg-base-300 mb-2 text-center block">
         <div>
-          <h3 className="font-bold text-base">Settings</h3>
+          <h3 className="font-bold text-base mb-2">
+            Repertoire database operations
+          </h3>
           <div className="text-xs">
-            Import, export or clear your repertoire.
+            Selected database:{" "}
+            <span className="font-bold">{selectedDatabase}</span>
           </div>
         </div>
       </div>
+      <button
+        className="btn w-full mb-2"
+        onClick={() =>
+          modalStore.setModal(<DatabaseModal id={MODAL_IDS.DATABASE} />)
+        }
+      >
+        Manage databases
+      </button>
       <PgnImport />
       <button className="btn w-full mb-2" onClick={exportPgnAsync}>
         Export PGN
