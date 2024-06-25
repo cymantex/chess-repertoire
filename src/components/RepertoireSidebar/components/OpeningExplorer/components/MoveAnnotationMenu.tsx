@@ -9,8 +9,9 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import classNames from "classnames";
 import { FaTrash } from "react-icons/fa";
 import {
-  ANNOTATION_BACKGROUND_DARK_BLUE,
+  ANNOTATION_BACKGROUND_ACTIVE,
   ANNOTATION_LIST,
+  ANNOTATION_SHAPE_ACTIVE,
   AnnotationProps,
   DEFAULT_ANNOTATION_STYLES,
 } from "@/assets/annotation/defs.ts";
@@ -56,8 +57,14 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
     backgroundProps: {
       style:
         databaseMove?.annotation === annotation
-          ? ANNOTATION_BACKGROUND_DARK_BLUE.style
+          ? ANNOTATION_BACKGROUND_ACTIVE.style
           : DEFAULT_ANNOTATION_STYLES.background,
+    },
+    shapeProps: {
+      style:
+        databaseMove?.annotation === annotation
+          ? ANNOTATION_SHAPE_ACTIVE.style
+          : DEFAULT_ANNOTATION_STYLES.shape,
     },
   });
 

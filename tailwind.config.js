@@ -10,8 +10,10 @@ export default {
       "dim",
       "dracula",
       "forest",
+      "light",
       "luxury",
       "night",
+      "nord",
     ],
   },
   theme: {

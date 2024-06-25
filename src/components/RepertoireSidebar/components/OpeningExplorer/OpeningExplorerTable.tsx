@@ -50,7 +50,7 @@ export const OpeningExplorerTable = () => {
               <div className="flex">
                 <div className="flex gap-2 pr-2 border-r border-primary">
                   <IconButton
-                    className="text-white transition-all hover:scale-125"
+                    className="text-base-content transition-all hover:scale-125"
                     onClick={() =>
                       modalStore.setModal(
                         <DatabaseModal id={MODAL_IDS.DATABASE} />,
@@ -64,7 +64,7 @@ export const OpeningExplorerTable = () => {
                   </span>
                 </div>
                 <IconButton
-                  className="text-white pl-2 transition-all hover:scale-125"
+                  className="text-base-content pl-2 transition-all hover:scale-125"
                   onClick={handleToggleOpeningExplorerApi}
                 >
                   {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (

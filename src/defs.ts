@@ -21,8 +21,10 @@ export const DAISY_UI_THEMES = [
   "dim",
   "dracula",
   "forest",
+  "light",
   "luxury",
   "night",
+  "nord",
 ] as const;
 
 export type Column = keyof typeof COLUMN_NUMBERS;
