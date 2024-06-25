@@ -34,7 +34,7 @@ export const SettingsMenu = () => {
   const handleClearRepertoire = useClearRepertoire();
 
   const confirmClearRepertoire = async () =>
-    modalStore.showConfirmModal({
+    modalStore.addConfirmModal({
       onConfirm: handleClearRepertoire,
       children: "Are you sure you want to delete all data in your repertoire?",
     });

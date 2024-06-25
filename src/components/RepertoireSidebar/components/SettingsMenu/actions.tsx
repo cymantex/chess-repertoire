@@ -5,9 +5,10 @@ import { ChangeEvent } from "react";
 import { localStorageStore } from "@/stores/localStorageStore.ts";
 import { DaisyUiTheme } from "@/repertoire/defs.ts";
 import { BoardTheme, PieceTheme } from "@/external/chessground/defs.tsx";
+import { MODAL_IDS } from "@/defs.ts";
 
 export async function exportRepertoire() {
-  modalStore.showLoadingModal(
+  modalStore.addLoadingModal(
     <>
       Exporting repertoire... <br />
       <span className="text-sm">(this could take many minutes)</span>
@@ -26,7 +27,7 @@ export async function exportRepertoire() {
     window.onbeforeunload = null;
   }
 
-  modalStore.closeAllModals();
+  modalStore.closeModal(MODAL_IDS.LOADING);
 }
 
 export const changeTheme = (event: ChangeEvent<HTMLSelectElement>) => {
