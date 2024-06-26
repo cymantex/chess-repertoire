@@ -8,7 +8,7 @@ import { SIDEBARS } from "@/defs.ts";
 import { SettingsMenu } from "@/components/RepertoireSidebar/components/SettingsMenu/SettingsMenu.tsx";
 import classNames from "classnames";
 import { ChessEngineAnalysis } from "@/components/RepertoireSidebar/components/ChessEngineAnalysis.tsx";
-import { PgnExplorer } from "@/components/PgnExplorer.tsx";
+import { PgnExplorer } from "@/components/PgnExplorer/PgnExplorer.tsx";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 
 export const RepertoireSidebar = () => {

@@ -1,5 +1,4 @@
 import { Chess, Move } from "chess.js";
-import { Pgn } from "@/external/chessops/defs.ts";
 import { CgColor } from "@/external/chessground/defs.tsx";
 import { Key } from "chessground/types";
 import { PieceSymbol } from "chess.js/src/chess.ts";
@@ -11,8 +10,10 @@ import {
   RepertoirePosition,
 } from "@/repertoire/defs.ts";
 import { Sidebar } from "@/defs.ts";
+import { Game, PgnNodeData } from "chessops/pgn";
 
 export interface NavigationSlice {
+  goToPosition: (movesFromStartingPosition: string[]) => Promise<void>;
   goToFirstMove: () => Promise<void>;
   goToPreviousMove: () => Promise<void>;
   goToNextMove: () => Promise<void>;
@@ -61,7 +62,7 @@ export interface ChessRepertoireStore
     NavigationSlice {
   fen: string;
   chess: Chess;
-  pgn: Pgn;
+  pgn: Game<PgnNodeData>;
   sidebar: Sidebar;
 
   openSidebar: (sidebar: Sidebar) => void;

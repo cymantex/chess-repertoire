@@ -11,6 +11,7 @@ import {
 import { CommentTextarea } from "@/components/CommentTextarea.tsx";
 
 export const RepertoireApp = () => {
+  // TODO: Move this handling away from App (excessive state updates)
   const fen = useRepertoireStore(selectFen);
   const positionComment =
     useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";

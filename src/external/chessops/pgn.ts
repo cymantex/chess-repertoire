@@ -1,21 +1,33 @@
-import { ChildNode, makePgn, PgnNodeData } from "chessops/pgn";
-import { Pgn } from "./defs.ts";
-
-export const toPgn = (pgn: Pgn) => makePgn(pgn)?.split("\n\n")?.[1] ?? "";
+import {
+  ChildNode,
+  Game,
+  PgnNodeData,
+  startingPosition,
+  transform,
+} from "chessops/pgn";
+import { Pgn, RenderPgnNodeData } from "./defs.ts";
+import { makeSanAndPlay, parseSan } from "chessops/san";
+import { makeFen } from "chessops/fen";
 
 export const addMoveToPgn = (
-  currentPgn: Pgn,
+  currentPgn: Game<PgnNodeData>,
   san: string,
   previousMoves: string[],
 ) => {
   const currentMove = findCurrentMove(currentPgn, previousMoves);
 
-  if (currentMove) {
+  if (
+    currentMove &&
+    !currentMove.children.some((move) => move.data.san === san)
+  ) {
     currentMove.children.push(new ChildNode<PgnNodeData>({ san }));
   }
 };
 
-export const findNextMove = (pgn: Pgn, previousMoves: string[]) => {
+export const findNextMove = (
+  pgn: Game<PgnNodeData>,
+  previousMoves: string[],
+) => {
   const currentMove = findCurrentMove(pgn, previousMoves);
 
   if (currentMove) {
@@ -23,11 +35,17 @@ export const findNextMove = (pgn: Pgn, previousMoves: string[]) => {
   }
 };
 
-export const hasNextMove = (pgn: Pgn, previousMoves: string[]) => {
+export const hasNextMove = (
+  pgn: Game<PgnNodeData>,
+  previousMoves: string[],
+) => {
   return !!findNextMove(pgn, previousMoves);
 };
 
-export const getRemainingMainMoves = (pgn: Pgn, previousMoves: string[]) => {
+export const getRemainingMainMoves = (
+  pgn: Game<PgnNodeData>,
+  previousMoves: string[],
+) => {
   const currentMove = findCurrentMove(
     pgn,
     previousMoves,
@@ -40,7 +58,10 @@ export const getRemainingMainMoves = (pgn: Pgn, previousMoves: string[]) => {
   return [];
 };
 
-export const findCurrentMove = (pgn: Pgn, previousMoves: string[]) => {
+export const findCurrentMove = (
+  pgn: Game<PgnNodeData>,
+  previousMoves: string[],
+) => {
   if (previousMoves.length === 0) {
     return pgn.moves;
   }
@@ -64,4 +85,32 @@ export const findCurrentMove = (pgn: Pgn, previousMoves: string[]) => {
   }
 
   return currentMove;
+};
+
+/**
+ * Based on example from https://niklasf.github.io/chessops/modules/pgn.html
+ */
+export const enrichMovesWithFen = (pgn: Pgn): Game<RenderPgnNodeData> => {
+  const pos = startingPosition(pgn.headers).unwrap();
+
+  pgn.moves = transform(pgn.moves, pos, (pos, node) => {
+    const move = parseSan(pos, node.san);
+    const fenBefore = makeFen(pos.toSetup());
+
+    if (!move) {
+      // Illegal move. Returning undefined cuts off the tree here.
+      return;
+    }
+
+    const san = makeSanAndPlay(pos, move); // Mutating pos!
+
+    return {
+      ...node, // Keep comments and annotation glyphs
+      san, // Normalized SAN
+      fen: makeFen(pos.toSetup()),
+      fenBefore,
+    };
+  });
+
+  return pgn as Game<RenderPgnNodeData>;
 };

@@ -18,7 +18,7 @@ test("findCurrentMove", () => {
   expect(currentMove!.data.san).toEqual("Nf6");
 });
 
-test("getRemainingVariation", () => {
+test("getRemainingMainMoves", () => {
   // Arrange
   const pgn = createPgn("1. e4 e5 2. Nf3 Nc6 3. Bb5 a6");
 

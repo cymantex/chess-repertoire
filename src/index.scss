@@ -22,5 +22,16 @@
 [data-theme="black"] {
   --a: 75% 0.05 235;
   --ac: 100% 0 0;
+  --ac--dark: 65% 0 0;
   --a--dark: 45% 0.05 235;
+}
+
+.hover\:bg-accent--dark:hover,
+.bg-accent--dark {
+  background-color: oklch(var(--a--dark));
+}
+
+.hover\:text-accent-content--dark:hover,
+.text-accent-content--dark {
+  color: oklch(var(--ac--dark));
 }
