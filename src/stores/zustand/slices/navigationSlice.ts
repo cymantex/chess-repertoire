@@ -9,6 +9,16 @@ import {
 } from "@/external/chessops/pgn.ts";
 
 export const createNavigationSlice = (set: SetState): NavigationSlice => ({
+  goToPosition: async (movesFromStartingPosition) => {
+    const { chess, pendingPromotionMove } = getNonReactiveState();
+    if (pendingPromotionMove) return Promise.resolve();
+
+    chess.reset();
+    movesFromStartingPosition.forEach((move) => chess.move(move));
+
+    return handlePositionStateChange({ set });
+  },
+
   goToFirstMove: () => {
     const { chess, pendingPromotionMove } = getNonReactiveState();
     if (pendingPromotionMove) return Promise.resolve();

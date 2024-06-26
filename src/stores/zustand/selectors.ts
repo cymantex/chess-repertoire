@@ -54,6 +54,8 @@ export const selectHandleOpeningExplorerMove = (state: ChessRepertoireStore) =>
   state.handleOpeningExplorerMove;
 
 // Navigation
+export const selectGoToPosition = (state: ChessRepertoireStore) =>
+  state.goToPosition;
 export const selectGoToFirstMove = (state: ChessRepertoireStore) =>
   state.goToFirstMove;
 export const selectGoToPreviousMove = (state: ChessRepertoireStore) =>

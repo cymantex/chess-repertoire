@@ -6,6 +6,7 @@ import "./PromotionSelection.scss";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
+  selectOrientation,
   selectPendingPromotionMove,
   selectPromote,
 } from "@/stores/zustand/selectors.ts";
@@ -19,6 +20,7 @@ export const PromotionSelection = () => {
   const chess = useRepertoireStore(selectChess);
   const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
   const promote = useRepertoireStore(selectPromote);
+  const orientation = useRepertoireStore(selectOrientation);
 
   if (!pendingPromotionMove?.to) return null;
 
@@ -30,10 +32,20 @@ export const PromotionSelection = () => {
   const calcPromotionStyle = (): CSSProperties => {
     const columnNumber = COLUMN_NUMBERS[to[0] as Column] ?? 0;
 
+    const whiteToMove = color === CG_WHITE;
+
+    if (orientation === CG_WHITE) {
+      return {
+        top: whiteToMove ? "0" : "50%",
+        left: `${columnNumber * 12.5}%`,
+        flexDirection: whiteToMove ? "column" : "column-reverse",
+      };
+    }
+
     return {
-      top: color === CG_WHITE ? "0" : "50%",
-      left: `${columnNumber * 12.5}%`,
-      flexDirection: color === CG_WHITE ? "column" : "column-reverse",
+      top: whiteToMove ? "50%" : "0",
+      right: `${columnNumber * 12.5}%`,
+      flexDirection: whiteToMove ? "column-reverse" : "column",
     };
   };
 

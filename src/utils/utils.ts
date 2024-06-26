@@ -1,5 +1,7 @@
 import { isNumber } from "lodash";
 import { BREAKPOINT_MD } from "@/defs.ts";
+import { PgnMoveData } from "@/external/chessops/defs.ts";
+import { INITIAL_FEN } from "chessops/fen";
 
 export const isNotEmptyArray = <T>(array?: T[]): array is T[] =>
   Array.isArray(array) && array.length > 0;
@@ -63,3 +65,26 @@ export const getCurrentDate = (): string => {
 
 export const toRepertoireFileName = (repertoireDisplayName: string) =>
   `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}-${getCurrentDate()}`;
+
+export const makeVariation = (
+  moves: PgnMoveData[],
+  { fenBefore, san }: PgnMoveData,
+) => {
+  const previousMoves = [{ san }];
+  let currentFen = fenBefore;
+  let iterationCount = 0;
+
+  while (currentFen && currentFen !== INITIAL_FEN) {
+    iterationCount++;
+    const move = moves.find((move) => move.fen === currentFen);
+
+    if (!move || iterationCount > 5000) {
+      return undefined;
+    }
+
+    previousMoves.unshift(move);
+    currentFen = move.fenBefore;
+  }
+
+  return previousMoves.map((move) => move.san);
+};

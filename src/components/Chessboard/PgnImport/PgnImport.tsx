@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { isNumber } from "lodash";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
 
+// TODO: Move to correct folder
 export const PgnImport = () => {
   const [showModal, setShowModal] = useState(false);
 

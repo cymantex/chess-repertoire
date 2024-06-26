@@ -1,5 +1,8 @@
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
-import { selectFen } from "@/stores/zustand/selectors.ts";
+import {
+  selectFen,
+  selectPendingPromotionMove,
+} from "@/stores/zustand/selectors.ts";
 import { useEffect, useState } from "react";
 import { createStockfish } from "@/stockfish/createStockfish.ts";
 import { toast } from "react-toastify";
@@ -22,6 +25,7 @@ export const useStockfish = ({
   threads,
 }: EngineSettings) => {
   const fen = useRepertoireStore(selectFen);
+  const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
   const [analysisState, setAnalysisState] = useState<AnalysisState>(
     ANALYSIS_STATE.STOPPED,
   );
@@ -83,7 +87,9 @@ export const useStockfish = ({
 
   return {
     analysisState,
-    analysisResults: analysisResultsOrderedByMateThenCp,
+    analysisResults: pendingPromotionMove
+      ? []
+      : analysisResultsOrderedByMateThenCp,
     toggleAnalysis: async () => {
       if (analysisState === ANALYSIS_STATE.ANALYSING) {
         setAnalysisState(ANALYSIS_STATE.STOPPING);

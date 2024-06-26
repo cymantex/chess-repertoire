@@ -9,7 +9,10 @@ import {
 } from "@/stores/localStorageStore.ts";
 
 interface AccordingTableProps {
-  renderTheadTrChildren: (toggleButton: ReactNode) => React.ReactNode;
+  renderTheadTrChildren: (
+    toggleButton: ReactNode,
+    collapsed: boolean,
+  ) => React.ReactNode;
   renderChildren: (collapsed: boolean) => React.ReactNode;
   className?: string;
   section: ToggleSection;
@@ -52,6 +55,7 @@ export const AccordingTable = ({
             >
               {collapsed ? <FaCaretDown /> : <FaCaretUp />}
             </button>,
+            collapsed,
           )}
         </tr>
       </thead>
