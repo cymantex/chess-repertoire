@@ -59,6 +59,7 @@ export interface ChessRepertoireStore
     ChessgroundSlice,
     OpeningExplorerSlice,
     NavigationSlice {
+  fen: string;
   chess: Chess;
   pgn: Pgn;
   sidebar: Sidebar;

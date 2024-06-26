@@ -25,15 +25,11 @@ export const handlePositionStateChange = async ({
   promisesToResolveBeforeUpdatingRepertoirePosition?: Promise<void>[];
 }): Promise<void> => {
   const state = getNonReactiveState();
-  const fen = state.chess.fen();
 
   // Update synchronous state early
   set({
     ...state,
-    pgn: {
-      ...state.pgn,
-      fen,
-    },
+    fen: state.chess.fen(),
     currentRepertoirePosition: DEFAULT_REPERTOIRE_POSITION,
     hoveredOpeningMove: null,
     pendingPromotionMove: null,
