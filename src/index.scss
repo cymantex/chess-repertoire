@@ -3,15 +3,12 @@
 @tailwind utilities;
 
 .text-table-title {
-  color: var(--fallback-bc,oklch(var(--bc)/0.6));
-}
-
-[data-theme=black] {
-  --a: 55% 0.05 235;
-  --ac: 100% 0 0;
+  color: var(--fallback-bc, oklch(var(--bc) / 0.6));
 }
 
 :root {
+  --a--dark: var(--a);
+
   --toastify-color-light: oklch(var(--bc));
   --toastify-color-dark: oklch(var(--b1));
   --toastify-color-info: oklch(var(--in));
@@ -25,3 +22,10 @@
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--toastify-color-error);
 }
+
+[data-theme="black"] {
+  --a: 75% 0.05 235;
+  --ac: 100% 0 0;
+  --a--dark: 45% 0.05 235;
+}
+

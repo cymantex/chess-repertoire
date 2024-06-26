@@ -7,6 +7,7 @@ interface CommentTextareaProps {
   positionComment: string;
 }
 
+// TODO: Remove
 export const CommentTextarea = ({
   fen,
   positionComment,

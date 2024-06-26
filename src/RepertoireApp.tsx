@@ -1,5 +1,4 @@
 import { Chessboard } from "@/components/Chessboard/Chessboard.tsx";
-import { CommentTextarea } from "@/components/CommentTextarea.tsx";
 import { RepertoireSidebar } from "@/components/RepertoireSidebar/RepertoireSidebar.tsx";
 import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.ts";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
@@ -9,6 +8,7 @@ import {
   selectCurrentRepertoirePositionComment,
   selectFen,
 } from "@/stores/zustand/selectors.ts";
+import { CommentRichTextEditor } from "@/external/slate/CommentRichTextEditor.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -24,7 +24,7 @@ export const RepertoireApp = () => {
     >
       <main>
         <Chessboard />
-        <CommentTextarea
+        <CommentRichTextEditor
           key={fen + positionComment}
           fen={fen}
           positionComment={positionComment}

@@ -4,9 +4,11 @@ import {
 } from "@/assets/annotation/defs.ts";
 
 export const NeutralIcon = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  shapeProps,
   backgroundProps,
   ...props
-}: Omit<AnnotationProps, "shapeProps">) => (
+}: AnnotationProps) => (
   <svg
     width="24"
     height="24"

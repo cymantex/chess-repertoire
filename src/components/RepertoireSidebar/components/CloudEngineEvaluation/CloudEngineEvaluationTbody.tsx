@@ -40,7 +40,7 @@ export const CloudEngineEvaluationTbody = () => {
   return (
     <>
       {data.pvs?.map((pv) => (
-        <tr key={pv.moves}>
+        <tr className="font-chess" key={pv.moves}>
           <TdWithOverflowCaret>
             <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
           </TdWithOverflowCaret>

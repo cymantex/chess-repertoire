@@ -101,7 +101,7 @@ export const ChessEngineAnalysis = () => {
         !collapsed ? (
           <>
             {results.map((result) => (
-              <tr key={result.multipv}>
+              <tr key={result.multipv} className="font-chess">
                 <TdWithOverflowCaret>
                   <Eval {...result} />{" "}
                   {uciMovesToSan(chessopsPosition, result.pv.join(" "))}

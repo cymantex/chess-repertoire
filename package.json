@@ -25,6 +25,7 @@
     "react-minimal-pie-chart": "^8.4.0",
     "react-toastify": "^10.0.5",
     "slate": "^0.103.0",
+    "slate-history": "^0.100.0",
     "slate-react": "^0.106.0",
     "stockfish": "^16.0.0",
     "superjson": "^2.2.1",
