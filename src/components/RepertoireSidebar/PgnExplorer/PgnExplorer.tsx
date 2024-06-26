@@ -1,6 +1,6 @@
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
-import { PgnTr } from "@/components/PgnExplorer/PgnTr.tsx";
+import { PgnTr } from "@/components/RepertoireSidebar/PgnExplorer/PgnTr.tsx";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectPgn } from "@/stores/zustand/selectors.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";

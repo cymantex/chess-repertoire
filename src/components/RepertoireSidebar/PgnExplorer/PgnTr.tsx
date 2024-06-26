@@ -1,6 +1,6 @@
 import { PGN_TOKEN_TYPES } from "@/external/chessops/makePgnMoveTokens.ts";
-import { useInteractivePgn } from "@/components/PgnExplorer/useInteractivePgn.ts";
-import { GoToMoveButton } from "@/components/PgnExplorer/GoToMoveButton.tsx";
+import { useInteractivePgn } from "@/components/RepertoireSidebar/PgnExplorer/useInteractivePgn.ts";
+import { GoToMoveButton } from "@/components/RepertoireSidebar/PgnExplorer/GoToMoveButton.tsx";
 
 export const PgnTr = () => {
   const { pgnMoveTokens, disabled, isSelectedMove, getVariation } =

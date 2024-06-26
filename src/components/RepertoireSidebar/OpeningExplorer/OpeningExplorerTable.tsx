@@ -1,4 +1,4 @@
-import { OpeningExplorerTbody } from "@/components/RepertoireSidebar/components/OpeningExplorer/OpeningExplorerTbody.tsx";
+import { OpeningExplorerTbody } from "@/components/RepertoireSidebar/OpeningExplorer/OpeningExplorerTbody.tsx";
 import { OPENING_EXPLORER_API, TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 import { SiLichess } from "react-icons/si";
