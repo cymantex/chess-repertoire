@@ -23,5 +23,9 @@ export const useRepertoireStore = create(
   })),
 );
 
-useRepertoireStore.getState().getCurrentRepertoirePosition();
-useRepertoireStore.getState().listDatabases();
+const initialize = async () => {
+  await useRepertoireStore.getState().listDatabases();
+  await useRepertoireStore.getState().getCurrentRepertoirePosition();
+};
+
+initialize();

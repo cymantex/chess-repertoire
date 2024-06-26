@@ -2,6 +2,7 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectCreateDatabase,
   selectDatabases,
+  selectGetCurrentRepertoirePosition,
   selectListDatabases,
   selectSelectDatabase,
   selectSelectedDatabase,
@@ -21,6 +22,9 @@ export const DatabaseModal = ({ id }: ModalId) => {
   const createDatabase = useRepertoireStore(selectCreateDatabase);
   const listDatabases = useRepertoireStore(selectListDatabases);
   const selectDatabase = useRepertoireStore(selectSelectDatabase);
+  const getCurrentRepertoirePosition = useRepertoireStore(
+    selectGetCurrentRepertoirePosition,
+  );
 
   const handleDeleteDatabase = async (dbDisplayName: string) => {
     modalStore.addLoadingModal("Deleting database...");
@@ -28,6 +32,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
     try {
       await idbDeleteDatabase(toDbName(dbDisplayName));
       await listDatabases();
+      await getCurrentRepertoirePosition();
     } catch (error) {
       console.error(error);
       // @ts-ignore
