@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Noto Chess';
+  src: url('./lichess.chess.woff2') format('woff2'),
+  url('./lichess.chess.woff2') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-chess: "Noto Chess", ui-sans-serif, system-ui, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.font-chess {
+  font-family: var(--font-chess);
+}

@@ -84,7 +84,7 @@ export const OpeningExplorerTbody = () => {
             !userSelectionExists() && setHoveredOpeningMove(null)
           }
         >
-          <td>
+          <td className="font-chess">
             {isRepertoireMove(move.san) ? (
               <span className="text-accent font-bold">{move.san}</span>
             ) : (

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 
@@ -7,15 +7,10 @@ export const TdWithOverflowCaret = ({ children }: { children: ReactNode }) => {
   const [showOverflow, setShowOverflow] = useState(false);
   const tdRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const tdElement = tdRef.current;
     if (!tdElement) return;
-
-    if (tdElement.scrollWidth > tdElement.clientWidth) {
-      setOverflowing(true);
-    } else {
-      setOverflowing(false);
-    }
+    setOverflowing(tdElement.scrollWidth > tdElement.clientWidth);
   }, [children]);
 
   return (
