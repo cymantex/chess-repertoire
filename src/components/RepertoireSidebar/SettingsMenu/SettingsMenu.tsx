@@ -1,4 +1,4 @@
-import { PgnImport } from "@/components/Chessboard/PgnImport/PgnImport.tsx";
+import { PgnImport } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnImport.tsx";
 import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.tsx";
 import {
   localStorageStore,
@@ -12,9 +12,9 @@ import {
   changePieceTheme,
   changeTheme,
   exportRepertoire,
-} from "@/components/RepertoireSidebar/components/SettingsMenu/actions.tsx";
-import { useRepertoireImport } from "@/components/RepertoireSidebar/components/SettingsMenu/hooks/useRepertoireImport.tsx";
-import { useClearRepertoire } from "@/components/RepertoireSidebar/components/SettingsMenu/hooks/useClearRepertoire.tsx";
+} from "@/components/RepertoireSidebar/SettingsMenu/actions.tsx";
+import { useRepertoireImport } from "@/components/RepertoireSidebar/SettingsMenu/hooks/useRepertoireImport.tsx";
+import { useClearRepertoire } from "@/components/RepertoireSidebar/SettingsMenu/hooks/useClearRepertoire.tsx";
 import { toSearchTimeDisplayName } from "@/utils/utils.ts";
 import classNames from "classnames";
 import {

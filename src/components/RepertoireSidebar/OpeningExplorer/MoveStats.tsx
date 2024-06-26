@@ -1,5 +1,5 @@
 import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
-import { isOpeningExplorerMove } from "@/components/RepertoireSidebar/components/OpeningExplorer/utils.ts";
+import { isOpeningExplorerMove } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { PieChart } from "react-minimal-pie-chart";
 
 interface MoveStatsProps {

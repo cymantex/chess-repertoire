@@ -3,7 +3,7 @@ import { importPgnFile } from "@/pgn/import/importPgnFile.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
-import { PgnImportForm } from "@/components/Chessboard/PgnImport/components/PgnImportForm.tsx";
+import { PgnImportForm } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnImportForm.tsx";
 import { toast } from "react-toastify";
 import { isNumber } from "lodash";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";

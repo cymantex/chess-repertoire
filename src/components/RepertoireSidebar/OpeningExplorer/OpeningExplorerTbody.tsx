@@ -11,10 +11,10 @@ import {
   calcTotalGames,
   isOpeningExplorerMove,
   toOrderedRepertoireOpeningExplorerMoves,
-} from "@/components/RepertoireSidebar/components/OpeningExplorer/utils.ts";
-import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/components/OpeningExplorer/components/MoveAnnotationMenu.tsx";
+} from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
+import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplorer/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
-import { MoveStats } from "@/components/RepertoireSidebar/components/OpeningExplorer/MoveStats.tsx";
+import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveStats.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";

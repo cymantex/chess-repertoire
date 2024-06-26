@@ -1,6 +1,6 @@
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
-import { CloudEngineEvaluationTbody } from "@/components/RepertoireSidebar/components/CloudEngineEvaluation/CloudEngineEvaluationTbody.tsx";
+import { CloudEngineEvaluationTbody } from "@/components/RepertoireSidebar/CloudEngineEvaluation/CloudEngineEvaluationTbody.tsx";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 
