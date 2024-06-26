@@ -9,6 +9,7 @@ import {
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
+  selectFen,
   selectGoToFirstMove,
   selectGoToLastMove,
   selectGoToNextMove,
@@ -30,6 +31,7 @@ import { hasNextMove } from "@/external/chessops/pgn.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 
 export const NavigationMenu = () => {
+  const fen = useRepertoireStore(selectFen);
   const rotate = useRepertoireStore(selectRotate);
   const chess = useRepertoireStore(selectChess);
   const pgn = useRepertoireStore(selectPgn);
@@ -43,9 +45,9 @@ export const NavigationMenu = () => {
   const { annotationSetting } = useRepertoireSettings();
 
   const previousMoveDisabled =
-    !!pendingPromotionMove || chess.history().length <= 0;
+    !fen || !!pendingPromotionMove || chess.history().length <= 0;
   const nextMoveDisabled =
-    !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
+    !fen || !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
 
   return (
     <div className="flex justify-evenly text-2xl">
