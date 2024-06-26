@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-table-title {
-  color: var(--fallback-bc, oklch(var(--bc) / 0.6));
-}
-
 :root {
   --a--dark: var(--a);
 
@@ -28,4 +24,3 @@
   --ac: 100% 0 0;
   --a--dark: 45% 0.05 235;
 }
-
