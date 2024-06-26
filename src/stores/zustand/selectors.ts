@@ -1,7 +1,7 @@
 import { ChessRepertoireStore } from "@/stores/zustand/defs.ts";
 
 export const selectChess = (state: ChessRepertoireStore) => state.chess;
-export const selectFen = (state: ChessRepertoireStore) => state.pgn.fen;
+export const selectFen = (state: ChessRepertoireStore) => state.fen;
 export const selectPgn = (state: ChessRepertoireStore) => state.pgn;
 export const selectSidebar = (state: ChessRepertoireStore) => state.sidebar;
 export const selectOpenSidebar = (state: ChessRepertoireStore) =>

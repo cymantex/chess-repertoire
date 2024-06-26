@@ -1,11 +1,5 @@
-import { ChildNode, defaultGame, makePgn, PgnNodeData } from "chessops/pgn";
+import { ChildNode, makePgn, PgnNodeData } from "chessops/pgn";
 import { Pgn } from "./defs.ts";
-import { INITIAL_FEN } from "chessops/fen";
-
-export const defaultPgn = (): Pgn => ({
-  ...defaultGame(),
-  fen: INITIAL_FEN,
-});
 
 export const toPgn = (pgn: Pgn) => makePgn(pgn)?.split("\n\n")?.[1] ?? "";
 
