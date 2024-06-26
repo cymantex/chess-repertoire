@@ -18,7 +18,7 @@ export const PgnExplorer = () => {
       section={TOGGLE_SECTIONS.PGN_EXPLORER}
       renderChildren={(collapsed) =>
         !collapsed ? (
-          <tr>
+          <tr className="font-chess">
             <td>{toPgn(pgn)}</td>
           </tr>
         ) : null
