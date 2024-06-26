@@ -8,7 +8,7 @@ import {
   selectCurrentRepertoirePositionComment,
   selectFen,
 } from "@/stores/zustand/selectors.ts";
-import { CommentRichTextEditor } from "@/external/slate/CommentRichTextEditor.tsx";
+import { CommentTextarea } from "@/components/CommentTextarea.tsx";
 
 export const RepertoireApp = () => {
   const fen = useRepertoireStore(selectFen);
@@ -24,7 +24,7 @@ export const RepertoireApp = () => {
     >
       <main>
         <Chessboard />
-        <CommentRichTextEditor
+        <CommentTextarea
           key={fen + positionComment}
           fen={fen}
           positionComment={positionComment}
