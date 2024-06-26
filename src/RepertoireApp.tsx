@@ -2,20 +2,9 @@ import { Chessboard } from "@/components/Chessboard/Chessboard.tsx";
 import { RepertoireSidebar } from "@/components/RepertoireSidebar/RepertoireSidebar.tsx";
 import { useResizableAppLayoutStyle } from "@/hooks/useResizableAppLayoutStyle.ts";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts.ts";
-
-import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
-import {
-  selectCurrentRepertoirePositionComment,
-  selectFen,
-} from "@/stores/zustand/selectors.ts";
-import { CommentTextarea } from "@/components/CommentTextarea.tsx";
+import { CommentContainer } from "@/components/CommentContainer.tsx";
 
 export const RepertoireApp = () => {
-  // TODO: Move this handling away from App (excessive state updates)
-  const fen = useRepertoireStore(selectFen);
-  const positionComment =
-    useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";
-
   useKeyboardShortcuts();
 
   return (
@@ -25,11 +14,7 @@ export const RepertoireApp = () => {
     >
       <main>
         <Chessboard />
-        <CommentTextarea
-          key={fen + positionComment}
-          fen={fen}
-          positionComment={positionComment}
-        />
+        <CommentContainer />
       </main>
       <RepertoireSidebar />
     </div>
