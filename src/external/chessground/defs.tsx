@@ -38,6 +38,8 @@ export const DEFAULT_BRUSHES: DrawBrushes = {
   white: { key: "white", color: "white", opacity: 1, lineWidth: 10 },
 };
 
+export const PIECE_THEME_ATTRIBUTE = "data-piece-theme";
+
 export const PIECE_THEMES = {
   ALPHA: "alpha",
   CARDINAL: "cardinal",
@@ -62,5 +64,7 @@ export const BOARD_THEMES = {
   OLIVE: "olive",
   WOOD2: "wood2",
 } as const;
+
+export const BOARD_THEME_ATTRIBUTE = "data-board-theme";
 
 export type BoardTheme = (typeof BOARD_THEMES)[keyof typeof BOARD_THEMES];
