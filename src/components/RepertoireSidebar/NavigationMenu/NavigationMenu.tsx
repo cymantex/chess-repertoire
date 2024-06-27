@@ -72,7 +72,7 @@ export const NavigationMenu = () => {
         <FaFastForward />
       </IconButton>
       <IconButton onClick={rotate}>
-        <FaRotate title="Flip board" />
+        <FaRotate title="Flip board (hotkey: f)" />
       </IconButton>
       <IconButton
         className={classNames("cursor-pointer", {

@@ -21,7 +21,7 @@ export const AnnotationSettings = ({
   return (
     <div>
       <span
-        title="Annotation settings"
+        title="Annotation settings (hotkeys: 1-9)"
         onClick={() => {
           if (disabled) return;
           modalStore.setModal(

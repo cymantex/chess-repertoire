@@ -5,6 +5,7 @@ import {
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
+  selectRotate,
 } from "@/stores/zustand/selectors.ts";
 import { localStorageStore } from "@/stores/localStorageStore.ts";
 import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
@@ -14,6 +15,7 @@ export const useKeyboardShortcuts = () => {
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
+  const rotate = useRepertoireStore(selectRotate);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -65,6 +67,8 @@ export const useKeyboardShortcuts = () => {
         localStorageStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.DONT_SAVE,
         });
+      } else if (event.key === "f") {
+        rotate();
       }
     };
 
