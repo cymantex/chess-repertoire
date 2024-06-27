@@ -37,6 +37,8 @@ $navigationHeight: calc(25px + 1rem);
       height: 50vh;
 
       &:has(.table--hidden) {
+        border-top: 0;
+        border-bottom: 1px solid oklch(var(--p));
         align-self: start;
         height: auto;
       }
