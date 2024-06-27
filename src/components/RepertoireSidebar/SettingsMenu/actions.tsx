@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
 import { localStorageStore } from "@/stores/localStorageStore.ts";
 import { DaisyUiTheme } from "@/repertoire/defs.ts";
-import { BoardTheme, PieceTheme } from "@/external/chessground/defs.tsx";
+import {
+  BOARD_THEME_ATTRIBUTE,
+  BoardTheme,
+  PIECE_THEME_ATTRIBUTE,
+  PieceTheme,
+} from "@/external/chessground/defs.tsx";
 import { MODAL_IDS } from "@/defs.ts";
 
 export async function exportRepertoire() {
@@ -41,7 +46,7 @@ export const changeTheme = (event: ChangeEvent<HTMLSelectElement>) => {
 };
 
 export const changePieceTheme = (pieceTheme: PieceTheme) => {
-  document.documentElement.setAttribute("piece-theme", pieceTheme);
+  document.documentElement.setAttribute(PIECE_THEME_ATTRIBUTE, pieceTheme);
 
   localStorageStore.upsertSettings({
     pieceTheme,
@@ -53,7 +58,7 @@ export const changePieceTheme = (pieceTheme: PieceTheme) => {
 };
 
 export const changeBoardTheme = (boardTheme: BoardTheme) => {
-  document.documentElement.setAttribute("board-theme", boardTheme);
+  document.documentElement.setAttribute(BOARD_THEME_ATTRIBUTE, boardTheme);
 
   localStorageStore.upsertSettings({
     boardTheme,
