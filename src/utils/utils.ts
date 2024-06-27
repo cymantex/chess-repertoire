@@ -124,3 +124,9 @@ export const parseVariation = (
 
   return moves;
 };
+
+/**
+ * Removes all decorations from a SAN string. For example Nf3+!? becomes Nf3.
+ */
+export const removeDecorations = (san: string) =>
+  san.replace(/=/, "").replace(/[+#]?[?!]*$/, "");
