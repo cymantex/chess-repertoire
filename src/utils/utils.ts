@@ -25,7 +25,6 @@ export const toAnalysisResultEvaluation = (result?: {
   }
 
   if (!isNumber(result.cp)) {
-    console.log(result);
     return "--.--";
   }
 
