@@ -7,6 +7,7 @@ import {
   RepertoireMove,
   RepertoireOpeningExplorerMove,
 } from "@/repertoire/defs.ts";
+import { removeDecorations } from "@/utils/utils.ts";
 
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;
@@ -61,7 +62,9 @@ export const toOrderedRepertoireOpeningExplorerMoves = (
 ) => {
   const repertoireOpeningExplorerMoves = toRepertoireOpeningExplorerMoves(
     chess,
-    uniqBy([...moves, ...repertoireMoves], "san"),
+    uniqBy([...moves, ...repertoireMoves], (move) =>
+      removeDecorations(move.san),
+    ),
   );
   return orderByAnnotationThenInRepertoireThenTotalGames(
     repertoireOpeningExplorerMoves,
