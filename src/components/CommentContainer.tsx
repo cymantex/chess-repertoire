@@ -10,7 +10,6 @@ import { CommentTextarea } from "@/components/CommentTextarea.tsx";
  * App as the fen is updated.
  */
 export const CommentContainer = () => {
-  // TODO: Move this handling away from App (excessive state updates)
   const fen = useRepertoireStore(selectFen);
   const positionComment =
     useRepertoireStore(selectCurrentRepertoirePositionComment) ?? "";

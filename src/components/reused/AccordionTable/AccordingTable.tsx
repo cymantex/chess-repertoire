@@ -30,7 +30,7 @@ export const AccordingTable = ({
   return (
     <table
       className={classNames(
-        "accordion-table table table-xs",
+        "accordion-table table",
         {
           "table--hidden": collapsed,
         },

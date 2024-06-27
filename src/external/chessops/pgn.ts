@@ -9,6 +9,22 @@ import { Pgn, RenderPgnNodeData } from "./defs.ts";
 import { makeSanAndPlay, parseSan } from "chessops/san";
 import { makeFen } from "chessops/fen";
 
+export const addVariationToPgn = (
+  currentPgn: Game<PgnNodeData>,
+  movesFromStartingPosition: string[],
+) => {
+  movesFromStartingPosition.forEach((san, i) => {
+    const previousMoves = movesFromStartingPosition.slice(0, i);
+    const pgnMove = findCurrentMove(currentPgn, previousMoves);
+
+    if (!pgnMove) {
+      currentPgn.moves.children.push(new ChildNode<PgnNodeData>({ san }));
+    } else if (!pgnMove.children.some((move) => move.data.san === san)) {
+      pgnMove.children.push(new ChildNode<PgnNodeData>({ san }));
+    } // Else the move already exists in the PGN tree
+  });
+};
+
 export const addMoveToPgn = (
   currentPgn: Game<PgnNodeData>,
   san: string,

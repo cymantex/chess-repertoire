@@ -4,21 +4,25 @@ import { toast } from "react-toastify";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGoToPosition } from "@/stores/zustand/selectors.ts";
 
-interface GoToMoveButtonProps {
+interface GoToMoveButtonProps<
+  TMove extends Pick<PgnMoveData, "san" | "moveNumber">,
+> {
   disabled: boolean;
-  selected: boolean;
-  italic: boolean;
-  move: PgnMoveData;
-  getVariation: (move: PgnMoveData) => string[] | undefined;
+  selected?: boolean;
+  italic?: boolean;
+  move: TMove;
+  getVariation: (move: TMove) => string[] | undefined;
 }
 
-export const GoToMoveButton = ({
+export const GoToMoveButton = <
+  TMove extends Pick<PgnMoveData, "san" | "moveNumber">,
+>({
   disabled,
-  selected,
-  italic,
+  selected = false,
+  italic = false,
   move,
   getVariation,
-}: GoToMoveButtonProps) => {
+}: GoToMoveButtonProps<TMove>) => {
   const goToPosition = useRepertoireStore(selectGoToPosition);
 
   const handleGoToPosition = () => {
@@ -32,12 +36,13 @@ export const GoToMoveButton = ({
     return goToPosition(variation);
   };
 
+  // TODO: Variation indentation level
   return (
     <button
       disabled={disabled}
       onClick={handleGoToPosition}
       className={classNames(
-        "flex p-1 gap-2 pt-0.5 pb-0.5 font-bold rounded transition-all",
+        "flex p-0.5 gap-1 pt-0.5 pb-0.5 rounded transition-all",
         {
           "cursor-not-allowed": disabled,
           "cursor-pointer": !disabled,
