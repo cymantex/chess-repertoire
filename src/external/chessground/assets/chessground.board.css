@@ -58,7 +58,7 @@ cg-board square.current-premove {
 }
 
 .cg-wrap coords {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
@@ -81,4 +81,20 @@ cg-board square.current-premove {
 .cg-wrap.orientation-black coords.files:nth-child(even) coord:nth-child(even),
 .cg-wrap.orientation-black coords:nth-child(odd) coord:nth-child(odd) {
   color: var(--cg-coords-dark-square-color);
+}
+
+@media (max-width: 768px) {
+  .cg-wrap coords {
+    font-size: 0.5rem;
+  }
+
+  .cg-wrap coords.files {
+    bottom: 1px;
+    left: 2px;
+  }
+
+  .cg-wrap coords.ranks {
+    top: 1px;
+    right: 2px;
+  }
 }
