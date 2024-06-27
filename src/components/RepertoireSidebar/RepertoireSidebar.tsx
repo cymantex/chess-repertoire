@@ -7,7 +7,7 @@ import { selectSidebar } from "@/stores/zustand/selectors.ts";
 import { SIDEBARS } from "@/defs.ts";
 import { SettingsMenu } from "@/components/RepertoireSidebar/SettingsMenu/SettingsMenu.tsx";
 import classNames from "classnames";
-import { ChessEngineAnalysis } from "@/components/RepertoireSidebar/ChessEngineAnalysis.tsx";
+import { ChessEngineAnalysis } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysis.tsx";
 import { PgnExplorer } from "@/components/RepertoireSidebar/PgnExplorer/PgnExplorer.tsx";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 

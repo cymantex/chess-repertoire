@@ -9,6 +9,7 @@ export const CloudEngineEvaluationTable = () => {
 
   return (
     <AccordingTable
+      className="table-xs"
       section={TOGGLE_SECTIONS.CLOUD_ENGINE_EVALUATION}
       renderTheadTrChildren={(toggleButton) => (
         <td>

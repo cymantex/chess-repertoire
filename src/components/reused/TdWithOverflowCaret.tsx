@@ -2,7 +2,13 @@ import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 
-export const TdWithOverflowCaret = ({ children }: { children: ReactNode }) => {
+export const TdWithOverflowCaret = ({
+  children,
+  flex,
+}: {
+  flex?: boolean;
+  children: ReactNode;
+}) => {
   const [overflowing, setOverflowing] = useState(false);
   const [showOverflow, setShowOverflow] = useState(false);
   const tdRef = useRef<HTMLDivElement>(null);
@@ -18,17 +24,19 @@ export const TdWithOverflowCaret = ({ children }: { children: ReactNode }) => {
       <div
         ref={tdRef}
         className={classNames("overflow-clip", {
+          "flex items-center": flex,
+          "flex-wrap": flex && showOverflow,
           "whitespace-nowrap": !showOverflow,
         })}
         style={{
-          width: "calc(100% - 10px)",
+          width: `calc(100% - 10px)`,
         }}
       >
         {children}
       </div>
       {(overflowing || showOverflow) && (
         <button
-          className="absolute top-1 right-1"
+          className="absolute top-3 right-1"
           onClick={() => setShowOverflow((prev) => !prev)}
         >
           {showOverflow ? <FaCaretUp /> : <FaCaretDown />}

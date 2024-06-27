@@ -7,6 +7,8 @@ import { selectFen } from "@/stores/zustand/selectors.ts";
 import { CloudEvaluationResponse } from "@/defs.ts";
 import { Eval } from "@/components/reused/Eval.tsx";
 import { TdWithOverflowCaret } from "@/components/reused/TdWithOverflowCaret.tsx";
+import { NextMoves } from "@/components/reused/NextMoves.tsx";
+import { usePreviousMoves } from "@/hooks/usePreviousMoves.ts";
 
 export const CloudEngineEvaluationTbody = () => {
   const fen = useRepertoireStore(selectFen);
@@ -17,6 +19,7 @@ export const CloudEngineEvaluationTbody = () => {
         res.json(),
       ),
   });
+  const previousMoves = usePreviousMoves();
 
   if (isPending)
     return (
@@ -42,8 +45,15 @@ export const CloudEngineEvaluationTbody = () => {
     <>
       {data.pvs?.map((pv) => (
         <tr className="font-chess" key={pv.moves}>
-          <TdWithOverflowCaret>
-            <Eval {...pv} /> {uciMovesToSan(chessopsPosition, pv.moves)}
+          <TdWithOverflowCaret flex>
+            <Eval {...pv} />
+            <NextMoves
+              variationOfNextMoves={uciMovesToSan(
+                chessopsPosition,
+                pv.moves,
+              ).split(" ")}
+              previousMoves={previousMoves}
+            />
           </TdWithOverflowCaret>
         </tr>
       ))}

@@ -4,17 +4,19 @@ import {
   handlePositionStateChange,
 } from "@/stores/zustand/utils.ts";
 import {
+  addVariationToPgn,
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
 
 export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   goToPosition: async (movesFromStartingPosition) => {
-    const { chess, pendingPromotionMove } = getNonReactiveState();
+    const { pgn, chess, pendingPromotionMove } = getNonReactiveState();
     if (pendingPromotionMove) return Promise.resolve();
 
     chess.reset();
     movesFromStartingPosition.forEach((move) => chess.move(move));
+    addVariationToPgn(pgn, movesFromStartingPosition);
 
     return handlePositionStateChange({ set });
   },

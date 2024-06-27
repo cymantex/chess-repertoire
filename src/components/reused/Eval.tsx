@@ -6,5 +6,7 @@ interface EvalProps {
 }
 
 export const Eval = (evaluation: EvalProps) => (
-  <span className="font-bold">{toAnalysisResultEvaluation(evaluation)}</span>
+  <span className="font-bold mr-1">
+    {toAnalysisResultEvaluation(evaluation)}
+  </span>
 );
