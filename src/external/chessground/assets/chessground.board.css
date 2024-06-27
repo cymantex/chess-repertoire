@@ -90,11 +90,11 @@ cg-board square.current-premove {
 
   .cg-wrap coords.files {
     bottom: 1px;
-    left: 2px;
+    left: 1px;
   }
 
   .cg-wrap coords.ranks {
     top: 1px;
-    right: 2px;
+    right: 1px;
   }
 }
