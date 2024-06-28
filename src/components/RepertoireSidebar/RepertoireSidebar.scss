@@ -21,8 +21,8 @@ $navigationHeight: calc(25px + 1rem);
   .repertoire-sidebar {
     grid-template-rows: auto auto auto 1fr $navigationHeight;
     margin-left: $p-2;
-    height: 90vh;
-    max-height: 90vh;
+    height: calc(100vh - var(--app-padding) * 2);
+    max-height: calc(100vh - var(--app-padding) * 2);
     padding: 0;
     gap: 0;
 

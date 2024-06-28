@@ -7,8 +7,13 @@ import {
 import { Editor } from "@/external/slate/Editor.tsx";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { setRepertoirePositionComments } from "@/repertoire/repertoireRepository.ts";
-import { APP_PADDING_REM } from "@/defs.ts";
 import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
+import { APP_PADDING_REM } from "@/defs.ts";
+
+const MARGIN_TOP_REM = 0.5;
+const EDITOR_TOOLBAR_HEIGHT_REM = 2;
+const HEIGHT_TO_SUBTRACT_REM =
+  MARGIN_TOP_REM + EDITOR_TOOLBAR_HEIGHT_REM + APP_PADDING_REM * 2;
 
 /**
  * Exists mainly as an optimization to prevent unnecessary re-renders of the
@@ -33,7 +38,8 @@ export const CommentContainer = () => {
         onValueChange={(value) => setRepertoirePositionComments(fen, value)}
         label="Comment"
         style={{
-          maxHeight: `calc(100vh - var(--cg-height) - ${APP_PADDING_REM}rem - 4rem)`,
+          overflowY: `auto`,
+          height: `calc(100vh - var(--cg-height) - ${HEIGHT_TO_SUBTRACT_REM}rem)`,
         }}
       />
     </HideOnMobile>
