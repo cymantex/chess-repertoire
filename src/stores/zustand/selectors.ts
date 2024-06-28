@@ -25,9 +25,11 @@ export const selectSetShapes = (state: ChessRepertoireStore) => state.setShapes;
 export const selectGetCurrentRepertoirePosition = (
   state: ChessRepertoireStore,
 ) => state.getCurrentRepertoirePosition;
-export const selectCurrentRepertoirePositionComment = (
+export const selectFetchingRepertoirePosition = (state: ChessRepertoireStore) =>
+  state.fetchingRepertoirePosition;
+export const selectCurrentRepertoirePositionComments = (
   state: ChessRepertoireStore,
-) => state.currentRepertoirePosition?.comment;
+) => state.currentRepertoirePosition?.comments;
 export const selectCurrentRepertoirePositionMoves = (
   state: ChessRepertoireStore,
 ) => state.currentRepertoirePosition?.moves;

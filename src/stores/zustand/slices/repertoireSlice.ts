@@ -22,6 +22,7 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
   currentRepertoirePosition: DEFAULT_REPERTOIRE_POSITION,
   selectedDatabase: undefined,
   databases: [],
+  fetchingRepertoirePosition: false,
 
   selectDatabase: async (dbDisplayName) => {
     await idbSelectDb(toDbName(dbDisplayName));

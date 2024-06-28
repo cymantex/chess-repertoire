@@ -24,6 +24,9 @@
     "react-icons": "^5.2.1",
     "react-minimal-pie-chart": "^8.4.0",
     "react-toastify": "^10.0.5",
+    "slate": "^0.103.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.106.0",
     "stockfish": "^16.0.0",
     "superjson": "^2.2.1",
     "zustand": "^4.5.2"
@@ -33,7 +36,6 @@
     "@types/node": "^20.13.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@types/streamsaver": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",

@@ -1,7 +1,7 @@
 import { parsePgn } from "chessops/pgn";
 import { chunk } from "lodash";
 import {
-  setRepertoirePositionComment,
+  setRepertoirePositionComments,
   upsertRepertoireMove,
 } from "@/repertoire/repertoireRepository.ts";
 import { importGame } from "@/pgn/import/importGame.ts";
@@ -10,6 +10,8 @@ import {
   ImportPgnOptions,
   ImportPgnProgress,
 } from "@/pgn/import/defs.ts";
+
+import { toRichTextEditorFormat } from "@/external/slate/defs.ts";
 
 export async function importPgn(
   pgn: string,
@@ -20,7 +22,8 @@ export async function importPgn(
   const gamesChunks = chunk(games, 150);
   const importGameOptions: ImportPgnGameOptions = {
     ...options,
-    setComment: setRepertoirePositionComment,
+    setComment: (fen: string, comment: string) =>
+      setRepertoirePositionComments(fen, toRichTextEditorFormat(comment)),
     upsertMove: upsertRepertoireMove,
   };
 

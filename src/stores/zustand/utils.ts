@@ -46,8 +46,12 @@ export const updateCurrentRepertoirePosition = async (
   set: SetState,
   fen: string,
 ) => {
+  set({ fetchingRepertoirePosition: true });
   const data = await getRepertoirePosition(fen);
-  set({ currentRepertoirePosition: data });
+  set({
+    fetchingRepertoirePosition: false,
+    currentRepertoirePosition: data,
+  });
 };
 
 export const handleMove = async (

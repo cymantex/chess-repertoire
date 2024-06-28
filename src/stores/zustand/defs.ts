@@ -44,6 +44,7 @@ export interface RepertoireSlice {
   selectDatabase: (dbDisplayName: string) => Promise<void>;
   createDatabase: (dbDisplayName: string) => Promise<void>;
   listDatabases: () => Promise<void>;
+  fetchingRepertoirePosition: boolean;
   currentRepertoirePosition: RepertoirePosition;
   getCurrentRepertoirePosition: () => Promise<void>;
   upsertMove: (

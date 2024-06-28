@@ -1,5 +1,5 @@
 import { OpeningExplorerTbody } from "@/components/RepertoireSidebar/OpeningExplorer/OpeningExplorerTbody.tsx";
-import { OPENING_EXPLORER_API, TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
+import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 import { SiLichess } from "react-icons/si";
 import { IconButton } from "@/components/reused/IconButton.tsx";
@@ -16,7 +16,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
-import { MODAL_IDS } from "@/defs.ts";
+import { MODAL_IDS, OPENING_EXPLORER_API } from "@/defs.ts";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();

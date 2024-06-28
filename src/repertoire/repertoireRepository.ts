@@ -8,6 +8,7 @@ import {
   RepertoireMoveAnnotation,
   RepertoirePosition,
 } from "@/repertoire/defs.ts";
+import { Descendant } from "slate";
 
 export const getRepertoirePosition = async (fen: string) =>
   idbGet<RepertoirePosition>(fen);
@@ -102,15 +103,15 @@ export const setRepertoirePositionShapes = async (
     }),
   );
 
-export const setRepertoirePositionComment = async (
+export const setRepertoirePositionComments = async (
   fen: string,
-  comment: string,
+  comments: Descendant[],
 ) =>
   idbUpsert<RepertoirePosition>(
     fen,
-    { ...DEFAULT_REPERTOIRE_POSITION, comment },
+    { ...DEFAULT_REPERTOIRE_POSITION, comments },
     (data) => ({
       ...data,
-      comment,
+      comments,
     }),
   );

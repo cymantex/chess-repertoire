@@ -1,13 +1,18 @@
 // Repertoire
 import { DrawShape } from "chessground/draw";
 import { Move } from "chess.js";
-import { DAISY_UI_THEMES, OpeningExplorerMove } from "@/defs.ts";
+import {
+  DAISY_UI_THEMES,
+  OPENING_EXPLORER_API,
+  OpeningExplorerMove,
+} from "@/defs.ts";
 import {
   BOARD_THEMES,
   BoardTheme,
   PIECE_THEMES,
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
+import { Descendant } from "slate";
 
 export const REPERTOIRE_ANNOTATION = {
   BRILLIANT: 100,
@@ -17,15 +22,6 @@ export const REPERTOIRE_ANNOTATION = {
   DUBIOUS: 500,
   BAD: 600,
   BLUNDER: 700,
-} as const;
-
-export const REPERTOIRE_ANNOTATION_SYMBOLS = {
-  "!!": [REPERTOIRE_ANNOTATION.BRILLIANT],
-  "!": [REPERTOIRE_ANNOTATION.GOOD],
-  "!?": [REPERTOIRE_ANNOTATION.INTERESTING],
-  "?!": [REPERTOIRE_ANNOTATION.DUBIOUS],
-  "?": [REPERTOIRE_ANNOTATION.BAD],
-  "??": [REPERTOIRE_ANNOTATION.BLUNDER],
 } as const;
 
 export type RepertoireMoveAnnotation =
@@ -42,7 +38,7 @@ export interface RepertoireMove {
 
 export interface RepertoirePosition {
   moves: RepertoireMove[];
-  comment?: string;
+  comments?: Descendant[];
   shapes?: DrawShape[];
 }
 
@@ -80,10 +76,6 @@ export type ToggleSection =
 
 export type ToggleState = (typeof TOGGLE_STATE)[keyof typeof TOGGLE_STATE];
 
-export const OPENING_EXPLORER_API = {
-  MASTERS: "masters",
-  LICHESS: "lichess",
-};
 export type OpeningExplorerApi =
   (typeof OPENING_EXPLORER_API)[keyof typeof OPENING_EXPLORER_API];
 
