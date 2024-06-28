@@ -7,13 +7,12 @@ import {
   EditorNode,
   Format,
   FORMATS,
-  isListFormat,
-  isTextAlignFormat,
   TEXT_ALIGN_FORMATS,
   TextAlignFormat,
 } from "./defs.ts";
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from "slate";
 import { ReactNode } from "react";
+import { isListFormat, isTextAlignFormat } from "@/external/slate/utils.ts";
 
 interface BlockButtonProps extends Partial<EditorButtonProps> {
   format: Format;
@@ -42,7 +41,7 @@ export const BlockButton = ({ format, icon, ...props }: BlockButtonProps) => {
   );
 };
 
-const toggleBlock = (editor: BaseEditor, format: Format) => {
+export const toggleBlock = (editor: BaseEditor, format: Format) => {
   const isActive = isBlockActive(
     editor,
     format,

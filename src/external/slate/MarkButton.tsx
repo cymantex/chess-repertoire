@@ -25,7 +25,7 @@ export const MarkButton = ({ format, icon, ...props }: MarkButtonProps) => {
   );
 };
 
-const toggleMark = (editor: BaseEditor, format: Format) => {
+export const toggleMark = (editor: BaseEditor, format: Format) => {
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {

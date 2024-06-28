@@ -11,7 +11,7 @@ import {
   ImportPgnProgress,
 } from "@/pgn/import/defs.ts";
 
-import { toRichTextEditorFormat } from "@/external/slate/defs.ts";
+import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
 
 export async function importPgn(
   pgn: string,

@@ -19,6 +19,22 @@ export const FORMATS = {
   LIST_ITEM: "list-item",
 } as const;
 
+export const HOTKEYS = {
+  [FORMATS.CHESS]: "mod+<",
+  [FORMATS.BOLD]: "mod+b",
+  [FORMATS.CODE]: "mod+0",
+  [FORMATS.ITALIC]: "mod+i",
+  [FORMATS.UNDERLINE]: "mod+u",
+  [FORMATS.HEADING_ONE]: "mod+alt+1",
+  [FORMATS.HEADING_TWO]: "mod+alt+2",
+  [FORMATS.NUMBERED_LIST]: "mod+alt+n",
+  [FORMATS.BULLETED_LIST]: "mod+alt+b",
+  [FORMATS.LEFT]: "mod+alt+l",
+  [FORMATS.CENTER]: "mod+alt+c",
+  [FORMATS.RIGHT]: "mod+alt+r",
+  [FORMATS.JUSTIFY]: "mod+alt+j",
+} as const;
+
 export const LIST_FORMATS = [
   FORMATS.NUMBERED_LIST,
   FORMATS.BULLETED_LIST,
@@ -31,6 +47,14 @@ export const TEXT_ALIGN_FORMATS = [
   FORMATS.JUSTIFY,
 ] as const;
 
+export const BLOCK_FORMATS = [
+  ...LIST_FORMATS,
+  ...TEXT_ALIGN_FORMATS,
+  FORMATS.HEADING_ONE,
+  FORMATS.HEADING_TWO,
+  FORMATS.PARAGRAPH,
+] as const;
+
 export const BLOCK_TYPES = {
   TYPE: "type",
   ALIGN: "align",
@@ -38,6 +62,7 @@ export const BLOCK_TYPES = {
 
 export type BlockType = (typeof BLOCK_TYPES)[keyof typeof BLOCK_TYPES];
 export type Format = (typeof FORMATS)[keyof typeof FORMATS];
+export type BlockFormat = (typeof BLOCK_FORMATS)[number];
 export type ListFormat = (typeof LIST_FORMATS)[number];
 export type TextAlignFormat = (typeof TEXT_ALIGN_FORMATS)[number];
 
@@ -50,15 +75,3 @@ export type EditorNode = Partial<ExtraEditorNodeData> & Node;
 export type EditorRenderElement = {
   element: Partial<ExtraEditorNodeData>;
 } & Partial<Element>;
-
-export const isListFormat = (format?: Format): format is ListFormat =>
-  LIST_FORMATS.includes(format as ListFormat);
-
-export const isTextAlignFormat = (format: Format): format is TextAlignFormat =>
-  TEXT_ALIGN_FORMATS.includes(format as TextAlignFormat);
-
-export const toRichTextEditorFormat = (text: string) => [
-  {
-    children: [{ text }],
-  },
-];
