@@ -21,9 +21,8 @@ export async function* generateChessLines({
   if (!position) return;
 
   for (const move of position.moves!) {
-    const chess = await createChess(previousMoves, getRepertoirePosition);
+    const chess = await createChess(previousMoves);
     chess.move(move.san);
-    await setCommentIfPresent(chess, getRepertoirePosition);
 
     const nextPosition = await getRepertoirePosition(chess.fen());
 
@@ -39,29 +38,12 @@ export async function* generateChessLines({
   }
 }
 
-const createChess = async (
-  previousMoves: string[],
-  getRepertoirePosition: GetRepertoirePosition,
-) => {
+const createChess = async (previousMoves: string[]) => {
   const chess = new Chess();
-  await setCommentIfPresent(chess, getRepertoirePosition);
 
   for (const san of previousMoves) {
     chess.move(san);
-    await setCommentIfPresent(chess, getRepertoirePosition);
   }
 
   return chess;
-};
-
-const setCommentIfPresent = async (
-  chess: Chess,
-  getRepertoirePosition: GetRepertoirePosition,
-) => {
-  const repertoirePosition = await getRepertoirePosition(chess.fen());
-  const comment = repertoirePosition?.comment;
-
-  if (comment) {
-    chess.setComment(comment);
-  }
 };

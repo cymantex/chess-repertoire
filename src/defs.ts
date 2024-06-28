@@ -38,6 +38,11 @@ export interface OpeningExplorerMove {
   white: number;
 }
 
+export const OPENING_EXPLORER_API = {
+  MASTERS: "masters",
+  LICHESS: "lichess",
+};
+
 export interface OpeningExplorerResponse {
   black: number;
   draws: number;
@@ -62,13 +67,12 @@ export const SIDEBARS = {
 } as const;
 
 export type Sidebar = keyof typeof SIDEBARS;
-
 // Layout
 export const BREAKPOINT_MD = 768;
 export const SIDEBAR_SIZE = 450;
 export const MARGIN = 10; // Additional space to allow for scrollbars
-export const APP_PADDING_REM = 0.75;
 
+export const APP_PADDING_REM = 0.75;
 // Modal
 export const MODAL_IDS = {
   CONFIRM: "confirm-modal",

@@ -35,3 +35,8 @@
 .text-accent-content--dark {
   color: oklch(var(--ac--dark));
 }
+
+[data-slate-placeholder="true"] {
+  top: 50%!important;
+  transform: translateY(-50%);
+}
