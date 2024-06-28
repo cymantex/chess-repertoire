@@ -10,7 +10,7 @@ import { setRepertoirePositionComments } from "@/repertoire/repertoireRepository
 import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
 import { APP_PADDING_REM } from "@/defs.ts";
 
-const MARGIN_TOP_REM = 0.5;
+const MARGIN_TOP_REM = 0.25;
 const EDITOR_TOOLBAR_HEIGHT_REM = 2;
 const HEIGHT_TO_SUBTRACT_REM =
   MARGIN_TOP_REM + EDITOR_TOOLBAR_HEIGHT_REM + APP_PADDING_REM * 2;
@@ -31,7 +31,7 @@ export const CommentContainer = () => {
   if (fetchingRepertoirePosition) return null;
 
   return (
-    <HideOnMobile className="mt-2">
+    <HideOnMobile className="mt-1">
       <Editor
         key={fen}
         initialValue={comments}
