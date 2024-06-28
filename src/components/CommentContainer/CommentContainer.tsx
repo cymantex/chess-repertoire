@@ -7,7 +7,8 @@ import {
 import { Editor } from "@/external/slate/Editor.tsx";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { setRepertoirePositionComments } from "@/repertoire/repertoireRepository.ts";
-import { toRichTextEditorFormat } from "@/external/slate/defs.ts";
+import { APP_PADDING_REM } from "@/defs.ts";
+import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
 
 /**
  * Exists mainly as an optimization to prevent unnecessary re-renders of the
@@ -25,12 +26,15 @@ export const CommentContainer = () => {
   if (fetchingRepertoirePosition) return null;
 
   return (
-    <HideOnMobile className=" mt-2">
+    <HideOnMobile className="mt-2">
       <Editor
         key={fen}
         initialValue={comments}
         onValueChange={(value) => setRepertoirePositionComments(fen, value)}
-        placeholder="Add position comments here..."
+        label="Comment"
+        style={{
+          maxHeight: `calc(100vh - var(--cg-height) - ${APP_PADDING_REM}rem - 4rem)`,
+        }}
       />
     </HideOnMobile>
   );

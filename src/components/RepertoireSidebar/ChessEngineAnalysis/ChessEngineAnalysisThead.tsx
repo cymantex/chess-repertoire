@@ -36,6 +36,7 @@ export const ChessEngineAnalysisThead = ({
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <input
+            id="analysis-toggle"
             type="checkbox"
             disabled={
               analysisState === ANALYSIS_STATE.STARTING ||
