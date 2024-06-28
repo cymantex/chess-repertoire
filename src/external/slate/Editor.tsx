@@ -56,7 +56,7 @@ export const Editor = ({
         {editorFocused && <EditorToolbar />}
         {!editorFocused && (
           <div className="absolute top-0 left-0">
-            <span className="label-text">{label}</span>
+            <span className="ml-1 label-text">{label}</span>
           </div>
         )}
         <Editable
