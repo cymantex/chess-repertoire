@@ -1,5 +1,5 @@
-import { MarkButton } from "@/external/slate/MarkButton.tsx";
-import { FORMATS, HOTKEYS } from "@/external/slate/defs.ts";
+import { MarkButton } from "./MarkButton.tsx";
+import { FORMATS, HOTKEYS } from "./defs.ts";
 import {
   LuAlignCenter,
   LuAlignJustify,
@@ -14,7 +14,7 @@ import {
   LuListOrdered,
   LuUnderline,
 } from "react-icons/lu";
-import { BlockButton } from "@/external/slate/BlockButton.tsx";
+import { BlockButton } from "./BlockButton.tsx";
 
 const EDITOR_BUTTON_CLASS_NAME = "p-1 border border-primary";
 
