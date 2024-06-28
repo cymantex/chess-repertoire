@@ -60,7 +60,7 @@ export const Editor = ({
           </div>
         )}
         <Editable
-          className="textarea textarea-bordered overflow-y-auto"
+          className="textarea textarea-bordered"
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           onFocus={() => setEditorFocused(true)}

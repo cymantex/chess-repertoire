@@ -40,6 +40,7 @@ export const useResizableAppLayoutStyle = (): CSSProperties => {
     // @ts-ignore
     "--cg-width": subtractAppPadding(mainSize),
     "--cg-height": subtractAppPadding(mainSize),
+    "--app-padding": `${APP_PADDING_REM}rem`,
     gridTemplateColumns: `${subtractAppPadding(mainSize)} ${subtractAppPadding(SIDEBAR_SIZE)}`,
     maxWidth: `calc(${mainSize}px + ${SIDEBAR_SIZE}px + ${APP_PADDING_REM * 2}rem)`,
   };
