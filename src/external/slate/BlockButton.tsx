@@ -12,7 +12,7 @@ import {
 } from "./defs.ts";
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from "slate";
 import { ReactNode } from "react";
-import { isListFormat, isTextAlignFormat } from "@/external/slate/utils.ts";
+import { isListFormat, isTextAlignFormat } from "./utils.ts";
 
 interface BlockButtonProps extends Partial<EditorButtonProps> {
   format: Format;

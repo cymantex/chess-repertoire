@@ -7,7 +7,7 @@ import {
   ListFormat,
   TEXT_ALIGN_FORMATS,
   TextAlignFormat,
-} from "@/external/slate/defs.ts";
+} from "./defs.ts";
 
 export const isHotkey = (hotkeyString: string, event: KeyboardEvent) => {
   const tokens = hotkeyString.split("+");

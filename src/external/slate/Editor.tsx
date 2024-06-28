@@ -5,13 +5,13 @@ import { withHistory } from "slate-history";
 import { KeyboardEvent, useCallback, useMemo, useState } from "react";
 import { Element, ElementProps } from "./Element.tsx";
 import { Leaf, LeafProps } from "./Leaf.tsx";
-import { EditorToolbar } from "@/external/slate/EditorToolbar.tsx";
+import { EditorToolbar } from "./EditorToolbar.tsx";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { Format, HOTKEYS } from "@/external/slate/defs.ts";
-import { toggleMark } from "@/external/slate/MarkButton.tsx";
-import { toggleBlock } from "@/external/slate/BlockButton.tsx";
+import { Format, HOTKEYS } from "./defs.ts";
+import { toggleMark } from "./MarkButton.tsx";
+import { toggleBlock } from "./BlockButton.tsx";
 
-import { isBlockFormat, isHotkey } from "@/external/slate/utils.ts";
+import { isBlockFormat, isHotkey } from "./utils.ts";
 
 interface EditorProps extends Partial<EditableProps> {
   initialValue: Descendant[];
