@@ -1,13 +1,8 @@
-import { RenderElementProps } from "slate-react/dist/components/editable";
-import { EditorRenderElement } from "./defs.ts";
+import { ElementProps } from "./defs.ts";
+import { Image } from "./image/Image.tsx";
 
-export type ElementProps = EditorRenderElement & Partial<RenderElementProps>;
-
-export const Element = ({
-  attributes,
-  children,
-  element,
-}: EditorRenderElement & Partial<RenderElementProps>) => {
+export const Element = (props: ElementProps) => {
+  const { attributes, children, element } = props;
   if (!element) return null;
 
   const style = { textAlign: element.align };
@@ -56,6 +51,8 @@ export const Element = ({
           {children}
         </p>
       );
+    case "image":
+      return <Image {...props} />;
     default:
       return (
         <p style={style} {...attributes}>
