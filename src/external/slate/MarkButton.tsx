@@ -1,8 +1,8 @@
-import { BaseEditor, Editor } from "slate";
 import { useSlate } from "slate-react";
 import { EditorButton, EditorButtonProps } from "./EditorButton.tsx";
 import { ReactNode } from "react";
 import { Format } from "./defs.ts";
+import { isMarkActive, toggleMark } from "@/external/slate/utils.ts";
 
 interface MarkButtonProps extends Partial<EditorButtonProps> {
   format: Format;
@@ -23,23 +23,4 @@ export const MarkButton = ({ format, icon, ...props }: MarkButtonProps) => {
       {icon}
     </EditorButton>
   );
-};
-
-export const toggleMark = (editor: BaseEditor, format: Format) => {
-  const isActive = isMarkActive(editor, format);
-
-  if (isActive) {
-    Editor.removeMark(editor, format);
-  } else {
-    Editor.addMark(editor, format, true);
-  }
-};
-
-const isMarkActive = (editor: BaseEditor, format: Format) => {
-  const marks = Editor.marks(editor) as unknown as Record<
-    Format,
-    boolean | unknown
-  >;
-
-  return marks ? marks[format] === true : false;
 };

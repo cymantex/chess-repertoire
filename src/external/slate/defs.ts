@@ -18,6 +18,7 @@ export const FORMATS = {
   JUSTIFY: "justify",
   PARAGRAPH: "paragraph",
   IMAGE: "image",
+  VIDEO: "video",
   LIST_ITEM: "list-item",
 } as const;
 
@@ -73,10 +74,8 @@ export interface ExtraEditorNodeData {
   align?: TextAlignFormat;
   url?: string;
 }
-export type EditorElement = Partial<ExtraEditorNodeData> & BaseElement;
-export type EditorNode = Partial<ExtraEditorNodeData> & Node;
-export type EditorRenderElement = {
-  element: Partial<ExtraEditorNodeData>;
-} & Partial<Element>;
 
-export type ElementProps = EditorRenderElement & Partial<RenderElementProps>;
+export type EditorNode = Partial<ExtraEditorNodeData> & Node;
+export type EditorElement = BaseElement & ExtraEditorNodeData;
+type RenderEditorElement = { element: EditorElement } & Partial<Element>;
+export type ElementProps = RenderEditorElement & Partial<RenderElementProps>;

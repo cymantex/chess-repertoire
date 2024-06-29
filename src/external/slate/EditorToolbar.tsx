@@ -66,13 +66,13 @@ export const EditorToolbar = () => (
       title={`Numbered list (${HOTKEYS[FORMATS.NUMBERED_LIST]})`}
       className={EDITOR_BUTTON_CLASS_NAME}
       format={FORMATS.NUMBERED_LIST}
-      icon={<LuList />}
+      icon={<LuListOrdered />}
     />
     <BlockButton
       title={`Bulleted list (${HOTKEYS[FORMATS.BULLETED_LIST]})`}
       className={EDITOR_BUTTON_CLASS_NAME}
       format={FORMATS.BULLETED_LIST}
-      icon={<LuListOrdered />}
+      icon={<LuList />}
     />
     <BlockButton
       title={`Align left (${HOTKEYS[FORMATS.LEFT]})`}
