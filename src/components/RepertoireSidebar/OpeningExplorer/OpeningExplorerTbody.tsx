@@ -8,8 +8,9 @@ import {
   selectSetHoveredOpeningMove,
 } from "@/stores/zustand/selectors.ts";
 import {
-  calcTotalGames,
-  isOpeningExplorerMove,
+  calcPercentage,
+  calcPositionStats,
+  prettifyLargeNumber,
   toOrderedRepertoireOpeningExplorerMoves,
 } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplorer/MoveAnnotationMenu.tsx";
@@ -18,6 +19,8 @@ import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveSt
 import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";
 import { useOpeningExplorerQuery } from "@/components/RepertoireSidebar/OpeningExplorer/useOpeningExplorerQuery.tsx";
+import { LuSigma } from "react-icons/lu";
+import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
 
 export const OpeningExplorerTbody = () => {
   const fen = useRepertoireStore(selectFen);
@@ -57,10 +60,7 @@ export const OpeningExplorerTbody = () => {
     repertoireMoves,
   );
 
-  const totalGames = orderedOpeningMoves
-    .filter(isOpeningExplorerMove)
-    .map(calcTotalGames)
-    .reduce((a, b) => a + b, 0);
+  const positionStats = calcPositionStats(openingExplorerMoves);
 
   return (
     <>
@@ -84,13 +84,40 @@ export const OpeningExplorerTbody = () => {
             )}
           </td>
           <td>
-            <MoveStats totalGamesForPosition={totalGames} move={move} />
+            <MoveStats
+              totalGamesForPosition={positionStats.totalGames}
+              move={move}
+            />
           </td>
           <td>
             <MoveAnnotationMenu move={move} />
           </td>
         </tr>
       ))}
+      {openingExplorerMoves.length > 0 && (
+        <tr>
+          <td>
+            <LuSigma />
+          </td>
+          <td>{prettifyLargeNumber(positionStats.totalGames)}</td>
+          <td>
+            <WinPercentageBar
+              whiteWinRate={calcPercentage(
+                positionStats.white,
+                positionStats.totalGames,
+              )}
+              drawRate={calcPercentage(
+                positionStats.draws,
+                positionStats.totalGames,
+              )}
+              blackWinRate={calcPercentage(
+                positionStats.black,
+                positionStats.totalGames,
+              )}
+            />
+          </td>
+        </tr>
+      )}
     </>
   );
 };

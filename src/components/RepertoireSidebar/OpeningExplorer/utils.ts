@@ -71,3 +71,22 @@ export const toOrderedRepertoireOpeningExplorerMoves = (
     repertoireMoves,
   );
 };
+
+export const calcPercentage = (games: number, totalGames: number) =>
+  (games / totalGames) * 100;
+
+export const prettifyLargeNumber = (num: number) =>
+  new Intl.NumberFormat().format(num);
+
+export const calcPositionStats = (moves: OpeningExplorerMove[]) =>
+  moves.reduce(
+    (positionStats, move) => {
+      positionStats.white += move.white;
+      positionStats.draws += move.draws;
+      positionStats.black += move.black;
+      positionStats.totalGames += calcTotalGames(move);
+
+      return positionStats;
+    },
+    { white: 0, draws: 0, black: 0, totalGames: 0 },
+  );
