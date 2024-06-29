@@ -8,6 +8,7 @@ import {
   TEXT_ALIGN_FORMATS,
   TextAlignFormat,
 } from "./defs.ts";
+import { BaseEditor, Editor } from "slate";
 
 export const isHotkey = (hotkeyString: string, event: KeyboardEvent) => {
   const tokens = hotkeyString.split("+");
@@ -53,3 +54,22 @@ export const toRichTextEditorFormat = (text: string) => [
     children: [{ text }],
   },
 ];
+
+export const toggleMark = (editor: BaseEditor, format: Format) => {
+  const isActive = isMarkActive(editor, format);
+
+  if (isActive) {
+    Editor.removeMark(editor, format);
+  } else {
+    Editor.addMark(editor, format, true);
+  }
+};
+
+export const isMarkActive = (editor: BaseEditor, format: Format) => {
+  const marks = Editor.marks(editor) as unknown as Record<
+    Format,
+    boolean | unknown
+  >;
+
+  return marks ? marks[format] === true : false;
+};

@@ -1,6 +1,7 @@
 import { RenderLeafProps } from "slate-react/dist/components/editable";
 import { Text } from "slate";
-import { Format } from "./defs.ts";
+import { Format, FORMATS } from "./defs.ts";
+import classNames from "classnames";
 
 export interface LeafProps extends Partial<RenderLeafProps> {
   leaf?: Text & Partial<Record<Format, boolean>>;
@@ -9,25 +10,30 @@ export interface LeafProps extends Partial<RenderLeafProps> {
 export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
   if (!leaf) return null;
 
-  if (leaf.chess) {
-    children = <span className="font-chess">{children}</span>;
-  }
-
-  if (leaf.bold) {
+  if (leaf[FORMATS.BOLD]) {
     children = <strong>{children}</strong>;
   }
 
-  if (leaf.code) {
+  if (leaf[FORMATS.CODE]) {
     children = <code>{children}</code>;
   }
 
-  if (leaf.italic) {
+  if (leaf[FORMATS.ITALIC]) {
     children = <em>{children}</em>;
   }
 
-  if (leaf.underline) {
+  if (leaf[FORMATS.UNDERLINE]) {
     children = <u>{children}</u>;
   }
 
-  return <span {...attributes}>{children}</span>;
+  return (
+    <span
+      className={classNames({
+        "font-chess": leaf[FORMATS.CHESS],
+      })}
+      {...attributes}
+    >
+      {children}
+    </span>
+  );
 };

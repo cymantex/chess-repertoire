@@ -1,12 +1,12 @@
-import { BaseElement, Transforms } from "slate";
+import { Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { ExtraEditorNodeData } from "../defs.ts";
+import { EditorElement, FORMATS } from "../defs.ts";
 
 export const withImages = (editor: ReactEditor) => {
   const { insertData, isVoid } = editor;
 
-  editor.isVoid = (element: BaseElement & ExtraEditorNodeData) => {
-    return element.type === "image" ? true : isVoid(element);
+  editor.isVoid = (element: EditorElement) => {
+    return element.type === FORMATS.IMAGE ? true : isVoid(element);
   };
 
   editor.insertData = (data) => {
@@ -36,10 +36,10 @@ export const withImages = (editor: ReactEditor) => {
 
 const insertImage = (editor: ReactEditor, url: string) => {
   const text = { text: "" };
-  const image = { type: "image", url, children: [text] };
+  const image = { type: FORMATS.IMAGE, url, children: [text] };
   Transforms.insertNodes(editor, image);
   Transforms.insertNodes(editor, {
     type: "paragraph",
     children: [{ text: "" }],
-  } as BaseElement & ExtraEditorNodeData);
+  } as EditorElement);
 };
