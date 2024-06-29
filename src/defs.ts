@@ -43,12 +43,23 @@ export const OPENING_EXPLORER_API = {
   LICHESS: "lichess",
 };
 
+export interface TopGamesResponse {
+  black: { name: string; rating: number };
+  white: { name: string; rating: number };
+  id: string;
+  month: string;
+  uci: string;
+  winner: string;
+  year: number;
+}
+
 export interface OpeningExplorerResponse {
   black: number;
   draws: number;
   opening: string;
   white: number;
   moves: OpeningExplorerMove[];
+  topGames?: TopGamesResponse[];
 }
 
 export interface CloudEvaluationResponse {
@@ -78,5 +89,6 @@ export const MODAL_IDS = {
   CONFIRM: "confirm-modal",
   LOADING: "loading-modal",
   DATABASE: "database-modal",
-  ANNOTATION_SETTINGS: "ANNOTATION_SETTINGS",
+  TOP_GAMES_MODAL: "top-games-modal",
+  ANNOTATION_SETTINGS: "annotation-settings-modal",
 };

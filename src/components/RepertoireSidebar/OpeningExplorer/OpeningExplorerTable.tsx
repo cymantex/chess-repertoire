@@ -17,6 +17,8 @@ import {
 import { modalStore } from "@/stores/modalStore.tsx";
 import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
 import { MODAL_IDS, OPENING_EXPLORER_API } from "@/defs.ts";
+import { TopGamesButton } from "@/components/RepertoireSidebar/OpeningExplorer/TopGamesButton.tsx";
+import classNames from "classnames";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
@@ -40,7 +42,7 @@ export const OpeningExplorerTable = () => {
   return (
     <AccordingTable
       section={TOGGLE_SECTIONS.OPENING_EXPLORER}
-      renderTheadTrChildren={(toggleButton) => (
+      renderTheadTrChildren={(toggleButton, collapsed) => (
         <>
           <td>Move</td>
           <td>Games</td>
@@ -59,12 +61,17 @@ export const OpeningExplorerTable = () => {
                   >
                     <FaDatabase />
                   </IconButton>
-                  <span title={selectedDatabase} className="max-w-24 truncate">
+                  <span title={selectedDatabase} className="max-w-20 truncate">
                     {selectedDatabase}
                   </span>
                 </div>
                 <IconButton
-                  className="text-base-content pl-2 transition-all hover:scale-125"
+                  className={classNames(
+                    "text-base-content pl-2 transition-transform hover:scale-125",
+                    {
+                      "pr-2 border-r border-primary": !collapsed,
+                    },
+                  )}
                   onClick={handleToggleOpeningExplorerApi}
                 >
                   {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
@@ -73,6 +80,7 @@ export const OpeningExplorerTable = () => {
                     <FaBook title="Master games" />
                   )}
                 </IconButton>
+                {!collapsed && <TopGamesButton />}
               </div>
             </div>
             {toggleButton}
