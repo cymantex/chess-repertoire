@@ -1,5 +1,6 @@
 import type { Element, Node } from "slate";
 import { BaseElement } from "slate";
+import { RenderElementProps } from "slate-react/dist/components/editable";
 
 export const FORMATS = {
   BOLD: "bold",
@@ -16,6 +17,7 @@ export const FORMATS = {
   RIGHT: "right",
   JUSTIFY: "justify",
   PARAGRAPH: "paragraph",
+  IMAGE: "image",
   LIST_ITEM: "list-item",
 } as const;
 
@@ -69,9 +71,12 @@ export type TextAlignFormat = (typeof TEXT_ALIGN_FORMATS)[number];
 export interface ExtraEditorNodeData {
   type?: Format;
   align?: TextAlignFormat;
+  url?: string;
 }
 export type EditorElement = Partial<ExtraEditorNodeData> & BaseElement;
 export type EditorNode = Partial<ExtraEditorNodeData> & Node;
 export type EditorRenderElement = {
   element: Partial<ExtraEditorNodeData>;
 } & Partial<Element>;
+
+export type ElementProps = EditorRenderElement & Partial<RenderElementProps>;

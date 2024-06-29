@@ -3,15 +3,16 @@ import { createEditor, Descendant } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import { KeyboardEvent, useCallback, useMemo, useState } from "react";
-import { Element, ElementProps } from "./Element.tsx";
+import { Element } from "./Element.tsx";
 import { Leaf, LeafProps } from "./Leaf.tsx";
 import { EditorToolbar } from "./EditorToolbar.tsx";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { Format, HOTKEYS } from "./defs.ts";
+import { ElementProps, Format, HOTKEYS } from "./defs.ts";
 import { toggleMark } from "./MarkButton.tsx";
 import { toggleBlock } from "./BlockButton.tsx";
 
 import { isBlockFormat, isHotkey } from "./utils.ts";
+import { withImages } from "./image/withImages.tsx";
 
 interface EditorProps extends Partial<EditableProps> {
   initialValue: Descendant[];
@@ -30,7 +31,10 @@ export const Editor = ({
     [],
   );
   const renderLeaf = useCallback((props: LeafProps) => <Leaf {...props} />, []);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(
+    () => withImages(withHistory(withReact(createEditor()))),
+    [],
+  );
   const [editorFocused, setEditorFocused] = useState(false);
 
   const handleHotkeys = (event: KeyboardEvent<HTMLDivElement>) =>
