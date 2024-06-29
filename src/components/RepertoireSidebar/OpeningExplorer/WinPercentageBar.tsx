@@ -13,6 +13,7 @@ export const WinPercentageBar = ({
       style={{
         backgroundColor: "rgb(225, 225, 225)",
         width: `${whiteWinRate.toFixed(0)}%`,
+        minWidth: "1.5rem",
         color: "black",
       }}
     >
@@ -23,6 +24,7 @@ export const WinPercentageBar = ({
       style={{
         backgroundColor: "rgb(100, 100, 100)",
         width: `${drawRate.toFixed(0)}%`,
+        minWidth: "1.5rem",
         color: "white",
       }}
     >
@@ -33,6 +35,7 @@ export const WinPercentageBar = ({
       style={{
         backgroundColor: "rgb(35, 35, 35)",
         width: `${blackWinRate.toFixed(0)}%`,
+        minWidth: "1.5rem",
         color: "white",
       }}
     >
