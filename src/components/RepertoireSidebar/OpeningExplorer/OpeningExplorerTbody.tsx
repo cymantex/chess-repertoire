@@ -1,4 +1,4 @@
-import { OpeningExplorerMove, OpeningExplorerResponse } from "@/defs.ts";
+import { OpeningExplorerMove } from "@/defs.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
@@ -15,21 +15,13 @@ import {
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplorer/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
 import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveStats.tsx";
-import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@/components/reused/Loader.tsx";
 import { FetchError } from "@/components/reused/FetchError.tsx";
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { useOpeningExplorerQuery } from "@/components/RepertoireSidebar/OpeningExplorer/useOpeningExplorerQuery.tsx";
 
 export const OpeningExplorerTbody = () => {
   const fen = useRepertoireStore(selectFen);
-  const { openingExplorerApi } = useRepertoireSettings();
-  const { isPending, error, data } = useQuery<OpeningExplorerResponse>({
-    queryKey: [`opening-explorer-${fen}`],
-    queryFn: () =>
-      fetch(
-        `https://explorer.lichess.ovh/${openingExplorerApi}?fen=${fen}`,
-      ).then((res) => res.json()),
-  });
+  const { isPending, error, data } = useOpeningExplorerQuery(fen);
 
   const chess = useRepertoireStore(selectChess);
   const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
