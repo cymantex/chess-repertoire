@@ -1,5 +1,9 @@
 import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
-import { isOpeningExplorerMove } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
+import {
+  calcPercentage,
+  isOpeningExplorerMove,
+  prettifyLargeNumber,
+} from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { PieChart } from "react-minimal-pie-chart";
 import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
@@ -13,17 +17,20 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
   if (!isOpeningExplorerMove(move)) return null;
 
   const totalGamesForMove = move.white + move.draws + move.black;
-  const gamesPercentage = (totalGamesForMove / totalGamesForPosition) * 100;
-  const whiteWinRate = (move.white / totalGamesForMove) * 100;
-  const drawRate = (move.draws / totalGamesForMove) * 100;
-  const blackWinRate = (move.black / totalGamesForMove) * 100;
+  const gamesPercentage = calcPercentage(
+    totalGamesForMove,
+    totalGamesForPosition,
+  );
+  const whiteWinRate = calcPercentage(move.white, totalGamesForMove);
+  const drawRate = calcPercentage(move.draws, totalGamesForMove);
+  const blackWinRate = calcPercentage(move.black, totalGamesForMove);
 
   return (
     <Tooltip
       tooltip={
         <>
           <div className="text-xs font-light mb-2">
-            Total games: {totalGamesForMove}
+            Total games: {prettifyLargeNumber(totalGamesForMove)}
           </div>
           <WinPercentageBar
             whiteWinRate={whiteWinRate}

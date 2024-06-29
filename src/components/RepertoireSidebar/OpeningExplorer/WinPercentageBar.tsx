@@ -7,11 +7,11 @@ export const WinPercentageBar = ({
   drawRate: number;
   blackWinRate: number;
 }) => (
-  <div className="flex rounded w-52 rounded overflow-hidden font-light text-xs items-center text-center">
+  <div className="flex w-52 rounded overflow-hidden text-xs items-center text-center">
     <div
       className="leading-none p-1"
       style={{
-        backgroundColor: "rgb(255, 255, 255)",
+        backgroundColor: "rgb(225, 225, 225)",
         width: `${whiteWinRate.toFixed(0)}%`,
         color: "black",
       }}
