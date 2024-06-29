@@ -13,7 +13,7 @@ export const ImageElement = ({
   return (
     <div {...attributes}>
       {children}
-      <div contentEditable={false} className="relative">
+      <div contentEditable={false}>
         <img
           alt={element.url}
           src={element.url}
@@ -21,7 +21,8 @@ export const ImageElement = ({
             display: "block",
             maxWidth: "100%",
             maxHeight: "20em",
-            boxShadow: selected && focused ? "0 0 0 3px #B4D5FF" : "none",
+            boxShadow:
+              selected && focused ? "0 0 0 1px oklch(var(--inc))" : "none",
           }}
         />
       </div>
