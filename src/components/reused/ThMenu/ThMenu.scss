@@ -1,0 +1,15 @@
+.th-menu {
+  &__item {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-right: 1px solid oklch(var(--p));
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}

@@ -2,7 +2,6 @@ import { OpeningExplorerTbody } from "@/components/RepertoireSidebar/OpeningExpl
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 import { SiLichess } from "react-icons/si";
-import { IconButton } from "@/components/reused/IconButton.tsx";
 import {
   localStorageStore,
   useRepertoireSettings,
@@ -18,7 +17,7 @@ import { modalStore } from "@/stores/modalStore.tsx";
 import { DatabaseModal } from "@/components/reused/Modal/DatabaseModal/DatabaseModal.tsx";
 import { MODAL_IDS, OPENING_EXPLORER_API } from "@/defs.ts";
 import { TopGamesButton } from "@/components/RepertoireSidebar/OpeningExplorer/TopGamesButton.tsx";
-import classNames from "classnames";
+import { ThMenu } from "@/components/reused/ThMenu/ThMenu.tsx";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
@@ -41,18 +40,18 @@ export const OpeningExplorerTable = () => {
 
   return (
     <AccordingTable
+      className="table-sm table-zebra select-none"
       section={TOGGLE_SECTIONS.OPENING_EXPLORER}
       renderTheadTrChildren={(toggleButton, collapsed) => (
         <>
           <td>Move</td>
           <td>Games</td>
           <td>
-            <div className="flex justify-between pr-6">
+            <ThMenu.Container>
               <div>Annotation</div>
-              <div className="flex">
-                <div className="flex gap-2 pr-2 border-r border-primary">
-                  <IconButton
-                    className="text-base-content transition-all hover:scale-125"
+              <ThMenu>
+                <ThMenu.Item>
+                  <ThMenu.IconButton
                     onClick={() =>
                       modalStore.setModal(
                         <DatabaseModal id={MODAL_IDS.DATABASE} />,
@@ -60,39 +59,31 @@ export const OpeningExplorerTable = () => {
                     }
                   >
                     <FaDatabase />
-                  </IconButton>
+                  </ThMenu.IconButton>
                   <span title={selectedDatabase} className="max-w-20 truncate">
                     {selectedDatabase}
                   </span>
-                </div>
-                <div
-                  className={classNames(
-                    "flex items-center text-base-content pl-2",
-                    {
-                      "pr-2 border-r border-primary": !collapsed,
-                    },
-                  )}
-                >
-                  <IconButton
-                    className="text-base-content transition-transform hover:scale-125"
-                    onClick={handleToggleOpeningExplorerApi}
-                  >
+                </ThMenu.Item>
+                <ThMenu.Item>
+                  <ThMenu.IconButton onClick={handleToggleOpeningExplorerApi}>
                     {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
                       <SiLichess title="Lichess games" />
                     ) : (
                       <FaBook title="Master games" />
                     )}
-                  </IconButton>
-                </div>
-
-                {!collapsed && <TopGamesButton />}
-              </div>
-            </div>
+                  </ThMenu.IconButton>
+                </ThMenu.Item>
+                {!collapsed && (
+                  <ThMenu.Item>
+                    <TopGamesButton />
+                  </ThMenu.Item>
+                )}
+              </ThMenu>
+            </ThMenu.Container>
             {toggleButton}
           </td>
         </>
       )}
-      className="table-sm table-zebra select-none"
       renderChildren={(collapsed) =>
         !collapsed ? <OpeningExplorerTbody key={openingExplorerApi} /> : null
       }
