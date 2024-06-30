@@ -3,10 +3,13 @@ import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTabl
 import { PgnTr } from "@/components/RepertoireSidebar/PgnExplorer/PgnTr.tsx";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectPgn } from "@/stores/zustand/selectors.ts";
-import { IconButton } from "@/components/reused/IconButton.tsx";
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaEdit } from "react-icons/fa";
 import { makePgn } from "chessops/pgn";
 import { toast } from "react-toastify";
+import { ThMenu } from "@/components/reused/ThMenu/ThMenu.tsx";
+import { modalStore } from "@/stores/modalStore.tsx";
+import { EditPgnModal } from "@/components/RepertoireSidebar/PgnExplorer/EditPgnModal.tsx";
+import { MODAL_IDS } from "@/defs.ts";
 
 export const PgnExplorer = () => {
   const pgn = useRepertoireStore(selectPgn);
@@ -25,16 +28,28 @@ export const PgnExplorer = () => {
     <AccordingTable
       renderTheadTrChildren={(toggleButton) => (
         <td>
-          <div className="flex justify-between pr-6">
+          <ThMenu.Container>
             <span>PGN</span>
-            <IconButton
-              title="Copy PGN"
-              className="text-base-content transition-all hover:scale-125"
-              onClick={copyPgn}
-            >
-              <FaCopy />
-            </IconButton>
-          </div>
+            <ThMenu>
+              <ThMenu.Item>
+                <ThMenu.IconButton title="Copy PGN" onClick={copyPgn}>
+                  <FaCopy />
+                </ThMenu.IconButton>
+              </ThMenu.Item>
+              <ThMenu.Item>
+                <ThMenu.IconButton
+                  title="Edit PGN"
+                  onClick={() =>
+                    modalStore.setModal(
+                      <EditPgnModal id={MODAL_IDS.EDIT_PGN_MODAL} />,
+                    )
+                  }
+                >
+                  <FaEdit />
+                </ThMenu.IconButton>
+              </ThMenu.Item>
+            </ThMenu>
+          </ThMenu.Container>
           {toggleButton}
         </td>
       )}

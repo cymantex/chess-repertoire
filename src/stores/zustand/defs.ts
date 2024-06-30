@@ -63,9 +63,11 @@ export interface ChessRepertoireStore
     NavigationSlice {
   fen: string;
   chess: Chess;
-  pgn: Game<PgnNodeData>;
-  sidebar: Sidebar;
 
+  pgn: Game<PgnNodeData>;
+  savePgn: (pgn: string) => Promise<void>;
+
+  sidebar: Sidebar;
   openSidebar: (sidebar: Sidebar) => void;
 }
 
