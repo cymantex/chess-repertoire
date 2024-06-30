@@ -65,21 +65,26 @@ export const OpeningExplorerTable = () => {
                     {selectedDatabase}
                   </span>
                 </div>
-                <IconButton
+                <div
                   className={classNames(
-                    "text-base-content pl-2 transition-transform hover:scale-125",
+                    "flex items-center text-base-content pl-2",
                     {
                       "pr-2 border-r border-primary": !collapsed,
                     },
                   )}
-                  onClick={handleToggleOpeningExplorerApi}
                 >
-                  {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
-                    <SiLichess title="Lichess games" />
-                  ) : (
-                    <FaBook title="Master games" />
-                  )}
-                </IconButton>
+                  <IconButton
+                    className="text-base-content transition-transform hover:scale-125"
+                    onClick={handleToggleOpeningExplorerApi}
+                  >
+                    {openingExplorerApi === OPENING_EXPLORER_API.MASTERS ? (
+                      <SiLichess title="Lichess games" />
+                    ) : (
+                      <FaBook title="Master games" />
+                    )}
+                  </IconButton>
+                </div>
+
                 {!collapsed && <TopGamesButton />}
               </div>
             </div>
