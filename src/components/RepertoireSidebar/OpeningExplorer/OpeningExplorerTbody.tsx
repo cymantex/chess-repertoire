@@ -10,7 +10,6 @@ import {
 import {
   calcPercentage,
   calcPositionStats,
-  prettifyLargeNumber,
   toOrderedRepertoireOpeningExplorerMoves,
 } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplorer/MoveAnnotationMenu.tsx";
@@ -21,6 +20,7 @@ import { FetchError } from "@/components/reused/FetchError.tsx";
 import { useOpeningExplorerQuery } from "@/components/RepertoireSidebar/OpeningExplorer/useOpeningExplorerQuery.tsx";
 import { LuSigma } from "react-icons/lu";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
+import { LargeNumber } from "@/components/RepertoireSidebar/OpeningExplorer/LargeNumber.tsx";
 
 export const OpeningExplorerTbody = () => {
   const fen = useRepertoireStore(selectFen);
@@ -99,7 +99,9 @@ export const OpeningExplorerTbody = () => {
           <td>
             <LuSigma />
           </td>
-          <td>{prettifyLargeNumber(positionStats.totalGames)}</td>
+          <td>
+            <LargeNumber num={positionStats.totalGames} />
+          </td>
           <td>
             <WinPercentageBar
               whiteWinRate={calcPercentage(
