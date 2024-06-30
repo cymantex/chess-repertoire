@@ -19,6 +19,8 @@ import {
 
 const stockfish = createStockfish();
 
+const NUMBER_LARGER_THAN_HIGHEST_EVAL = 1000_000;
+
 export const useStockfish = ({
   multiPv,
   searchTimeSeconds,
@@ -77,7 +79,9 @@ export const useStockfish = ({
     Object.values(analysisResults[fen] ?? {}),
     (result) => {
       if (isNumber(result.mate)) {
-        return whiteToMove ? 1000 / result.mate : -1000 / result.mate;
+        return whiteToMove
+          ? NUMBER_LARGER_THAN_HIGHEST_EVAL / result.mate
+          : -NUMBER_LARGER_THAN_HIGHEST_EVAL / result.mate;
       }
 
       return result.cp!;
