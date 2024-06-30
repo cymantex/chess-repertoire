@@ -75,6 +75,14 @@ export const toOrderedRepertoireOpeningExplorerMoves = (
 export const calcPercentage = (games: number, totalGames: number) =>
   (games / totalGames) * 100;
 
+export const shortenLargeNumber = (num: number) => {
+  if (num >= 1.0e12) return (num / 1.0e12).toFixed(2) + "T";
+  else if (num >= 1.0e9) return (num / 1.0e9).toFixed(2) + "B";
+  else if (num >= 1.0e6) return (num / 1.0e6).toFixed(2) + "M";
+  else if (num >= 1.0e3) return (num / 1.0e3).toFixed(2) + "K";
+  else return prettifyLargeNumber(num);
+};
+
 export const prettifyLargeNumber = (num: number) =>
   new Intl.NumberFormat().format(num);
 

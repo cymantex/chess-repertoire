@@ -2,11 +2,11 @@ import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
 import {
   calcPercentage,
   isOpeningExplorerMove,
-  prettifyLargeNumber,
 } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { PieChart } from "react-minimal-pie-chart";
 import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
+import { LargeNumber } from "@/components/RepertoireSidebar/OpeningExplorer/LargeNumber.tsx";
 
 interface MoveStatsProps {
   totalGamesForPosition: number;
@@ -30,7 +30,7 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
       tooltip={
         <>
           <div className="text-xs font-light mb-2">
-            Total games: {prettifyLargeNumber(totalGamesForMove)}
+            Total games: <LargeNumber num={totalGamesForMove} />
           </div>
           <WinPercentageBar
             whiteWinRate={whiteWinRate}
