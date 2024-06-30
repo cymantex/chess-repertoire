@@ -18,7 +18,7 @@ export const TopGamesButton = () => {
   return (
     <IconButton
       title="Top games"
-      className={classNames("pl-2", {
+      className={classNames({
         "text-base-content": !disabled,
         "transition-transform hover:scale-125": !disabled,
         "text-base-300 cursor-not-allowed": disabled,

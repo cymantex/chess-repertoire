@@ -1,12 +1,16 @@
 import classNames from "classnames";
 import { HTMLAttributes } from "react";
 
+export type IconButtonProps = HTMLAttributes<HTMLButtonElement> & {
+  disabled?: boolean;
+};
+
 export const IconButton = ({
   className,
   disabled,
   children,
   ...props
-}: HTMLAttributes<HTMLButtonElement> & { disabled?: boolean }) => (
+}: IconButtonProps) => (
   <button
     className={classNames(
       {
