@@ -4,9 +4,9 @@ import {
   isOpeningExplorerMove,
 } from "@/components/RepertoireSidebar/OpeningExplorer/utils.ts";
 import { PieChart } from "react-minimal-pie-chart";
-import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
 import { LargeNumber } from "@/components/RepertoireSidebar/OpeningExplorer/LargeNumber.tsx";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 interface MoveStatsProps {
   totalGamesForPosition: number;
@@ -41,7 +41,7 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
       }
     >
       <div className="flex gap-2 justify-between items-center">
-        <span className="hover:scale-110" title={`${totalGamesForMove} games`}>
+        <span title={`${totalGamesForMove} games`}>
           {gamesPercentage.toFixed(0)}%
         </span>
         <PieChart
