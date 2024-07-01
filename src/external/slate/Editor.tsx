@@ -7,10 +7,10 @@ import { Element } from "./Element.tsx";
 import { Leaf, LeafProps } from "./Leaf.tsx";
 import { EditorToolbar } from "./EditorToolbar.tsx";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { ElementProps, Format, HOTKEYS } from "./defs.ts";
+import { ElementProps, Format, FORMATS, HOTKEYS } from "./defs.ts";
 import { toggleBlock } from "./BlockButton.tsx";
 
-import { isBlockFormat, isHotkey, toggleMark } from "./utils.ts";
+import { isBlockFormat, isColorFormat, isHotkey, toggleMark } from "./utils.ts";
 import { withImages } from "./image/withImages.tsx";
 
 interface EditorProps extends Partial<EditableProps> {
@@ -43,6 +43,8 @@ export const Editor = ({
 
         if (isBlockFormat(mark as Format)) {
           toggleBlock(editor, mark as Format);
+        } else if (isColorFormat(mark)) {
+          toggleMark(editor, FORMATS.COLOR, mark);
         } else {
           toggleMark(editor, mark as Format);
         }

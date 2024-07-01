@@ -2,6 +2,8 @@ import { KeyboardEvent } from "react";
 import {
   BLOCK_FORMATS,
   BlockFormat,
+  Color,
+  COLORS,
   Format,
   LIST_FORMATS,
   ListFormat,
@@ -55,13 +57,17 @@ export const toRichTextEditorFormat = (text: string) => [
   },
 ];
 
-export const toggleMark = (editor: BaseEditor, format: Format) => {
+export const toggleMark = (
+  editor: BaseEditor,
+  format: Format,
+  value: unknown = true,
+) => {
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {
     Editor.removeMark(editor, format);
   } else {
-    Editor.addMark(editor, format, true);
+    Editor.addMark(editor, format, value);
   }
 };
 
@@ -71,5 +77,8 @@ export const isMarkActive = (editor: BaseEditor, format: Format) => {
     boolean | unknown
   >;
 
-  return marks ? marks[format] === true : false;
+  return marks ? !!marks[format] : false;
 };
+
+export const isColorFormat = (format: string): format is Color =>
+  Object.values(COLORS).includes(format as Color);
