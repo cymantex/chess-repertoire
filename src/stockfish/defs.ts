@@ -53,7 +53,7 @@ export interface AnalysisResult {
 interface AnalyseParams {
   fen: string;
   searchTimeInMs: number;
-  onAnalysisResult: (result: AnalysisResult) => unknown;
+  onAnalysisResult: (result: AnalysisResult, fen: string) => unknown;
   onError: (error: ErrorEvent) => unknown;
   onBestMove?: (bestMove: BestMove) => unknown;
   onTimeout?: () => unknown;
@@ -62,7 +62,7 @@ interface AnalyseParams {
 export interface Stockfish {
   setOption: (option: StockfishOption, value: string | number) => Stockfish;
   setPosition: (fen: string) => Stockfish;
-  analyse: (params: AnalyseParams) => Stockfish;
+  analyse: (params: AnalyseParams) => Promise<Stockfish>;
   start: () => Promise<void>;
   stop: () => Promise<Stockfish>;
   isStarted: () => boolean;
