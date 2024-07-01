@@ -12,13 +12,11 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.40.0",
-    "@types/is-hotkey": "^0.1.10",
     "chess.js": "^1.0.0-beta.8",
     "chessground": "^9.1.1",
     "chessops": "^0.14.1",
     "classnames": "^2.5.1",
     "idb-keyval": "^6.2.1",
-    "is-hotkey": "^0.2.0",
     "local-storage-superjson": "^1.1.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
@@ -31,7 +29,6 @@
     "slate-react": "^0.106.0",
     "stockfish": "^16.0.0",
     "superjson": "^2.2.1",
-    "uninstall": "^0.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
