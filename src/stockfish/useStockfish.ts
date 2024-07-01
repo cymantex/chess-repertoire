@@ -51,7 +51,8 @@ export const useStockfish = ({
         fen,
         searchTimeInMs:
           searchTimeSeconds === Infinity ? Infinity : searchTimeSeconds * 1000,
-        onAnalysisResult: (result) =>
+        onAnalysisResult: (result, resultFen) => {
+          if (resultFen !== fen) return;
           setAnalysisResults((prev) => ({
             ...prev,
             [fen]: {
@@ -61,7 +62,8 @@ export const useStockfish = ({
                 cp: normalizeCp(result.cp),
               },
             },
-          })),
+          }));
+        },
         onError: (error) => {
           setAnalysisState(ANALYSIS_STATE.STOPPED);
           toast.error(error.message);

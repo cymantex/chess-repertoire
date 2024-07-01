@@ -22,6 +22,7 @@ const theme = getRepertoireSettings().theme;
 const boardTheme = getRepertoireSettings().boardTheme;
 const pieceTheme = getRepertoireSettings().pieceTheme;
 
+// TODO: else load default themes?
 if (DAISY_UI_THEMES.includes(theme)) {
   document.documentElement.setAttribute("data-theme", theme);
 }

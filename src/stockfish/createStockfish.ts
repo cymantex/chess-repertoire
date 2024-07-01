@@ -125,7 +125,7 @@ export const createStockfish = (): Stockfish => {
 
       return stockfish;
     },
-    analyse: ({
+    analyse: async ({
       fen,
       searchTimeInMs,
       onAnalysisResult,
@@ -134,6 +134,11 @@ export const createStockfish = (): Stockfish => {
       onTimeout,
     }) => {
       setPosition(fen);
+
+      await waitUntilMessageReceived(
+        () => stockfishWorker!.postMessage("isready"),
+        "readyok",
+      );
 
       if (searchTimeInMs === Infinity) {
         sendUciMessage(`go infinite`);
@@ -154,7 +159,7 @@ export const createStockfish = (): Stockfish => {
           const analysisResult = parsePartialAnalysisResult(message);
 
           if (isAnalysisResult(analysisResult)) {
-            onAnalysisResult(analysisResult);
+            onAnalysisResult(analysisResult, fen);
           }
         } else if (message.startsWith("bestmove")) {
           onBestMove?.(parseBestMove(message));
