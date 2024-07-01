@@ -4,7 +4,7 @@ import { Format, FORMATS } from "./defs.ts";
 import classNames from "classnames";
 
 export interface LeafProps extends Partial<RenderLeafProps> {
-  leaf?: Text & Partial<Record<Format, boolean>>;
+  leaf?: Text & Partial<Record<Format, string>>;
 }
 
 export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
@@ -31,6 +31,7 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
       className={classNames({
         "font-chess": leaf[FORMATS.CHESS],
       })}
+      style={{ color: leaf[FORMATS.COLOR] }}
       {...attributes}
     >
       {children}

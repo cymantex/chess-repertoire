@@ -6,6 +6,7 @@ export const FORMATS = {
   BOLD: "bold",
   CODE: "code",
   CHESS: "chess",
+  COLOR: "color",
   ITALIC: "italic",
   UNDERLINE: "underline",
   HEADING_ONE: "heading-one",
@@ -22,11 +23,23 @@ export const FORMATS = {
   LIST_ITEM: "list-item",
 } as const;
 
+// TODO: CSS variables (custom daisyui theme?)
+export const COLORS = {
+  GREEN: "#15781B",
+  RED: "#882020",
+  BLUE: "#003088",
+  YELLOW: "#e68f00",
+} as const;
+
 export const HOTKEYS = {
   [FORMATS.CHESS]: "mod+<",
   [FORMATS.BOLD]: "mod+b",
-  [FORMATS.CODE]: "mod+0",
   [FORMATS.ITALIC]: "mod+i",
+  [FORMATS.CODE]: "mod+0",
+  [COLORS.GREEN]: "alt+g",
+  [COLORS.RED]: "alt+r",
+  [COLORS.BLUE]: "alt+b",
+  [COLORS.YELLOW]: "alt+y",
   [FORMATS.UNDERLINE]: "mod+u",
   [FORMATS.HEADING_ONE]: "mod+alt+1",
   [FORMATS.HEADING_TWO]: "mod+alt+2",
@@ -62,6 +75,8 @@ export const BLOCK_TYPES = {
   TYPE: "type",
   ALIGN: "align",
 } as const;
+
+export type Color = (typeof COLORS)[keyof typeof COLORS];
 
 export type BlockType = (typeof BLOCK_TYPES)[keyof typeof BLOCK_TYPES];
 export type Format = (typeof FORMATS)[keyof typeof FORMATS];
