@@ -1,7 +1,15 @@
 import { isNumber } from "lodash";
-import { BREAKPOINT_MD } from "@/defs.ts";
+import { BREAKPOINT_MD, DAISY_UI_THEMES } from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
+import { getRepertoireSettings } from "@/stores/localStorageStore.ts";
+import {
+  BOARD_THEME_ATTRIBUTE,
+  BOARD_THEMES,
+  PIECE_THEME_ATTRIBUTE,
+  PIECE_THEMES,
+} from "@/external/chessground/defs.tsx";
+import { DEFAULT_SETTINGS } from "@/repertoire/defs.ts";
 
 export const isNotEmptyArray = <T>(array?: T[]): array is T[] =>
   Array.isArray(array) && array.length > 0;
@@ -130,3 +138,35 @@ export const parseVariation = (
  */
 export const removeDecorations = (san: string) =>
   san.replace(/=/, "").replace(/[+#]?[?!]*$/, "");
+
+export const loadThemes = () => {
+  const theme = getRepertoireSettings().theme;
+  const boardTheme = getRepertoireSettings().boardTheme;
+  const pieceTheme = getRepertoireSettings().pieceTheme;
+
+  if (DAISY_UI_THEMES.includes(theme)) {
+    document.documentElement.setAttribute("data-theme", theme);
+  }
+
+  if (Object.values(BOARD_THEMES).includes(boardTheme)) {
+    document.documentElement.setAttribute(BOARD_THEME_ATTRIBUTE, boardTheme);
+    import(
+      `@/external/chessground/assets/board-themes/chessground.board.${boardTheme}.css`
+    );
+  } else {
+    import(
+      `@/external/chessground/assets/board-themes/chessground.board.${DEFAULT_SETTINGS.boardTheme}.css`
+    );
+  }
+
+  if (Object.values(PIECE_THEMES).includes(pieceTheme)) {
+    document.documentElement.setAttribute(PIECE_THEME_ATTRIBUTE, pieceTheme);
+    import(
+      `@/external/chessground/assets/piece-themes/chessground.pieces.${pieceTheme}.css`
+    );
+  } else {
+    import(
+      `@/external/chessground/assets/piece-themes/chessground.pieces.${DEFAULT_SETTINGS.pieceTheme}.css`
+    );
+  }
+};
