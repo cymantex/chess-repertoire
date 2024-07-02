@@ -78,6 +78,7 @@ export const SIDEBARS = {
 } as const;
 
 export type Sidebar = keyof typeof SIDEBARS;
+
 // Layout
 export const BREAKPOINT_MD = 768;
 export const SIDEBAR_SIZE = 450;
