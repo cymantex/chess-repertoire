@@ -77,5 +77,5 @@ export const useKeyboardShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
+  }, [rotate, goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
 };
