@@ -8,8 +8,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    cors: true,
     watch: {
       usePolling: true,
+    },
+    proxy: {
+      "^/upload.*": {
+        target: "https://www.googleapis.com/upload",
+      },
     },
   },
   resolve: {

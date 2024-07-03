@@ -38,6 +38,7 @@ export const OpeningExplorerTable = () => {
     });
   };
 
+  // TODO: Consider moving the database modal to the navbar
   return (
     <AccordingTable
       className="table-sm table-zebra select-none"

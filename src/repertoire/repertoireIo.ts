@@ -4,7 +4,8 @@ import { downloadUInt8Array, toRepertoireFileName } from "@/utils/utils.ts";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 
 export const exportRepertoireFile = async () => {
-  const uint8array = await startExportRepertoireWorker();
+  const uint8array =
+    await startExportRepertoireWorker<Uint8Array>("uint8array");
   const repertoireDisplayName = await idbGetSelectedDbDisplayName();
   downloadUInt8Array(
     uint8array,
@@ -21,11 +22,14 @@ export const startImportRepertoireWorker = (file: File) =>
     worker.postMessage(file);
   });
 
-const startExportRepertoireWorker = () =>
-  new Promise<Uint8Array>((resolve, reject) => {
+export const startExportRepertoireAsStringWorker = () =>
+  startExportRepertoireWorker<string>("string");
+
+const startExportRepertoireWorker = <T>(message: string) =>
+  new Promise<T>((resolve, reject) => {
     const worker = new RepertoireExportWorker();
     worker.onmessage = async (event) => resolve(event.data);
     worker.onerror = reject;
     worker.onmessageerror = reject;
-    worker.postMessage("start");
+    worker.postMessage(message);
   });

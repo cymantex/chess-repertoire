@@ -68,6 +68,12 @@ export const createStockfish = (): Stockfish => {
 
   const stockfish: Stockfish = {
     start: async (logMessages = false) => {
+      if (!window.crossOriginIsolated) {
+        throw new Error(
+          "Stockfish requires cross-origin isolation to be enabled.",
+        );
+      }
+
       if (stockfishWorker) {
         return;
       }
