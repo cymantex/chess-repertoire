@@ -1,8 +1,8 @@
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import classNames from "classnames";
-import { toast } from "react-toastify";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGoToPosition } from "@/stores/zustand/selectors.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 interface GoToMoveButtonProps<
   TMove extends Pick<PgnMoveData, "san" | "moveNumber">,
@@ -29,7 +29,7 @@ export const GoToMoveButton = <
     const variation = getVariation(move);
 
     if (!variation) {
-      toast.error("Unable to determine variation for clicked move");
+      openErrorToast("Unable to determine variation for clicked move");
       return;
     }
 

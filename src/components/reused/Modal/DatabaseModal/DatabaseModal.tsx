@@ -9,12 +9,12 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { Modal, ModalId } from "@/components/reused/Modal/Modal.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { toast } from "react-toastify";
 import { toDbName } from "@/external/idb-keyval/utils.ts";
 import { idbDeleteDatabase } from "@/external/idb-keyval/adapter.ts";
 import { CreateDatabaseTr } from "@/components/reused/Modal/DatabaseModal/CreateDatabaseTr.tsx";
 import { DatabaseTr } from "@/components/reused/Modal/DatabaseModal/DatabaseTr.tsx";
 import { MODAL_IDS } from "@/defs.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const DatabaseModal = ({ id }: ModalId) => {
   const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
@@ -36,7 +36,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
     } catch (error) {
       console.error(error);
       // @ts-ignore
-      toast.error(error.message);
+      openErrorToast(error.message);
     } finally {
       modalStore.closeModal(MODAL_IDS.LOADING);
     }
@@ -49,7 +49,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
       console.error(error);
       // TODO: Handle errors more gracefully
       // @ts-ignore
-      toast.error(error.message);
+      openErrorToast(error.message);
     }
   };
 

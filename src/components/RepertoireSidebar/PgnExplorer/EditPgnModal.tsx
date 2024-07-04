@@ -4,7 +4,7 @@ import { selectPgn, selectSavePgn } from "@/stores/zustand/selectors.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { useState } from "react";
 import { makePgn } from "chessops/pgn";
-import { toast } from "react-toastify";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const EditPgnModal = ({ id }: ModalId) => {
   const currentPgn = useRepertoireStore(selectPgn);
@@ -19,7 +19,7 @@ export const EditPgnModal = ({ id }: ModalId) => {
     } catch (e) {
       console.error(e);
       // @ts-ignore
-      toast.error(e.message);
+      openErrorToast(e.message);
     }
   };
 

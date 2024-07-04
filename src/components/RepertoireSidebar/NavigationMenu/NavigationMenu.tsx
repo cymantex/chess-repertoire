@@ -30,9 +30,12 @@ import { MODAL_IDS, SIDEBARS } from "@/defs.ts";
 import classNames from "classnames";
 import { hasNextMove } from "@/external/chessops/pgn.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
-import { toast } from "react-toastify";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
+import {
+  openErrorToast,
+  openSuccessToast,
+} from "@/external/react-toastify/toasts.ts";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);
@@ -48,12 +51,19 @@ export const NavigationMenu = () => {
   const openSidebar = useRepertoireStore(selectOpenSidebar);
   const { annotationSetting } = useRepertoireSettings();
 
-  // TODO: Let this fully handle the login behavior
-  const { handleUploadToGoogleDrive } = useGoogleDrive(() => {
-    modalStore.closeModal(MODAL_IDS.LOADING);
-    toast.success(
-      "Logged into Google Drive, you can now upload or download your repertoire.",
-    );
+  // TODO: Move to settings menu
+  const { handleUploadRepertoireToGoogleDrive } = useGoogleDrive({
+    onBeforeLogin: () => modalStore.setLoadingModal("Logging into Google"),
+    onLoginSuccess: () => {
+      modalStore.closeModal(MODAL_IDS.LOADING);
+      openSuccessToast(
+        "Logged into Google Drive, you can now upload or download your repertoire.",
+      );
+    },
+    onLoginError: ({ type, message }) => {
+      modalStore.closeModal(MODAL_IDS.LOADING);
+      openErrorToast(`Login to google drive failed (${type}: ${message})`);
+    },
   });
 
   const previousMoveDisabled =
@@ -87,7 +97,7 @@ export const NavigationMenu = () => {
       <IconButton onClick={rotate}>
         <FaRotate title="Flip board (hotkey: f)" />
       </IconButton>
-      <IconButton onClick={handleUploadToGoogleDrive}>
+      <IconButton onClick={handleUploadRepertoireToGoogleDrive}>
         <FaCloudUploadAlt title="Upload repertoire to cloud (hotkey: u)" />
       </IconButton>
       <IconButton

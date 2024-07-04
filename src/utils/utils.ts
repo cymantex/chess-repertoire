@@ -70,8 +70,12 @@ export const getCurrentDate = (): string => {
   return `${year}-${month}-${day}`;
 };
 
+export const toRepertoireFileNameWithoutDate = (
+  repertoireDisplayName: string,
+) => `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}`;
+
 export const toRepertoireFileName = (repertoireDisplayName: string) =>
-  `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}-${getCurrentDate()}`;
+  `${toRepertoireFileNameWithoutDate(repertoireDisplayName)}-${getCurrentDate()}`;
 
 export const makeVariation = (
   moves: PgnMoveData[],
