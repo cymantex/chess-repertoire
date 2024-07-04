@@ -1,4 +1,4 @@
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import { useQuery } from "@tanstack/react-query";
 import { OpeningExplorerResponse } from "@/defs.ts";
 

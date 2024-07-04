@@ -7,7 +7,7 @@ import {
   selectGoToPreviousMove,
   selectRotate,
 } from "@/stores/zustand/selectors.ts";
-import { localStorageStore } from "@/stores/localStorageStore.ts";
+import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
 
 export const useKeyboardShortcuts = () => {
@@ -32,39 +32,39 @@ export const useKeyboardShortcuts = () => {
       } else if (event.key === "ArrowDown") {
         goToFirstMove();
       } else if (event.key === "1") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.BRILLIANT,
         });
       } else if (event.key === "2") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.GOOD,
         });
       } else if (event.key === "3") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.INTERESTING,
         });
       } else if (event.key === "4") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.NEUTRAL,
         });
       } else if (event.key === "5") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.DUBIOUS,
         });
       } else if (event.key === "6") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.BAD,
         });
       } else if (event.key === "7") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.BLUNDER,
         });
       } else if (event.key === "8") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.NONE,
         });
       } else if (event.key === "9") {
-        localStorageStore.upsertSettings({
+        repertoireSettingsStore.upsertSettings({
           annotationSetting: ANNOTATION_SETTINGS.DONT_SAVE,
         });
       } else if (event.key === "f") {

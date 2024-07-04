@@ -1,7 +1,7 @@
 import { PgnFileInput } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnFileInput.tsx";
 import { PgnImportSettings } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnImportSettings.tsx";
 import { ImportProgress } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/ImportProgress.tsx";
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import { useState } from "react";
 import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
 import { isNumber } from "lodash";

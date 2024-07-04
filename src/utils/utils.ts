@@ -2,7 +2,7 @@ import { isNumber } from "lodash";
 import { BREAKPOINT_MD, DAISY_UI_THEMES } from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
-import { getRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { getRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import {
   BOARD_THEME_ATTRIBUTE,
   BOARD_THEMES,

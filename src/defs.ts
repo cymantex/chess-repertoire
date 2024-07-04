@@ -83,8 +83,8 @@ export type Sidebar = keyof typeof SIDEBARS;
 export const BREAKPOINT_MD = 768;
 export const SIDEBAR_SIZE = 450;
 export const MARGIN = 10; // Additional space to allow for scrollbars
-
 export const APP_PADDING_REM = 0.75;
+
 // Modal
 export const MODAL_IDS = {
   CONFIRM: "confirm-modal",
