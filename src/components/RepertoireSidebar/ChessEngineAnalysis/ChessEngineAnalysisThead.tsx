@@ -3,7 +3,7 @@ import {
   AnalysisResult,
   AnalysisState,
 } from "@/stockfish/defs.ts";
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import {
   toAnalysisResultEvaluation,
   toSearchTimeDisplayName,

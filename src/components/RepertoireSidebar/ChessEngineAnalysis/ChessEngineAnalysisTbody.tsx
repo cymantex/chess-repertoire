@@ -1,7 +1,7 @@
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectFen } from "@/stores/zustand/selectors.ts";
 import { parsePosition } from "@/external/chessops/utils.ts";
-import { useRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import { usePreviousMoves } from "@/hooks/usePreviousMoves.ts";
 import { ChessEngineAnalysisTr } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisTr.tsx";
 import { AnalysisResult, AnalysisState } from "@/stockfish/defs.ts";

@@ -5,11 +5,14 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectPgn } from "@/stores/zustand/selectors.ts";
 import { FaCopy, FaEdit } from "react-icons/fa";
 import { makePgn } from "chessops/pgn";
-import { toast } from "react-toastify";
 import { ThMenu } from "@/components/reused/ThMenu/ThMenu.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { EditPgnModal } from "@/components/RepertoireSidebar/PgnExplorer/EditPgnModal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
+import {
+  openErrorToast,
+  openSuccessToast,
+} from "@/external/react-toastify/toasts.ts";
 
 export const PgnExplorer = () => {
   const pgn = useRepertoireStore(selectPgn);
@@ -17,10 +20,10 @@ export const PgnExplorer = () => {
   const copyPgn = async () => {
     try {
       await navigator.clipboard.writeText(makePgn(pgn));
-      toast.success("PGN copied to clipboard");
+      openSuccessToast("PGN copied to clipboard");
     } catch (e) {
       // @ts-ignore
-      toast.error(e.message);
+      openErrorToast(e.message);
     }
   };
 

@@ -4,9 +4,9 @@ import classNames from "classnames";
 import "./AccordionTable.scss";
 import { TOGGLE_STATE, ToggleSection } from "@/repertoire/defs.ts";
 import {
-  localStorageStore,
+  repertoireSettingsStore,
   useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
+} from "@/stores/repertoireSettingsStore.ts";
 
 interface AccordingTableProps {
   renderTheadTrChildren: (
@@ -43,7 +43,7 @@ export const AccordingTable = ({
             <button
               className="absolute right-1 text-lg"
               onClick={() =>
-                localStorageStore.upsertSections(
+                repertoireSettingsStore.upsertSections(
                   section,
                   collapsed ? TOGGLE_STATE.ON : TOGGLE_STATE.OFF,
                 )

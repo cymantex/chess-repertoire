@@ -1,8 +1,7 @@
 import { modalStore } from "@/stores/modalStore.tsx";
 import { exportRepertoireFile } from "@/repertoire/repertoireIo.ts";
-import { toast } from "react-toastify";
 import { ChangeEvent } from "react";
-import { localStorageStore } from "@/stores/localStorageStore.ts";
+import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { DaisyUiTheme } from "@/repertoire/defs.ts";
 import {
   BOARD_THEME_ATTRIBUTE,
@@ -11,6 +10,7 @@ import {
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
 import { MODAL_IDS } from "@/defs.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export async function exportRepertoire() {
   modalStore.addLoadingModal(
@@ -27,7 +27,7 @@ export async function exportRepertoire() {
   } catch (error) {
     console.error(error);
     // @ts-ignore
-    toast.error(`Failed to export repertoire ${error.message}`);
+    openErrorToast(`Failed to export repertoire ${error.message}`);
   } finally {
     window.onbeforeunload = null;
   }
@@ -40,7 +40,7 @@ export const changeTheme = (event: ChangeEvent<HTMLSelectElement>) => {
 
   document.documentElement.setAttribute("data-theme", event.target.value);
 
-  localStorageStore.upsertSettings({
+  repertoireSettingsStore.upsertSettings({
     theme: event.target.value as DaisyUiTheme,
   });
 };
@@ -48,7 +48,7 @@ export const changeTheme = (event: ChangeEvent<HTMLSelectElement>) => {
 export const changePieceTheme = (pieceTheme: PieceTheme) => {
   document.documentElement.setAttribute(PIECE_THEME_ATTRIBUTE, pieceTheme);
 
-  localStorageStore.upsertSettings({
+  repertoireSettingsStore.upsertSettings({
     pieceTheme,
   });
 
@@ -60,7 +60,7 @@ export const changePieceTheme = (pieceTheme: PieceTheme) => {
 export const changeBoardTheme = (boardTheme: BoardTheme) => {
   document.documentElement.setAttribute(BOARD_THEME_ATTRIBUTE, boardTheme);
 
-  localStorageStore.upsertSettings({
+  repertoireSettingsStore.upsertSettings({
     boardTheme,
   });
 

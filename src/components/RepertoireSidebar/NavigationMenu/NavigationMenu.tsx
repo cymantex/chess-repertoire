@@ -22,9 +22,9 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
 import {
-  localStorageStore,
+  repertoireSettingsStore,
   useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
+} from "@/stores/repertoireSettingsStore.ts";
 import { SIDEBARS } from "@/defs.ts";
 import classNames from "classnames";
 import { hasNextMove } from "@/external/chessops/pgn.ts";
@@ -50,11 +50,11 @@ export const NavigationMenu = () => {
     !fen || !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
 
   return (
-    <div className="flex justify-evenly text-2xl">
+    <nav className="flex justify-evenly text-2xl">
       <AnnotationSettings
         annotationSetting={annotationSetting}
         onSelect={(annotationSetting) =>
-          localStorageStore.upsertSettings({
+          repertoireSettingsStore.upsertSettings({
             annotationSetting,
           })
         }
@@ -88,6 +88,6 @@ export const NavigationMenu = () => {
       >
         <FaSlidersH />
       </IconButton>
-    </div>
+    </nav>
   );
 };

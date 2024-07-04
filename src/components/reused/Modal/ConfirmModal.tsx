@@ -14,10 +14,10 @@ export const ConfirmModal = ({
 }: ConfirmModalProps) => (
   <Modal className="text-center" show={show} {...props}>
     <Modal.Title>{children}</Modal.Title>
-    <button className="btn mr-2" onClick={onConfirm}>
+    <button autoFocus className="btn mr-2" onClick={onConfirm}>
       Yes
     </button>
-    <button autoFocus className="btn btn-secondary" onClick={onCancel}>
+    <button className="btn btn-secondary" onClick={onCancel}>
       No
     </button>
   </Modal>

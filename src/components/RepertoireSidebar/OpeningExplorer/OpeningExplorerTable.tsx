@@ -3,9 +3,9 @@ import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 import { SiLichess } from "react-icons/si";
 import {
-  localStorageStore,
+  repertoireSettingsStore,
   useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
+} from "@/stores/repertoireSettingsStore.ts";
 import { FaBook, FaDatabase } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
@@ -30,7 +30,7 @@ export const OpeningExplorerTable = () => {
       queryKey: [`opening-explorer-${fen}`],
     });
 
-    localStorageStore.upsertSettings({
+    repertoireSettingsStore.upsertSettings({
       openingExplorerApi:
         openingExplorerApi === OPENING_EXPLORER_API.MASTERS
           ? OPENING_EXPLORER_API.LICHESS
@@ -38,6 +38,7 @@ export const OpeningExplorerTable = () => {
     });
   };
 
+  // TODO: Consider moving the database modal to the navbar
   return (
     <AccordingTable
       className="table-sm table-zebra select-none"

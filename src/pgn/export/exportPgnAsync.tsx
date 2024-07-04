@@ -1,9 +1,9 @@
 import { modalStore } from "@/stores/modalStore.tsx";
-import { toast } from "react-toastify";
 import { downloadUrl, toRepertoireFileName } from "@/utils/utils.ts";
 import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { MODAL_IDS } from "@/defs.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const exportPgnAsync = async () => {
   try {
@@ -25,7 +25,7 @@ export const exportPgnAsync = async () => {
     console.trace();
     console.error(error);
     // @ts-ignore
-    toast.error(`Failed to export repertoire ${error.message}`);
+    openErrorToast(`Failed to export repertoire ${error.message}`);
   } finally {
     modalStore.closeModal(MODAL_IDS.LOADING);
   }

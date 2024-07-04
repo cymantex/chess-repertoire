@@ -6,7 +6,7 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { ChessRepertoireStore, SetState } from "@/stores/zustand/defs.ts";
 import { Move } from "chess.js";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
-import { getAnnotationSetting } from "@/stores/localStorageStore.ts";
+import { getAnnotationSetting } from "@/stores/repertoireSettingsStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
 
 import { DEFAULT_REPERTOIRE_POSITION } from "@/repertoire/defs.ts";

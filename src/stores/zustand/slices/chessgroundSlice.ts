@@ -8,7 +8,7 @@ import { upsertRepertoireMove } from "@/repertoire/repertoireRepository.ts";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { PAWN } from "chess.js";
-import { getAnnotationSetting } from "@/stores/localStorageStore.ts";
+import { getAnnotationSetting } from "@/stores/repertoireSettingsStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
 import { selectChess } from "@/stores/zustand/selectors.ts";
 
