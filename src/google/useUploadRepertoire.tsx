@@ -8,6 +8,7 @@ import { toRepertoireFileNameWithoutDate } from "@/utils/utils.ts";
 import { exportRepertoireAsBlob } from "@/repertoire/repertoireIo.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import { GoogleDriveLoginParams } from "@/google/defs.ts";
+import { useCallback } from "react";
 
 export const useUploadRepertoire = ({
   isLoginRequired,
@@ -16,43 +17,46 @@ export const useUploadRepertoire = ({
   const credential = useGoogleCredential();
   const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
 
-  const createFile = async (
-    repertoireFileName: string,
-    repertoireBlob: Blob,
-  ) => {
-    modalStore.setLoadingModal(
-      `Creating ${repertoireFileName} file in ${credential!.email} Google Drive...`,
-    );
-    await googleDriveApi.createFile({
-      fileName: repertoireFileName,
-      mimeType: "application/json",
-      repertoireBlob,
-      accessToken: credential!.access_token,
-    });
-    openSuccessToast(
-      `Created ${repertoireFileName} in ${credential!.email} Google Drive.`,
-    );
-  };
+  const createFile = useCallback(
+    async (repertoireFileName: string, repertoireBlob: Blob) => {
+      modalStore.setLoadingModal(
+        `Creating ${repertoireFileName} file in ${credential!.email} Google Drive...`,
+      );
+      await googleDriveApi.createFile({
+        fileName: repertoireFileName,
+        mimeType: "application/json",
+        repertoireBlob,
+        accessToken: credential!.access_token,
+      });
+      openSuccessToast(
+        `Created ${repertoireFileName} in ${credential!.email} Google Drive.`,
+      );
+    },
+    [credential],
+  );
 
-  const uploadFile = async (
-    fileId: string,
-    repertoireFileName: string,
-    repertoireBlob: Blob,
-  ) => {
-    modalStore.setLoadingModal(
-      `Updating ${repertoireFileName} file in ${credential!.email} Google Drive...`,
-    );
-    await googleDriveApi.updateFile({
-      fileId,
-      repertoireBlob,
-      accessToken: credential!.access_token,
-    });
-    openSuccessToast(
-      `Updated ${repertoireFileName} in ${credential!.email} Google Drive.`,
-    );
-  };
+  const updateFile = useCallback(
+    async (
+      fileId: string,
+      repertoireFileName: string,
+      repertoireBlob: Blob,
+    ) => {
+      modalStore.setLoadingModal(
+        `Updating ${repertoireFileName} file in ${credential!.email} Google Drive...`,
+      );
+      await googleDriveApi.updateFile({
+        fileId,
+        repertoireBlob,
+        accessToken: credential!.access_token,
+      });
+      openSuccessToast(
+        `Updated ${repertoireFileName} in ${credential!.email} Google Drive.`,
+      );
+    },
+    [credential],
+  );
 
-  const determineUploadParams = async () => {
+  const determineUploadParams = useCallback(async () => {
     const repertoireFileName = `${toRepertoireFileNameWithoutDate(
       selectedDatabase!,
     )}.json`;
@@ -67,9 +71,9 @@ export const useUploadRepertoire = ({
     modalStore.setLoadingModal("Exporting repertoire...");
     const repertoireBlob = await exportRepertoireAsBlob();
     return { repertoireFileName, fileToUpdate, repertoireBlob };
-  };
+  }, [credential, selectedDatabase]);
 
-  return async () => {
+  return useCallback(async () => {
     if (isLoginRequired(credential)) {
       login();
       return;
@@ -81,9 +85,16 @@ export const useUploadRepertoire = ({
     if (!fileToUpdate) {
       await createFile(repertoireFileName, repertoireBlob);
     } else {
-      await uploadFile(fileToUpdate.id, repertoireFileName, repertoireBlob);
+      await updateFile(fileToUpdate.id, repertoireFileName, repertoireBlob);
     }
 
     modalStore.closeModal(MODAL_IDS.LOADING);
-  };
+  }, [
+    createFile,
+    updateFile,
+    determineUploadParams,
+    credential,
+    isLoginRequired,
+    login,
+  ]);
 };

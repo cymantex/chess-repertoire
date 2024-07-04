@@ -14,6 +14,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { toRepertoireFileNameWithoutDate } from "@/utils/utils.ts";
 import { idbSetEntries } from "@/external/idb-keyval/adapter.ts";
+import { useCallback } from "react";
 
 export const useDownloadRepertoire = ({
   isLoginRequired,
@@ -25,44 +26,44 @@ export const useDownloadRepertoire = ({
     selectGetCurrentRepertoirePosition,
   );
 
-  const downloadAndImportRepertoire = async (
-    repertoireFileName: string,
-    file: GoogleDriveFile,
-  ) => {
-    modalStore.setLoadingModal(`Downloading ${repertoireFileName}...`);
-    const repertoire = await googleDriveApi.downloadFile(
-      file.id,
-      credential!.access_token,
-    );
+  const downloadAndImportRepertoire = useCallback(
+    async (repertoireFileName: string, file: GoogleDriveFile) => {
+      modalStore.setLoadingModal(`Downloading ${repertoireFileName}...`);
+      const repertoire = await googleDriveApi.downloadFile(
+        file.id,
+        credential!.access_token,
+      );
 
-    modalStore.setLoadingModal(`Importing ${repertoireFileName}...`);
-    await idbSetEntries(repertoire);
-    await getCurrentRepertoirePosition();
-    openSuccessToast(`Imported ${repertoireFileName}.`);
-    modalStore.closeModal(MODAL_IDS.LOADING);
-  };
+      modalStore.setLoadingModal(`Importing ${repertoireFileName}...`);
+      await idbSetEntries(repertoire);
+      await getCurrentRepertoirePosition();
+      openSuccessToast(`Imported ${repertoireFileName}.`);
+      modalStore.closeModal(MODAL_IDS.LOADING);
+    },
+    [credential, getCurrentRepertoirePosition],
+  );
 
-  const showConfirmImportModal = (
-    repertoireFileName: string,
-    file: GoogleDriveFile,
-  ) =>
-    modalStore.addConfirmModal({
-      children: (
-        <>
-          <p>
-            Found {repertoireFileName} in {credential!.email} Google Drive. Do
-            you want to import it?
-          </p>
-          <p className="mt-2 text-sm font-light text-error">
-            This will overwrite your currently selected repertoire (
-            {selectedDatabase}).
-          </p>
-        </>
-      ),
-      onConfirm: () => downloadAndImportRepertoire(repertoireFileName, file),
-    });
+  const showConfirmImportModal = useCallback(
+    (repertoireFileName: string, file: GoogleDriveFile) =>
+      modalStore.addConfirmModal({
+        children: (
+          <>
+            <p>
+              Found {repertoireFileName} in {credential!.email} Google Drive. Do
+              you want to import it?
+            </p>
+            <p className="mt-2 text-sm font-light text-error">
+              This will overwrite your currently selected repertoire (
+              {selectedDatabase}).
+            </p>
+          </>
+        ),
+        onConfirm: () => downloadAndImportRepertoire(repertoireFileName, file),
+      }),
+    [downloadAndImportRepertoire, credential, selectedDatabase],
+  );
 
-  return async () => {
+  return useCallback(async () => {
     if (isLoginRequired(credential)) {
       login();
       return;
@@ -88,5 +89,11 @@ export const useDownloadRepertoire = ({
       modalStore.closeModal(MODAL_IDS.LOADING);
       showConfirmImportModal(repertoireFileName, file);
     }
-  };
+  }, [
+    showConfirmImportModal,
+    credential,
+    selectedDatabase,
+    isLoginRequired,
+    login,
+  ]);
 };
