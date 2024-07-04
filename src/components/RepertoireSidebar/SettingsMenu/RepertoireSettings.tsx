@@ -10,11 +10,13 @@ import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.tsx";
 import { exportRepertoire } from "@/components/RepertoireSidebar/SettingsMenu/actions.tsx";
 import { SettingsMenuButton } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuButton.tsx";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
+import { useRepertoireImport } from "@/components/RepertoireSidebar/SettingsMenu/hooks/useRepertoireImport.tsx";
 
 export const RepertoireSettings = () => {
   const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
   const fileInput = React.createRef<HTMLInputElement>();
   const handleClearRepertoire = useClearRepertoire();
+  const handleRepertoireImport = useRepertoireImport();
 
   const confirmClearRepertoire = async () =>
     modalStore.addConfirmModal({
@@ -44,6 +46,12 @@ export const RepertoireSettings = () => {
       <SettingsMenuButton onClick={() => fileInput.current?.click()}>
         Import Repertoire
       </SettingsMenuButton>
+      <input
+        type="file"
+        className="hidden"
+        ref={fileInput}
+        onChange={handleRepertoireImport}
+      />
       <SettingsMenuButton onClick={exportRepertoire}>
         Export Repertoire
       </SettingsMenuButton>
