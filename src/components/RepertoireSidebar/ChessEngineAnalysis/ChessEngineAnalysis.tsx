@@ -1,7 +1,7 @@
 import {
-  localStorageStore,
+  repertoireSettingsStore,
   useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
+} from "@/stores/repertoireSettingsStore.ts";
 import { useStockfish } from "@/stockfish/useStockfish.ts";
 import { head } from "lodash";
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
@@ -10,7 +10,7 @@ import { ChessEngineAnalysisThead } from "@/components/RepertoireSidebar/ChessEn
 import { ChessEngineAnalysisTbody } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisTbody.tsx";
 import { toast } from "react-toastify";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { registerCoiServiceWorker } from "../../../../_assets/coi.ts";
+import { registerCoiServiceWorker } from "@/external/coi/coi.ts";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
@@ -21,7 +21,7 @@ export const ChessEngineAnalysis = () => {
 
   const handleMultiPvChange = (multiPv: number) => {
     if (multiPv < 1 || multiPv > 10) return;
-    localStorageStore.upsertEngineSettings({ multiPv });
+    repertoireSettingsStore.upsertEngineSettings({ multiPv });
     return changeMultiPv(multiPv);
   };
 

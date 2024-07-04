@@ -12,11 +12,6 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-    proxy: {
-      "^/upload.*": {
-        target: "https://www.googleapis.com/upload",
-      },
-    },
   },
   resolve: {
     alias: {

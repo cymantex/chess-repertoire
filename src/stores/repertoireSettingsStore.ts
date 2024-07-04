@@ -16,7 +16,7 @@ const notifySubscribers = () => subscribers.forEach((callback) => callback());
 
 let currentSettings: RepertoireSettings = DEFAULT_SETTINGS;
 
-export const localStorageStore = {
+export const repertoireSettingsStore = {
   subscribe: (callback: () => void) => {
     subscribers.add(callback);
     return () => subscribers.delete(callback);
@@ -90,6 +90,6 @@ export const getRepertoireSettings = () => {
 
 export const useRepertoireSettings = () =>
   useSyncExternalStore(
-    localStorageStore.subscribe,
-    localStorageStore.getRepertoireSettingsSnapshot,
+    repertoireSettingsStore.subscribe,
+    repertoireSettingsStore.getRepertoireSettingsSnapshot,
   );

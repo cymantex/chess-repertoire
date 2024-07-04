@@ -1,9 +1,9 @@
 import { PgnImport } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnImport.tsx";
 import { exportPgnAsync } from "@/pgn/export/exportPgnAsync.tsx";
 import {
-  localStorageStore,
+  repertoireSettingsStore,
   useRepertoireSettings,
-} from "@/stores/localStorageStore.ts";
+} from "@/stores/repertoireSettingsStore.ts";
 import { DAISY_UI_THEMES, MODAL_IDS } from "@/defs.ts";
 import React, { InputHTMLAttributes, ReactNode } from "react";
 import { modalStore } from "@/stores/modalStore.tsx";
@@ -146,7 +146,7 @@ export const SettingsMenu = () => {
           value={multiPv}
           label={`${multiPv} / 10`}
           onChange={(multiPv) =>
-            localStorageStore.upsertEngineSettings({
+            repertoireSettingsStore.upsertEngineSettings({
               multiPv,
             })
           }
@@ -160,7 +160,7 @@ export const SettingsMenu = () => {
           label={`${threads} / ${navigator.hardwareConcurrency}`}
           value={threads}
           onChange={(threads) =>
-            localStorageStore.upsertEngineSettings({
+            repertoireSettingsStore.upsertEngineSettings({
               threads,
             })
           }
@@ -173,7 +173,7 @@ export const SettingsMenu = () => {
           value={searchTimeSeconds === Infinity ? 32 : searchTimeSeconds}
           label={toSearchTimeDisplayName(searchTimeSeconds)}
           onChange={(searchTimeSeconds) =>
-            localStorageStore.upsertEngineSettings({
+            repertoireSettingsStore.upsertEngineSettings({
               searchTimeSeconds:
                 searchTimeSeconds === 32 ? Infinity : searchTimeSeconds,
             })
