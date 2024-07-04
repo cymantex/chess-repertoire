@@ -1,13 +1,9 @@
 import { idbEntries } from "@/external/idb-keyval/adapter.ts";
 
-self.onmessage = async (event: MessageEvent<string>) => {
+self.onmessage = async () => {
   try {
     const entries = await idbEntries();
-    if (event.data === "string") {
-      self.postMessage(JSON.stringify(entries));
-    } else {
-      self.postMessage(new TextEncoder().encode(JSON.stringify(entries)));
-    }
+    self.postMessage(new TextEncoder().encode(JSON.stringify(entries)));
   } catch (err) {
     console.error(err);
     self.reportError(err);

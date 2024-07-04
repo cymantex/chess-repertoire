@@ -14,6 +14,7 @@ import {
   isCoiServiceWorkerRegistered,
 } from "@/external/coi/coi.ts";
 import { googleDriveApi } from "@/google/googleDriveApi.ts";
+import { useCallback } from "react";
 
 export const hasExpired = (
   credential: Pick<Credential, "issued_at" | "expires_in">,
@@ -65,7 +66,7 @@ export const useGoogleDriveLogin = () => {
     openErrorToast(`Login to Google failed (${type}: ${message})`);
   };
 
-  return async () => {
+  return useCallback(async () => {
     if (await isCoiServiceWorkerRegistered()) {
       showConfirmDeregisterCoiWorkerModal();
       return;
@@ -73,7 +74,7 @@ export const useGoogleDriveLogin = () => {
 
     modalStore.setLoadingModal("Logging into Google");
     login();
-  };
+  }, [login]);
 };
 
 const showConfirmDeregisterCoiWorkerModal = () =>
