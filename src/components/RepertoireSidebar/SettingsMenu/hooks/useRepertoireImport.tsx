@@ -1,10 +1,13 @@
 import { ChangeEvent } from "react";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { startImportRepertoireWorker } from "@/repertoire/repertoireIo.ts";
-import { toast } from "react-toastify";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { MODAL_IDS } from "@/defs.ts";
+import {
+  openErrorToast,
+  openSuccessToast,
+} from "@/external/react-toastify/toasts.ts";
 
 export const useRepertoireImport = () => {
   const getCurrentRepertoirePosition = useRepertoireStore(
@@ -27,11 +30,11 @@ export const useRepertoireImport = () => {
 
     try {
       await startImportRepertoireWorker(file);
-      toast.success("Repertoire imported.");
+      openSuccessToast("Repertoire imported.");
     } catch (error) {
       console.error(error);
       // @ts-ignore
-      toast.error(`Failed to import repertoire ${error.message}`);
+      openErrorToast(`Failed to import repertoire ${error.message}`);
     } finally {
       window.onbeforeunload = null;
     }

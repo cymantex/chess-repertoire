@@ -5,7 +5,6 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { useEffect, useState } from "react";
 import { createStockfish } from "@/stockfish/createStockfish.ts";
-import { toast } from "react-toastify";
 import { isNumber, orderBy } from "lodash";
 import { EngineSettings } from "@/repertoire/defs.ts";
 import { parseFen } from "chessops/fen";
@@ -16,6 +15,7 @@ import {
   AnalysisState,
   STOCKFISH_OPTIONS,
 } from "@/stockfish/defs.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 const stockfish = createStockfish();
 
@@ -66,7 +66,7 @@ export const useStockfish = ({
         },
         onError: (error) => {
           setAnalysisState(ANALYSIS_STATE.STOPPED);
-          toast.error(error.message);
+          openErrorToast(error.message);
         },
         onTimeout: () => setAnalysisState(ANALYSIS_STATE.STOPPED),
       });

@@ -8,9 +8,9 @@ import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
 import { ChessEngineAnalysisThead } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisThead.tsx";
 import { ChessEngineAnalysisTbody } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisTbody.tsx";
-import { toast } from "react-toastify";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { registerCoiServiceWorker } from "@/external/coi/coi.ts";
+import { openErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
@@ -53,7 +53,7 @@ export const ChessEngineAnalysis = () => {
             } catch (error) {
               console.error(error);
               // @ts-ignore
-              toast.error(error.message);
+              openErrorToast(error.message);
             }
           }}
           result={firstResult}

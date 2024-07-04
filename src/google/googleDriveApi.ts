@@ -1,37 +1,20 @@
 import axios from "axios";
-
-interface GoogleDriveFile {
-  kind: string;
-  id: string;
-  name: string;
-  mimeType: string;
-}
-
-interface UploadParams {
-  repertoireBlob: Blob;
-  accessToken: string;
-}
-
-interface UpdateFileParams extends UploadParams {
-  fileId: string;
-}
-
-interface CreateFileParams extends UploadParams {
-  fileName: string;
-  mimeType: string;
-}
+import {
+  CreateFileParams,
+  GoogleDriveFile,
+  UpdateFileParams,
+} from "@/google/defs.ts";
 
 const updateFile = async ({
   fileId,
   repertoireBlob,
   accessToken,
-}: UpdateFileParams) => {
-  await axios.patch(
+}: UpdateFileParams) =>
+  axios.patch(
     `https://www.googleapis.com/upload/drive/v3/files/${fileId}`,
     repertoireBlob,
     toAccessTokenHeader(accessToken),
   );
-};
 
 const createFile = async ({
   fileName,
@@ -45,15 +28,20 @@ const createFile = async ({
     accessToken: accessToken,
   });
 
-  await axios.put(
+  return axios.put(
     uploadLocation!,
     repertoireBlob,
     toAccessTokenHeader(accessToken),
   );
 };
 
-const fetchFiles = async (accessToken: string) =>
-  await axios
+const fetchFileByName = async (accessToken: string, fileName: string) => {
+  const files = await fetchFiles(accessToken);
+  return files.find((file) => file.name === fileName);
+};
+
+const fetchFiles = async (accessToken: string): Promise<GoogleDriveFile[]> =>
+  axios
     .get<{
       files: GoogleDriveFile[];
     }>(
@@ -67,7 +55,7 @@ const fetchUploadLocation = async ({
   mimeType,
   accessToken,
 }: Omit<CreateFileParams, "repertoireBlob">) =>
-  await axios
+  axios
     .post(
       "https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable",
       {
@@ -93,5 +81,5 @@ const toAccessTokenHeader = (accessToken: string) => ({
 export const googleDriveApi = {
   createFile,
   updateFile,
-  fetchFiles,
+  fetchFileByName,
 };
