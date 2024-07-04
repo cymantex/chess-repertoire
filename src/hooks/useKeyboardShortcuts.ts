@@ -9,6 +9,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
+import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
@@ -16,6 +17,11 @@ export const useKeyboardShortcuts = () => {
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
   const rotate = useRepertoireStore(selectRotate);
+  const {
+    loginToGoogle,
+    uploadRepertoireToGoogleDrive,
+    downloadRepertoireFromGoogleDrive,
+  } = useGoogleDrive();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -23,52 +29,76 @@ export const useKeyboardShortcuts = () => {
         return;
       }
 
-      if (event.key === "ArrowLeft") {
-        goToPreviousMove();
-      } else if (event.key === "ArrowRight") {
-        goToNextMove();
-      } else if (event.key === "ArrowUp") {
-        goToLastMove();
-      } else if (event.key === "ArrowDown") {
-        goToFirstMove();
-      } else if (event.key === "1") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.BRILLIANT,
-        });
-      } else if (event.key === "2") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.GOOD,
-        });
-      } else if (event.key === "3") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.INTERESTING,
-        });
-      } else if (event.key === "4") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.NEUTRAL,
-        });
-      } else if (event.key === "5") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.DUBIOUS,
-        });
-      } else if (event.key === "6") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.BAD,
-        });
-      } else if (event.key === "7") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.BLUNDER,
-        });
-      } else if (event.key === "8") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.NONE,
-        });
-      } else if (event.key === "9") {
-        repertoireSettingsStore.upsertSettings({
-          annotationSetting: ANNOTATION_SETTINGS.DONT_SAVE,
-        });
-      } else if (event.key === "f") {
-        rotate();
+      switch (event.key) {
+        case "ArrowLeft":
+          goToPreviousMove();
+          break;
+        case "ArrowRight":
+          goToNextMove();
+          break;
+        case "ArrowUp":
+          goToLastMove();
+          break;
+        case "ArrowDown":
+          goToFirstMove();
+          break;
+        case "1":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.BRILLIANT,
+          });
+          break;
+        case "2":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.GOOD,
+          });
+          break;
+        case "3":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.INTERESTING,
+          });
+          break;
+        case "4":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.NEUTRAL,
+          });
+          break;
+        case "5":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.DUBIOUS,
+          });
+          break;
+        case "6":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.BAD,
+          });
+          break;
+        case "7":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.BLUNDER,
+          });
+          break;
+        case "8":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.NONE,
+          });
+          break;
+        case "9":
+          repertoireSettingsStore.upsertSettings({
+            annotationSetting: ANNOTATION_SETTINGS.DONT_SAVE,
+          });
+          break;
+        case "f":
+          rotate();
+          break;
+        case "l":
+          loginToGoogle();
+          break;
+        case "u":
+          uploadRepertoireToGoogleDrive();
+          break;
+        case "d":
+          downloadRepertoireFromGoogleDrive();
+          break;
       }
     };
 
@@ -77,5 +107,14 @@ export const useKeyboardShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [rotate, goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
+  }, [
+    loginToGoogle,
+    uploadRepertoireToGoogleDrive,
+    downloadRepertoireFromGoogleDrive,
+    rotate,
+    goToFirstMove,
+    goToPreviousMove,
+    goToNextMove,
+    goToLastMove,
+  ]);
 };

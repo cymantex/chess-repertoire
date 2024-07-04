@@ -1,8 +1,22 @@
+import { Credential } from "@/stores/googleCredentialStore.ts";
+
 export interface GoogleDriveFile {
   kind: string;
   id: string;
   name: string;
   mimeType: string;
+}
+
+export interface TokenInfoResponse {
+  azp: string;
+  aud: string;
+  sub: string;
+  scope: string;
+  exp: string;
+  expires_in: string;
+  email: string;
+  email_verified: string;
+  access_type: string;
 }
 
 interface UploadParams {
@@ -17,4 +31,9 @@ export interface UpdateFileParams extends UploadParams {
 export interface CreateFileParams extends UploadParams {
   fileName: string;
   mimeType: string;
+}
+
+export interface GoogleDriveLoginParams {
+  isLoginRequired: (credential: Credential | null) => boolean;
+  login: () => void;
 }
