@@ -13,6 +13,7 @@ import {
   deregisterCoiServiceWorker,
   isCoiServiceWorkerRegistered,
 } from "@/external/coi/coi.ts";
+import { googleDriveApi } from "@/google/googleDriveApi.ts";
 
 export const hasExpired = (
   credential: Pick<Credential, "issued_at" | "expires_in">,
@@ -21,16 +22,21 @@ export const hasExpired = (
 export const useGoogleDriveLogin = () => {
   const login = useGoogleLogin({
     onSuccess: async (credential) => {
+      // Removing a minute since we don't know the exact time the token was
+      // issued, it's better if it expires a bit earlier rather than an
+      // expired token being used.
+      const issuedAt = Date.now() - 60 * 1000;
+
+      const email = await googleDriveApi.fetchEmail(credential.access_token);
       googleCredentialStore.upsertCredential({
         ...credential,
-        // Removing a minute since we don't know the exact time the token was
-        // issued, it's better if it expires a bit earlier rather than an
-        // expired token being used.
-        issued_at: Date.now() - 60 * 1000,
+        email,
+        issued_at: issuedAt,
       });
       modalStore.closeModal(MODAL_IDS.LOADING);
       openSuccessToast(
-        "Logged into Google Drive, you can now upload or download your repertoire.",
+        `Logged into Google Drive as ${email}, ` +
+          `you can now upload or download your repertoire.`,
       );
     },
     onError: (error) => {
@@ -56,7 +62,7 @@ export const useGoogleDriveLogin = () => {
     message: string;
   }) => {
     modalStore.closeModal(MODAL_IDS.LOADING);
-    openErrorToast(`Login to google drive failed (${type}: ${message})`);
+    openErrorToast(`Login to Google failed (${type}: ${message})`);
   };
 
   return async () => {

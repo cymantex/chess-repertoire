@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 
 export interface Credential
   extends Omit<TokenResponse, "error" | "error_description" | "error_uri"> {
+  email: string;
   issued_at: number;
 }
 

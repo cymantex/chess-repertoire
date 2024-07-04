@@ -2,8 +2,18 @@ import axios from "axios";
 import {
   CreateFileParams,
   GoogleDriveFile,
+  TokenInfoResponse,
   UpdateFileParams,
 } from "@/google/defs.ts";
+
+const fetchEmail = async (accessToken: string) =>
+  axios
+    .post<TokenInfoResponse>(
+      "https://www.googleapis.com/oauth2/v3/tokeninfo",
+      null,
+      toAccessTokenHeader(accessToken),
+    )
+    .then((response) => response.data.email);
 
 const updateFile = async ({
   fileId,
@@ -34,6 +44,14 @@ const createFile = async ({
     toAccessTokenHeader(accessToken),
   );
 };
+
+const downloadFile = async (fileId: string, accessToken: string) =>
+  axios
+    .get(
+      `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+      toAccessTokenHeader(accessToken),
+    )
+    .then((response) => response.data);
 
 const fetchFileByName = async (accessToken: string, fileName: string) => {
   const files = await fetchFiles(accessToken);
@@ -79,7 +97,10 @@ const toAccessTokenHeader = (accessToken: string) => ({
 });
 
 export const googleDriveApi = {
+  fetchEmail,
   createFile,
   updateFile,
+  downloadFile,
+  fetchFiles,
   fetchFileByName,
 };
