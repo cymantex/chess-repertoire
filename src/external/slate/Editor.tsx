@@ -8,9 +8,14 @@ import { Leaf, LeafProps } from "./Leaf.tsx";
 import { EditorToolbar } from "./EditorToolbar.tsx";
 import { EditableProps } from "slate-react/dist/components/editable";
 import { ElementProps, Format, FORMATS, HOTKEYS } from "./defs.ts";
-import { toggleBlock } from "./BlockButton.tsx";
 
-import { isBlockFormat, isColorFormat, isHotkey, toggleMark } from "./utils.ts";
+import {
+  isBlockFormat,
+  isColorFormat,
+  isHotkey,
+  toggleBlock,
+  toggleMark,
+} from "./utils.ts";
 import { withImages } from "./image/withImages.tsx";
 
 interface EditorProps extends Partial<EditableProps> {

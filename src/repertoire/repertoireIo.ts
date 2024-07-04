@@ -12,6 +12,14 @@ export const exportRepertoireFile = async () => {
   );
 };
 
+export const exportRepertoireAsBlob = async () => {
+  const repertoireUint8Array = await startExportRepertoireWorker();
+
+  return new Blob([repertoireUint8Array], {
+    type: "application/octet-stream",
+  });
+};
+
 export const startImportRepertoireWorker = (file: File) =>
   new Promise<void>((resolve, reject) => {
     const worker = new RepertoireImportWorker();
@@ -21,7 +29,7 @@ export const startImportRepertoireWorker = (file: File) =>
     worker.postMessage(file);
   });
 
-const startExportRepertoireWorker = () =>
+export const startExportRepertoireWorker = () =>
   new Promise<Uint8Array>((resolve, reject) => {
     const worker = new RepertoireExportWorker();
     worker.onmessage = async (event) => resolve(event.data);

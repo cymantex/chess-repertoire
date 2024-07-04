@@ -4,9 +4,12 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
 import { PgnImportForm } from "@/components/RepertoireSidebar/SettingsMenu/PgnImport/PgnImportForm.tsx";
-import { toast } from "react-toastify";
 import { isNumber } from "lodash";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
+import {
+  openErrorToast,
+  openSuccessToast,
+} from "@/external/react-toastify/toasts.ts";
 
 export const PgnImport = () => {
   const [showModal, setShowModal] = useState(false);
@@ -34,13 +37,13 @@ export const PgnImport = () => {
       });
 
       if (!isNumber(gameCount)) {
-        toast.error(`Failed to import any games from ${file.name}`);
+        openErrorToast(`Failed to import any games from ${file.name}`);
       } else {
-        toast.success(`Imported ${gameCount} games from ${file.name}`);
+        openSuccessToast(`Imported ${gameCount} games from ${file.name}`);
       }
     } catch (error) {
       // @ts-ignore
-      toast.error(error.message);
+      openErrorToast(error.message);
     } finally {
       window.onbeforeunload = null;
     }

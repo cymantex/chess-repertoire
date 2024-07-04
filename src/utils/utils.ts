@@ -2,7 +2,7 @@ import { isNumber } from "lodash";
 import { BREAKPOINT_MD, DAISY_UI_THEMES } from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
-import { getRepertoireSettings } from "@/stores/localStorageStore.ts";
+import { getRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import {
   BOARD_THEME_ATTRIBUTE,
   BOARD_THEMES,
@@ -70,8 +70,12 @@ export const getCurrentDate = (): string => {
   return `${year}-${month}-${day}`;
 };
 
+export const toRepertoireFileNameWithoutDate = (
+  repertoireDisplayName: string,
+) => `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}`;
+
 export const toRepertoireFileName = (repertoireDisplayName: string) =>
-  `repertoire-${repertoireDisplayName.replace(/[^a-zA-Z0-9]/g, "")}-${getCurrentDate()}`;
+  `${toRepertoireFileNameWithoutDate(repertoireDisplayName)}-${getCurrentDate()}`;
 
 export const makeVariation = (
   moves: PgnMoveData[],

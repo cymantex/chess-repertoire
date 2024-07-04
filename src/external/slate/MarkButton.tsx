@@ -2,7 +2,7 @@ import { useSlate } from "slate-react";
 import { EditorButton, EditorButtonProps } from "./EditorButton.tsx";
 import { ReactNode } from "react";
 import { Format } from "./defs.ts";
-import { isMarkActive, toggleMark } from "@/external/slate/utils.ts";
+import { isMarkActive, toggleMark } from "./utils.ts";
 
 interface MarkButtonProps extends Partial<EditorButtonProps> {
   format: Format;

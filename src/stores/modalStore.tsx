@@ -63,6 +63,10 @@ export const modalStore = {
     );
     notifySubscribers();
   },
+  closeAllModals: () => {
+    currentModals = [];
+    notifySubscribers();
+  },
 };
 
 export const useModalStore = () =>
