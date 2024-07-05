@@ -7,6 +7,7 @@ import { TopGamesModal } from "@/components/RepertoireSidebar/OpeningExplorer/To
 import { MODAL_IDS } from "@/defs.ts";
 import { FaChessBoard } from "react-icons/fa";
 import classNames from "classnames";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 export const TopGamesButton = () => {
   const fen = useRepertoireStore(selectFen);
@@ -16,26 +17,27 @@ export const TopGamesButton = () => {
   const disabled = isPending || !!error || topGames.length === 0;
 
   return (
-    <IconButton
-      title="Top games"
-      className={classNames({
-        "text-base-content": !disabled,
-        "transition-transform hover:scale-125": !disabled,
-        "text-base-300 cursor-not-allowed": disabled,
-      })}
-      disabled={disabled}
-      onClick={() => {
-        if (!disabled) {
-          modalStore.setModal(
-            <TopGamesModal
-              id={MODAL_IDS.TOP_GAMES_MODAL}
-              topGames={topGames}
-            />,
-          );
-        }
-      }}
-    >
-      <FaChessBoard />
-    </IconButton>
+    <Tooltip tooltip="Top games">
+      <IconButton
+        className={classNames({
+          "text-base-content": !disabled,
+          "transition-transform hover:scale-125": !disabled,
+          "text-base-300 cursor-not-allowed": disabled,
+        })}
+        disabled={disabled}
+        onClick={() => {
+          if (!disabled) {
+            modalStore.setModal(
+              <TopGamesModal
+                id={MODAL_IDS.TOP_GAMES_MODAL}
+                topGames={topGames}
+              />,
+            );
+          }
+        }}
+      >
+        <FaChessBoard />
+      </IconButton>
+    </Tooltip>
   );
 };
