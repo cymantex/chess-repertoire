@@ -21,10 +21,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: [
+          reactLibs: [
             "@react-oauth/google",
             "@tanstack/react-query",
-            "react",
             "react-dom",
             "react-icons",
             "react-minimal-pie-chart",
