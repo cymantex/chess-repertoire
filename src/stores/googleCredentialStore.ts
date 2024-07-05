@@ -36,6 +36,11 @@ export const googleCredentialStore = {
     currentCredential = credential;
     notifySubscribers();
   },
+  removeCredential: () => {
+    localStorage.removeItem("credential");
+    currentCredential = null;
+    notifySubscribers();
+  },
 };
 
 export const useGoogleCredential = () =>
