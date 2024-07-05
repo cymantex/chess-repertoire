@@ -1,6 +1,9 @@
 import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
 import { SettingsMenuButton } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuButton.tsx";
+import { googleLogout } from "@react-oauth/google";
+import { googleCredentialStore } from "@/stores/googleCredentialStore.ts";
+import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
 
 export const GoogleDriveSettings = () => {
   const {
@@ -22,6 +25,16 @@ export const GoogleDriveSettings = () => {
       </SettingsMenuAlert>
       <SettingsMenuButton title="Hotkey: l" onClick={loginToGoogle}>
         {isLoginRequired() ? "Login" : "Switch Account"}
+      </SettingsMenuButton>
+      <SettingsMenuButton
+        disabled={isLoginRequired()}
+        onClick={() => {
+          googleLogout();
+          googleCredentialStore.removeCredential();
+          openSuccessToast("Successfully logged out from Google Drive.");
+        }}
+      >
+        Logout
       </SettingsMenuButton>
       <SettingsMenuButton
         title="Hotkey: d"
