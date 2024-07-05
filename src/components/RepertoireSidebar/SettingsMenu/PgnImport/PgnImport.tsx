@@ -59,18 +59,20 @@ export const PgnImport = () => {
       <button className="btn w-full mb-2" onClick={() => setShowModal(true)}>
         Import PGN
       </button>
-      <Modal show={showModal}>
-        <Modal.CloseButton
-          onClick={() => setShowModal(false)}
-          disabled={importInProgress}
-        />
-        <Modal.Title>Import PGN</Modal.Title>
-        <PgnImportForm
-          key={showModal ? "open" : "closed"}
-          onUpload={handlePgnImport}
-          importPgnProgress={importPgnProgress}
-        />
-      </Modal>
+      {showModal && (
+        <Modal show={showModal}>
+          <Modal.CloseButton
+            onClick={() => setShowModal(false)}
+            disabled={importInProgress}
+          />
+          <Modal.Title>Import PGN</Modal.Title>
+          <PgnImportForm
+            key={showModal ? "open" : "closed"}
+            onUpload={handlePgnImport}
+            importPgnProgress={importPgnProgress}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

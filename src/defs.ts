@@ -1,5 +1,7 @@
 import { INITIAL_FEN } from "chessops/fen";
 
+export const ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES = ["button", "body"];
+
 export const FEN_STARTING_POSITION = INITIAL_FEN;
 
 export const COLUMN_NUMBERS = {

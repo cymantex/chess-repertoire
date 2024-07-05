@@ -49,6 +49,7 @@ export const RepertoireSettings = () => {
       <input
         type="file"
         className="hidden"
+        tabIndex={-1}
         ref={fileInput}
         onChange={handleRepertoireImport}
       />

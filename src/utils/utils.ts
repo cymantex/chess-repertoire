@@ -1,5 +1,9 @@
 import { isNumber } from "lodash";
-import { BREAKPOINT_MD, DAISY_UI_THEMES } from "@/defs.ts";
+import {
+  ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES,
+  BREAKPOINT_MD,
+  DAISY_UI_THEMES,
+} from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import { INITIAL_FEN } from "chessops/fen";
 import { getRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
@@ -173,4 +177,8 @@ export const loadThemes = () => {
       `@/external/chessground/assets/piece-themes/chessground.pieces.${DEFAULT_SETTINGS.pieceTheme}.css`
     );
   }
+};
+export const isAllowedGlobalShortcutTagType = (event: KeyboardEvent) => {
+  const tagName = (event.target as Element).tagName.toLowerCase();
+  return ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES.includes(tagName);
 };
