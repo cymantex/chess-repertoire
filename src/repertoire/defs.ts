@@ -86,6 +86,7 @@ export interface EngineSettings {
 }
 
 export interface RepertoireSettings {
+  googleDriveEnabled: boolean;
   annotationSetting: AnnotationSetting;
   theme: DaisyUiTheme;
   pieceTheme: PieceTheme;
@@ -98,6 +99,7 @@ export interface RepertoireSettings {
 
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
+  googleDriveEnabled: false,
   annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
   theme: "black",
   pieceTheme: PIECE_THEMES.CARDINAL,

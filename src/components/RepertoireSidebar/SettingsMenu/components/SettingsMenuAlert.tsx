@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
 export const SettingsMenuAlert = ({
@@ -6,7 +6,7 @@ export const SettingsMenuAlert = ({
   children,
   className,
   ...props
-}: HTMLAttributes<HTMLDivElement> & { title: string }) => (
+}: Omit<HTMLAttributes<HTMLDivElement>, "title"> & { title: ReactNode }) => (
   <div
     role="alert"
     className={classNames(

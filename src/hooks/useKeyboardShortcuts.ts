@@ -9,7 +9,6 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
-import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
@@ -17,11 +16,6 @@ export const useKeyboardShortcuts = () => {
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
   const rotate = useRepertoireStore(selectRotate);
-  const {
-    loginToGoogle,
-    uploadRepertoireToGoogleDrive,
-    downloadRepertoireFromGoogleDrive,
-  } = useGoogleDrive();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -90,15 +84,6 @@ export const useKeyboardShortcuts = () => {
         case "f":
           rotate();
           break;
-        case "l":
-          loginToGoogle();
-          break;
-        case "u":
-          uploadRepertoireToGoogleDrive();
-          break;
-        case "d":
-          downloadRepertoireFromGoogleDrive();
-          break;
       }
     };
 
@@ -107,14 +92,5 @@ export const useKeyboardShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [
-    loginToGoogle,
-    uploadRepertoireToGoogleDrive,
-    downloadRepertoireFromGoogleDrive,
-    rotate,
-    goToFirstMove,
-    goToPreviousMove,
-    goToNextMove,
-    goToLastMove,
-  ]);
+  }, [rotate, goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
 };
