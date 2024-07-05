@@ -28,7 +28,6 @@ export default defineConfig({
             "react-dom",
             "react-icons",
             "react-minimal-pie-chart",
-            "slate-react",
             "react-toastify",
           ],
           libs: [
@@ -41,6 +40,7 @@ export default defineConfig({
             "local-storage-superjson",
             "lodash",
             "slate",
+            "slate-react",
             "slate-history",
             "superjson",
             "zustand",
