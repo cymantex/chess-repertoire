@@ -14,7 +14,7 @@ import { idbDeleteDatabase } from "@/external/idb-keyval/adapter.ts";
 import { CreateDatabaseTr } from "@/components/reused/Modal/DatabaseModal/CreateDatabaseTr.tsx";
 import { DatabaseTr } from "@/components/reused/Modal/DatabaseModal/DatabaseTr.tsx";
 import { MODAL_IDS } from "@/defs.ts";
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const DatabaseModal = ({ id }: ModalId) => {
   const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
@@ -34,9 +34,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
       await listDatabases();
       await getCurrentRepertoirePosition();
     } catch (error) {
-      console.error(error);
-      // @ts-ignore
-      openErrorToast(error.message);
+      openDefaultErrorToast(error);
     } finally {
       modalStore.closeModal(MODAL_IDS.LOADING);
     }
@@ -46,10 +44,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
     try {
       await createDatabase(newDatabaseName);
     } catch (error) {
-      console.error(error);
-      // TODO: Handle errors more gracefully
-      // @ts-ignore
-      openErrorToast(error.message);
+      openDefaultErrorToast(error);
     }
   };
 

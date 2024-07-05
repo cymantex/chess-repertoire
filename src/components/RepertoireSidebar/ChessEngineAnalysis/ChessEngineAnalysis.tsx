@@ -10,7 +10,7 @@ import { ChessEngineAnalysisThead } from "@/components/RepertoireSidebar/ChessEn
 import { ChessEngineAnalysisTbody } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisTbody.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { registerCoiServiceWorker } from "@/external/coi/coi.ts";
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
@@ -51,9 +51,7 @@ export const ChessEngineAnalysis = () => {
             try {
               await toggleAnalysis();
             } catch (error) {
-              console.error(error);
-              // @ts-ignore
-              openErrorToast(error.message);
+              openDefaultErrorToast(error);
             }
           }}
           result={firstResult}

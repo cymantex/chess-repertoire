@@ -10,7 +10,7 @@ import { modalStore } from "@/stores/modalStore.tsx";
 import { EditPgnModal } from "@/components/RepertoireSidebar/PgnExplorer/EditPgnModal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
 import {
-  openErrorToast,
+  openDefaultErrorToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
 
@@ -21,9 +21,8 @@ export const PgnExplorer = () => {
     try {
       await navigator.clipboard.writeText(makePgn(pgn));
       openSuccessToast("PGN copied to clipboard");
-    } catch (e) {
-      // @ts-ignore
-      openErrorToast(e.message);
+    } catch (error) {
+      openDefaultErrorToast(error);
     }
   };
 

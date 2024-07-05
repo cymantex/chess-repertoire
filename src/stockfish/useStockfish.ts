@@ -15,7 +15,7 @@ import {
   AnalysisState,
   STOCKFISH_OPTIONS,
 } from "@/stockfish/defs.ts";
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 
 const stockfish = createStockfish();
 
@@ -66,7 +66,7 @@ export const useStockfish = ({
         },
         onError: (error) => {
           setAnalysisState(ANALYSIS_STATE.STOPPED);
-          openErrorToast(error.message);
+          openDefaultErrorToast(error);
         },
         onTimeout: () => setAnalysisState(ANALYSIS_STATE.STOPPED),
       });
