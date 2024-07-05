@@ -9,20 +9,20 @@ export const OpeningExplorerApiIcon = () => {
 
   if (openingExplorerApi === OPENING_EXPLORER_API.MASTERS) {
     return (
-      <Tooltip tooltip="Masters database">
+      <Tooltip className="max-w-min" tooltip="Masters database">
         <FaBook />
       </Tooltip>
     );
   } else if (openingExplorerApi === OPENING_EXPLORER_API.LICHESS) {
     return (
-      <Tooltip tooltip="Lichess database">
+      <Tooltip className="max-w-min" tooltip="Lichess database">
         <SiLichess />
       </Tooltip>
     );
   }
 
   return (
-    <Tooltip tooltip="Repertoire database">
+    <Tooltip className="max-w-min" tooltip="Repertoire database">
       <FaDatabase />
     </Tooltip>
   );

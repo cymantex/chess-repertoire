@@ -17,7 +17,7 @@ export const TopGamesButton = () => {
   const disabled = isPending || !!error || topGames.length === 0;
 
   return (
-    <Tooltip tooltip="Top games">
+    <Tooltip className="whitespace-nowrap" tooltip="Top games">
       <IconButton
         className={classNames({
           "text-base-content": !disabled,
