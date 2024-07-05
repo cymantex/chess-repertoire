@@ -3,7 +3,6 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
   selectCurrentRepertoirePositionMoves,
-  selectFen,
   selectHandleOpeningExplorerMove,
   selectSetHoveredOpeningMove,
 } from "@/stores/zustand/selectors.ts";
@@ -15,17 +14,17 @@ import {
 import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplorer/MoveAnnotationMenu.tsx";
 import { userSelectionExists } from "@/external/chessground/utils.ts";
 import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveStats.tsx";
-import { Loader } from "@/components/reused/Loader.tsx";
-import { ApiError } from "@/components/reused/ApiError.tsx";
-import { useOpeningExplorerQuery } from "@/components/RepertoireSidebar/OpeningExplorer/useOpeningExplorerQuery.tsx";
 import { LuSigma } from "react-icons/lu";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
 import { LargeNumber } from "@/components/RepertoireSidebar/OpeningExplorer/LargeNumber.tsx";
 
-export const OpeningExplorerTbody = () => {
-  const fen = useRepertoireStore(selectFen);
-  const { isPending, error, data } = useOpeningExplorerQuery(fen);
+interface OpeningExplorerTbodyProps {
+  openingExplorerMoves?: OpeningExplorerMove[];
+}
 
+export const OpeningExplorerTbody = ({
+  openingExplorerMoves = [],
+}: OpeningExplorerTbodyProps) => {
   const chess = useRepertoireStore(selectChess);
   const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
   const handleOpeningExplorerMove = useRepertoireStore(
@@ -34,27 +33,8 @@ export const OpeningExplorerTbody = () => {
   const repertoireMoves =
     useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
 
-  if (isPending) {
-    return (
-      <tr>
-        <td>
-          <Loader />
-        </td>
-      </tr>
-    );
-  }
-  if (error)
-    return (
-      <tr>
-        <td>
-          <ApiError error={error} />
-        </td>
-      </tr>
-    );
-
   const isRepertoireMove = (san: string) =>
     repertoireMoves?.some((move) => move.san === san);
-  const openingExplorerMoves: OpeningExplorerMove[] = data.moves;
   const orderedOpeningMoves = toOrderedRepertoireOpeningExplorerMoves(
     chess,
     openingExplorerMoves,
