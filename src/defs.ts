@@ -15,19 +15,7 @@ export const COLUMN_NUMBERS = {
   h: 7,
 } as const;
 
-export const DAISY_UI_THEMES = [
-  "black",
-  "business",
-  "coffee",
-  "dark",
-  "dim",
-  "dracula",
-  "forest",
-  "light",
-  "luxury",
-  "night",
-  "nord",
-] as const;
+export const DAISY_UI_THEMES = ["black", "luxury", "lofi"] as const;
 
 export type Column = keyof typeof COLUMN_NUMBERS;
 

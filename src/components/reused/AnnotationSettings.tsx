@@ -88,7 +88,7 @@ const AnnotationSettingMenuItem = ({
   return (
     <li>
       <a className="pl-1" onClick={() => onClick()}>
-        <SettingsIcon className="text-2xl" /> {displayName}
+        <SettingsIcon className="text-secondary text-2xl" /> {displayName}
       </a>
     </li>
   );

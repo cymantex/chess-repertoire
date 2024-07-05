@@ -70,7 +70,7 @@ export const Editor = ({
           </div>
         )}
         <Editable
-          className="textarea textarea-bordered"
+          className="textarea textarea-bordered border-primary"
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           onFocus={() => setEditorFocused(true)}
