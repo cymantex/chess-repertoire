@@ -10,7 +10,10 @@ import {
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
 import { MODAL_IDS } from "@/defs.ts";
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import {
+  getErrorMessage,
+  openErrorToast,
+} from "@/external/react-toastify/toasts.ts";
 
 export async function exportRepertoire() {
   modalStore.addLoadingModal(
@@ -25,9 +28,7 @@ export async function exportRepertoire() {
   try {
     await exportRepertoireFile();
   } catch (error) {
-    console.error(error);
-    // @ts-ignore
-    openErrorToast(`Failed to export repertoire ${error.message}`);
+    openErrorToast(`Failed to export repertoire ${getErrorMessage(error)}`);
   } finally {
     window.onbeforeunload = null;
   }

@@ -3,7 +3,7 @@ import { downloadUrl, toRepertoireFileName } from "@/utils/utils.ts";
 import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { MODAL_IDS } from "@/defs.ts";
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const exportPgnAsync = async () => {
   try {
@@ -22,10 +22,7 @@ export const exportPgnAsync = async () => {
       `${toRepertoireFileName(repertoireDisplayName)}.pgn`,
     );
   } catch (error) {
-    console.trace();
-    console.error(error);
-    // @ts-ignore
-    openErrorToast(`Failed to export repertoire ${error.message}`);
+    openDefaultErrorToast(error);
   } finally {
     modalStore.closeModal(MODAL_IDS.LOADING);
   }

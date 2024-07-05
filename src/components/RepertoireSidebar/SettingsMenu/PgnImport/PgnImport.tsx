@@ -7,6 +7,7 @@ import { PgnImportForm } from "@/components/RepertoireSidebar/SettingsMenu/PgnIm
 import { isNumber } from "lodash";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
 import {
+  openDefaultErrorToast,
   openErrorToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
@@ -42,8 +43,7 @@ export const PgnImport = () => {
         openSuccessToast(`Imported ${gameCount} games from ${file.name}`);
       }
     } catch (error) {
-      // @ts-ignore
-      openErrorToast(error.message);
+      openDefaultErrorToast(error);
     } finally {
       window.onbeforeunload = null;
     }

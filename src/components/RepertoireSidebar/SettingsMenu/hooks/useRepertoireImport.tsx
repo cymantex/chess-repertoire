@@ -5,6 +5,7 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import {
+  getErrorMessage,
   openErrorToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
@@ -32,9 +33,7 @@ export const useRepertoireImport = () => {
       await startImportRepertoireWorker(file);
       openSuccessToast("Repertoire imported.");
     } catch (error) {
-      console.error(error);
-      // @ts-ignore
-      openErrorToast(`Failed to import repertoire ${error.message}`);
+      openErrorToast(`Failed to import repertoire ${getErrorMessage(error)}`);
     } finally {
       window.onbeforeunload = null;
     }

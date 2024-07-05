@@ -50,7 +50,7 @@ export const useGoogleDriveLogin = () => {
     onNonOAuthError: (error) => {
       console.error(error);
       // @ts-ignore
-      handleLoginError({ type: error.type!, message: error.message! });
+      handleLoginError({ type: error.type, message: error.message });
     },
     scope: "https://www.googleapis.com/auth/drive.file",
   });

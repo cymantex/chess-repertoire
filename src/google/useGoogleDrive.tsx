@@ -1,4 +1,7 @@
-import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import {
+  openDefaultErrorToast,
+  openErrorToast,
+} from "@/external/react-toastify/toasts.ts";
 import { useUploadRepertoire } from "@/google/useUploadRepertoire.tsx";
 import {
   hasExpired,
@@ -28,10 +31,7 @@ export const useGoogleDrive = () => {
       try {
         await downloadRepertoire();
       } catch (error) {
-        console.error(error);
-        openErrorToast(
-          "Something went wrong when downloading repertoire from Google Drive.",
-        );
+        openDefaultErrorToast(error);
         modalStore.closeAllModals();
       }
     },

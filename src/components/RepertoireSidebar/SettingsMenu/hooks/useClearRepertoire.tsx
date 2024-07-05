@@ -4,7 +4,7 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import {
-  openErrorToast,
+  openDefaultErrorToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
 
@@ -25,9 +25,7 @@ export const useClearRepertoire = () => {
       await idbClear();
       openSuccessToast("Repertoire cleared.");
     } catch (error) {
-      console.error(error);
-      // @ts-ignore
-      openErrorToast(`Failed to clear repertoire ${error.message}`);
+      openDefaultErrorToast(error);
     }
 
     await getCurrentRepertoirePosition();
