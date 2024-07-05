@@ -17,4 +17,36 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: [
+            "@react-oauth/google",
+            "@tanstack/react-query",
+            "react",
+            "react-dom",
+            "react-icons",
+            "react-minimal-pie-chart",
+            "slate-react",
+            "react-toastify",
+          ],
+          libs: [
+            "axios",
+            "chess.js",
+            "chessops",
+            "chessground",
+            "classnames",
+            "idb-keyval",
+            "local-storage-superjson",
+            "lodash",
+            "slate",
+            "slate-history",
+            "superjson",
+            "zustand",
+          ],
+        },
+      },
+    },
+  },
 });
