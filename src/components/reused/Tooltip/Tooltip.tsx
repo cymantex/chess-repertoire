@@ -1,15 +1,18 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./Tooltip.scss";
+import classNames from "classnames";
 
 interface TooltipProps {
   align?: "right" | "center";
+  className?: string;
   tooltip: ReactNode;
   children: ReactNode;
 }
 
 export const Tooltip = ({
   align = "center",
+  className,
   tooltip,
   children,
 }: TooltipProps) => {
@@ -57,7 +60,10 @@ export const Tooltip = ({
       {showTooltip &&
         ReactDOM.createPortal(
           <div
-            className="repertoire-tooltip border border-primary text-xs"
+            className={classNames(
+              "repertoire-tooltip border border-primary text-xs",
+              className,
+            )}
             style={{
               position: "fixed",
               top: coords.top,
