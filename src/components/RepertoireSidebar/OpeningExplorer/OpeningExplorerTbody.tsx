@@ -16,7 +16,7 @@ import { MoveAnnotationMenu } from "@/components/RepertoireSidebar/OpeningExplor
 import { userSelectionExists } from "@/external/chessground/utils.ts";
 import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveStats.tsx";
 import { Loader } from "@/components/reused/Loader.tsx";
-import { FetchError } from "@/components/reused/FetchError.tsx";
+import { ApiError } from "@/components/reused/ApiError.tsx";
 import { useOpeningExplorerQuery } from "@/components/RepertoireSidebar/OpeningExplorer/useOpeningExplorerQuery.tsx";
 import { LuSigma } from "react-icons/lu";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
@@ -34,7 +34,7 @@ export const OpeningExplorerTbody = () => {
   const repertoireMoves =
     useRepertoireStore(selectCurrentRepertoirePositionMoves) ?? [];
 
-  if (isPending)
+  if (isPending) {
     return (
       <tr>
         <td>
@@ -42,11 +42,12 @@ export const OpeningExplorerTbody = () => {
         </td>
       </tr>
     );
+  }
   if (error)
     return (
       <tr>
         <td>
-          <FetchError error={error} />
+          <ApiError error={error} />
         </td>
       </tr>
     );
