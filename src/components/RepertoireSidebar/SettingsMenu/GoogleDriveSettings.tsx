@@ -4,7 +4,6 @@ import { SettingsMenuButton } from "@/components/RepertoireSidebar/SettingsMenu/
 import { googleLogout } from "@react-oauth/google";
 import { googleCredentialStore } from "@/stores/googleCredentialStore.ts";
 import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
-import { useGoogleDriveShortcuts } from "@/google/useGoogleDriveShortcuts.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 
 export const GoogleDriveSettings = () => {
@@ -15,8 +14,6 @@ export const GoogleDriveSettings = () => {
     downloadRepertoireFromGoogleDrive,
     uploadRepertoireToGoogleDrive,
   } = useGoogleDrive();
-
-  useGoogleDriveShortcuts();
 
   return (
     <>

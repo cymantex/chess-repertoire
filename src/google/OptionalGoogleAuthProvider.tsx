@@ -1,6 +1,7 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ReactNode } from "react";
 import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
+import { GoogleDriveShortcuts } from "@/google/GoogleDriveShortcuts.tsx";
 
 interface OptionalGoogleAuthProviderProps {
   children: ReactNode;
@@ -17,6 +18,7 @@ export const OptionalGoogleAuthProvider = ({
 
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API_CLIENT_ID}>
+      <GoogleDriveShortcuts />
       {children}
     </GoogleOAuthProvider>
   );
