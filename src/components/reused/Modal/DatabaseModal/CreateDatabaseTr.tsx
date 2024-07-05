@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 import { FaPlus } from "react-icons/fa";
+import { isMobileSize } from "@/utils/utils.ts";
 
 export const CreateDatabaseTr = ({
   onCreate,
@@ -23,7 +24,7 @@ export const CreateDatabaseTr = ({
         <input
           className="bg-base-100 absolute pl-4 top-0 bottom-0 right-0 left-0 focus:outline-none"
           placeholder="New database name"
-          autoFocus
+          autoFocus={!isMobileSize()}
           value={newDatabaseName}
           onChange={(e) => setNewDatabaseName(e.target.value.trim())}
           onKeyDown={(e) => {
