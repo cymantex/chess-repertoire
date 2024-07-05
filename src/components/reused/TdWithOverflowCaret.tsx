@@ -1,6 +1,7 @@
 import { ReactNode, useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
+import { FaCaretDown } from "react-icons/fa6";
+import { FaCaretRight } from "react-icons/fa";
 
 export const TdWithOverflowCaret = ({
   children,
@@ -39,7 +40,7 @@ export const TdWithOverflowCaret = ({
           className="absolute top-3 right-1"
           onClick={() => setShowOverflow((prev) => !prev)}
         >
-          {showOverflow ? <FaCaretUp /> : <FaCaretDown />}
+          {showOverflow ? <FaCaretDown /> : <FaCaretRight />}
         </button>
       )}
     </td>

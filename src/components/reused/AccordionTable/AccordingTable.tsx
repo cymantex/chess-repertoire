@@ -1,4 +1,4 @@
-import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
+import { FaCaretDown } from "react-icons/fa6";
 import { ReactNode } from "react";
 import classNames from "classnames";
 import "./AccordionTable.scss";
@@ -7,6 +7,7 @@ import {
   repertoireSettingsStore,
   useRepertoireSettings,
 } from "@/stores/repertoireSettingsStore.ts";
+import { FaCaretRight } from "react-icons/fa";
 
 interface AccordingTableProps {
   renderTheadTrChildren: (
@@ -53,7 +54,7 @@ export const AccordingTable = ({
                 transform: "translateY(-50%)",
               }}
             >
-              {collapsed ? <FaCaretDown /> : <FaCaretUp />}
+              {collapsed ? <FaCaretRight /> : <FaCaretDown />}
             </button>,
             collapsed,
           )}
