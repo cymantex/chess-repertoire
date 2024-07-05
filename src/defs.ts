@@ -31,6 +31,7 @@ export interface OpeningExplorerMove {
 export const OPENING_EXPLORER_API = {
   MASTERS: "masters",
   LICHESS: "lichess",
+  NONE: "none",
 };
 
 export interface TopGamesResponse {
