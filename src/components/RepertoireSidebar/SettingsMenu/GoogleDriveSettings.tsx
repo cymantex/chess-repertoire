@@ -4,6 +4,8 @@ import { SettingsMenuButton } from "@/components/RepertoireSidebar/SettingsMenu/
 import { googleLogout } from "@react-oauth/google";
 import { googleCredentialStore } from "@/stores/googleCredentialStore.ts";
 import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
+import { useGoogleDriveShortcuts } from "@/google/useGoogleDriveShortcuts.ts";
+import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 
 export const GoogleDriveSettings = () => {
   const {
@@ -14,9 +16,18 @@ export const GoogleDriveSettings = () => {
     uploadRepertoireToGoogleDrive,
   } = useGoogleDrive();
 
+  useGoogleDriveShortcuts();
+
   return (
     <>
-      <SettingsMenuAlert title="Google Drive">
+      <SettingsMenuAlert
+        title={
+          <>
+            <span>Google Drive</span>{" "}
+            <span className="text-xs font-light align-top">(Beta)</span>
+          </>
+        }
+      >
         {!isLoginRequired() && (
           <p className="mt-2 text-xs">
             Logged in as <strong>{email}</strong>
@@ -47,6 +58,15 @@ export const GoogleDriveSettings = () => {
         onClick={uploadRepertoireToGoogleDrive}
       >
         Upload Repertoire
+      </SettingsMenuButton>
+      <SettingsMenuButton
+        onClick={() =>
+          repertoireSettingsStore.upsertSettings({
+            googleDriveEnabled: false,
+          })
+        }
+      >
+        Disable Feature
       </SettingsMenuButton>
     </>
   );

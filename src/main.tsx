@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ModalContainer } from "@/components/ModalContainer.tsx";
 import { loadThemes } from "@/utils/utils.ts";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { OptionalGoogleAuthProvider } from "@/google/OptionalGoogleAuthProvider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,7 @@ loadThemes();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_API_CLIENT_ID}>
+    <OptionalGoogleAuthProvider>
       <QueryClientProvider client={queryClient}>
         <RepertoireApp />
         <ToastContainer
@@ -29,6 +29,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         />
         <ModalContainer />
       </QueryClientProvider>
-    </GoogleOAuthProvider>
+    </OptionalGoogleAuthProvider>
   </React.StrictMode>,
 );
