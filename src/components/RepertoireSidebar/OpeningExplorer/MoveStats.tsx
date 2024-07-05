@@ -27,6 +27,7 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
 
   return (
     <Tooltip
+      align="right"
       tooltip={
         <>
           <div className="text-xs font-light mb-2">
