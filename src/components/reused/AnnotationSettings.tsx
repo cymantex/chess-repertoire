@@ -4,6 +4,7 @@ import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;
@@ -19,9 +20,11 @@ export const AnnotationSettings = ({
   const { SettingsIcon } = getAnnotation(annotationSetting);
 
   return (
-    <div>
+    <Tooltip
+      className="w-32 max-w-32"
+      tooltip="Annotation settings (hotkeys: 1-9)"
+    >
       <span
-        title="Annotation settings (hotkeys: 1-9)"
         onClick={() => {
           if (disabled) return;
           modalStore.setModal(
@@ -42,7 +45,7 @@ export const AnnotationSettings = ({
           })}
         />
       </span>
-    </div>
+    </Tooltip>
   );
 };
 

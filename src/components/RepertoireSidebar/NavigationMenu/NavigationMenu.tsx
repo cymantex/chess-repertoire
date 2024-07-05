@@ -29,6 +29,7 @@ import { SIDEBARS } from "@/defs.ts";
 import classNames from "classnames";
 import { hasNextMove } from "@/external/chessops/pgn.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);
@@ -72,8 +73,11 @@ export const NavigationMenu = () => {
         <FaFastForward />
       </IconButton>
       <IconButton onClick={rotate}>
-        <FaRotate title="Flip board (hotkey: f)" />
+        <Tooltip className="w-20 max-w-20" tooltip="Flip board (hotkey: f)">
+          <FaRotate />
+        </Tooltip>
       </IconButton>
+
       <IconButton
         className={classNames("cursor-pointer", {
           "text-primary": sidebar === SIDEBARS.SETTINGS,
@@ -86,7 +90,9 @@ export const NavigationMenu = () => {
           );
         }}
       >
-        <FaSlidersH />
+        <Tooltip tooltip="Settings">
+          <FaSlidersH />
+        </Tooltip>
       </IconButton>
     </nav>
   );
