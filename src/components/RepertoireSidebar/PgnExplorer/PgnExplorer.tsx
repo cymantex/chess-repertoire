@@ -34,13 +34,13 @@ export const PgnExplorer = () => {
             <span>PGN</span>
             <ThMenu>
               <ThMenu.Item>
-                <ThMenu.IconButton title="Copy PGN" onClick={copyPgn}>
+                <ThMenu.IconButton title="Copy" onClick={copyPgn}>
                   <FaCopy />
                 </ThMenu.IconButton>
               </ThMenu.Item>
               <ThMenu.Item>
                 <ThMenu.IconButton
-                  title="Edit PGN"
+                  title="Edit"
                   onClick={() =>
                     modalStore.setModal(
                       <EditPgnModal id={MODAL_IDS.EDIT_PGN_MODAL} />,

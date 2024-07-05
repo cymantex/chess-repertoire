@@ -15,7 +15,7 @@ export const Tooltip = ({ tooltip, children }: TooltipProps) => {
   const openTooltip = () => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    setCoords({ top: rect.top, left: rect.left });
+    setCoords({ top: rect.top, left: rect.left + rect.width / 2 });
     setShowTooltip(true);
   };
 
@@ -26,7 +26,7 @@ export const Tooltip = ({ tooltip, children }: TooltipProps) => {
       const handleScroll = () => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        setCoords({ top: rect.top, left: rect.left });
+        setCoords({ top: rect.top, left: rect.left + rect.width / 2 });
       };
 
       window.addEventListener("scroll", handleScroll);
@@ -44,7 +44,7 @@ export const Tooltip = ({ tooltip, children }: TooltipProps) => {
       {showTooltip &&
         ReactDOM.createPortal(
           <div
-            className="repertoire-tooltip border border-primary"
+            className="repertoire-tooltip border border-primary text-xs"
             style={{ position: "fixed", top: coords.top, left: coords.left }}
           >
             {tooltip}
@@ -54,3 +54,8 @@ export const Tooltip = ({ tooltip, children }: TooltipProps) => {
     </div>
   );
 };
+
+export const withOptionalTooltip = (
+  children: ReactNode,
+  tooltip?: ReactNode,
+) => (tooltip ? <Tooltip tooltip={tooltip}>{children}</Tooltip> : children);

@@ -1,11 +1,10 @@
 import { TOGGLE_SECTIONS } from "@/repertoire/defs.ts";
 import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTable.tsx";
-import { SiLichess } from "react-icons/si";
 import {
   repertoireSettingsStore,
   useRepertoireSettings,
 } from "@/stores/repertoireSettingsStore.ts";
-import { FaBook, FaDatabase } from "react-icons/fa";
+import { FaChessBoard, FaDatabase } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
@@ -19,6 +18,8 @@ import { TopGamesButton } from "@/components/RepertoireSidebar/OpeningExplorer/T
 import { ThMenu } from "@/components/reused/ThMenu/ThMenu.tsx";
 import { OpeningExplorerQueryTbody } from "@/components/RepertoireSidebar/OpeningExplorer/OpeningExplorerQueryTbody.tsx";
 import { OpeningExplorerTbody } from "@/components/RepertoireSidebar/OpeningExplorer/OpeningExplorerTbody.tsx";
+import { IconButton } from "@/components/reused/IconButton.tsx";
+import { OpeningExplorerApiIcon } from "@/components/RepertoireSidebar/OpeningExplorer/OpeningExplorerApiIcon.tsx";
 
 export const OpeningExplorerTable = () => {
   const queryClient = useQueryClient();
@@ -59,17 +60,23 @@ export const OpeningExplorerTable = () => {
               <ThMenu>
                 <ThMenu.Item>
                   <ThMenu.IconButton
+                    title="Manage databases"
                     onClick={() =>
                       modalStore.setModal(
                         <DatabaseModal id={MODAL_IDS.DATABASE} />,
                       )
                     }
                   >
-                    <FaDatabase />
+                    <div className="flex items-center gap-2">
+                      <FaDatabase />
+                      <span
+                        title={selectedDatabase}
+                        className="text-accent-content--dark max-w-20 truncate"
+                      >
+                        {selectedDatabase}
+                      </span>
+                    </div>
                   </ThMenu.IconButton>
-                  <span title={selectedDatabase} className="max-w-20 truncate">
-                    {selectedDatabase}
-                  </span>
                 </ThMenu.Item>
                 <ThMenu.Item>
                   <ThMenu.IconButton onClick={handleToggleOpeningExplorerApi}>
@@ -78,7 +85,16 @@ export const OpeningExplorerTable = () => {
                 </ThMenu.Item>
                 {!collapsed && (
                   <ThMenu.Item>
-                    <TopGamesButton />
+                    {openingExplorerApi !== OPENING_EXPLORER_API.NONE ? (
+                      <TopGamesButton />
+                    ) : (
+                      <IconButton
+                        disabled
+                        className="text-base-300 cursor-not-allowed"
+                      >
+                        <FaChessBoard />
+                      </IconButton>
+                    )}
                   </ThMenu.Item>
                 )}
               </ThMenu>
@@ -95,16 +111,4 @@ export const OpeningExplorerTable = () => {
       }}
     />
   );
-};
-
-export const OpeningExplorerApiIcon = () => {
-  const { openingExplorerApi } = useRepertoireSettings();
-
-  if (openingExplorerApi === OPENING_EXPLORER_API.MASTERS) {
-    return <FaBook title="Masters database" />;
-  } else if (openingExplorerApi === OPENING_EXPLORER_API.LICHESS) {
-    return <SiLichess title="Lichess database" />;
-  }
-
-  return <FaDatabase title="Repertoire database" />;
 };

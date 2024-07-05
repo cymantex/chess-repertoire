@@ -5,6 +5,7 @@ import {
   IconButtonProps,
 } from "@/components/reused/IconButton.tsx";
 import classNames from "classnames";
+import { withOptionalTooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 export const ThMenu = ({ children }: { children: ReactNode }) => {
   return <div className="th-menu flex">{children}</div>;
@@ -20,14 +21,21 @@ ThMenu.Item = ({ children }: { children: ReactNode }) => {
   );
 };
 
-ThMenu.IconButton = ({ className, children, ...props }: IconButtonProps) => (
-  <IconButton
-    className={classNames(
-      "text-base-content transition-transform hover:scale-125",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-  </IconButton>
-);
+ThMenu.IconButton = ({
+  title,
+  className,
+  children,
+  ...props
+}: IconButtonProps) =>
+  withOptionalTooltip(
+    <IconButton
+      className={classNames(
+        "th-menu__icon-button text-base-content",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </IconButton>,
+    title,
+  );
