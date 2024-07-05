@@ -9,6 +9,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
+import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
@@ -19,7 +20,7 @@ export const useKeyboardShortcuts = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.target as Element).tagName.toLowerCase() !== "body") {
+      if (!isAllowedGlobalShortcutTagType(event)) {
         return;
       }
 

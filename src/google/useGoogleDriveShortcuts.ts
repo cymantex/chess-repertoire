@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
+import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
 
 export const useGoogleDriveShortcuts = () => {
   const {
@@ -10,7 +11,7 @@ export const useGoogleDriveShortcuts = () => {
 
   useEffect(() => {
     const handleGoogleDriveKeydown = (event: KeyboardEvent) => {
-      if ((event.target as Element).tagName.toLowerCase() !== "body") {
+      if (!isAllowedGlobalShortcutTagType(event)) {
         return;
       }
 
