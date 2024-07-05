@@ -19,7 +19,7 @@ export const Range = ({
     <span className="w-28 mr-2">{name}</span>
     <input
       type="range"
-      className="range range-primary"
+      className="range range-secondary"
       onChange={(e) => onChange(parseInt(e.target.value))}
       {...props}
     />

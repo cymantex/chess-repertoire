@@ -2,19 +2,7 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   daisyui: {
-    themes: [
-      "black",
-      "business",
-      "coffee",
-      "dark",
-      "dim",
-      "dracula",
-      "forest",
-      "light",
-      "luxury",
-      "night",
-      "nord",
-    ],
+    themes: ["black", "luxury", "lofi"],
   },
   theme: {
     extend: {},

@@ -24,7 +24,7 @@ export const ThemeSettings = () => {
         onChange={changeTheme}
         value={theme}
       >
-        <option disabled>Site theme</option>
+        <option disabled>Dark site themes</option>
         {DAISY_UI_THEMES.map((daisyUiTheme) => (
           <option key={daisyUiTheme} value={daisyUiTheme}>
             {daisyUiTheme}

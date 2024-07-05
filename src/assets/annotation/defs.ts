@@ -22,10 +22,10 @@ import { FaChessBoard, FaRegEye } from "react-icons/fa6";
 
 export const DEFAULT_ANNOTATION_STYLES = {
   background: {
-    fill: "oklch(var(--p))",
+    fill: "oklch(var(--s))",
   },
   shape: {
-    fill: "oklch(var(--pc))",
+    fill: "oklch(var(--sc))",
     strokeWidth: "0.1px",
   },
 };
