@@ -55,6 +55,8 @@ export const Tooltip = ({
       ref={containerRef}
       onMouseEnter={openTooltip}
       onMouseLeave={closeTooltip}
+      onTouchStart={openTooltip}
+      onTouchEnd={closeTooltip}
     >
       {children}
       {showTooltip &&
