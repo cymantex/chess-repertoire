@@ -7,7 +7,7 @@ import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
 import { ImportPgnGameOptions, ImportPgnOptions } from "@/pgn/import/defs.ts";
 import { AnnotationSetting, REPERTOIRE_ANNOTATION } from "@/repertoire/defs.ts";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
+import { FEN_STARTING_POSITION, PGN_HEADERS } from "@/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
@@ -94,15 +94,16 @@ const extractMoveAnnotation = (
 };
 
 const isUnsupportedGame = (game: Game<PgnNodeData>) => {
-  const fenHeader = game.headers.get("FEN");
+  const fenHeader = game.headers.get(PGN_HEADERS.FEN);
 
+  // TODO: Add support for FEN header
   if (fenHeader && fenHeader !== FEN_STARTING_POSITION) {
     return true;
   }
 
-  const variantHeader = game.headers.get("Variant");
+  const variantHeader = game.headers.get(PGN_HEADERS.VARIANT);
 
-  return !!(variantHeader && variantHeader !== "Standard");
+  return !!(variantHeader && variantHeader !== PGN_HEADERS.STANDARD);
 };
 
 const parseImportPgnOptions = (

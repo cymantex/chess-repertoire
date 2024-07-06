@@ -82,11 +82,16 @@ const showConfirmDeregisterCoiWorkerModal = () =>
     children: (
       <>
         <p>
-          Cannot communicate with google drive as cross-origin isolation is
-          currently enabled.
+          Google login requires <pre>cross-origin isolation</pre> to be
+          disabled.
         </p>
-        <p>A page refresh is required to disable it.</p>
-        <p>Do you want to continue?</p>
+        <p className="mt-2 font-light">
+          A page refresh is required to disable it.
+        </p>
+        <p className="font-light">Do you want to continue?</p>
+        <p className="mt-4 text-success text-sm">
+          The current PGN and FEN will be saved
+        </p>
       </>
     ),
     onConfirm: deregisterCoiServiceWorker,

@@ -22,7 +22,7 @@ export const EditPgnModal = ({ id }: ModalId) => {
   };
 
   return (
-    <Modal id={id} show>
+    <Modal id={id} className="max-w-2xl" show>
       <Modal.CloseButton onClick={() => modalStore.closeModal(id)} />
       <Modal.Title>Edit PGN</Modal.Title>
       <textarea

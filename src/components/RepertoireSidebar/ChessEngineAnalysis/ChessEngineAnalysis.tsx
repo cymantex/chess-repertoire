@@ -38,9 +38,16 @@ export const ChessEngineAnalysis = () => {
                 children: (
                   <>
                     <p>
-                      Stockfish requires cross-origin isolation to be enabled.
+                      Stockfish requires <pre>cross-origin isolation</pre> to be
+                      enabled.
                     </p>
-                    <p>Do you want to refresh the page to enable it?</p>
+                    <p className="mt-2 font-light">
+                      A page refresh is required to enable it.
+                    </p>
+                    <p className="font-light">Do you want to continue?</p>
+                    <p className="mt-4 text-success text-sm">
+                      The current PGN and FEN will be saved
+                    </p>
                   </>
                 ),
                 onConfirm: registerCoiServiceWorker,

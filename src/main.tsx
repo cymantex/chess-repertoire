@@ -9,10 +9,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { ModalContainer } from "@/components/ModalContainer.tsx";
 import { loadThemes } from "@/utils/utils.ts";
 import { OptionalGoogleAuthProvider } from "@/google/OptionalGoogleAuthProvider.tsx";
+import { initializeRepertoireStore } from "@/stores/zustand/initialize.ts";
 
 const queryClient = new QueryClient();
 
 loadThemes();
+initializeRepertoireStore();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

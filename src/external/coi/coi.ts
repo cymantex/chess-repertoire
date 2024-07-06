@@ -1,3 +1,6 @@
+import { saveGameAndReloadPage } from "@/stores/zustand/initialize.ts";
+import { createTimeoutPromise } from "@/utils/utils.ts";
+
 const SERVICE_WORKER_CLIENT_URL = "/chess-repertoire/coiServiceWorker.js";
 
 export const isCoiServiceWorkerRegistered = async (): Promise<boolean> => {
@@ -14,7 +17,17 @@ export const deregisterCoiServiceWorker = async () => {
   );
 
   if (registration && registration.active) {
-    registration.active.postMessage({ type: "deregister" });
+    const deregisterPromise = new Promise<void>((resolve) => {
+      navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.type === "deregistered") {
+          console.log("coiServiceWorker deregistered.");
+          resolve();
+        }
+      });
+      registration.active!.postMessage({ type: "deregister" });
+    });
+    await Promise.race([createTimeoutPromise(5000), deregisterPromise]);
+    saveGameAndReloadPage();
   } else {
     throw new Error("No active service worker to deregister.");
   }
@@ -48,17 +61,17 @@ export const registerCoiServiceWorker = async () => {
 
   return navigator.serviceWorker.register(SERVICE_WORKER_CLIENT_URL).then(
     (registration) => {
-      console.log("COOP/COEP Service Worker registered", registration.scope);
+      console.log("coiServiceWorker registered", registration.scope);
 
       registration.addEventListener("updatefound", () => {
         console.log("Reloading page to make use of updated coiServiceWorker.");
-        window.location.reload();
+        saveGameAndReloadPage();
       });
 
       // If the registration is active, but it's not controlling the page
       if (registration.active && !navigator.serviceWorker.controller) {
         console.log("Reloading page to make use of coiServiceWorker.");
-        window.location.reload();
+        saveGameAndReloadPage();
       }
     },
     (err) => {

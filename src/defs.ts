@@ -4,6 +4,12 @@ export const ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES = ["button", "body"];
 
 export const FEN_STARTING_POSITION = INITIAL_FEN;
 
+export const PGN_HEADERS = {
+  FEN: "FEN",
+  VARIANT: "Variant",
+  STANDARD: "Standard",
+};
+
 export const COLUMN_NUMBERS = {
   a: 0,
   b: 1,

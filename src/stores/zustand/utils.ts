@@ -10,6 +10,7 @@ import { getAnnotationSetting } from "@/stores/repertoireSettingsStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
 
 import { DEFAULT_REPERTOIRE_POSITION } from "@/repertoire/defs.ts";
+import { PGN_HEADERS } from "@/defs.ts";
 
 /**
  * This function should always be called whenever a change in the position (FEN)
@@ -40,6 +41,16 @@ export const handlePositionStateChange = async ({
   await Promise.all(promisesToResolveBeforeUpdatingRepertoirePosition);
 
   return updateCurrentRepertoirePosition(set, state.chess.fen());
+};
+
+export const resetGame = () => {
+  const { chess, pgn } = getNonReactiveState();
+
+  if (pgn.headers.has(PGN_HEADERS.FEN)) {
+    chess.load(pgn.headers.get(PGN_HEADERS.FEN)!);
+  } else {
+    chess.reset();
+  }
 };
 
 export const updateCurrentRepertoirePosition = async (
