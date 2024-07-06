@@ -41,6 +41,7 @@ export const GoToMoveButton = <
   // TODO: Variation indentation level
   return (
     <Tooltip
+      className="hidden md:block"
       renderTooltip={() => <MiniChessboard moves={getVariation(move)} />}
     >
       <button
