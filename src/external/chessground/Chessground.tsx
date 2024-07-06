@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import { Chessground as NativeChessground } from "chessground";
 import { Config } from "chessground/config";
-import { Api } from "chessground/api";
-
-export let chessground: Api | null = null;
+import { chessgroundMap } from "@/external/chessground/utils.ts";
 
 export interface ChessgroundProps extends Config {
+  id: string;
   chessgroundDivProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
 export const Chessground = ({
+  id,
   chessgroundDivProps,
   ...chessGroundConfig
 }: ChessgroundProps) => {
@@ -18,16 +18,16 @@ export const Chessground = ({
   useEffect(() => {
     if (!chessGroundDivRef?.current) return;
 
-    chessground = NativeChessground(
-      chessGroundDivRef.current,
-      chessGroundConfig,
+    chessgroundMap.set(
+      id,
+      NativeChessground(chessGroundDivRef.current, chessGroundConfig),
     );
 
     return () => {
-      chessground?.destroy();
-      chessground = null;
+      chessgroundMap.get(id)?.destroy();
+      chessgroundMap.delete(id);
     };
-  }, [chessGroundDivRef, chessGroundConfig]);
+  }, [id, chessGroundDivRef, chessGroundConfig]);
 
   return <div ref={chessGroundDivRef} {...chessgroundDivProps} />;
 };

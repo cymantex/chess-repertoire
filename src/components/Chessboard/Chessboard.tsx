@@ -16,7 +16,7 @@ import { calcPossibleDestinations } from "@/external/chessjs/utils.ts";
 import { useRepertoireAutoShapes } from "@/components/Chessboard/hooks/useRepertoireAutoShapes.tsx";
 import { DEFAULT_BRUSHES } from "@/external/chessground/defs.tsx";
 
-import { determineTurnColor } from "@/components/Chessboard/utils.ts";
+import { CG_ID, determineTurnColor } from "@/components/Chessboard/utils.ts";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);
@@ -31,6 +31,7 @@ export const Chessboard = () => {
 
   return (
     <ChessgroundWrapper
+      id={CG_ID}
       fen={fen}
       coordinates
       turnColor={determineTurnColor(chess)}

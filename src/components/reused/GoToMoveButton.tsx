@@ -3,6 +3,8 @@ import classNames from "classnames";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGoToPosition } from "@/stores/zustand/selectors.ts";
 import { openErrorToast } from "@/external/react-toastify/toasts.ts";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
+import { MiniChessboard } from "@/components/Chessboard/MiniChessboard.tsx";
 
 interface GoToMoveButtonProps<
   TMove extends Pick<PgnMoveData, "san" | "moveNumber">,
@@ -38,25 +40,29 @@ export const GoToMoveButton = <
 
   // TODO: Variation indentation level
   return (
-    <button
-      disabled={disabled}
-      onClick={handleGoToPosition}
-      className={classNames(
-        "flex p-0.5 gap-1 pt-0.5 pb-0.5 rounded transition-all",
-        {
-          "cursor-not-allowed": disabled,
-          "cursor-pointer": !disabled,
-          "hover:text-accent-content": !disabled,
-          "hover:bg-accent--dark": !disabled,
-          italic,
-          "text-accent-content--dark": italic && !selected,
-          "bg-accent--dark": selected,
-          "text-accent-content": selected,
-        },
-      )}
+    <Tooltip
+      renderTooltip={() => <MiniChessboard moves={getVariation(move)} />}
     >
-      {move.moveNumber && <span>{move.moveNumber}</span>}
-      <span>{move.san}</span>
-    </button>
+      <button
+        disabled={disabled}
+        onClick={handleGoToPosition}
+        className={classNames(
+          "flex p-0.5 gap-1 pt-0.5 pb-0.5 rounded transition-all",
+          {
+            "cursor-not-allowed": disabled,
+            "cursor-pointer": !disabled,
+            "hover:text-accent-content": !disabled,
+            "hover:bg-accent--dark": !disabled,
+            italic,
+            "text-accent-content--dark": italic && !selected,
+            "bg-accent--dark": selected,
+            "text-accent-content": selected,
+          },
+        )}
+      >
+        {move.moveNumber && <span>{move.moveNumber}</span>}
+        <span>{move.san}</span>
+      </button>
+    </Tooltip>
   );
 };

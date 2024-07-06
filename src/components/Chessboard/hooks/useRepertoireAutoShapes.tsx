@@ -9,6 +9,7 @@ import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hook
 import { getAnnotation } from "@/assets/annotation/defs.ts";
 import { safeSetAutoShapes } from "@/external/chessground/utils.ts";
 import { AnnotatedMove } from "@/repertoire/defs.ts";
+import { CG_ID } from "@/components/Chessboard/utils.ts";
 
 export const useRepertoireAutoShapes = () => {
   const nextMoves = useNextAnnotatedMoves();
@@ -32,6 +33,7 @@ export const useRepertoireAutoShapes = () => {
     repertoireAutoShapes,
     setAnnotationShapeForSelection: (square: cg.Key) =>
       safeSetAutoShapes(
+        CG_ID,
         nextMoves
           .filter((move) => move.from === square)
           .map(createAnnotationShapeForSelectedMove),

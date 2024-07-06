@@ -12,13 +12,15 @@ import classNames from "classnames";
 interface TooltipProps {
   align?: "right" | "center";
   className?: string;
-  tooltip: ReactNode;
+  renderTooltip?: () => ReactNode;
+  tooltip?: ReactNode;
   children: ReactNode;
 }
 
 export const Tooltip = ({
   align = "center",
   className,
+  renderTooltip,
   tooltip,
   children,
 }: TooltipProps) => {
@@ -88,7 +90,7 @@ export const Tooltip = ({
               transform: coords.transform,
             }}
           >
-            {tooltip}
+            {renderTooltip ? renderTooltip() : tooltip}
           </div>,
           document.body,
         )}
@@ -96,10 +98,12 @@ export const Tooltip = ({
   );
 };
 
+const MARGIN = 10;
+
 const calcAlignCenterCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
   let left = rect.left + rect.width / 2;
-  let top = rect.top;
-  let transform = "translate(-50%, -115%)";
+  let top = rect.top - MARGIN;
+  let transform = "translate(-50%, -100%)";
   const tooltipWidth = tooltip.offsetWidth / 2;
   const tooltipHeight = tooltip.offsetHeight;
 
@@ -107,8 +111,12 @@ const calcAlignCenterCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
     left = window.innerWidth - tooltipWidth;
   }
 
+  if (left - tooltipWidth < 0) {
+    left = tooltipWidth + MARGIN * 2;
+  }
+
   if (top - tooltipHeight < 0) {
-    top = top + rect.height + 5;
+    top = top + rect.height + MARGIN * 2;
     transform = "translateX(-50%)";
   }
   return { left, top, transform };
@@ -116,8 +124,8 @@ const calcAlignCenterCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
 
 const calcAlignRightCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
   let left = rect.left;
-  let top = rect.top;
-  let transform = "translateY(-115%)";
+  let top = rect.top - MARGIN;
+  let transform = "translateY(-100%)";
   const tooltipWidth = tooltip.offsetWidth;
   const tooltipHeight = tooltip.offsetHeight;
 
@@ -125,8 +133,12 @@ const calcAlignRightCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
     left = window.innerWidth - tooltipWidth;
   }
 
+  if (left - tooltipWidth < 0) {
+    left = tooltipWidth + MARGIN * 2;
+  }
+
   if (top - tooltipHeight < 0) {
-    top = top + rect.height + 5;
+    top = top + rect.height + MARGIN * 2;
     transform = "none";
   }
 

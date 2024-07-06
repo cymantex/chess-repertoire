@@ -28,7 +28,7 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
   return (
     <Tooltip
       align="right"
-      tooltip={
+      renderTooltip={() => (
         <>
           <div className="text-xs font-light mb-2">
             Total games: <LargeNumber num={totalGamesForMove} />
@@ -39,7 +39,7 @@ export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
             blackWinRate={blackWinRate}
           />
         </>
-      }
+      )}
     >
       <div className="flex gap-2 justify-between items-center">
         <span title={`${totalGamesForMove} games`}>
