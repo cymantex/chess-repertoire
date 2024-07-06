@@ -33,10 +33,15 @@ export const openDefaultErrorToast = (error: unknown) => {
 export const getErrorMessage = (error: unknown) => {
   console.error(error);
 
-  if (error && typeof error === "object" && Object.hasOwn(error, "message")) {
-    // @ts-ignore
+  if (hasMessage(error)) {
     return error.message;
   }
 
   return null;
 };
+
+export const hasMessage = (
+  error: unknown,
+): error is typeof error & {
+  message: string;
+} => !!error && typeof error === "object" && Object.hasOwn(error, "message");
