@@ -17,6 +17,7 @@ import { MoveStats } from "@/components/RepertoireSidebar/OpeningExplorer/MoveSt
 import { LuSigma } from "react-icons/lu";
 import { WinPercentageBar } from "@/components/RepertoireSidebar/OpeningExplorer/WinPercentageBar.tsx";
 import { LargeNumber } from "@/components/RepertoireSidebar/OpeningExplorer/LargeNumber.tsx";
+import { CG_ID } from "@/components/Chessboard/utils.ts";
 
 interface OpeningExplorerTbodyProps {
   openingExplorerMoves?: OpeningExplorerMove[];
@@ -51,10 +52,10 @@ export const OpeningExplorerTbody = ({
           key={move.san}
           onClick={() => handleOpeningExplorerMove(move)}
           onMouseEnter={() =>
-            !userSelectionExists() && setHoveredOpeningMove(move)
+            !userSelectionExists(CG_ID) && setHoveredOpeningMove(move)
           }
           onMouseLeave={() =>
-            !userSelectionExists() && setHoveredOpeningMove(null)
+            !userSelectionExists(CG_ID) && setHoveredOpeningMove(null)
           }
         >
           <td className="font-chess">
