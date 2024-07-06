@@ -3,6 +3,7 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectPgn } from "@/stores/zustand/selectors.ts";
 import { Chess } from "chess.js";
 import { PGN_HEADERS } from "@/defs.ts";
+import { useId } from "react";
 
 export const MiniChessboard = ({ moves = [] }: { moves?: string[] }) => {
   const pgn = useRepertoireStore(selectPgn);
@@ -13,7 +14,7 @@ export const MiniChessboard = ({ moves = [] }: { moves?: string[] }) => {
 
   return (
     <Chessground
-      id="mini-chessboard"
+      id={useId()}
       fen={chess.fen()}
       coordinates={false}
       chessgroundDivProps={{
