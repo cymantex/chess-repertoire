@@ -1,4 +1,4 @@
-import { toAnalysisResultEvaluation } from "@/utils/utils.ts";
+import { toAnalysisResultEvaluation } from "@/utils/converters.ts";
 
 interface EvalProps {
   cp?: number;

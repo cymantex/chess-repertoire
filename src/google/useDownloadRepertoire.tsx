@@ -12,9 +12,9 @@ import {
   selectGetCurrentRepertoirePosition,
   selectSelectedDatabase,
 } from "@/stores/zustand/selectors.ts";
-import { toRepertoireFileNameWithoutDate } from "@/utils/utils.ts";
 import { idbSetEntries } from "@/external/idb-keyval/adapter.ts";
 import { useCallback } from "react";
+import { toRepertoireFileNameWithoutDate } from "@/utils/converters.ts";
 
 export const useDownloadRepertoire = ({
   isLoginRequired,

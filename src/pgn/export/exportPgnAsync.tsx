@@ -1,9 +1,10 @@
 import { modalStore } from "@/stores/modalStore.tsx";
-import { downloadUrl, toRepertoireFileName } from "@/utils/utils.ts";
+import { downloadUrl } from "@/utils/utils.ts";
 import ExportPgnWorker from "@/pgn/export/exportPgnWorker.ts?worker";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
+import { toRepertoireFileName } from "@/utils/converters.ts";
 
 export const exportPgnAsync = async () => {
   try {

@@ -12,8 +12,8 @@ import {
 } from "@/external/chessops/makePgnMoveTokens.ts";
 import { last } from "lodash";
 import { PgnMoveData, RenderPgnNodeData } from "@/external/chessops/defs.ts";
-import { makeVariation } from "@/utils/utils.ts";
 import { FEN_STARTING_POSITION, PGN_HEADERS } from "@/defs.ts";
+import { makeVariation } from "@/pgn/utils.ts";
 
 export const useInteractivePgn = () => {
   const fen = useRepertoireStore(selectFen);

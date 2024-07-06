@@ -4,13 +4,13 @@ import {
   AnalysisState,
 } from "@/stockfish/defs.ts";
 import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
-import {
-  toAnalysisResultEvaluation,
-  toSearchTimeDisplayName,
-} from "@/utils/utils.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
 import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
+import {
+  toAnalysisResultEvaluation,
+  toSearchTimeDisplayName,
+} from "@/utils/converters.ts";
 
 interface ChessEngineAnalysisTheadProps {
   analysisState: AnalysisState;
