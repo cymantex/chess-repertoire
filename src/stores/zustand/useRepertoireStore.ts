@@ -14,17 +14,19 @@ import {
 } from "@/stores/zustand/utils.ts";
 import { selectChess } from "@/stores/zustand/selectors.ts";
 
+const initHeaders = () => new Map([[PGN_HEADERS.FEN, FEN_STARTING_POSITION]]);
+
 export const useRepertoireStore = create(
   devtools<ChessRepertoireStore>((set) => ({
     fen: FEN_STARTING_POSITION,
     chess: new Chess(),
-    pgn: defaultGame(() => new Map([[PGN_HEADERS.FEN, FEN_STARTING_POSITION]])),
+    pgn: defaultGame(initHeaders),
     sidebar: SIDEBARS.OPENING_EXPLORER,
 
     openSidebar: (sidebar) => set({ sidebar }),
     savePgn: (pgn) => {
       const chess = selectChess(getNonReactiveState());
-      const games = parsePgn(pgn);
+      const games = parsePgn(pgn, initHeaders);
 
       if (games.length > 0) {
         const game = games[0];
