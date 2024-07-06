@@ -17,6 +17,7 @@ import {
   toggleMark,
 } from "./utils.ts";
 import { withImages } from "./image/withImages.tsx";
+import classNames from "classnames";
 
 interface EditorProps extends Partial<EditableProps> {
   initialValue: Descendant[];
@@ -25,6 +26,7 @@ interface EditorProps extends Partial<EditableProps> {
 }
 
 export const Editor = ({
+  className,
   initialValue,
   onValueChange,
   label,
@@ -70,7 +72,10 @@ export const Editor = ({
           </div>
         )}
         <Editable
-          className="textarea textarea-bordered border-primary"
+          className={classNames(
+            "textarea textarea-bordered border-primary",
+            className,
+          )}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           onFocus={() => setEditorFocused(true)}

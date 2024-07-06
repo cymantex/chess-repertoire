@@ -9,6 +9,7 @@ import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
 import { setRepertoirePositionComments } from "@/repertoire/repertoireRepository.ts";
 import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
 import { APP_PADDING_REM } from "@/defs.ts";
+import "./CommentContainer.scss";
 
 const MARGIN_TOP_REM = 0.25;
 const EDITOR_TOOLBAR_HEIGHT_REM = 2;
@@ -33,6 +34,7 @@ export const CommentContainer = () => {
   return (
     <HideOnMobile className="mt-1">
       <Editor
+        className="comment-editor"
         key={fen}
         initialValue={comments}
         onValueChange={(value) => setRepertoirePositionComments(fen, value)}
