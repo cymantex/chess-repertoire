@@ -13,6 +13,7 @@ import {
 import { last } from "lodash";
 import { PgnMoveData, RenderPgnNodeData } from "@/external/chessops/defs.ts";
 import { makeVariation } from "@/utils/utils.ts";
+import { FEN_STARTING_POSITION, PGN_HEADERS } from "@/defs.ts";
 
 export const useInteractivePgn = () => {
   const fen = useRepertoireStore(selectFen);
@@ -28,7 +29,11 @@ export const useInteractivePgn = () => {
       .filter((token) => token.type === PGN_TOKEN_TYPES.MOVE)
       .map((token) => token.value) as unknown as RenderPgnNodeData[];
 
-    return makeVariation(movesWithFen, move);
+    const initialFen = pgn.headers.has(PGN_HEADERS.FEN)
+      ? pgn.headers.get(PGN_HEADERS.FEN)!
+      : FEN_STARTING_POSITION;
+
+    return makeVariation(movesWithFen, move, initialFen);
   };
 
   return {

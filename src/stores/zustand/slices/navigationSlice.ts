@@ -2,6 +2,7 @@ import { NavigationSlice, SetState } from "@/stores/zustand/defs.ts";
 import {
   getNonReactiveState,
   handlePositionStateChange,
+  resetGame,
 } from "@/stores/zustand/utils.ts";
 import {
   addVariationToPgn,
@@ -14,7 +15,7 @@ export const createNavigationSlice = (set: SetState): NavigationSlice => ({
     const { pgn, chess, pendingPromotionMove } = getNonReactiveState();
     if (pendingPromotionMove) return Promise.resolve();
 
-    chess.reset();
+    resetGame();
     movesFromStartingPosition.forEach((move) => chess.move(move));
     addVariationToPgn(pgn, movesFromStartingPosition);
 
@@ -22,10 +23,10 @@ export const createNavigationSlice = (set: SetState): NavigationSlice => ({
   },
 
   goToFirstMove: () => {
-    const { chess, pendingPromotionMove } = getNonReactiveState();
+    const { pendingPromotionMove } = getNonReactiveState();
     if (pendingPromotionMove) return Promise.resolve();
 
-    chess.reset();
+    resetGame();
 
     return handlePositionStateChange({ set });
   },

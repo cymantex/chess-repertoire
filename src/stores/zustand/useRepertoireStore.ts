@@ -6,7 +6,7 @@ import { createRepertoireSlice } from "@/stores/zustand/slices/repertoireSlice.t
 import { createChessgroundSlice } from "@/stores/zustand/slices/chessgroundSlice.ts";
 import { createNavigationSlice } from "@/stores/zustand/slices/navigationSlice.ts";
 import { createOpeningExplorerSlice } from "@/stores/zustand/slices/openingExplorerSlice.ts";
-import { FEN_STARTING_POSITION, SIDEBARS } from "@/defs.ts";
+import { FEN_STARTING_POSITION, PGN_HEADERS, SIDEBARS } from "@/defs.ts";
 import { defaultGame, parsePgn } from "chessops/pgn";
 import {
   getNonReactiveState,
@@ -18,7 +18,7 @@ export const useRepertoireStore = create(
   devtools<ChessRepertoireStore>((set) => ({
     fen: FEN_STARTING_POSITION,
     chess: new Chess(),
-    pgn: defaultGame(),
+    pgn: defaultGame(() => new Map([[PGN_HEADERS.FEN, FEN_STARTING_POSITION]])),
     sidebar: SIDEBARS.OPENING_EXPLORER,
 
     openSidebar: (sidebar) => set({ sidebar }),
@@ -29,8 +29,8 @@ export const useRepertoireStore = create(
       if (games.length > 0) {
         const game = games[0];
 
-        if (game.headers.has("FEN")) {
-          chess.load(game.headers.get("FEN")!);
+        if (game.headers.has(PGN_HEADERS.FEN)) {
+          chess.load(game.headers.get(PGN_HEADERS.FEN)!);
         } else {
           chess.reset();
         }
@@ -47,10 +47,3 @@ export const useRepertoireStore = create(
     ...createNavigationSlice(set),
   })),
 );
-
-const initialize = async () => {
-  await useRepertoireStore.getState().listDatabases();
-  await useRepertoireStore.getState().getCurrentRepertoirePosition();
-};
-
-initialize();

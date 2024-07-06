@@ -5,7 +5,6 @@ import {
   DAISY_UI_THEMES,
 } from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
-import { INITIAL_FEN } from "chessops/fen";
 import { getRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import {
   BOARD_THEME_ATTRIBUTE,
@@ -84,12 +83,13 @@ export const toRepertoireFileName = (repertoireDisplayName: string) =>
 export const makeVariation = (
   moves: PgnMoveData[],
   { fenBefore, san }: PgnMoveData,
+  initialFen: string,
 ) => {
   const previousMoves = [{ san }];
   let currentFen = fenBefore;
   let iterationCount = 0;
 
-  while (currentFen && currentFen !== INITIAL_FEN) {
+  while (currentFen && currentFen !== initialFen) {
     iterationCount++;
     const move = moves.find((move) => move.fen === currentFen);
 
@@ -178,7 +178,16 @@ export const loadThemes = () => {
     );
   }
 };
+
 export const isAllowedGlobalShortcutTagType = (event: KeyboardEvent) => {
   const tagName = (event.target as Element).tagName.toLowerCase();
   return ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES.includes(tagName);
 };
+
+export const createTimeoutPromise = (timeoutMs: number) =>
+  new Promise<void>((_, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject();
+    }, timeoutMs);
+  });

@@ -32,16 +32,11 @@ self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim()),
 );
-self.addEventListener("message", (ev) => {
-  if (ev.data.type === "deregister") {
-    self.registration
-      .unregister()
-      .then(() => {
-        return self.clients.matchAll();
-      })
-      .then((clients) => {
-        clients.forEach((client) => client.navigate(client.url));
-      });
+self.addEventListener("message", (event) => {
+  if (event.data.type === "deregister") {
+    self.registration.unregister().then(() => {
+      event.source.postMessage({ type: "deregistered" });
+    });
   }
 });
 self.addEventListener("fetch", fetchEventListener);
