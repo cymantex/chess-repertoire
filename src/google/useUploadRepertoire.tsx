@@ -4,11 +4,11 @@ import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectSelectedDatabase } from "@/stores/zustand/selectors.ts";
 import { googleDriveApi } from "@/google/googleDriveApi.ts";
 import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
-import { toRepertoireFileNameWithoutDate } from "@/utils/utils.ts";
 import { exportRepertoireAsBlob } from "@/repertoire/repertoireIo.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import { GoogleDriveLoginParams } from "@/google/defs.ts";
 import { useCallback } from "react";
+import { toRepertoireFileNameWithoutDate } from "@/utils/converters.ts";
 
 export const useUploadRepertoire = ({
   isLoginRequired,

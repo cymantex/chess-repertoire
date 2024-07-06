@@ -2,9 +2,9 @@ import {
   repertoireSettingsStore,
   useRepertoireSettings,
 } from "@/stores/repertoireSettingsStore.ts";
-import { toSearchTimeDisplayName } from "@/utils/utils.ts";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
 import { Range } from "@/components/RepertoireSidebar/SettingsMenu/components/Range.tsx";
+import { toSearchTimeDisplayName } from "@/utils/converters.ts";
 
 export const EngineSettings = () => {
   const { engineSettings } = useRepertoireSettings();

@@ -1,8 +1,8 @@
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectPendingPromotionMove } from "@/stores/zustand/selectors.ts";
-import { parseVariation } from "@/utils/utils.ts";
 import { GoToMoveButton } from "@/components/reused/GoToMoveButton.tsx";
 import { takeWhile } from "lodash";
+import { parseVariation } from "@/pgn/utils.ts";
 
 interface NextMovesProps {
   variationOfNextMoves: string[];
