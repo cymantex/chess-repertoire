@@ -10,6 +10,7 @@ import {
 } from "@/utils/utils.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 interface ChessEngineAnalysisTheadProps {
   analysisState: AnalysisState;
@@ -64,22 +65,24 @@ export const ChessEngineAnalysisThead = ({
           </div>
         </div>
         <div className="flex items-center gap-2 ml-auto pr-4">
-          <IconButton
-            title="Add line"
-            className="text-lg transition-all hover:scale-150"
-            disabled={multiPv === 10}
-            onClick={onAddLine}
-          >
-            <FaSquarePlus />
-          </IconButton>
-          <IconButton
-            title="Remove line"
-            className="text-lg transition-all hover:scale-150"
-            disabled={multiPv === 1}
-            onClick={onRemoveLine}
-          >
-            <FaSquareMinus />
-          </IconButton>
+          <Tooltip tooltip="Add line">
+            <IconButton
+              className="text-lg transition-all hover:scale-150"
+              disabled={multiPv === 10}
+              onClick={onAddLine}
+            >
+              <FaSquarePlus />
+            </IconButton>
+          </Tooltip>
+          <Tooltip className="whitespace-nowrap" tooltip="Remove line">
+            <IconButton
+              className="text-lg transition-all hover:scale-150"
+              disabled={multiPv === 1}
+              onClick={onRemoveLine}
+            >
+              <FaSquareMinus />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
       {children}
