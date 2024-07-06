@@ -1,7 +1,6 @@
 import { CSSProperties } from "react";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
-import { Column, COLUMN_NUMBERS } from "@/defs.ts";
 import "./PromotionSelection.scss";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
@@ -15,6 +14,19 @@ import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
 
 import { determineTurnColor } from "@/components/Chessboard/utils.ts";
+
+const COLUMN_NUMBERS = {
+  a: 0,
+  b: 1,
+  c: 2,
+  d: 3,
+  e: 4,
+  f: 5,
+  g: 6,
+  h: 7,
+} as const;
+
+type Column = keyof typeof COLUMN_NUMBERS;
 
 export const PromotionSelection = () => {
   const chess = useRepertoireStore(selectChess);

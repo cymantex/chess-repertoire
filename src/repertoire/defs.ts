@@ -1,11 +1,7 @@
 // Repertoire
 import { DrawShape } from "chessground/draw";
 import { Move } from "chess.js";
-import {
-  DAISY_UI_THEMES,
-  OPENING_EXPLORER_API,
-  OpeningExplorerMove,
-} from "@/defs.ts";
+import { OPENING_EXPLORER_API, OpeningExplorerMove } from "@/defs.ts";
 import {
   BOARD_THEMES,
   BoardTheme,
@@ -57,6 +53,7 @@ export const ANNOTATION_SETTINGS = {
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
+export const DAISY_UI_THEMES = ["black", "luxury", "lofi"] as const;
 export type DaisyUiTheme = (typeof DAISY_UI_THEMES)[number];
 
 export const TOGGLE_SECTIONS = {
