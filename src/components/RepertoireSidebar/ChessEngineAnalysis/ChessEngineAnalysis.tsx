@@ -9,7 +9,7 @@ import { AccordingTable } from "@/components/reused/AccordionTable/AccordingTabl
 import { ChessEngineAnalysisThead } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisThead.tsx";
 import { ChessEngineAnalysisTbody } from "@/components/RepertoireSidebar/ChessEngineAnalysis/ChessEngineAnalysisTbody.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { registerCoiServiceWorker } from "@/external/coi/coi.ts";
+import { registerCoiServiceWorker } from "@/utils/coi.ts";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 
 export const ChessEngineAnalysis = () => {

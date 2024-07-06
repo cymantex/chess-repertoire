@@ -13,7 +13,7 @@ import {
 import {
   deregisterCoiServiceWorker,
   isCoiServiceWorkerRegistered,
-} from "@/external/coi/coi.ts";
+} from "@/utils/coi.ts";
 import { googleDriveApi } from "@/google/googleDriveApi.ts";
 import { useCallback } from "react";
 
