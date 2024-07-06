@@ -6,6 +6,7 @@ import {
 import { modalStore } from "@/stores/modalStore.tsx";
 import { MODAL_IDS } from "@/defs.ts";
 import {
+  hasMessage,
   openErrorToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
@@ -49,8 +50,15 @@ export const useGoogleDriveLogin = () => {
     },
     onNonOAuthError: (error) => {
       console.error(error);
-      // @ts-ignore
-      handleLoginError({ type: error.type, message: error.message });
+
+      if (hasMessage(error)) {
+        handleLoginError({ type: error.type, message: error.message });
+      } else {
+        handleLoginError({
+          type: error.type,
+          message: "",
+        });
+      }
     },
     scope: "https://www.googleapis.com/auth/drive.file",
   });

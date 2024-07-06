@@ -1,4 +1,3 @@
-// @ts-ignore
 import { Chess } from "chess.js";
 import { isNotEmptyArray } from "@/utils/utils.ts";
 import { RepertoirePosition } from "@/repertoire/defs.ts";
