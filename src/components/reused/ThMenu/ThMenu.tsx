@@ -5,7 +5,8 @@ import {
   IconButtonProps,
 } from "@/components/reused/IconButton.tsx";
 import classNames from "classnames";
-import { withOptionalTooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
+
+import { withOptionalTooltip } from "@/components/reused/Tooltip/withOptionalTooltip.tsx";
 
 export const ThMenu = ({ children }: { children: ReactNode }) => {
   return <div className="th-menu flex">{children}</div>;

@@ -1,4 +1,10 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import ReactDOM from "react-dom";
 import "./Tooltip.scss";
 import classNames from "classnames";
@@ -17,38 +23,46 @@ export const Tooltip = ({
   children,
 }: TooltipProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const [coords, setCoords] = useState({
+    top: 0,
+    left: 0,
+    transform: "none",
+  });
   const containerRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const setCoordsFromRect = useCallback(
-    (rect: DOMRect) => {
-      const left = align === "center" ? rect.left + rect.width / 2 : rect.left;
-      setCoords({ top: rect.top, left });
+  const setTooltipCoords = useCallback(
+    (rect: DOMRect, tooltip: HTMLDivElement) => {
+      if (align === "center") {
+        setCoords(calcAlignCenterCoords(rect, tooltip));
+        return;
+      }
+
+      setCoords(calcAlignRightCoords(rect, tooltip));
     },
     [align],
   );
 
-  const openTooltip = () => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setCoordsFromRect(rect);
-    setShowTooltip(true);
-  };
-
+  const openTooltip = () => setShowTooltip(true);
   const closeTooltip = () => setShowTooltip(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (showTooltip) {
-      const handleScroll = () => {
-        if (!containerRef.current) return;
+      if (containerRef.current && tooltipRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
-        setCoordsFromRect(rect);
+        setTooltipCoords(rect, tooltipRef.current);
+      }
+
+      const handleScroll = () => {
+        if (!containerRef.current || !tooltipRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        setTooltipCoords(rect, tooltipRef.current);
       };
 
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, [setCoordsFromRect, showTooltip]);
+  }, [setTooltipCoords, showTooltip]);
 
   return (
     <div
@@ -62,6 +76,7 @@ export const Tooltip = ({
       {showTooltip &&
         ReactDOM.createPortal(
           <div
+            ref={tooltipRef}
             className={classNames(
               "repertoire-tooltip border border-primary text-xs",
               className,
@@ -70,10 +85,7 @@ export const Tooltip = ({
               position: "fixed",
               top: coords.top,
               left: coords.left,
-              transform:
-                align === "center"
-                  ? "translate(-50%, -115%)"
-                  : "translateY(-115%)",
+              transform: coords.transform,
             }}
           >
             {tooltip}
@@ -84,7 +96,39 @@ export const Tooltip = ({
   );
 };
 
-export const withOptionalTooltip = (
-  children: ReactNode,
-  tooltip?: ReactNode,
-) => (tooltip ? <Tooltip tooltip={tooltip}>{children}</Tooltip> : children);
+const calcAlignCenterCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
+  let left = rect.left + rect.width / 2;
+  let top = rect.top;
+  let transform = "translate(-50%, -115%)";
+  const tooltipWidth = tooltip.offsetWidth / 2;
+  const tooltipHeight = tooltip.offsetHeight;
+
+  if (left + tooltipWidth > window.innerWidth) {
+    left = window.innerWidth - tooltipWidth;
+  }
+
+  if (top - tooltipHeight < 0) {
+    top = top + rect.height + 5;
+    transform = "translateX(-50%)";
+  }
+  return { left, top, transform };
+};
+
+const calcAlignRightCoords = (rect: DOMRect, tooltip: HTMLDivElement) => {
+  let left = rect.left;
+  let top = rect.top;
+  let transform = "translateY(-115%)";
+  const tooltipWidth = tooltip.offsetWidth;
+  const tooltipHeight = tooltip.offsetHeight;
+
+  if (left + tooltipWidth > window.innerWidth) {
+    left = window.innerWidth - tooltipWidth;
+  }
+
+  if (top - tooltipHeight < 0) {
+    top = top + rect.height + 5;
+    transform = "none";
+  }
+
+  return { left, top, transform };
+};
