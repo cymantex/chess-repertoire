@@ -1,9 +1,5 @@
 import { isNumber } from "lodash";
-import {
-  ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES,
-  BREAKPOINT_MD,
-  DAISY_UI_THEMES,
-} from "@/defs.ts";
+import { ALLOWED_GLOBAL_SHORTCUT_TAG_TYPES, BREAKPOINT_MD } from "@/defs.ts";
 import { PgnMoveData } from "@/external/chessops/defs.ts";
 import { getRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import {
@@ -12,7 +8,7 @@ import {
   PIECE_THEME_ATTRIBUTE,
   PIECE_THEMES,
 } from "@/external/chessground/defs.tsx";
-import { DEFAULT_SETTINGS } from "@/repertoire/defs.ts";
+import { DAISY_UI_THEMES, DEFAULT_SETTINGS } from "@/repertoire/defs.ts";
 
 export const isNotEmptyArray = <T>(array?: T[]): array is T[] =>
   Array.isArray(array) && array.length > 0;

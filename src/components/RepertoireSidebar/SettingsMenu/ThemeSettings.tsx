@@ -1,4 +1,3 @@
-import { DAISY_UI_THEMES } from "@/defs.ts";
 import {
   changeBoardTheme,
   changePieceTheme,
@@ -12,6 +11,7 @@ import {
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
+import { DAISY_UI_THEMES } from "@/repertoire/defs.ts";
 
 export const ThemeSettings = () => {
   const { theme, boardTheme, pieceTheme } = useRepertoireSettings();

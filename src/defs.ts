@@ -8,22 +8,7 @@ export const PGN_HEADERS = {
   FEN: "FEN",
   VARIANT: "Variant",
   STANDARD: "Standard",
-};
-
-export const COLUMN_NUMBERS = {
-  a: 0,
-  b: 1,
-  c: 2,
-  d: 3,
-  e: 4,
-  f: 5,
-  g: 6,
-  h: 7,
 } as const;
-
-export const DAISY_UI_THEMES = ["black", "luxury", "lofi"] as const;
-
-export type Column = keyof typeof COLUMN_NUMBERS;
 
 // Lichess API
 export interface OpeningExplorerMove {
@@ -38,7 +23,7 @@ export const OPENING_EXPLORER_API = {
   MASTERS: "masters",
   LICHESS: "lichess",
   NONE: "none",
-};
+} as const;
 
 export interface TopGamesResponse {
   black: { name: string; rating: number };
@@ -90,4 +75,4 @@ export const MODAL_IDS = {
   TOP_GAMES_MODAL: "top-games-modal",
   EDIT_PGN_MODAL: "edit-pgn-modal",
   ANNOTATION_SETTINGS: "annotation-settings-modal",
-};
+} as const;
