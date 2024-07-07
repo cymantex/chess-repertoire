@@ -1,9 +1,10 @@
 .comment-editor {
   .font-chess {
-    background-color: oklch(var(--a--dark));
-    color: oklch(var(--ac));
-    padding-right: 0.125rem;
-    padding-left: 0.125rem;
-    border-radius: 0.125rem;
+    background-color: oklch(var(--s));
+    color: oklch(var(--sc));
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.375rem;
+    font-size: 85%;
+    white-space: break-spaces;
   }
 }
