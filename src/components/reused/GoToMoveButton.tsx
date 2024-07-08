@@ -53,10 +53,10 @@ export const GoToMoveButton = <
             "cursor-not-allowed": disabled,
             "cursor-pointer": !disabled,
             "hover:text-accent-content": !disabled,
-            "hover:bg-accent--dark": !disabled,
+            "hover:bg-accent": !disabled,
             italic,
-            "text-accent-content--dark": italic && !selected,
-            "bg-accent--dark": selected,
+            "text-base-content/50": italic && !selected,
+            "bg-accent": selected,
             "text-accent-content": selected,
           },
         )}

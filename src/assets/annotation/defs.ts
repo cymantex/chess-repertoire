@@ -31,7 +31,7 @@ export const DEFAULT_ANNOTATION_STYLES = {
 };
 
 export const ANNOTATION_BACKGROUND_ACTIVE = {
-  style: { fill: "oklch(var(--a--dark))" },
+  style: { fill: "oklch(var(--a))" },
 };
 
 export const ANNOTATION_SHAPE_ACTIVE = {

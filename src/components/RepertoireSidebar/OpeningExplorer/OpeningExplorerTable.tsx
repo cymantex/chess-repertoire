@@ -71,7 +71,7 @@ export const OpeningExplorerTable = () => {
                       <FaDatabase />
                       <span
                         title={selectedDatabase}
-                        className="text-accent-content--dark max-w-20 truncate"
+                        className="text-base-content/50 max-w-20 truncate"
                       >
                         {selectedDatabase}
                       </span>

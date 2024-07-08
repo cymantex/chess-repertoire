@@ -3,40 +3,6 @@
 @tailwind utilities;
 @import "external/react-toastify/daisyui";
 
-:root {
-  --a--dark: var(--a);
-}
-
-[data-theme="black"] {
-  --a: 75% 0.05 235;
-  --ac: 100% 0 0;
-  --ac--dark: 65% 0 0;
-  --a--dark: 45% 0.05 235;
-}
-
-[data-theme="luxury"] {
-  --a: 60% 0.051741 338.82597;
-  --a--dark: 36.6744% 0.051741 338.82597;
-
-  .border-primary {
-    border-color: oklch(var(--b3));
-  }
-}
-
-[data-theme="lofi"] {
-  --a:  50% 0.103 205.9;
-}
-
-.hover\:bg-accent--dark:hover,
-.bg-accent--dark {
-  background-color: oklch(var(--a--dark));
-}
-
-.hover\:text-accent-content--dark:hover,
-.text-accent-content--dark {
-  color: oklch(var(--ac--dark));
-}
-
 .textarea {
   ol, ul {
     padding-left: 1rem;
@@ -46,4 +12,3 @@
 .font-chess {
   font-family: var(--font-chess);
 }
-

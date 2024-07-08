@@ -25,7 +25,7 @@ export const PgnTr = () => {
 
             if (typeof moveOrString === "string") {
               return (
-                <span className="text-accent-content--dark" key={i}>
+                <span className="text-base-content/50" key={i}>
                   {moveOrString}
                 </span>
               );
