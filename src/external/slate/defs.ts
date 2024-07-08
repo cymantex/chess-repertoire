@@ -23,12 +23,11 @@ export const FORMATS = {
   LIST_ITEM: "list-item",
 } as const;
 
-// TODO: CSS variables (custom daisyui theme?)
 export const COLORS = {
-  GREEN: "#15781B",
-  RED: "#882020",
-  BLUE: "#003088",
-  YELLOW: "#e68f00",
+  GREEN: "oklch(var(--su))",
+  RED: "oklch(var(--er))",
+  BLUE: "oklch(var(--in))",
+  YELLOW: "oklch(var(--wa))",
 } as const;
 
 export const HOTKEYS = {

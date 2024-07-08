@@ -50,7 +50,7 @@ export const EditPgnModal = ({ id }: ModalId) => {
         <div
           className={
             "flex-1 whitespace-nowrap overflow-x-auto p-2 " +
-            "text-accent-content--dark border-r border-primary"
+            "text-base-content/50 border-r border-primary"
           }
         >
           {fen}

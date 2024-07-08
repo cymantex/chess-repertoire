@@ -89,10 +89,10 @@ const showConfirmDeregisterCoiWorkerModal = () =>
   modalStore.addConfirmModal({
     children: (
       <>
-        <p>
+        <div>
           Google login requires <pre>cross-origin isolation</pre> to be
           disabled.
-        </p>
+        </div>
         <p className="mt-2 font-light">
           A page refresh is required to disable it.
         </p>

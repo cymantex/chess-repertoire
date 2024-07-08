@@ -37,10 +37,10 @@ export const ChessEngineAnalysis = () => {
               modalStore.addConfirmModal({
                 children: (
                   <>
-                    <p>
+                    <div>
                       Stockfish requires <pre>cross-origin isolation</pre> to be
                       enabled.
-                    </p>
+                    </div>
                     <p className="mt-2 font-light">
                       A page refresh is required to enable it.
                     </p>
