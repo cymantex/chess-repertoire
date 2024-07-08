@@ -2,7 +2,7 @@ import {
   deleteRepertoireMove,
   setRepertoirePositionShapes,
   upsertRepertoireMove,
-} from "@/repertoire/repertoireRepository.ts";
+} from "@/repertoire/repository.ts";
 import {
   getNonReactiveState,
   updateCurrentRepertoirePosition,

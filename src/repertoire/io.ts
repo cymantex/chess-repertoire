@@ -1,5 +1,5 @@
-import RepertoireImportWorker from "@/repertoire/importRepertoireWorker.ts?worker";
-import RepertoireExportWorker from "@/repertoire/exportRepertoireWorker.ts?worker";
+import RepertoireImportWorker from "@/repertoire/importWorker.ts?worker";
+import RepertoireExportWorker from "@/repertoire/exportWorker.ts?worker";
 import { downloadUInt8Array } from "@/utils/utils.ts";
 import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { toRepertoireFileName } from "@/utils/converters.ts";

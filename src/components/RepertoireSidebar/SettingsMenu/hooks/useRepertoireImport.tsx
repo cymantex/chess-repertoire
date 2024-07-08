@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import { modalStore } from "@/stores/modalStore.tsx";
-import { startImportRepertoireWorker } from "@/repertoire/repertoireIo.ts";
+import { startImportRepertoireWorker } from "@/repertoire/io.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectGetCurrentRepertoirePosition } from "@/stores/zustand/selectors.ts";
 import { MODAL_IDS } from "@/defs.ts";

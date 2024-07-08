@@ -1,7 +1,7 @@
 import {
   getRepertoirePosition,
   upsertRepertoireMove,
-} from "@/repertoire/repertoireRepository.ts";
+} from "@/repertoire/repository.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { ChessRepertoireStore, SetState } from "@/stores/zustand/defs.ts";
 import { Move } from "chess.js";

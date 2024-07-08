@@ -6,7 +6,7 @@ import {
 } from "@/stores/zustand/selectors.ts";
 import { Editor } from "@/external/slate/Editor.tsx";
 import { HideOnMobile } from "@/components/reused/HideOnMobile.tsx";
-import { setRepertoirePositionComments } from "@/repertoire/repertoireRepository.ts";
+import { setRepertoirePositionComments } from "@/repertoire/repository.ts";
 import { toRichTextEditorFormat } from "@/external/slate/utils.ts";
 import { APP_PADDING_REM } from "@/defs.ts";
 import "./CommentContainer.scss";

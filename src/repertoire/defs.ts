@@ -53,7 +53,7 @@ export const ANNOTATION_SETTINGS = {
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
-export const DAISY_UI_THEMES = ["black", "luxury", "lofi"] as const;
+export const DAISY_UI_THEMES = ["black", "lofi"] as const;
 export type DaisyUiTheme = (typeof DAISY_UI_THEMES)[number];
 
 export const TOGGLE_SECTIONS = {
