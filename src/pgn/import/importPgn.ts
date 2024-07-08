@@ -3,7 +3,7 @@ import { chunk } from "lodash";
 import {
   setRepertoirePositionComments,
   upsertRepertoireMove,
-} from "@/repertoire/repertoireRepository.ts";
+} from "@/repertoire/repository.ts";
 import { importGame } from "@/pgn/import/importGame.ts";
 import {
   ImportPgnGameOptions,
