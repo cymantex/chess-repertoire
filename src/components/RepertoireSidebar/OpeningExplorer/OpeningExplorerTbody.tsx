@@ -60,7 +60,7 @@ export const OpeningExplorerTbody = ({
         >
           <td className="font-chess">
             {isRepertoireMove(move.san) ? (
-              <span className="text-accent font-bold">{move.san}</span>
+              <span className="text-neutral font-bold">{move.san}</span>
             ) : (
               move.san
             )}
