@@ -1,14 +1,16 @@
 import { DrawShape } from "chessground/draw";
 import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 import {
-  ANNOTATION_SETTINGS,
-  AnnotationSetting,
   DEFAULT_REPERTOIRE_POSITION,
   RepertoireMove,
-  RepertoireMoveAnnotation,
   RepertoirePosition,
 } from "@/repertoire/defs.ts";
 import { Descendant } from "slate";
+import {
+  ANNOTATION_SETTINGS,
+  AnnotationSetting,
+  MoveAnnotation,
+} from "@/annotations/defs.ts";
 
 export const getRepertoirePosition = async (fen: string) =>
   idbGet<RepertoirePosition>(fen);
@@ -37,7 +39,7 @@ export const upsertRepertoireMove = async (
     if (replaceExistingAnnotation) {
       return {
         ...move,
-        annotation: annotationSetting as RepertoireMoveAnnotation,
+        annotation: annotationSetting as MoveAnnotation,
       };
     }
 
@@ -46,7 +48,7 @@ export const upsertRepertoireMove = async (
     }
 
     return {
-      annotation: annotationSetting as RepertoireMoveAnnotation,
+      annotation: annotationSetting as MoveAnnotation,
       ...move,
     };
   };

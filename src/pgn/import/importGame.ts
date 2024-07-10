@@ -6,8 +6,8 @@ import { makeSanAndPlay, parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import { Position } from "chessops";
 import { ImportPgnGameOptions, ImportPgnOptions } from "@/pgn/import/defs.ts";
-import { AnnotationSetting, REPERTOIRE_ANNOTATION } from "@/repertoire/defs.ts";
 import { FEN_STARTING_POSITION, PGN_HEADERS } from "@/defs.ts";
+import { AnnotationSetting, MOVE_ANNOTATIONS } from "@/annotations/defs.ts";
 
 type ParsedPgnOptions = ReturnType<typeof parseImportPgnOptions>;
 
@@ -77,17 +77,17 @@ const extractMoveAnnotation = (
 
   switch (nag) {
     case 1:
-      return REPERTOIRE_ANNOTATION.GOOD;
+      return MOVE_ANNOTATIONS.GOOD;
     case 2:
-      return REPERTOIRE_ANNOTATION.BAD;
+      return MOVE_ANNOTATIONS.BAD;
     case 3:
-      return REPERTOIRE_ANNOTATION.BRILLIANT;
+      return MOVE_ANNOTATIONS.BRILLIANT;
     case 4:
-      return REPERTOIRE_ANNOTATION.BLUNDER;
+      return MOVE_ANNOTATIONS.BLUNDER;
     case 5:
-      return REPERTOIRE_ANNOTATION.INTERESTING;
+      return MOVE_ANNOTATIONS.INTERESTING;
     case 6:
-      return REPERTOIRE_ANNOTATION.DUBIOUS;
+      return MOVE_ANNOTATIONS.DUBIOUS;
     default:
       return;
   }

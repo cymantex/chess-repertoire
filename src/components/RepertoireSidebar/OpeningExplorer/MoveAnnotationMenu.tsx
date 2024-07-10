@@ -8,18 +8,11 @@ import {
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import classNames from "classnames";
 import { FaTrash } from "react-icons/fa";
-import {
-  ANNOTATION_BACKGROUND_ACTIVE,
-  ANNOTATION_LIST,
-  ANNOTATION_SHAPE_ACTIVE,
-  AnnotationProps,
-  DEFAULT_ANNOTATION_STYLES,
-} from "@/assets/annotation/defs.ts";
-import {
-  RepertoireMoveAnnotation,
-  RepertoireOpeningExplorerMove,
-} from "@/repertoire/defs.ts";
+import { ANNOTATION_LIST } from "@/annotations/annotations.tsx";
+import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
+import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
+import { MoveAnnotation } from "@/annotations/defs.ts";
 
 interface MoveAnnotationMenuProps {
   move: RepertoireOpeningExplorerMove;
@@ -34,7 +27,7 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
   const databaseMove = repertoireMoves.find(({ san }) => san === move.san);
 
   const handleAnnotationClick =
-    (annotation: RepertoireMoveAnnotation): MouseEventHandler<SVGElement> =>
+    (annotation: MoveAnnotation): MouseEventHandler<HTMLButtonElement> =>
     (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -49,46 +42,42 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
       );
     };
 
-  const createAnnotationProps = (
-    annotation: RepertoireMoveAnnotation,
-  ): AnnotationProps => ({
-    className: "transition-all hover:scale-150 rounded cursor-pointer",
-    onClick: handleAnnotationClick(annotation),
-    backgroundProps: {
-      style:
-        databaseMove?.annotation === annotation
-          ? ANNOTATION_BACKGROUND_ACTIVE.style
-          : DEFAULT_ANNOTATION_STYLES.background,
-    },
-    shapeProps: {
-      style:
-        databaseMove?.annotation === annotation
-          ? ANNOTATION_SHAPE_ACTIVE.style
-          : DEFAULT_ANNOTATION_STYLES.shape,
-    },
-  });
-
   return (
     <div
       className="flex gap-2 text-base cursor-default items-center w-max"
       onClick={(e) => e.stopPropagation()}
     >
-      {ANNOTATION_LIST.map(({ SettingsIcon, id }) => (
-        <SettingsIcon key={id} {...createAnnotationProps(id)} />
-      ))}
-      {databaseMove ? (
-        <IconButton
-          title="Delete move from repertoire"
+      {ANNOTATION_LIST.map(({ AnnotationIconButton, id }) => (
+        <AnnotationIconButton
+          key={id}
+          onClick={handleAnnotationClick(id)}
           className={classNames(
-            "transition-all hover:scale-150 rounded cursor-pointer",
+            "transition-all hover:scale-150 cursor-pointer",
             {
-              "opacity-0": !databaseMove,
+              "bg-secondary": databaseMove?.annotation !== id,
+              "bg-accent": databaseMove?.annotation === id,
             },
           )}
-          onClick={() => deleteMove(fen, move.san)}
+        />
+      ))}
+      {databaseMove ? (
+        <Tooltip
+          containerClassName="flex"
+          tooltip="Delete move"
+          className="whitespace-nowrap"
         >
-          <FaTrash />
-        </IconButton>
+          <IconButton
+            className={classNames(
+              "transition-all hover:scale-150 rounded cursor-pointer",
+              {
+                "opacity-0": !databaseMove,
+              },
+            )}
+            onClick={() => deleteMove(fen, move.san)}
+          >
+            <FaTrash />
+          </IconButton>
+        </Tooltip>
       ) : (
         <FaTrash className="opacity-0" />
       )}

@@ -1,6 +1,7 @@
 import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
 import { isNotEmptyArray } from "@/utils/utils.ts";
-import { AnnotationSetting } from "@/repertoire/defs.ts";
+
+import { AnnotationSetting } from "@/annotations/defs.ts";
 
 interface PgnImportSettingsProps {
   disabled?: boolean;

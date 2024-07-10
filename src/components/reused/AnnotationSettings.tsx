@@ -1,10 +1,14 @@
 import classNames from "classnames";
-import { getAnnotation } from "@/assets/annotation/defs.ts";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
+import { getAnnotation } from "@/annotations/annotations.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { Modal } from "@/components/reused/Modal/Modal.tsx";
 import { MODAL_IDS } from "@/defs.ts";
 import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
+import {
+  ANNOTATION_SETTINGS,
+  AnnotationSetting,
+  isMoveAnnotation,
+} from "@/annotations/defs.ts";
 
 interface AnnotationSettingsProps {
   disabled?: boolean;
@@ -17,14 +21,15 @@ export const AnnotationSettings = ({
   annotationSetting,
   onSelect,
 }: AnnotationSettingsProps) => {
-  const { SettingsIcon } = getAnnotation(annotationSetting);
+  const { AnnotationIconButton } = getAnnotation(annotationSetting);
 
   return (
     <Tooltip
+      containerClassName="flex"
       className="w-32 max-w-32"
       tooltip="Annotation settings (hotkeys: 1-9)"
     >
-      <span
+      <AnnotationIconButton
         onClick={() => {
           if (disabled) return;
           modalStore.setModal(
@@ -37,14 +42,12 @@ export const AnnotationSettings = ({
             />,
           );
         }}
-      >
-        <SettingsIcon
-          className={classNames("transition-all rounded", {
-            "hover:scale-150": !disabled,
-            "cursor-pointer": !disabled,
-          })}
-        />
-      </span>
+        className={classNames("transition-all", {
+          "bg-primary": isMoveAnnotation(annotationSetting),
+          "hover:scale-150": !disabled,
+          "cursor-pointer": !disabled,
+        })}
+      />
     </Tooltip>
   );
 };
@@ -86,12 +89,18 @@ const AnnotationSettingMenuItem = ({
   annotationSetting: AnnotationSetting;
   onClick: () => void;
 }) => {
-  const { SettingsIcon, displayName } = getAnnotation(annotationSetting);
+  const { AnnotationIconButton, displayName } =
+    getAnnotation(annotationSetting);
 
   return (
     <li>
       <a className="pl-1" onClick={() => onClick()}>
-        <SettingsIcon className="text-secondary text-2xl" /> {displayName}
+        <AnnotationIconButton
+          className={classNames("text-secondary text-2xl", {
+            "bg-secondary": isMoveAnnotation(annotationSetting),
+          })}
+        />{" "}
+        {displayName}
       </a>
     </li>
   );

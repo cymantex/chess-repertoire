@@ -4,13 +4,14 @@ import { Key } from "chessground/types";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { DrawShape } from "chessground/draw";
 import {
-  AnnotationSetting,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
   RepertoirePosition,
 } from "@/repertoire/defs.ts";
 import { Sidebar } from "@/defs.ts";
 import { Game, PgnNodeData } from "chessops/pgn";
+
+import { AnnotationSetting } from "@/annotations/defs.ts";
 
 export interface NavigationSlice {
   goToPosition: (movesFromStartingPosition: string[]) => Promise<void>;

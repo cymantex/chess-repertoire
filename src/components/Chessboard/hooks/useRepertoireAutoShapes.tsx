@@ -6,7 +6,7 @@ import { orderBy, uniqBy } from "lodash";
 import { useNextAnnotatedMoves } from "@/hooks/useNextAnnotatedMoves.ts";
 import * as cg from "chessground/types";
 import { useRestoreAutoShapesAfterSelection } from "@/components/Chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
-import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { getAnnotation } from "@/annotations/annotations.tsx";
 import { safeSetAutoShapes } from "@/external/chessground/utils.ts";
 import { AnnotatedMove } from "@/repertoire/defs.ts";
 import { CG_ID } from "@/components/Chessboard/utils.ts";

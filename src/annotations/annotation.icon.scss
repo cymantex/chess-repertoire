@@ -1,0 +1,46 @@
+.annotation-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  width: 22px;
+  height: 22px;
+
+  &__container {
+    position: relative;
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+  }
+
+  &__bad {
+    background-image: var(--annotations-bad);
+  }
+
+  &__blunder {
+    background-image: var(--annotations-blunder);
+  }
+
+  &__brilliant {
+    background-image: var(--annotations-brilliant);
+  }
+
+  &__dubious {
+    background-image: var(--annotations-dubious);
+  }
+
+  &__good {
+    background-image: var(--annotations-good);
+  }
+
+  &__interesting {
+    background-image: var(--annotations-interesting);
+  }
+
+  &__neutral {
+    background-image: var(--annotations-neutral);
+  }
+}

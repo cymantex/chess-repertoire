@@ -5,7 +5,7 @@ import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 import { useState } from "react";
 import { ImportPgnOptions, ImportPgnProgress } from "@/pgn/import/defs.ts";
 import { isNumber } from "lodash";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/repertoire/defs.ts";
+import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/annotations/defs.ts";
 
 interface PgnImportFormProps {
   importPgnProgress?: Partial<ImportPgnProgress>;

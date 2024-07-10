@@ -28,7 +28,7 @@ export const RepertoireSidebar = () => {
         <div className="overflow-auto border-t border-primary repertoire-sidebar__opening">
           <OpeningExplorerTable />
         </div>
-        <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
+        <div className="repertoire-sidebar__navigation border-0 md:border-t border-primary">
           <NavigationMenu />
         </div>
       </aside>
@@ -48,7 +48,7 @@ export const RepertoireSidebar = () => {
       <div className="overflow-auto">
         <SettingsMenu />
       </div>
-      <div className="repertoire-sidebar__navigation p-2 border-0 md:border-t border-primary">
+      <div className="repertoire-sidebar__navigation border-0 md:border-t border-primary">
         <NavigationMenu />
       </div>
     </aside>
