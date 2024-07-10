@@ -6,8 +6,8 @@
   bottom: 0;
   transform: translate(-50%, -50%);
   background-size: cover;
-  width: 22px;
-  height: 22px;
+  width: var(--annotation-icon-width);
+  height: var(--annotation-icon-height);
 
   &__container {
     position: relative;

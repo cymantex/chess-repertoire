@@ -10,7 +10,9 @@ import {
 } from "@/external/chessground/defs.tsx";
 import { Descendant } from "slate";
 import {
+  ANNOTATION_THEMES,
   AnnotationSetting,
+  AnnotationTheme,
   MOVE_ANNOTATIONS,
   MoveAnnotation,
 } from "@/annotations/defs.ts";
@@ -69,6 +71,7 @@ export interface RepertoireSettings {
   theme: DaisyUiTheme;
   pieceTheme: PieceTheme;
   boardTheme: BoardTheme;
+  annotationTheme: AnnotationTheme;
   engineSettings: EngineSettings;
   sections: Record<ToggleSection, ToggleState>;
   openingExplorerApi: OpeningExplorerApi;
@@ -82,6 +85,7 @@ export const DEFAULT_SETTINGS: RepertoireSettings = {
   theme: "black",
   pieceTheme: PIECE_THEMES.CARDINAL,
   boardTheme: BOARD_THEMES.BLUE2,
+  annotationTheme: ANNOTATION_THEMES.DEFAULT,
   openingExplorerApi: OPENING_EXPLORER_API.MASTERS,
   engineSettings: {
     searchTimeSeconds: Infinity,

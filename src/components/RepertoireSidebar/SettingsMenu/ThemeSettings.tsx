@@ -1,4 +1,5 @@
 import {
+  changeAnnotationTheme,
   changeBoardTheme,
   changePieceTheme,
   changeTheme,
@@ -12,9 +13,11 @@ import {
 } from "@/external/chessground/defs.tsx";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
 import { DAISY_UI_THEMES } from "@/repertoire/defs.ts";
+import { ANNOTATION_THEMES, AnnotationTheme } from "@/annotations/defs.ts";
 
 export const ThemeSettings = () => {
-  const { theme, boardTheme, pieceTheme } = useRepertoireSettings();
+  const { theme, boardTheme, pieceTheme, annotationTheme } =
+    useRepertoireSettings();
 
   return (
     <>
@@ -52,6 +55,20 @@ export const ThemeSettings = () => {
         {Object.values(PIECE_THEMES).map((pieceTheme) => (
           <option key={pieceTheme} value={pieceTheme}>
             {pieceTheme}
+          </option>
+        ))}
+      </select>
+      <select
+        className="select w-full mb-2 bg-base-200 text-center"
+        onChange={(e) =>
+          changeAnnotationTheme(e.target.value as AnnotationTheme)
+        }
+        value={annotationTheme}
+      >
+        <option disabled>Annotation theme</option>
+        {Object.values(ANNOTATION_THEMES).map((annotationTheme) => (
+          <option key={annotationTheme} value={annotationTheme}>
+            {annotationTheme}
           </option>
         ))}
       </select>
