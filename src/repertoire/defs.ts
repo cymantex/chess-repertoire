@@ -9,27 +9,19 @@ import {
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
 import { Descendant } from "slate";
-
-export const REPERTOIRE_ANNOTATION = {
-  BRILLIANT: 100,
-  GOOD: 200,
-  INTERESTING: 300,
-  NEUTRAL: 400,
-  DUBIOUS: 500,
-  BAD: 600,
-  BLUNDER: 700,
-} as const;
-
-export type RepertoireMoveAnnotation =
-  (typeof REPERTOIRE_ANNOTATION)[keyof typeof REPERTOIRE_ANNOTATION];
+import {
+  AnnotationSetting,
+  MOVE_ANNOTATIONS,
+  MoveAnnotation,
+} from "@/annotations/defs.ts";
 
 export interface AnnotatedMove extends Move {
-  annotation?: RepertoireMoveAnnotation;
+  annotation?: MoveAnnotation;
 }
 
 export interface RepertoireMove {
   san: string;
-  annotation?: RepertoireMoveAnnotation;
+  annotation?: MoveAnnotation;
 }
 
 export interface RepertoirePosition {
@@ -41,17 +33,6 @@ export interface RepertoirePosition {
 export type RepertoireOpeningExplorerMove =
   | AnnotatedMove
   | (AnnotatedMove & OpeningExplorerMove);
-
-// Settings
-export const ANNOTATION_SETTING_NONE = 1000;
-export const ANNOTATION_SETTING_DONT_SAVE = 10000;
-export const ANNOTATION_SETTINGS = {
-  ...REPERTOIRE_ANNOTATION,
-  NONE: ANNOTATION_SETTING_NONE,
-  DONT_SAVE: ANNOTATION_SETTING_DONT_SAVE,
-} as const;
-export type AnnotationSetting =
-  (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
 
 export const DAISY_UI_THEMES = ["black", "lofi"] as const;
 export type DaisyUiTheme = (typeof DAISY_UI_THEMES)[number];
@@ -97,7 +78,7 @@ export interface RepertoireSettings {
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
   googleDriveEnabled: false,
-  annotationSetting: REPERTOIRE_ANNOTATION.BRILLIANT,
+  annotationSetting: MOVE_ANNOTATIONS.BRILLIANT,
   theme: "black",
   pieceTheme: PIECE_THEMES.CARDINAL,
   boardTheme: BOARD_THEMES.BLUE2,

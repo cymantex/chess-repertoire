@@ -11,6 +11,7 @@ import classNames from "classnames";
 
 interface TooltipProps {
   align?: "right" | "center";
+  containerClassName?: string;
   className?: string;
   renderTooltip?: () => ReactNode;
   tooltip?: ReactNode;
@@ -19,6 +20,7 @@ interface TooltipProps {
 
 export const Tooltip = ({
   align = "center",
+  containerClassName,
   className,
   renderTooltip,
   tooltip,
@@ -69,6 +71,7 @@ export const Tooltip = ({
   return (
     <div
       ref={containerRef}
+      className={containerClassName}
       onMouseEnter={openTooltip}
       onMouseLeave={closeTooltip}
       onTouchStart={openTooltip}

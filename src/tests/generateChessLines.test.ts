@@ -4,13 +4,11 @@ import {
   generateChessLines,
   GetRepertoirePosition,
 } from "@/pgn/export/generateChessLines.ts";
-import { getAnnotation } from "@/assets/annotation/defs.ts";
+import { getAnnotation } from "@/annotations/annotations.tsx";
 import { toPgn } from "@/pgn/utils.ts";
 import { FEN_E4, FEN_SICILIAN, FEN_SICILIAN_NF3 } from "@/tests/testUtils.ts";
-import {
-  REPERTOIRE_ANNOTATION,
-  RepertoirePosition,
-} from "@/repertoire/defs.ts";
+import { RepertoirePosition } from "@/repertoire/defs.ts";
+import { MOVE_ANNOTATIONS } from "@/annotations/defs.ts";
 
 const resultHeader = `[Result "*"]\n\n`;
 
@@ -46,9 +44,9 @@ test("Multiple starting moves", async () => {
 });
 
 test("Multiple lines", async () => {
-  const e4Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BRILLIANT);
-  const nf3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.NEUTRAL);
-  const nc3Annotation = getAnnotation(REPERTOIRE_ANNOTATION.BLUNDER);
+  const e4Annotation = getAnnotation(MOVE_ANNOTATIONS.BRILLIANT);
+  const nf3Annotation = getAnnotation(MOVE_ANNOTATIONS.NEUTRAL);
+  const nc3Annotation = getAnnotation(MOVE_ANNOTATIONS.BLUNDER);
 
   const pgnList = await toPgnList({
     [FEN_STARTING_POSITION]: {

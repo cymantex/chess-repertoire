@@ -51,7 +51,7 @@ export const NavigationMenu = () => {
     !fen || !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
 
   return (
-    <nav className="flex justify-evenly text-2xl">
+    <nav className="p-2 flex items-start justify-evenly text-2xl">
       <AnnotationSettings
         annotationSetting={annotationSetting}
         onSelect={(annotationSetting) =>

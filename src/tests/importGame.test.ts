@@ -5,11 +5,8 @@ import { DrawShape } from "chessground/draw";
 import { FEN_SICILIAN } from "@/tests/testUtils.ts";
 import { importGame } from "@/pgn/import/importGame.ts";
 import { ImportPgnOptions } from "@/pgn/import/defs.ts";
-import {
-  ANNOTATION_SETTINGS,
-  AnnotationSetting,
-  RepertoireMove,
-} from "@/repertoire/defs.ts";
+import { RepertoireMove } from "@/repertoire/defs.ts";
+import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/annotations/defs.ts";
 
 const importPgn = async (
   pgn: string,

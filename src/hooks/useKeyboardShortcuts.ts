@@ -8,8 +8,9 @@ import {
   selectRotate,
 } from "@/stores/zustand/selectors.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
-import { ANNOTATION_SETTINGS } from "@/repertoire/defs.ts";
 import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
+
+import { ANNOTATION_SETTINGS } from "@/annotations/defs.ts";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
