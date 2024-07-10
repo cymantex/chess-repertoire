@@ -2,10 +2,10 @@ export const MOVE_ANNOTATIONS = {
   BRILLIANT: 100,
   GOOD: 200,
   INTERESTING: 300,
-  NEUTRAL: 400,
-  DUBIOUS: 500,
-  BAD: 600,
-  BLUNDER: 700,
+  DUBIOUS: 400,
+  BAD: 500,
+  BLUNDER: 600,
+  NEUTRAL: 700,
 } as const;
 export type MoveAnnotation =
   (typeof MOVE_ANNOTATIONS)[keyof typeof MOVE_ANNOTATIONS];
@@ -23,3 +23,12 @@ export const ANNOTATION_SETTINGS = {
 } as const;
 export type AnnotationSetting =
   (typeof ANNOTATION_SETTINGS)[keyof typeof ANNOTATION_SETTINGS];
+
+export const ANNOTATION_THEME_ATTRIBUTE = "data-annotation-theme";
+export const ANNOTATION_THEMES = {
+  DEFAULT: "default",
+  PIECES: "pieces",
+  DICE: "dice",
+} as const;
+export type AnnotationTheme =
+  (typeof ANNOTATION_THEMES)[keyof typeof ANNOTATION_THEMES];

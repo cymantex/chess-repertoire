@@ -14,6 +14,10 @@ import {
   getErrorMessage,
   openErrorToast,
 } from "@/external/react-toastify/toasts.ts";
+import {
+  ANNOTATION_THEME_ATTRIBUTE,
+  AnnotationTheme,
+} from "@/annotations/defs.ts";
 
 export async function exportRepertoire() {
   modalStore.addLoadingModal(
@@ -68,4 +72,17 @@ export const changeBoardTheme = (boardTheme: BoardTheme) => {
   import(
     `@/external/chessground/assets/board-themes/chessground.board.${boardTheme}.css`
   );
+};
+
+export const changeAnnotationTheme = (annotationTheme: AnnotationTheme) => {
+  document.documentElement.setAttribute(
+    ANNOTATION_THEME_ATTRIBUTE,
+    annotationTheme,
+  );
+
+  repertoireSettingsStore.upsertSettings({
+    annotationTheme,
+  });
+
+  import(`@/annotations/annotations.${annotationTheme}.css`);
 };

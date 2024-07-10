@@ -8,7 +8,7 @@ import {
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import classNames from "classnames";
 import { FaTrash } from "react-icons/fa";
-import { ANNOTATION_LIST } from "@/annotations/annotations.tsx";
+import { MOVE_ANNOTATION_LIST } from "@/annotations/annotations.tsx";
 import { RepertoireOpeningExplorerMove } from "@/repertoire/defs.ts";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
@@ -47,7 +47,7 @@ export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
       className="flex gap-2 text-base cursor-default items-center w-max"
       onClick={(e) => e.stopPropagation()}
     >
-      {ANNOTATION_LIST.map(({ AnnotationIconButton, id }) => (
+      {MOVE_ANNOTATION_LIST.map(({ AnnotationIconButton, id }) => (
         <AnnotationIconButton
           key={id}
           onClick={handleAnnotationClick(id)}

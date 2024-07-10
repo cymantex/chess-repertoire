@@ -1,6 +1,5 @@
+import "./annotations.scss";
 import { FaChessBoard, FaRegEye } from "react-icons/fa6";
-import "./annotation.icon.scss";
-import "./annotation.icon.default.css";
 import { IconButton } from "@/components/reused/IconButton.tsx";
 import { ButtonHTMLAttributes } from "react";
 import classNames from "classnames";
@@ -13,7 +12,7 @@ import {
 export const getAnnotation = (annotation?: number) =>
   ANNOTATIONS[annotation as MoveAnnotation];
 
-export const createAnnotationButton =
+const createAnnotationButton =
   (icon: string) =>
   ({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button
@@ -24,11 +23,11 @@ export const createAnnotationButton =
     </button>
   );
 
-export const createAnnotationSvg = (icon: string) => `
+const createAnnotationSvg = (icon: string) => `
 <svg xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="25" height="25">
     <div 
-      class="annotation-icon__container bg-base-100" 
+      class="annotation-icon__container bg-black" 
       style="margin-left: 1px; margin-top: 1px"
     >
       <div class="annotation-icon annotation-icon__${icon}"/>
@@ -99,5 +98,5 @@ const ANNOTATIONS = {
   },
 } as const;
 
-export const ANNOTATION_LIST =
+export const MOVE_ANNOTATION_LIST =
   Object.values(MOVE_ANNOTATIONS).map(getAnnotation);

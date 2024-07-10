@@ -7,6 +7,10 @@ import {
   PIECE_THEMES,
 } from "@/external/chessground/defs.tsx";
 import { DAISY_UI_THEMES, DEFAULT_SETTINGS } from "@/repertoire/defs.ts";
+import {
+  ANNOTATION_THEME_ATTRIBUTE,
+  ANNOTATION_THEMES,
+} from "@/annotations/defs.ts";
 
 export const isNotEmptyArray = <T>(array?: T[]): array is T[] =>
   Array.isArray(array) && array.length > 0;
@@ -50,8 +54,7 @@ export const removeDecorations = (san: string) =>
 
 export const loadThemes = () => {
   const theme = getRepertoireSettings().theme;
-  const boardTheme = getRepertoireSettings().boardTheme;
-  const pieceTheme = getRepertoireSettings().pieceTheme;
+  const { boardTheme, pieceTheme, annotationTheme } = getRepertoireSettings();
 
   if (DAISY_UI_THEMES.includes(theme)) {
     document.documentElement.setAttribute("data-theme", theme);
@@ -77,6 +80,16 @@ export const loadThemes = () => {
     import(
       `@/external/chessground/assets/piece-themes/chessground.pieces.${DEFAULT_SETTINGS.pieceTheme}.css`
     );
+  }
+
+  if (Object.values(ANNOTATION_THEMES).includes(annotationTheme)) {
+    document.documentElement.setAttribute(
+      ANNOTATION_THEME_ATTRIBUTE,
+      annotationTheme,
+    );
+    import(`@/annotations/annotations.${annotationTheme}.css`);
+  } else {
+    import(`@/annotations/annotations.${DEFAULT_SETTINGS.annotationTheme}.css`);
   }
 };
 
