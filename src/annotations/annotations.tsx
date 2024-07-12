@@ -24,7 +24,6 @@ const createAnnotationButton =
   );
 
 const createAnnotationSvg = (icon: string) => `
-<svg xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="25" height="25">
     <div 
       class="annotation-icon__container bg-black" 
@@ -33,7 +32,6 @@ const createAnnotationSvg = (icon: string) => `
       <div class="annotation-icon annotation-icon__${icon}"/>
     </div>
   </foreignObject>
-</svg>
 `;
 
 // eslint-disable-next-line react-refresh/only-export-components

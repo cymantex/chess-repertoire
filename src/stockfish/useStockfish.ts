@@ -114,11 +114,15 @@ export const useStockfish = ({
       setAnalysisState(ANALYSIS_STATE.ANALYSING);
     },
     changeMultiPv: async (multiPv: number) => {
-      setAnalysisState(ANALYSIS_STATE.STOPPING);
-      await stockfish.stop();
-      await stockfish.start();
-      stockfish.setOption(STOCKFISH_OPTIONS.multiPv, multiPv);
-      setAnalysisState(ANALYSIS_STATE.ANALYSING);
+      if (analysisState === ANALYSIS_STATE.ANALYSING) {
+        setAnalysisState(ANALYSIS_STATE.STOPPING);
+        await stockfish.stop();
+        await stockfish.start();
+        stockfish.setOption(STOCKFISH_OPTIONS.multiPv, multiPv);
+        setAnalysisState(ANALYSIS_STATE.ANALYSING);
+      } else {
+        stockfish.setOption(STOCKFISH_OPTIONS.multiPv, multiPv);
+      }
     },
   };
 };
