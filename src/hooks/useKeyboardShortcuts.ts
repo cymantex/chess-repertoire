@@ -11,6 +11,7 @@ import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
 
 import { ANNOTATION_SETTINGS } from "@/annotations/defs.ts";
+import { exportRepertoire } from "@/components/RepertoireSidebar/SettingsMenu/actions.tsx";
 
 export const useKeyboardShortcuts = () => {
   const goToFirstMove = useRepertoireStore(selectGoToFirstMove);
@@ -85,6 +86,9 @@ export const useKeyboardShortcuts = () => {
           break;
         case "f":
           rotate();
+          break;
+        case "e":
+          exportRepertoire();
           break;
       }
     };
