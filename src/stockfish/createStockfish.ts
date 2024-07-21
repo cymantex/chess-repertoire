@@ -215,19 +215,6 @@ export const createStockfish = (): Stockfish => {
         throw new Error(ERROR_STOCKFISH_ALREADY_ANALYSING);
       }
 
-      externalAnalyseSubscribers.add((message) => {
-        if (message.startsWith("info")) {
-          const partialAnalysisResult = parsePartialAnalysisResult(message);
-
-          if (isAnalysisResult(partialAnalysisResult)) {
-            onAnalysisResult(partialAnalysisResult, fen);
-          }
-        } else if (message.startsWith("bestmove")) {
-          onBestMove?.(parseBestMove(message));
-        }
-      });
-      externalAnalyseErrorSubscribers.add(onError);
-
       setPosition(fen);
 
       try {
@@ -255,6 +242,19 @@ export const createStockfish = (): Stockfish => {
           onTimeout?.();
         }, searchTimeInMs);
       }
+
+      externalAnalyseSubscribers.add((message) => {
+        if (message.startsWith("info")) {
+          const partialAnalysisResult = parsePartialAnalysisResult(message);
+
+          if (isAnalysisResult(partialAnalysisResult)) {
+            onAnalysisResult(partialAnalysisResult, fen);
+          }
+        } else if (message.startsWith("bestmove")) {
+          onBestMove?.(parseBestMove(message));
+        }
+      });
+      externalAnalyseErrorSubscribers.add(onError);
 
       return stockfish;
     },
