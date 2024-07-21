@@ -39,10 +39,7 @@ export const ChessEngineAnalysisThead = ({
           <input
             id="analysis-toggle"
             type="checkbox"
-            disabled={
-              analysisState === ANALYSIS_STATE.STARTING ||
-              analysisState === ANALYSIS_STATE.STOPPING
-            }
+            disabled={analysisState === ANALYSIS_STATE.STARTING}
             className="toggle toggle-sm"
             checked={analysisState === ANALYSIS_STATE.ANALYSING}
             onChange={onChange}

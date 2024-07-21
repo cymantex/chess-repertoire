@@ -59,12 +59,16 @@ interface AnalyseParams {
   onTimeout?: () => unknown;
 }
 
+interface StartParams {
+  logMessages: boolean;
+}
+
 export interface Stockfish {
   setOption: (option: StockfishOption, value: string | number) => Stockfish;
   setPosition: (fen: string) => Stockfish;
   analyse: (params: AnalyseParams) => Promise<Stockfish>;
-  start: () => Promise<void>;
-  stop: () => Promise<Stockfish>;
+  start: (params?: StartParams) => Promise<void>;
+  stop: () => Stockfish;
   isStarted: () => boolean;
 }
 
@@ -74,6 +78,9 @@ export interface BestMove {
 }
 
 export const ERROR_STOCKFISH_NOT_STARTED = "Stockfish worker not started";
+export const ERROR_STOCKFISH_ALREADY_ANALYSING =
+  "Stockfish is already analysing a position. Stop the current " +
+  "analysis before starting a new one.";
 
 /**
  * @property {string} threads - The number of CPU threads used for searching
@@ -170,12 +177,8 @@ export type StockfishOption =
 export const ANALYSIS_STATE = {
   STARTING: "STARTING",
   ANALYSING: "ANALYSING",
-  STOPPING: "STOPPING",
   STOPPED: "STOPPED",
 } as const;
 
 export type AnalysisState =
   (typeof ANALYSIS_STATE)[keyof typeof ANALYSIS_STATE];
-
-export type MessageSubscriber = (message: string) => void;
-export type ErrorSubscriber = (error: ErrorEvent) => void;
