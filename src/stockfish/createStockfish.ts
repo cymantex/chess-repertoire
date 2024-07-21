@@ -45,7 +45,7 @@ export const createStockfish = (): Stockfish => {
   const waitUntilMessageReceived = (
     sendMessage: () => unknown,
     messageToReceive: string,
-    retries = 3,
+    retries = 0,
   ): Promise<unknown> => {
     const subscriberId = generateUuid();
 
