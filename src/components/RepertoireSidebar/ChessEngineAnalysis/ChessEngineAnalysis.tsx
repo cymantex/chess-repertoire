@@ -19,10 +19,15 @@ export const ChessEngineAnalysis = () => {
     useStockfish(engineSettings);
   const firstResult = head(analysisResults);
 
-  const handleMultiPvChange = (multiPv: number) => {
+  const handleMultiPvChange = async (multiPv: number) => {
     if (multiPv < 1 || multiPv > 10) return;
     repertoireSettingsStore.upsertEngineSettings({ multiPv });
-    return changeMultiPv(multiPv);
+
+    try {
+      await changeMultiPv(multiPv);
+    } catch (error) {
+      openDefaultErrorToast(error);
+    }
   };
 
   return (

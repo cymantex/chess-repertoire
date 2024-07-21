@@ -2,11 +2,13 @@
 // For Vite this means it should be located in the dist/assets folder
 import StockfishWorker from "stockfish/src/stockfish-nnue-16.js?worker";
 import {
+  generateUuid,
   isAnalysisResult,
   parseBestMove,
   parsePartialAnalysisResult,
 } from "@/stockfish/utils.ts";
 import {
+  ERROR_STOCKFISH_ALREADY_ANALYSING,
   ERROR_STOCKFISH_NOT_STARTED,
   Stockfish,
   StockfishOption,
@@ -14,10 +16,18 @@ import {
 
 export const createStockfish = (): Stockfish => {
   let stockfishWorker: Worker | null = null;
-  const internalMessageSubscribers = new Set<(message: string) => void>();
-  const internalErrorSubscribers = new Set<(error: ErrorEvent) => void>();
-  const externalMessageSubscribers = new Set<(message: string) => void>();
-  const externalErrorSubscribers = new Set<(error: ErrorEvent) => void>();
+  const internalMessageSubscribers = new Map<
+    string,
+    (message: string) => void
+  >();
+  const internalErrorSubscribers = new Map<
+    string,
+    (error: ErrorEvent) => void
+  >();
+  const externalAnalyseSubscribers = new Set<(message: string) => void>();
+  const externalAnalyseErrorSubscribers = new Set<
+    (error: ErrorEvent) => void
+  >();
 
   const sendUciMessage = (message: string) => {
     if (!stockfishWorker) {
@@ -36,38 +46,118 @@ export const createStockfish = (): Stockfish => {
   const waitUntilMessageReceived = (
     sendMessage: () => unknown,
     messageToReceive: string,
-  ) => {
-    const promise = new Promise<void>((resolve, reject) => {
+    retries = 3,
+  ): Promise<unknown> => {
+    const subscriberId = generateUuid();
+
+    const clearWaitUntilMessageSubscriptions = () => {
+      internalMessageSubscribers.delete(subscriberId);
+      internalErrorSubscribers.delete(subscriberId);
+    };
+
+    const waitUntilMessagePromsise = new Promise<void>((resolve, reject) => {
       const waitUntilMessageSubscriber = (receivedMessage: string) => {
         if (messageToReceive === receivedMessage) {
-          internalMessageSubscribers.delete(waitUntilMessageSubscriber);
-          internalErrorSubscribers.delete(rejectOnErrorSubscriber);
+          clearWaitUntilMessageSubscriptions();
           resolve();
         }
       };
+
       const rejectOnErrorSubscriber = () => {
-        internalMessageSubscribers.delete(waitUntilMessageSubscriber);
-        internalErrorSubscribers.delete(rejectOnErrorSubscriber);
+        clearWaitUntilMessageSubscriptions();
         reject();
       };
 
-      internalMessageSubscribers.add(waitUntilMessageSubscriber);
-      internalErrorSubscribers.add(rejectOnErrorSubscriber);
+      internalMessageSubscribers.set(subscriberId, waitUntilMessageSubscriber);
+      internalErrorSubscribers.set(subscriberId, rejectOnErrorSubscriber);
       sendMessage();
     });
 
     const timeoutPromise = new Promise<void>((_, reject) => {
       const id = setTimeout(() => {
         clearTimeout(id);
+        clearWaitUntilMessageSubscriptions();
         reject(`Timed out waiting to receive message: ${messageToReceive}`);
-      }, 5000);
+      }, 3000);
     });
 
-    return Promise.race([promise, timeoutPromise]);
+    return Promise.race([waitUntilMessagePromsise, timeoutPromise]).catch(
+      (error) => {
+        if (retries <= 0) {
+          throw error;
+        }
+
+        return waitUntilMessageReceived(
+          sendMessage,
+          messageToReceive,
+          retries - 1,
+        );
+      },
+    );
+  };
+
+  const handleUnexpectedError = (error: unknown, message: string) => {
+    clearExternalSubscribers();
+
+    console.error(error);
+
+    if (stockfishWorker) {
+      stockfishWorker.terminate();
+      stockfishWorker = null;
+    }
+
+    throw new Error(message);
+  };
+
+  const clearExternalSubscribers = () => {
+    externalAnalyseSubscribers.clear();
+    externalAnalyseErrorSubscribers.clear();
+  };
+
+  const setupStockfishWorker = (logMessages: boolean) => {
+    const worker = new StockfishWorker();
+
+    worker!.onmessage = (event) => {
+      for (const subscriber of internalMessageSubscribers.values()) {
+        subscriber(event.data);
+      }
+      externalAnalyseSubscribers.forEach((subscriber) =>
+        subscriber(event.data),
+      );
+
+      if (logMessages) {
+        console.log(event.data);
+      }
+    };
+    worker!.onerror = (error) => {
+      for (const subscriber of internalErrorSubscribers.values()) {
+        subscriber(error);
+      }
+      externalAnalyseErrorSubscribers.forEach((subscriber) =>
+        subscriber(error),
+      );
+
+      if (logMessages) {
+        console.error(error);
+      }
+    };
+    worker!.onmessageerror = (error) => {
+      for (const subscriber of internalErrorSubscribers.values()) {
+        subscriber(new ErrorEvent(error.data));
+      }
+      externalAnalyseErrorSubscribers.forEach((subscriber) =>
+        subscriber(new ErrorEvent(error.data)),
+      );
+
+      if (logMessages) {
+        console.error(error);
+      }
+    };
+    return worker;
   };
 
   const stockfish: Stockfish = {
-    start: async (logMessages = false) => {
+    start: async ({ logMessages = false } = { logMessages: false }) => {
       if (!window.crossOriginIsolated) {
         throw new Error(
           "Stockfish requires cross-origin isolation to be enabled.",
@@ -78,56 +168,35 @@ export const createStockfish = (): Stockfish => {
         return;
       }
 
-      const worker = new StockfishWorker();
+      const worker = setupStockfishWorker(logMessages);
 
-      worker!.onmessage = (event) => {
-        internalMessageSubscribers.forEach((subscriber) =>
-          subscriber(event.data),
+      try {
+        await waitUntilMessageReceived(
+          () => worker.postMessage("uci"),
+          "uciok",
         );
-        externalMessageSubscribers.forEach((subscriber) =>
-          subscriber(event.data),
+        await waitUntilMessageReceived(
+          () => worker.postMessage("isready"),
+          "readyok",
         );
-
-        if (logMessages) {
-          console.log(event.data);
-        }
-      };
-      worker!.onerror = (error) => {
-        internalErrorSubscribers.forEach((subscriber) => subscriber(error));
-        externalErrorSubscribers.forEach((subscriber) => subscriber(error));
-
-        if (logMessages) {
-          console.error(error);
-        }
-      };
-      worker!.onmessageerror = (error) => {
-        externalErrorSubscribers.forEach((subscriber) =>
-          subscriber(new ErrorEvent(error.data)),
+      } catch (error) {
+        handleUnexpectedError(
+          error,
+          "Something went wrong when trying to start Stockfish",
         );
-
-        if (logMessages) {
-          console.error(error);
-        }
-      };
-
-      await waitUntilMessageReceived(() => worker.postMessage("uci"), "uciok");
-      await waitUntilMessageReceived(
-        () => worker.postMessage("isready"),
-        "readyok",
-      );
+      }
 
       stockfishWorker = worker;
     },
-    stop: async () => {
-      if (stockfishWorker) {
-        externalMessageSubscribers.clear();
-        externalErrorSubscribers.clear();
-        sendUciMessage("stop");
-        await waitUntilMessageReceived(
-          () => stockfishWorker!.postMessage("isready"),
-          "readyok",
-        );
-      }
+    stop: () => {
+      if (!stockfishWorker) return stockfish;
+
+      clearExternalSubscribers();
+
+      // Other commands should start with an "isready" command to ensure
+      // the engine is ready to receive commands. Meaning we don't have to
+      // wait for the "stop" command to be processed.
+      sendUciMessage("stop");
 
       return stockfish;
     },
@@ -139,12 +208,39 @@ export const createStockfish = (): Stockfish => {
       onBestMove,
       onTimeout,
     }) => {
+      if (!stockfishWorker) {
+        throw new Error(ERROR_STOCKFISH_NOT_STARTED);
+      }
+      if (externalAnalyseSubscribers.size > 0) {
+        throw new Error(ERROR_STOCKFISH_ALREADY_ANALYSING);
+      }
+
+      externalAnalyseSubscribers.add((message) => {
+        if (message.startsWith("info")) {
+          const partialAnalysisResult = parsePartialAnalysisResult(message);
+
+          if (isAnalysisResult(partialAnalysisResult)) {
+            onAnalysisResult(partialAnalysisResult, fen);
+          }
+        } else if (message.startsWith("bestmove")) {
+          onBestMove?.(parseBestMove(message));
+        }
+      });
+      externalAnalyseErrorSubscribers.add(onError);
+
       setPosition(fen);
 
-      await waitUntilMessageReceived(
-        () => stockfishWorker!.postMessage("isready"),
-        "readyok",
-      );
+      try {
+        await waitUntilMessageReceived(
+          () => stockfishWorker!.postMessage("isready"),
+          "readyok",
+        );
+      } catch (error) {
+        handleUnexpectedError(
+          error,
+          "Something went wrong when trying to analyse the position",
+        );
+      }
 
       if (searchTimeInMs === Infinity) {
         sendUciMessage(`go infinite`);
@@ -159,19 +255,6 @@ export const createStockfish = (): Stockfish => {
           onTimeout?.();
         }, searchTimeInMs);
       }
-
-      externalMessageSubscribers.add((message) => {
-        if (message.startsWith("info")) {
-          const analysisResult = parsePartialAnalysisResult(message);
-
-          if (isAnalysisResult(analysisResult)) {
-            onAnalysisResult(analysisResult, fen);
-          }
-        } else if (message.startsWith("bestmove")) {
-          onBestMove?.(parseBestMove(message));
-        }
-      });
-      externalErrorSubscribers.add(onError);
 
       return stockfish;
     },
