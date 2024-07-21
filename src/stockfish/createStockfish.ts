@@ -55,7 +55,7 @@ export const createStockfish = (): Stockfish => {
       internalErrorSubscribers.delete(subscriberId);
     };
 
-    const waitUntilMessagePromsise = new Promise<void>((resolve, reject) => {
+    const waitUntilMessagePromise = new Promise<void>((resolve, reject) => {
       const waitUntilMessageSubscriber = (receivedMessage: string) => {
         if (messageToReceive === receivedMessage) {
           clearWaitUntilMessageSubscriptions();
@@ -81,7 +81,7 @@ export const createStockfish = (): Stockfish => {
       }, 3000);
     });
 
-    return Promise.race([waitUntilMessagePromsise, timeoutPromise]).catch(
+    return Promise.race([waitUntilMessagePromise, timeoutPromise]).catch(
       (error) => {
         if (retries <= 0) {
           throw error;
@@ -232,7 +232,7 @@ export const createStockfish = (): Stockfish => {
 
       try {
         await waitUntilMessageReceived(
-          () => stockfishWorker!.postMessage("isready"),
+          () => sendUciMessage("isready"),
           "readyok",
         );
       } catch (error) {
