@@ -8,7 +8,6 @@ import {
   parsePartialAnalysisResult,
 } from "@/stockfish/utils.ts";
 import {
-  ERROR_STOCKFISH_ALREADY_ANALYSING,
   ERROR_STOCKFISH_NOT_STARTED,
   Stockfish,
   StockfishOption,
@@ -211,8 +210,19 @@ export const createStockfish = (): Stockfish => {
       if (!stockfishWorker) {
         throw new Error(ERROR_STOCKFISH_NOT_STARTED);
       }
-      if (externalAnalyseSubscribers.size > 0) {
-        throw new Error(ERROR_STOCKFISH_ALREADY_ANALYSING);
+
+      stockfish.stop();
+
+      try {
+        await waitUntilMessageReceived(
+          () => sendUciMessage("isready"),
+          "readyok",
+        );
+      } catch (error) {
+        handleUnexpectedError(
+          error,
+          "Something went wrong when trying to stop stockfish",
+        );
       }
 
       setPosition(fen);

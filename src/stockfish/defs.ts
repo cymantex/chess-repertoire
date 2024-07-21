@@ -78,9 +78,6 @@ export interface BestMove {
 }
 
 export const ERROR_STOCKFISH_NOT_STARTED = "Stockfish worker not started";
-export const ERROR_STOCKFISH_ALREADY_ANALYSING =
-  "Stockfish is already analysing a position. Stop the current " +
-  "analysis before starting a new one.";
 
 /**
  * @property {string} threads - The number of CPU threads used for searching
