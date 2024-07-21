@@ -78,10 +78,7 @@ export const useStockfish = ({
           },
           onTimeout: () => setAnalysisState(ANALYSIS_STATE.STOPPED),
         })
-        .catch((error) => {
-          setAnalysisState(ANALYSIS_STATE.STOPPED);
-          openDefaultErrorToast(error);
-        });
+        .catch(() => setAnalysisState(ANALYSIS_STATE.STOPPED));
     }
 
     return () => {
