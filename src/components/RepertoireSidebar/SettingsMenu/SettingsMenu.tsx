@@ -3,7 +3,6 @@ import { ThemeSettings } from "@/components/RepertoireSidebar/SettingsMenu/Theme
 import { EngineSettings } from "@/components/RepertoireSidebar/SettingsMenu/EngineSettings.tsx";
 import { GoogleDriveSettings } from "@/components/RepertoireSidebar/SettingsMenu/GoogleDriveSettings.tsx";
 import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
-import { EnableGoogleDriveSettings } from "@/components/RepertoireSidebar/SettingsMenu/EnableGoogleDriveSettings.tsx";
 
 export const SettingsMenu = () => {
   const { googleDriveEnabled } = useRepertoireSettings();
@@ -13,11 +12,7 @@ export const SettingsMenu = () => {
       <RepertoireSettings />
       <ThemeSettings />
       <EngineSettings />
-      {googleDriveEnabled ? (
-        <GoogleDriveSettings />
-      ) : (
-        <EnableGoogleDriveSettings />
-      )}
+      {googleDriveEnabled && <GoogleDriveSettings />}
     </>
   );
 };
