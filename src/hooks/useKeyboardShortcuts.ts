@@ -5,7 +5,6 @@ import {
   selectGoToLastMove,
   selectGoToNextMove,
   selectGoToPreviousMove,
-  selectRotate,
 } from "@/stores/zustand/selectors.ts";
 import { repertoireSettingsStore } from "@/stores/repertoireSettingsStore.ts";
 import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
@@ -18,7 +17,6 @@ export const useKeyboardShortcuts = () => {
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
-  const rotate = useRepertoireStore(selectRotate);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -85,7 +83,7 @@ export const useKeyboardShortcuts = () => {
           });
           break;
         case "f":
-          rotate();
+          repertoireSettingsStore.flipBoard();
           break;
         case "e":
           exportRepertoire();
@@ -98,5 +96,5 @@ export const useKeyboardShortcuts = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [rotate, goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
+  }, [goToFirstMove, goToPreviousMove, goToNextMove, goToLastMove]);
 };

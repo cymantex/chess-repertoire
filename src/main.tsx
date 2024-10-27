@@ -9,9 +9,11 @@ import { ModalContainer } from "@/components/ModalContainer.tsx";
 import { loadThemes } from "@/utils/utils.ts";
 import { OptionalGoogleAuthProvider } from "@/google/OptionalGoogleAuthProvider.tsx";
 import { initializeRepertoireStore } from "@/stores/zustand/initialize.ts";
+import { synchronizeDefaultSettings } from "@/stores/repertoireSettingsStore.ts";
 
 const queryClient = new QueryClient();
 
+synchronizeDefaultSettings();
 loadThemes();
 initializeRepertoireStore();
 

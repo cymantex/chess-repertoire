@@ -5,7 +5,6 @@ import "./PromotionSelection.scss";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectChess,
-  selectOrientation,
   selectPendingPromotionMove,
   selectPromote,
 } from "@/stores/zustand/selectors.ts";
@@ -14,6 +13,7 @@ import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
 import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
 
 import { determineTurnColor } from "@/components/Chessboard/utils.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 
 const COLUMN_NUMBERS = {
   a: 0,
@@ -32,7 +32,8 @@ export const PromotionSelection = () => {
   const chess = useRepertoireStore(selectChess);
   const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
   const promote = useRepertoireStore(selectPromote);
-  const orientation = useRepertoireStore(selectOrientation);
+
+  const { boardOrientation } = useRepertoireSettings();
 
   if (!pendingPromotionMove?.to) return null;
 
@@ -46,7 +47,7 @@ export const PromotionSelection = () => {
 
     const whiteToMove = color === CG_WHITE;
 
-    if (orientation === CG_WHITE) {
+    if (boardOrientation === CG_WHITE) {
       return {
         top: whiteToMove ? "0" : "50%",
         left: `${columnNumber * 12.5}%`,

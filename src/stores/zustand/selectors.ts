@@ -39,9 +39,6 @@ export const selectCurrentRepertoirePositionShapes = (
 ) => state.currentRepertoirePosition?.shapes;
 
 // Chessground
-export const selectOrientation = (state: ChessRepertoireStore) =>
-  state.orientation;
-export const selectRotate = (state: ChessRepertoireStore) => state.rotate;
 export const selectPendingPromotionMove = (state: ChessRepertoireStore) =>
   state.pendingPromotionMove;
 export const selectPromote = (state: ChessRepertoireStore) => state.promote;

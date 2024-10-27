@@ -5,7 +5,7 @@ import {
   handlePositionStateChange,
 } from "@/stores/zustand/utils.ts";
 import { upsertRepertoireMove } from "@/repertoire/repository.ts";
-import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
+import { CG_WHITE } from "@/external/chessground/defs.tsx";
 import { PieceSymbol } from "chess.js/src/chess.ts";
 import { PAWN } from "chess.js";
 import { getAnnotationSetting } from "@/stores/repertoireSettingsStore.ts";
@@ -15,11 +15,6 @@ import { selectChess } from "@/stores/zustand/selectors.ts";
 export const createChessgroundSlice = (set: SetState): ChessgroundSlice => ({
   orientation: CG_WHITE,
   pendingPromotionMove: null,
-
-  rotate: () =>
-    set((state) => ({
-      orientation: state.orientation === CG_WHITE ? CG_BLACK : CG_WHITE,
-    })),
 
   promote: (promotion) => handlePromotion(set, promotion),
 
