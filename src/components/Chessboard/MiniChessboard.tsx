@@ -1,13 +1,15 @@
 import { Chessground } from "@/external/chessground/Chessground.tsx";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
-import { selectOrientation, selectPgn } from "@/stores/zustand/selectors.ts";
+import { selectPgn } from "@/stores/zustand/selectors.ts";
 import { Chess } from "chess.js";
 import { PGN_HEADERS } from "@/defs.ts";
 import { useId } from "react";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 
 export const MiniChessboard = ({ moves = [] }: { moves?: string[] }) => {
   const pgn = useRepertoireStore(selectPgn);
-  const orientation = useRepertoireStore(selectOrientation);
+
+  const { boardOrientation } = useRepertoireSettings();
 
   const fen = pgn.headers.get(PGN_HEADERS.FEN);
   const chess = new Chess(fen);
@@ -17,7 +19,7 @@ export const MiniChessboard = ({ moves = [] }: { moves?: string[] }) => {
     <Chessground
       id={useId()}
       fen={chess.fen()}
-      orientation={orientation}
+      orientation={boardOrientation}
       coordinates={false}
       chessgroundDivProps={{
         style: {

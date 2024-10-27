@@ -9,6 +9,7 @@ import {
   ToggleSection,
   ToggleState,
 } from "@/repertoire/defs.ts";
+import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 
 const subscribers = new Set<() => void>();
 
@@ -30,6 +31,13 @@ export const repertoireSettingsStore = {
 
     currentSettings = settings;
     return settings;
+  },
+  flipBoard: () => {
+    _upsertSettings((prevSettings) => ({
+      boardOrientation:
+        prevSettings.boardOrientation === CG_WHITE ? CG_BLACK : CG_WHITE,
+    }));
+    notifySubscribers();
   },
   upsertSections: (section: ToggleSection, state: ToggleState) => {
     _upsertSettings((prevSettings) => ({
@@ -73,6 +81,14 @@ const _upsertSettings = (
 
 export const getAnnotationSetting = () =>
   getRepertoireSettings().annotationSetting;
+
+export const synchronizeDefaultSettings = () =>
+  queueMicrotask(() =>
+    _upsertSettings((prevSettings) => ({
+      ...DEFAULT_SETTINGS,
+      ...prevSettings,
+    })),
+  );
 
 export const getRepertoireSettings = () => {
   const settings = getObject<RepertoireSettings>(SETTINGS_KEY);

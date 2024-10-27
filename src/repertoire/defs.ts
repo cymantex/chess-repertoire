@@ -5,6 +5,8 @@ import { OPENING_EXPLORER_API, OpeningExplorerMove } from "@/defs.ts";
 import {
   BOARD_THEMES,
   BoardTheme,
+  CG_WHITE,
+  CgColor,
   PIECE_THEMES,
   PieceTheme,
 } from "@/external/chessground/defs.tsx";
@@ -66,6 +68,7 @@ export interface EngineSettings {
 }
 
 export interface RepertoireSettings {
+  boardOrientation: CgColor;
   googleDriveEnabled: boolean;
   annotationSetting: AnnotationSetting;
   theme: DaisyUiTheme;
@@ -80,6 +83,7 @@ export interface RepertoireSettings {
 
 export const SETTINGS_KEY = "repertoireSettings";
 export const DEFAULT_SETTINGS: RepertoireSettings = {
+  boardOrientation: CG_WHITE,
   googleDriveEnabled: false,
   annotationSetting: MOVE_ANNOTATIONS.BRILLIANT,
   theme: "black",

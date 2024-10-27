@@ -34,7 +34,6 @@ export interface OpeningExplorerSlice {
 export interface ChessgroundSlice {
   orientation: CgColor;
   pendingPromotionMove: Move | null;
-  rotate: () => void;
   handleChessgroundMove: (from: Key, to: Key) => Promise<void>;
   promote: (promotion: PieceSymbol) => Promise<void>;
 }

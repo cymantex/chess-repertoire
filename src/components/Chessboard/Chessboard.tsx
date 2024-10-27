@@ -9,7 +9,6 @@ import {
   selectCurrentRepertoirePositionShapes,
   selectFen,
   selectHandleChessgroundMove,
-  selectOrientation,
   selectSetShapes,
 } from "@/stores/zustand/selectors.ts";
 import { calcPossibleDestinations } from "@/external/chessjs/utils.ts";
@@ -17,14 +16,16 @@ import { useRepertoireAutoShapes } from "@/components/Chessboard/hooks/useRepert
 import { DEFAULT_BRUSHES } from "@/external/chessground/defs.tsx";
 
 import { CG_ID, determineTurnColor } from "@/components/Chessboard/utils.ts";
+import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
 
 export const Chessboard = () => {
   const chess = useRepertoireStore(selectChess);
   const fen = useRepertoireStore(selectFen);
-  const orientation = useRepertoireStore(selectOrientation);
   const handleChessgroundMove = useRepertoireStore(selectHandleChessgroundMove);
   const shapes = useRepertoireStore(selectCurrentRepertoirePositionShapes);
   const setShapes = useRepertoireStore(selectSetShapes);
+
+  const { boardOrientation } = useRepertoireSettings();
 
   const { repertoireAutoShapes, setAnnotationShapeForSelection } =
     useRepertoireAutoShapes();
@@ -35,7 +36,7 @@ export const Chessboard = () => {
       fen={fen}
       coordinates
       turnColor={determineTurnColor(chess)}
-      orientation={orientation}
+      orientation={boardOrientation}
       movable={{
         free: false,
         dests: calcPossibleDestinations(chess),

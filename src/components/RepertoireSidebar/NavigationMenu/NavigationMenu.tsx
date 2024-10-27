@@ -17,7 +17,6 @@ import {
   selectOpenSidebar,
   selectPendingPromotionMove,
   selectPgn,
-  selectRotate,
   selectSidebar,
 } from "@/stores/zustand/selectors.ts";
 import { AnnotationSettings } from "@/components/reused/AnnotationSettings.tsx";
@@ -33,7 +32,6 @@ import { Tooltip } from "@/components/reused/Tooltip/Tooltip.tsx";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);
-  const rotate = useRepertoireStore(selectRotate);
   const chess = useRepertoireStore(selectChess);
   const pgn = useRepertoireStore(selectPgn);
   const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
@@ -72,7 +70,7 @@ export const NavigationMenu = () => {
       <IconButton disabled={nextMoveDisabled} onClick={goToLastMove}>
         <FaFastForward />
       </IconButton>
-      <IconButton onClick={rotate}>
+      <IconButton onClick={() => repertoireSettingsStore.flipBoard()}>
         <Tooltip className="w-20 max-w-20" tooltip="Flip board (hotkey: f)">
           <FaRotate />
         </Tooltip>
