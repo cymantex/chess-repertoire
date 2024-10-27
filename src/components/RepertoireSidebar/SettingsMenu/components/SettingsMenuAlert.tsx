@@ -15,7 +15,7 @@ export const SettingsMenuAlert = ({
     )}
     {...props}
   >
-    <div>
+    <div className="w-full">
       <h3 className="font-bold text-base">{title}</h3>
       {children}
     </div>
