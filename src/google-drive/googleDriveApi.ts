@@ -4,7 +4,7 @@ import {
   GoogleDriveFile,
   TokenInfoResponse,
   UpdateFileParams,
-} from "@/google/defs.ts";
+} from "@/google-drive/defs.ts";
 
 const fetchEmail = async (accessToken: string) =>
   axios

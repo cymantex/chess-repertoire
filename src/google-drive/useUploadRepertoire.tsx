@@ -2,11 +2,11 @@ import { modalStore } from "@/stores/modalStore.tsx";
 import { useGoogleCredential } from "@/stores/googleCredentialStore.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import { selectSelectedDatabase } from "@/stores/zustand/selectors.ts";
-import { googleDriveApi } from "@/google/googleDriveApi.ts";
+import { googleDriveApi } from "@/google-drive/googleDriveApi.ts";
 import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
 import { exportRepertoireAsBlob } from "@/repertoire/io.ts";
 import { MODAL_IDS } from "@/defs.ts";
-import { GoogleDriveLoginParams } from "@/google/defs.ts";
+import { GoogleDriveLoginParams } from "@/google-drive/defs.ts";
 import { useCallback } from "react";
 import { toRepertoireFileNameWithoutDate } from "@/utils/converters.ts";
 
