@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { InputHTMLAttributes, ReactNode } from "react";
 
-interface RangeProps
+interface Props
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "name"> {
   name: ReactNode;
   label: ReactNode;
@@ -14,7 +14,7 @@ export const Range = ({
   onChange,
   className,
   ...props
-}: RangeProps) => (
+}: Props) => (
   <div className={classNames("flex text-sm font-thin items-center", className)}>
     <span className="w-28 mr-2">{name}</span>
     <input

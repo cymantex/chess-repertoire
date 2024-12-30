@@ -3,11 +3,11 @@ import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { orderBy } from "lodash";
 import { TopGamesResponse } from "@/features/opening-explorer/defs.ts";
 
-interface TopGamesModalProps extends ModalId {
+interface Props extends ModalId {
   topGames: TopGamesResponse[];
 }
 
-export const TopGamesModal = ({ id, topGames }: TopGamesModalProps) => (
+export const TopGamesModal = ({ id, topGames }: Props) => (
   <Modal className="w-max max-w-5xl" id={id} show>
     <Modal.CloseButton onClick={() => modalStore.closeModal(id)} />
     <Modal.Title>Top games</Modal.Title>

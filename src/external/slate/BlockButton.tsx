@@ -9,12 +9,12 @@ import {
 import { ReactNode } from "react";
 import { isBlockActive, toggleBlock } from "./utils.ts";
 
-interface BlockButtonProps extends Partial<EditorButtonProps> {
+interface Props extends Partial<EditorButtonProps> {
   format: Format;
   icon: ReactNode;
 }
 
-export const BlockButton = ({ format, icon, ...props }: BlockButtonProps) => {
+export const BlockButton = ({ format, icon, ...props }: Props) => {
   const editor = useSlate();
   return (
     <EditorButton

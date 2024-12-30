@@ -13,11 +13,11 @@ import {
   selectUpsertMove,
 } from "@/features/repertoire/repertoireSlice.ts";
 
-interface MoveAnnotationMenuProps {
+interface Props {
   move: RepertoireOpeningExplorerMove;
 }
 
-export const MoveAnnotationMenu = ({ move }: MoveAnnotationMenuProps) => {
+export const MoveAnnotationMenu = ({ move }: Props) => {
   const fen = useRepertoireStore(selectFen);
   const upsertMove = useRepertoireStore(selectUpsertMove);
   const deleteMove = useRepertoireStore(selectDeleteMove);

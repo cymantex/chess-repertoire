@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import { ReactNode } from "react";
 
-interface FetchErrorProps {
+interface Props {
   error: AxiosError;
   notFoundErrorMessage?: ReactNode;
 }
 
-export const ApiError = ({ error, notFoundErrorMessage }: FetchErrorProps) => {
+export const ApiError = ({ error, notFoundErrorMessage }: Props) => {
   if (error.response && error.response.status === 404) {
     return <span>{notFoundErrorMessage}</span>;
   }

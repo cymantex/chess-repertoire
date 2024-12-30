@@ -9,7 +9,7 @@ import { Eval } from "@/common/components/Eval.tsx";
 import { uciMovesToSan } from "@/external/chessops/utils.ts";
 import { NextMoves } from "@/common/components/NextMoves.tsx";
 
-interface ChessEngineAnalysisTrProps {
+interface Props {
   analysisState?: AnalysisState;
   result: AnalysisResult;
   position: Position;
@@ -21,7 +21,7 @@ export const ChessEngineAnalysisTr = ({
   position,
   previousMoves,
   result,
-}: ChessEngineAnalysisTrProps) => (
+}: Props) => (
   <tr className="font-chess">
     <TdWithOverflowCaret flex>
       {analysisState === ANALYSIS_STATE.ANALYSING ? (
