@@ -1,0 +1,8 @@
+.repertoire-tooltip {
+  user-select: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: oklch(var(--b1));
+  color: oklch(var(--bc));
+  z-index: 1000;
+}

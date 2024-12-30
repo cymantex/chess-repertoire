@@ -1,14 +1,15 @@
 import { expect, test } from "vitest";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
 import {
   generateChessLines,
   GetRepertoirePosition,
-} from "@/pgn/export/generateChessLines.ts";
-import { getAnnotation } from "@/annotations/annotations.tsx";
-import { toPgn } from "@/pgn/utils.ts";
+} from "@/features/pgn/export/generateChessLines.ts";
+import { getAnnotation } from "@/features/annotations/annotations.tsx";
+import { toPgn } from "@/features/pgn/utils.ts";
 import { FEN_E4, FEN_SICILIAN, FEN_SICILIAN_NF3 } from "@/tests/testUtils.ts";
-import { RepertoirePosition } from "@/repertoire/defs.ts";
-import { MOVE_ANNOTATIONS } from "@/annotations/defs.ts";
+import { RepertoirePosition } from "@/features/repertoire/defs.ts";
+import { MOVE_ANNOTATIONS } from "@/features/annotations/defs.ts";
+
+import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";
 
 const resultHeader = `[Result "*"]\n\n`;
 
