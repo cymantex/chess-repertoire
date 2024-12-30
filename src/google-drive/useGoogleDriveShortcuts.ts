@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
+import { useGoogleDrive } from "@/google-drive/useGoogleDrive.tsx";
 import { isAllowedGlobalShortcutTagType } from "@/utils/utils.ts";
 
 export const useGoogleDriveShortcuts = () => {

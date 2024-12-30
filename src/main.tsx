@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ModalContainer } from "@/components/ModalContainer.tsx";
 import { loadThemes } from "@/utils/utils.ts";
-import { OptionalGoogleAuthProvider } from "@/google/OptionalGoogleAuthProvider.tsx";
+import { OptionalGoogleAuthProvider } from "@/google-drive/OptionalGoogleAuthProvider.tsx";
 import { initializeRepertoireStore } from "@/stores/zustand/initialize.ts";
 import { synchronizeDefaultSettings } from "@/stores/repertoireSettingsStore.ts";
 

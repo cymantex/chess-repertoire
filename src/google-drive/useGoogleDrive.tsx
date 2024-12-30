@@ -2,13 +2,13 @@ import {
   openDefaultErrorToast,
   openErrorToast,
 } from "@/external/react-toastify/toasts.ts";
-import { useUploadRepertoire } from "@/google/useUploadRepertoire.tsx";
+import { useUploadRepertoire } from "@/google-drive/useUploadRepertoire.tsx";
 import {
   hasExpired,
   useGoogleDriveLogin,
-} from "@/google/useGoogleDriveLogin.tsx";
-import { GoogleDriveLoginParams } from "@/google/defs.ts";
-import { useDownloadRepertoire } from "@/google/useDownloadRepertoire.tsx";
+} from "@/google-drive/useGoogleDriveLogin.tsx";
+import { GoogleDriveLoginParams } from "@/google-drive/defs.ts";
+import { useDownloadRepertoire } from "@/google-drive/useDownloadRepertoire.tsx";
 import { modalStore } from "@/stores/modalStore.tsx";
 import { useGoogleCredential } from "@/stores/googleCredentialStore.ts";
 

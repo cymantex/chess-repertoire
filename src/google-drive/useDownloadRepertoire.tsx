@@ -1,12 +1,15 @@
 import { modalStore } from "@/stores/modalStore.tsx";
 import { useGoogleCredential } from "@/stores/googleCredentialStore.ts";
-import { googleDriveApi } from "@/google/googleDriveApi.ts";
+import { googleDriveApi } from "@/google-drive/googleDriveApi.ts";
 import { MODAL_IDS } from "@/defs.ts";
 import {
   openInfoToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
-import { GoogleDriveFile, GoogleDriveLoginParams } from "@/google/defs.ts";
+import {
+  GoogleDriveFile,
+  GoogleDriveLoginParams,
+} from "@/google-drive/defs.ts";
 import { useRepertoireStore } from "@/stores/zustand/useRepertoireStore.ts";
 import {
   selectGetCurrentRepertoirePosition,

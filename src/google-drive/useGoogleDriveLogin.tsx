@@ -14,7 +14,7 @@ import {
   deregisterCoiServiceWorker,
   isCoiServiceWorkerRegistered,
 } from "@/utils/coi.ts";
-import { googleDriveApi } from "@/google/googleDriveApi.ts";
+import { googleDriveApi } from "@/google-drive/googleDriveApi.ts";
 import { useCallback } from "react";
 
 export const hasExpired = (

@@ -1,7 +1,7 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ReactNode } from "react";
 import { useRepertoireSettings } from "@/stores/repertoireSettingsStore.ts";
-import { GoogleDriveShortcuts } from "@/google/GoogleDriveShortcuts.tsx";
+import { GoogleDriveShortcuts } from "@/google-drive/GoogleDriveShortcuts.tsx";
 
 interface OptionalGoogleAuthProviderProps {
   children: ReactNode;

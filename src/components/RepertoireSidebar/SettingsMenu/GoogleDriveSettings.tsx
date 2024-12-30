@@ -1,4 +1,4 @@
-import { useGoogleDrive } from "@/google/useGoogleDrive.tsx";
+import { useGoogleDrive } from "@/google-drive/useGoogleDrive.tsx";
 import { SettingsMenuAlert } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuAlert.tsx";
 import { SettingsMenuButton } from "@/components/RepertoireSidebar/SettingsMenu/components/SettingsMenuButton.tsx";
 import { googleLogout } from "@react-oauth/google";
