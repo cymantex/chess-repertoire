@@ -1,6 +1,7 @@
 import type { ChessgroundProps } from "./Chessground.tsx";
 import { Chessground } from "./Chessground.tsx";
-import React, { useRef } from "react";
+import type React from "react";
+import { useRef } from "react";
 
 export interface ChessgroundWrapperProps extends ChessgroundProps {
   wrapperDivProps?: React.HTMLAttributes<HTMLDivElement>;
