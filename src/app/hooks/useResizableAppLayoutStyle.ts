@@ -10,7 +10,7 @@ const calcMaxSizeMargin = () => calcMaxScreenHeight() / 4;
 
 const calcMainSize = () => {
   if (isMobileSize()) {
-    return window.innerWidth;
+    return window.innerWidth - MARGIN;
   }
 
   if (
