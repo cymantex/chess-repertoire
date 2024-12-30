@@ -1,21 +1,23 @@
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { exportRepertoireFile } from "@/features/repertoire/database/io.ts";
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import { repertoireSettingsStore } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
-import { DaisyUiTheme } from "@/features/repertoire/defs.ts";
+import type { DaisyUiTheme } from "@/features/repertoire/defs.ts";
+import type {
+  BoardTheme,
+  PieceTheme} from "@/external/chessground/defs.tsx";
 import {
   BOARD_THEME_ATTRIBUTE,
-  BoardTheme,
-  PIECE_THEME_ATTRIBUTE,
-  PieceTheme,
+  PIECE_THEME_ATTRIBUTE
 } from "@/external/chessground/defs.tsx";
 import {
   getErrorMessage,
   openErrorToast,
 } from "@/external/react-toastify/toasts.ts";
+import type {
+  AnnotationTheme} from "@/features/annotations/defs.ts";
 import {
-  ANNOTATION_THEME_ATTRIBUTE,
-  AnnotationTheme,
+  ANNOTATION_THEME_ATTRIBUTE
 } from "@/features/annotations/defs.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
 

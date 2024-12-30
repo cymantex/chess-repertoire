@@ -1,5 +1,5 @@
 import { idbEntries } from "@/external/idb-keyval/adapter.ts";
-import { RepertoirePosition } from "@/features/repertoire/defs.ts";
+import type { RepertoirePosition } from "@/features/repertoire/defs.ts";
 import { Chess } from "chess.js";
 import { generateChessLines } from "@/features/pgn/export/generateChessLines.ts";
 import { toPgn } from "@/features/pgn/utils.ts";

@@ -1,4 +1,4 @@
-import { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
+import type { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
 import {
   calcPercentage,
   isOpeningExplorerMove,

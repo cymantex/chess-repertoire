@@ -1,11 +1,12 @@
+import type {
+  Game,
+  PgnNodeData} from "chessops/pgn";
 import {
   ChildNode,
-  Game,
-  PgnNodeData,
   startingPosition,
   transform,
 } from "chessops/pgn";
-import { Pgn, RenderPgnNodeData } from "./defs.ts";
+import type { RenderPgnNodeData } from "./defs.ts";
 import { makeSanAndPlay, parseSan } from "chessops/san";
 import { makeFen } from "chessops/fen";
 
@@ -106,7 +107,9 @@ export const findCurrentMove = (
 /**
  * Based on example from https://niklasf.github.io/chessops/modules/pgn.html
  */
-export const enrichMovesWithFen = (pgn: Pgn): Game<RenderPgnNodeData> => {
+export const enrichMovesWithFen = (
+  pgn: Game<PgnNodeData>,
+): Game<RenderPgnNodeData> => {
   const pos = startingPosition(pgn.headers).unwrap();
 
   pgn.moves = transform(pgn.moves, pos, (pos, node) => {

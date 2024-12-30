@@ -1,7 +1,8 @@
 import { parseFen } from "chessops/fen";
-import { Chess, parseUci, Position } from "chessops";
+import type { Position } from "chessops";
+import { Chess, parseUci } from "chessops";
 import { makeSanVariation } from "chessops/san";
-import { Move } from "chessops/types";
+import type { Move } from "chessops/types";
 
 export const uciMovesToSan = (position: Position, uciMoves: string) => {
   return makeSanVariation(

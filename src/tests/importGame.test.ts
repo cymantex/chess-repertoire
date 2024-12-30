@@ -1,13 +1,14 @@
 import { describe, expect, test } from "vitest";
 import { parsePgn } from "chessops/pgn";
-import { DrawShape } from "chessground/draw";
+import type { DrawShape } from "chessground/draw";
 import { FEN_SICILIAN } from "@/tests/testUtils.ts";
 import { importGame } from "@/features/pgn/import/importGame.ts";
-import { ImportPgnOptions } from "@/features/pgn/import/defs.ts";
-import { RepertoireMove } from "@/features/repertoire/defs.ts";
+import type { ImportPgnOptions } from "@/features/pgn/import/defs.ts";
+import type { RepertoireMove } from "@/features/repertoire/defs.ts";
+import type {
+  AnnotationSetting} from "@/features/annotations/defs.ts";
 import {
-  ANNOTATION_SETTINGS,
-  AnnotationSetting,
+  ANNOTATION_SETTINGS
 } from "@/features/annotations/defs.ts";
 
 import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";

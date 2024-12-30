@@ -1,4 +1,5 @@
-import { Modal, ModalProps } from "@/common/components/Modal/Modal.tsx";
+import type { ModalProps } from "@/common/components/Modal/Modal.tsx";
+import { Modal } from "@/common/components/Modal/Modal.tsx";
 
 export interface Props extends ModalProps {
   onConfirm: () => void;

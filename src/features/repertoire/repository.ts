@@ -1,15 +1,17 @@
-import { DrawShape } from "chessground/draw";
+import type { DrawShape } from "chessground/draw";
 import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
-import {
-  DEFAULT_REPERTOIRE_POSITION,
+import type {
   RepertoireMove,
-  RepertoirePosition,
-} from "@/features/repertoire/defs.ts";
-import { Descendant } from "slate";
+  RepertoirePosition} from "@/features/repertoire/defs.ts";
 import {
-  ANNOTATION_SETTINGS,
+  DEFAULT_REPERTOIRE_POSITION
+} from "@/features/repertoire/defs.ts";
+import type { Descendant } from "slate";
+import type {
   AnnotationSetting,
-  MoveAnnotation,
+  MoveAnnotation} from "@/features/annotations/defs.ts";
+import {
+  ANNOTATION_SETTINGS
 } from "@/features/annotations/defs.ts";
 
 export const getRepertoirePosition = async (fen: string) =>

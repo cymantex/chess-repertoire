@@ -1,4 +1,5 @@
-import { ReactNode, useLayoutEffect, useRef, useState } from "react";
+import type { ReactNode} from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { FaCaretDown } from "react-icons/fa6";
 import { FaCaretRight } from "react-icons/fa";

@@ -3,9 +3,10 @@ import { getAnnotation } from "@/features/annotations/annotations.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { Modal } from "@/common/components/Modal/Modal.tsx";
 import { Tooltip } from "@/common/components/Tooltip/Tooltip.tsx";
+import type {
+  AnnotationSetting} from "@/features/annotations/defs.ts";
 import {
   ANNOTATION_SETTINGS,
-  AnnotationSetting,
   isMoveAnnotation,
 } from "@/features/annotations/defs.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";

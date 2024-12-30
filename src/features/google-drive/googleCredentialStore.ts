@@ -1,4 +1,4 @@
-import { TokenResponse } from "@react-oauth/google";
+import type { TokenResponse } from "@react-oauth/google";
 import { getObject, upsertObject } from "local-storage-superjson";
 import { isEqual } from "lodash";
 import { useSyncExternalStore } from "react";

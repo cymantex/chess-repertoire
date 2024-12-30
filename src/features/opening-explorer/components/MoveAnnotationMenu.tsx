@@ -1,12 +1,12 @@
-import { MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 import { selectFen, useRepertoireStore } from "@/app/zustand/store.ts";
 import classNames from "classnames";
 import { FaTrash } from "react-icons/fa";
 import { MOVE_ANNOTATION_LIST } from "@/features/annotations/annotations.tsx";
-import { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
+import type { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
 import { IconButton } from "@/common/components/IconButton.tsx";
 import { Tooltip } from "@/common/components/Tooltip/Tooltip.tsx";
-import { MoveAnnotation } from "@/features/annotations/defs.ts";
+import type { MoveAnnotation } from "@/features/annotations/defs.ts";
 import {
   selectCurrentRepertoirePositionMoves,
   selectDeleteMove,

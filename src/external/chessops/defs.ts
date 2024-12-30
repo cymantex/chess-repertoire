@@ -1,7 +1,5 @@
-import { Game, PgnNodeData } from "chessops/pgn";
+import type { PgnNodeData } from "chessops/pgn";
 import { INITIAL_FEN } from "chessops/fen";
-
-export interface Pgn extends Game<PgnNodeData> {}
 
 export interface PgnMoveData {
   san: string;

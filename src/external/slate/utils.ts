@@ -1,21 +1,23 @@
-import { KeyboardEvent } from "react";
-import {
-  BLOCK_FORMATS,
-  BLOCK_TYPES,
+import type { KeyboardEvent } from "react";
+import type {
   BlockFormat,
   BlockType,
   Color,
-  COLORS,
   EditorElement,
   EditorNode,
   Format,
+  ListFormat,
+  TextAlignFormat} from "./defs.ts";
+import {
+  BLOCK_FORMATS,
+  BLOCK_TYPES,
+  COLORS,
   FORMATS,
   LIST_FORMATS,
-  ListFormat,
-  TEXT_ALIGN_FORMATS,
-  TextAlignFormat,
+  TEXT_ALIGN_FORMATS
 } from "./defs.ts";
-import { BaseEditor, Editor, Element as SlateElement, Transforms } from "slate";
+import type { BaseEditor} from "slate";
+import { Editor, Element as SlateElement, Transforms } from "slate";
 
 export const isHotkey = (hotkeyString: string, event: KeyboardEvent) => {
   const tokens = hotkeyString.split("+");

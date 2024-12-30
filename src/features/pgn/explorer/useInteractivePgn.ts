@@ -10,10 +10,11 @@ import {
   PGN_TOKEN_TYPES,
 } from "@/external/chessops/makePgnMoveTokens.ts";
 import { last } from "lodash";
-import {
-  FEN_STARTING_POSITION,
+import type {
   PgnMoveData,
-  RenderPgnNodeData,
+  RenderPgnNodeData} from "@/external/chessops/defs.ts";
+import {
+  FEN_STARTING_POSITION
 } from "@/external/chessops/defs.ts";
 import { makeVariation } from "@/features/pgn/utils.ts";
 import { selectPendingPromotionMove } from "@/features/chessboard/chessboardSlice.ts";

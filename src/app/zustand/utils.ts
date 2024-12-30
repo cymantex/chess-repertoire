@@ -2,12 +2,13 @@ import {
   getRepertoirePosition,
   upsertRepertoireMove,
 } from "@/features/repertoire/repository.ts";
-import {
+import type {
   ChessRepertoireStore,
-  SetState,
+  SetState} from "@/app/zustand/store.ts";
+import {
   useRepertoireStore,
 } from "@/app/zustand/store.ts";
-import { Move } from "chess.js";
+import type { Move } from "chess.js";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
 import { getAnnotationSetting } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";

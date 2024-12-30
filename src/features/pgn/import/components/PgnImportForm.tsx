@@ -3,14 +3,15 @@ import { PgnImportSettings } from "@/features/pgn/import/components/PgnImportSet
 import { ImportProgress } from "@/features/pgn/import/components/ImportProgress.tsx";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { useState } from "react";
-import {
+import type {
   ImportPgnOptions,
   ImportPgnProgress,
 } from "@/features/pgn/import/defs.ts";
 import { isNumber } from "lodash";
+import type {
+  AnnotationSetting} from "@/features/annotations/defs.ts";
 import {
-  ANNOTATION_SETTINGS,
-  AnnotationSetting,
+  ANNOTATION_SETTINGS
 } from "@/features/annotations/defs.ts";
 
 interface Props {

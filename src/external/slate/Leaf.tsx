@@ -1,6 +1,7 @@
-import { RenderLeafProps } from "slate-react/dist/components/editable";
-import { Text } from "slate";
-import { Format, FORMATS } from "./defs.ts";
+import type { RenderLeafProps } from "slate-react/dist/components/editable";
+import type { Text } from "slate";
+import type { Format} from "./defs.ts";
+import { FORMATS } from "./defs.ts";
 import classNames from "classnames";
 
 export interface LeafProps extends Partial<RenderLeafProps> {

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import classNames from "classnames";
 
 export interface EditorButtonProps extends HTMLAttributes<HTMLButtonElement> {

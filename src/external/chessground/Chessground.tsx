@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Chessground as NativeChessground } from "chessground";
-import { Config } from "chessground/config";
+import type { Config } from "chessground/config";
 import { chessgroundMap } from "./utils.ts";
 
 export interface ChessgroundProps extends Config {

@@ -1,4 +1,5 @@
-import { CSSProperties, useLayoutEffect, useState } from "react";
+import type { CSSProperties } from "react";
+import { useLayoutEffect, useState } from "react";
 import { APP_PADDING_REM, MARGIN, SIDEBAR_SIZE } from "@/app/defs.ts";
 import { isMobileSize } from "@/common/utils/utils.ts";
 
@@ -37,7 +38,7 @@ export const useResizableAppLayoutStyle = (): CSSProperties => {
       : `calc(${size}px - ${APP_PADDING_REM}rem)`;
 
   return {
-    // @ts-ignore
+    // @ts-expect-error
     "--cg-width": subtractAppPadding(mainSize),
     "--cg-height": subtractAppPadding(mainSize),
     "--app-padding": `${APP_PADDING_REM}rem`,

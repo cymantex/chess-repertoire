@@ -2,13 +2,14 @@ import { selectFen, useRepertoireStore } from "@/app/zustand/store.ts";
 import { useEffect, useState } from "react";
 import { createStockfish } from "@/features/chess-engine/stockfish/createStockfish.ts";
 import { isNumber, orderBy } from "lodash";
-import { EngineSettings } from "@/features/repertoire/defs.ts";
+import type { EngineSettings } from "@/features/repertoire/defs.ts";
 import { parseFen } from "chessops/fen";
 import { CG_WHITE } from "@/external/chessground/defs.tsx";
+import type {
+  AnalysisResult,
+  AnalysisState} from "@/features/chess-engine/stockfish/defs.ts";
 import {
   ANALYSIS_STATE,
-  AnalysisResult,
-  AnalysisState,
   STOCKFISH_OPTIONS,
 } from "@/features/chess-engine/stockfish/defs.ts";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";

@@ -1,4 +1,4 @@
-import { ImportPgnProgress } from "@/features/pgn/import/defs.ts";
+import type { ImportPgnProgress } from "@/features/pgn/import/defs.ts";
 import { isNumber } from "lodash";
 
 export const ImportProgress = ({

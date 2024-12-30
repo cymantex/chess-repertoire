@@ -7,7 +7,7 @@ import {
   hasExpired,
   useGoogleDriveLogin,
 } from "@/features/google-drive/useGoogleDriveLogin.tsx";
-import { GoogleDriveLoginParams } from "@/features/google-drive/defs.ts";
+import type { GoogleDriveLoginParams } from "@/features/google-drive/defs.ts";
 import { useDownloadRepertoire } from "@/features/google-drive/useDownloadRepertoire.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { useGoogleCredential } from "@/features/google-drive/googleCredentialStore.ts";

@@ -7,10 +7,11 @@ import {
   parseBestMove,
   parsePartialAnalysisResult,
 } from "@/features/chess-engine/stockfish/utils.ts";
-import {
-  ERROR_STOCKFISH_NOT_STARTED,
+import type {
   Stockfish,
-  StockfishOption,
+  StockfishOption} from "@/features/chess-engine/stockfish/defs.ts";
+import {
+  ERROR_STOCKFISH_NOT_STARTED
 } from "@/features/chess-engine/stockfish/defs.ts";
 
 export const createStockfish = (): Stockfish => {

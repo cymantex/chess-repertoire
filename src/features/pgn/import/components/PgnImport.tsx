@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { importPgnFile } from "@/features/pgn/import/importPgnFile.ts";
 import { useRepertoireStore } from "@/app/zustand/store.ts";
-import {
+import type {
   ImportPgnOptions,
   ImportPgnProgress,
 } from "@/features/pgn/import/defs.ts";

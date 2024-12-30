@@ -4,16 +4,19 @@ import {
   handlePositionStateChange,
 } from "@/app/zustand/utils.ts";
 import { upsertRepertoireMove } from "@/features/repertoire/repository.ts";
-import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
-import { PieceSymbol } from "chess.js/src/chess.ts";
-import { Move, PAWN } from "chess.js";
+import type { CgColor } from "@/external/chessground/defs.tsx";
+import { CG_WHITE } from "@/external/chessground/defs.tsx";
+import type { PieceSymbol } from "chess.js/src/chess.ts";
+import type { Move} from "chess.js";
+import { PAWN } from "chess.js";
 import { getAnnotationSetting } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { addMoveToPgn } from "@/external/chessops/pgn.ts";
-import { Key } from "chessground/types";
-import {
+import type { Key } from "chessground/types";
+import type {
   ChessRepertoireStore,
-  selectChess,
-  SetState,
+  SetState} from "@/app/zustand/store.ts";
+import {
+  selectChess
 } from "@/app/zustand/store.ts";
 
 export interface ChessboardSlice {

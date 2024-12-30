@@ -1,6 +1,6 @@
-import { RepertoireMove } from "@/features/repertoire/defs.ts";
+import type { RepertoireMove } from "@/features/repertoire/defs.ts";
 
-import { AnnotationSetting } from "@/features/annotations/defs.ts";
+import type { AnnotationSetting } from "@/features/annotations/defs.ts";
 
 export interface ImportPgnOptions {
   annotationSetting: AnnotationSetting;

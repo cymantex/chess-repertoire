@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 import { isNotEmptyArray } from "@/common/utils/utils.ts";
-import { RepertoirePosition } from "@/features/repertoire/defs.ts";
+import type { RepertoirePosition } from "@/features/repertoire/defs.ts";
 
 export type GetRepertoirePosition = (
   fen: string,

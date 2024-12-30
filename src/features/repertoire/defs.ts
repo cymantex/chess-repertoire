@@ -1,25 +1,28 @@
 // Repertoire
-import { DrawShape } from "chessground/draw";
-import { Move } from "chess.js";
+import type { DrawShape } from "chessground/draw";
+import type { Move } from "chess.js";
+import type {
+  BoardTheme,
+  CgColor,
+  PieceTheme} from "@/external/chessground/defs.tsx";
 import {
   BOARD_THEMES,
-  BoardTheme,
   CG_WHITE,
-  CgColor,
-  PIECE_THEMES,
-  PieceTheme,
+  PIECE_THEMES
 } from "@/external/chessground/defs.tsx";
-import { Descendant } from "slate";
-import {
-  ANNOTATION_THEMES,
+import type { Descendant } from "slate";
+import type {
   AnnotationSetting,
   AnnotationTheme,
-  MOVE_ANNOTATIONS,
-  MoveAnnotation,
-} from "@/features/annotations/defs.ts";
+  MoveAnnotation} from "@/features/annotations/defs.ts";
 import {
-  OPENING_EXPLORER_API,
-  OpeningExplorerMove,
+  ANNOTATION_THEMES,
+  MOVE_ANNOTATIONS
+} from "@/features/annotations/defs.ts";
+import type {
+  OpeningExplorerMove} from "@/features/opening-explorer/defs.ts";
+import {
+  OPENING_EXPLORER_API
 } from "@/features/opening-explorer/defs.ts";
 
 export interface AnnotatedMove extends Move {

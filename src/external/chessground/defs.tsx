@@ -1,4 +1,4 @@
-import { DrawBrushes } from "chessground/draw";
+import type { DrawBrushes } from "chessground/draw";
 
 export const CG_WHITE = "white";
 export const CG_BLACK = "black";

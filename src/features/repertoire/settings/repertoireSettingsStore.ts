@@ -1,13 +1,14 @@
 import { isEqual } from "lodash";
 import { getObject, setObject, upsertObject } from "local-storage-superjson";
 import { useSyncExternalStore } from "react";
-import {
-  DEFAULT_SETTINGS,
+import type {
   EngineSettings,
   RepertoireSettings,
-  SETTINGS_KEY,
   ToggleSection,
-  ToggleState,
+  ToggleState} from "@/features/repertoire/defs.ts";
+import {
+  DEFAULT_SETTINGS,
+  SETTINGS_KEY
 } from "@/features/repertoire/defs.ts";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 

@@ -1,8 +1,8 @@
 import { getNonReactiveState, handleMove } from "@/app/zustand/utils.ts";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
-import { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
-import { Move } from "chess.js";
-import { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
+import type { RepertoireOpeningExplorerMove } from "@/features/repertoire/defs.ts";
+import type { Move } from "chess.js";
+import type { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
 
 export interface OpeningExplorerSlice {
   hoveredOpeningMove: Move | null;

@@ -5,7 +5,7 @@ import {
   upsertRepertoireMove,
 } from "@/features/repertoire/repository.ts";
 import { importGame } from "@/features/pgn/import/importGame.ts";
-import {
+import type {
   ImportPgnGameOptions,
   ImportPgnOptions,
   ImportPgnProgress,

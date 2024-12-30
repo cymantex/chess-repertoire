@@ -1,13 +1,17 @@
 // @refresh reset
-import { createEditor, Descendant } from "slate";
+import type { Descendant } from "slate";
+import { createEditor } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { KeyboardEvent, useCallback, useMemo, useState } from "react";
+import type { KeyboardEvent} from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Element } from "./Element.tsx";
-import { Leaf, LeafProps } from "./Leaf.tsx";
+import type { LeafProps } from "./Leaf.tsx";
+import { Leaf } from "./Leaf.tsx";
 import { EditorToolbar } from "./EditorToolbar.tsx";
-import { EditableProps } from "slate-react/dist/components/editable";
-import { ElementProps, Format, FORMATS, HOTKEYS } from "./defs.ts";
+import type { EditableProps } from "slate-react/dist/components/editable";
+import type { ElementProps, Format} from "./defs.ts";
+import { FORMATS, HOTKEYS } from "./defs.ts";
 
 import {
   isBlockFormat,

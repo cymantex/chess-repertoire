@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import "./ThMenu.scss";
-import { IconButton, Props } from "@/common/components/IconButton.tsx";
+import type { Props } from "@/common/components/IconButton.tsx";
+import { IconButton } from "@/common/components/IconButton.tsx";
 import classNames from "classnames";
 
 import { withOptionalTooltip } from "@/common/components/Tooltip/withOptionalTooltip.tsx";

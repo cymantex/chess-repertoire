@@ -1,6 +1,7 @@
 import { Transforms } from "slate";
-import { ReactEditor } from "slate-react";
-import { EditorElement, FORMATS } from "../defs.ts";
+import type { ReactEditor } from "slate-react";
+import type { EditorElement} from "../defs.ts";
+import { FORMATS } from "../defs.ts";
 
 export const withImages = (editor: ReactEditor) => {
   const { insertData, isVoid } = editor;

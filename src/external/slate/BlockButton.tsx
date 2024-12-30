@@ -1,12 +1,14 @@
 import { useSlate } from "slate-react";
-import { EditorButton, EditorButtonProps } from "./EditorButton.tsx";
+import type { EditorButtonProps } from "./EditorButton.tsx";
+import { EditorButton } from "./EditorButton.tsx";
+import type {
+  Format,
+  TextAlignFormat} from "./defs.ts";
 import {
   BLOCK_TYPES,
-  Format,
-  TEXT_ALIGN_FORMATS,
-  TextAlignFormat,
+  TEXT_ALIGN_FORMATS
 } from "./defs.ts";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { isBlockActive, toggleBlock } from "./utils.ts";
 
 interface Props extends Partial<EditorButtonProps> {

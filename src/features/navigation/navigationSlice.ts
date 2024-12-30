@@ -8,7 +8,7 @@ import {
   findNextMove,
   getRemainingMainMoves,
 } from "@/external/chessops/pgn.ts";
-import { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
+import type { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
 
 export interface NavigationSlice {
   goToPosition: (movesFromStartingPosition: string[]) => Promise<void>;

@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { startImportRepertoireWorker } from "@/features/repertoire/database/io.ts";
 import { useRepertoireStore } from "@/app/zustand/store.ts";

@@ -5,18 +5,12 @@ import {
   changeTheme,
 } from "@/features/sidebar/settings/actions.tsx";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
-import {
-  BOARD_THEMES,
-  BoardTheme,
-  PIECE_THEMES,
-  PieceTheme,
-} from "@/external/chessground/defs.tsx";
+import type { BoardTheme, PieceTheme } from "@/external/chessground/defs.tsx";
+import { BOARD_THEMES, PIECE_THEMES } from "@/external/chessground/defs.tsx";
 import { SettingsMenuAlert } from "@/features/sidebar/settings/SettingsMenuAlert.tsx";
 import { DAISY_UI_THEMES } from "@/features/repertoire/defs.ts";
-import {
-  ANNOTATION_THEMES,
-  AnnotationTheme,
-} from "@/features/annotations/defs.ts";
+import type { AnnotationTheme } from "@/features/annotations/defs.ts";
+import { ANNOTATION_THEMES } from "@/features/annotations/defs.ts";
 
 export const ThemeSettings = () => {
   const { theme, boardTheme, pieceTheme, annotationTheme } =

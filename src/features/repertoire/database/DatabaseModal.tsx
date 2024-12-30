@@ -1,5 +1,6 @@
 import { useRepertoireStore } from "@/app/zustand/store.ts";
-import { Modal, ModalId } from "@/common/components/Modal/Modal.tsx";
+import type { ModalId } from "@/common/components/Modal/Modal.tsx";
+import { Modal } from "@/common/components/Modal/Modal.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { toDbName } from "@/external/idb-keyval/utils.ts";
 import { idbDeleteDatabase } from "@/external/idb-keyval/adapter.ts";

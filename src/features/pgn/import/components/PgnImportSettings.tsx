@@ -1,7 +1,7 @@
 import { AnnotationSettings } from "@/features/annotations/AnnotationSettings.tsx";
 import { isNotEmptyArray } from "@/common/utils/utils.ts";
 
-import { AnnotationSetting } from "@/features/annotations/defs.ts";
+import type { AnnotationSetting } from "@/features/annotations/defs.ts";
 
 interface Props {
   disabled?: boolean;

@@ -3,7 +3,7 @@ import { parsePosition } from "@/external/chessops/utils.ts";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { usePreviousMoves } from "@/common/hooks/usePreviousMoves.ts";
 import { ChessEngineAnalysisTr } from "@/features/chess-engine/components/ChessEngineAnalysisTr.tsx";
-import {
+import type {
   AnalysisResult,
   AnalysisState,
 } from "@/features/chess-engine/stockfish/defs.ts";
