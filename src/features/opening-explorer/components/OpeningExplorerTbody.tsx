@@ -16,7 +16,7 @@ import {
   selectSetHoveredOpeningMove,
 } from "@/features/opening-explorer/openingExplorerSlice.ts";
 import { selectCurrentRepertoirePositionMoves } from "@/features/repertoire/repertoireSlice.ts";
-import { OpeningExplorerMove } from "@/features/opening-explorer/defs.ts";
+import type { OpeningExplorerMove } from "@/features/opening-explorer/defs.ts";
 
 interface Props {
   openingExplorerMoves?: OpeningExplorerMove[];

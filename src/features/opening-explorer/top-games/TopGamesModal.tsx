@@ -1,7 +1,8 @@
-import { Modal, ModalId } from "@/common/components/Modal/Modal.tsx";
+import type { ModalId } from "@/common/components/Modal/Modal.tsx";
+import { Modal } from "@/common/components/Modal/Modal.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { orderBy } from "lodash";
-import { TopGamesResponse } from "@/features/opening-explorer/defs.ts";
+import type { TopGamesResponse } from "@/features/opening-explorer/defs.ts";
 
 interface Props extends ModalId {
   topGames: TopGamesResponse[];

@@ -1,8 +1,10 @@
 import { FaCaretDown } from "react-icons/fa6";
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import classNames from "classnames";
 import "./AccordionTable.scss";
-import { TOGGLE_STATE, ToggleSection } from "@/features/repertoire/defs.ts";
+import type { ToggleSection } from "@/features/repertoire/defs.ts";
+import { TOGGLE_STATE } from "@/features/repertoire/defs.ts";
 import {
   repertoireSettingsStore,
   useRepertoireSettings,

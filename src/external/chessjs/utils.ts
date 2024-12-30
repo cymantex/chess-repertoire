@@ -1,4 +1,5 @@
-import { Chess, Square, SQUARES } from "chess.js";
+import type { Chess, Square} from "chess.js";
+import { SQUARES } from "chess.js";
 
 export const calcPossibleDestinations = (chess: Chess) => {
   const possibleDestinations = new Map<Square, Square[]>();

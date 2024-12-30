@@ -1,7 +1,8 @@
-import {
-  ANALYSIS_STATE,
+import type {
   AnalysisResult,
-  AnalysisState,
+  AnalysisState} from "@/features/chess-engine/stockfish/defs.ts";
+import {
+  ANALYSIS_STATE
 } from "@/features/chess-engine/stockfish/defs.ts";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { IconButton } from "@/common/components/IconButton.tsx";

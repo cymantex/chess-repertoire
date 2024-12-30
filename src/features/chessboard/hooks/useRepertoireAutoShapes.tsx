@@ -1,13 +1,13 @@
-import { Move } from "chess.js";
-import { DrawShape } from "chessground/draw";
+import type { Move } from "chess.js";
+import type { DrawShape } from "chessground/draw";
 import { useRepertoireStore } from "@/app/zustand/store.ts";
 import { orderBy, uniqBy } from "lodash";
 import { useNextAnnotatedMoves } from "@/features/chessboard/hooks/useNextAnnotatedMoves.ts";
-import * as cg from "chessground/types";
+import type * as cg from "chessground/types";
 import { useRestoreAutoShapesAfterSelection } from "@/features/chessboard/hooks/useRestoreAutoShapesAfterSelection.tsx";
 import { getAnnotation } from "@/features/annotations/annotations.tsx";
 import { safeSetAutoShapes } from "@/external/chessground/utils.ts";
-import { AnnotatedMove } from "@/features/repertoire/defs.ts";
+import type { AnnotatedMove } from "@/features/repertoire/defs.ts";
 import { CG_ID } from "@/features/chessboard/utils.ts";
 import { selectHoveredOpeningMove } from "@/features/opening-explorer/openingExplorerSlice.ts";
 

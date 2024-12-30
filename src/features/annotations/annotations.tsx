@@ -1,14 +1,15 @@
 import "./annotations.scss";
 import { FaChessBoard, FaRegEye } from "react-icons/fa6";
 import { IconButton } from "@/common/components/IconButton.tsx";
-import { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes } from "react";
 import classNames from "classnames";
+import type {
+  MoveAnnotation} from "@/features/annotations/defs.ts";
 import {
   ANNOTATION_SETTINGS,
   ANNOTATION_THEME_ATTRIBUTE,
   ANNOTATION_THEMES,
-  MOVE_ANNOTATIONS,
-  MoveAnnotation,
+  MOVE_ANNOTATIONS
 } from "@/features/annotations/defs.ts";
 import { DEFAULT_SETTINGS } from "@/features/repertoire/defs.ts";
 import { getRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";

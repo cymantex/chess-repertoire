@@ -1,7 +1,7 @@
 import ImportPgnWorker from "@/features/pgn/import/importPgnWorker.ts?worker";
 import ReadPgnWorker from "@/features/pgn/import/readPgnFileWorker.ts?worker";
 import { importPgn } from "@/features/pgn/import/importPgn.ts";
-import {
+import type {
   ImportPgnCallbacks,
   ImportPgnOptions,
   ImportPgnProgress,

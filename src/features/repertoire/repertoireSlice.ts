@@ -7,10 +7,11 @@ import {
   getNonReactiveState,
   updateCurrentRepertoirePosition,
 } from "@/app/zustand/utils.ts";
-import {
-  DEFAULT_REPERTOIRE_POSITION,
+import type {
   RepertoireMove,
-  RepertoirePosition,
+  RepertoirePosition} from "@/features/repertoire/defs.ts";
+import {
+  DEFAULT_REPERTOIRE_POSITION
 } from "@/features/repertoire/defs.ts";
 import {
   idbCreateDatabase,
@@ -19,12 +20,13 @@ import {
   idbSelectDb,
 } from "@/external/idb-keyval/adapter.ts";
 import { toDbName } from "@/external/idb-keyval/utils.ts";
-import { AnnotationSetting } from "@/features/annotations/defs.ts";
-import { DrawShape } from "chessground/draw";
-import {
+import type { AnnotationSetting } from "@/features/annotations/defs.ts";
+import type { DrawShape } from "chessground/draw";
+import type {
   ChessRepertoireStore,
-  selectFen,
-  SetState,
+  SetState} from "@/app/zustand/store.ts";
+import {
+  selectFen
 } from "@/app/zustand/store.ts";
 
 export interface RepertoireSlice {

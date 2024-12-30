@@ -1,6 +1,6 @@
 import { useFocused, useSelected } from "slate-react";
 
-import { ElementProps } from "../defs.ts";
+import type { ElementProps } from "../defs.ts";
 
 export const ImageElement = ({
   attributes,

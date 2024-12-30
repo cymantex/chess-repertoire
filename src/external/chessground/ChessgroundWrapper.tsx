@@ -1,4 +1,5 @@
-import { Chessground, ChessgroundProps } from "./Chessground.tsx";
+import type { ChessgroundProps } from "./Chessground.tsx";
+import { Chessground } from "./Chessground.tsx";
 import React, { useRef } from "react";
 
 export interface ChessgroundWrapperProps extends ChessgroundProps {

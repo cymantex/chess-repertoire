@@ -5,7 +5,7 @@ import {
   openInfoToast,
   openSuccessToast,
 } from "@/external/react-toastify/toasts.ts";
-import {
+import type {
   GoogleDriveFile,
   GoogleDriveLoginParams,
 } from "@/features/google-drive/defs.ts";

@@ -1,4 +1,4 @@
-import { PgnMoveData } from "@/external/chessops/defs.ts";
+import type { PgnMoveData } from "@/external/chessops/defs.ts";
 import classNames from "classnames";
 import { useRepertoireStore } from "@/app/zustand/store.ts";
 import { openErrorToast } from "@/external/react-toastify/toasts.ts";

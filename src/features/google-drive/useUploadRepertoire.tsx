@@ -4,7 +4,7 @@ import { useRepertoireStore } from "@/app/zustand/store.ts";
 import { googleDriveApi } from "@/features/google-drive/googleDriveApi.ts";
 import { openSuccessToast } from "@/external/react-toastify/toasts.ts";
 import { exportRepertoireAsBlob } from "@/features/repertoire/database/io.ts";
-import { GoogleDriveLoginParams } from "@/features/google-drive/defs.ts";
+import type { GoogleDriveLoginParams } from "@/features/google-drive/defs.ts";
 import { useCallback } from "react";
 import { toRepertoireFileNameWithoutDate } from "@/common/utils/converters.ts";
 import { selectSelectedDatabase } from "@/features/repertoire/repertoireSlice.ts";

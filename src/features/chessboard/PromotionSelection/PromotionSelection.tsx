@@ -1,10 +1,11 @@
-import { CSSProperties } from "react";
-import { PieceSymbol } from "chess.js/src/chess.ts";
+import type { CSSProperties } from "react";
+import type { PieceSymbol } from "chess.js/src/chess.ts";
 import { BISHOP, KNIGHT, QUEEN, ROOK } from "chess.js";
 import "./PromotionSelection.scss";
 import { selectChess, useRepertoireStore } from "@/app/zustand/store.ts";
 
-import { CG_WHITE, CgColor } from "@/external/chessground/defs.tsx";
+import type { CgColor } from "@/external/chessground/defs.tsx";
+import { CG_WHITE } from "@/external/chessground/defs.tsx";
 import { CJ_PIECE_TO_CG_PIECE } from "@/external/chessjs/defs.ts";
 
 import { determineTurnColor } from "@/features/chessboard/utils.ts";

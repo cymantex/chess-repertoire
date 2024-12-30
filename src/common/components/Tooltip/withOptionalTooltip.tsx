@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Tooltip } from "@/common/components/Tooltip/Tooltip.tsx";
 
 export const withOptionalTooltip = (

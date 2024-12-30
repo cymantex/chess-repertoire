@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
+import axios from "axios";
 
 export interface CloudEvaluationResponse {
   fen: string;

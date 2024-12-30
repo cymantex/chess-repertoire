@@ -1,4 +1,4 @@
-import { Credential } from "@/features/google-drive/googleCredentialStore.ts";
+import type { Credential } from "@/features/google-drive/googleCredentialStore.ts";
 
 export interface GoogleDriveFile {
   kind: string;

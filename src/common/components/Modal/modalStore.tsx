@@ -1,11 +1,11 @@
-import { ReactElement, ReactNode, useSyncExternalStore } from "react";
+import type { ReactElement, ReactNode } from "react";
+import { useSyncExternalStore } from "react";
 import { LoadingModal } from "@/common/components/Modal/LoadingModal.tsx";
-import {
-  ConfirmModal,
-  Props,
-} from "@/common/components/Modal/ConfirmModal.tsx";
+import type { Props } from "@/common/components/Modal/ConfirmModal.tsx";
+import { ConfirmModal } from "@/common/components/Modal/ConfirmModal.tsx";
 
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
+import type { ModalId } from "@/common/components/Modal/Modal.tsx";
 
 const subscribers = new Set<() => void>();
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
@@ -60,7 +60,7 @@ export const modalStore = {
   },
   closeModal: (id: string) => {
     currentModals = currentModals.filter((modal) =>
-      isReactElement(modal) ? modal.props.id !== id : true,
+      isReactElement(modal) ? (modal.props as ModalId).id !== id : true,
     );
     notifySubscribers();
   },

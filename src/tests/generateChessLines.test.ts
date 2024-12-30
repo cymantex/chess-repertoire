@@ -1,12 +1,13 @@
 import { expect, test } from "vitest";
+import type {
+  GetRepertoirePosition} from "@/features/pgn/export/generateChessLines.ts";
 import {
-  generateChessLines,
-  GetRepertoirePosition,
+  generateChessLines
 } from "@/features/pgn/export/generateChessLines.ts";
 import { getAnnotation } from "@/features/annotations/annotations.tsx";
 import { toPgn } from "@/features/pgn/utils.ts";
 import { FEN_E4, FEN_SICILIAN, FEN_SICILIAN_NF3 } from "@/tests/testUtils.ts";
-import { RepertoirePosition } from "@/features/repertoire/defs.ts";
+import type { RepertoirePosition } from "@/features/repertoire/defs.ts";
 import { MOVE_ANNOTATIONS } from "@/features/annotations/defs.ts";
 
 import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";

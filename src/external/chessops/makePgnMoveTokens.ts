@@ -1,4 +1,4 @@
-import { ChildNode, Game, PgnNodeData } from "chessops/pgn";
+import type { ChildNode, Game, PgnNodeData } from "chessops/pgn";
 
 const enum MakePgnState {
   Pre = 0,
@@ -27,6 +27,18 @@ interface PgnToken<T extends PgnNodeData> {
   value: string | T;
 }
 
+const getNextNode = (
+  variations: ArrayIterator<ChildNode<PgnNodeData>>,
+): ChildNode<PgnNodeData> => {
+  const nextNode = variations.next().value;
+
+  if (!nextNode) {
+    throw new Error("PGN is corrupt");
+  }
+
+  return nextNode;
+};
+
 /**
  * A stripped down version of chessops makePgn to help render a "PGN" where the
  * moves should be interactable.
@@ -41,10 +53,11 @@ export const makePgnMoveTokens = <T extends PgnNodeData>(
 
   if (game.moves.children.length) {
     const variations = game.moves.children[Symbol.iterator]();
+
     stack.push({
       state: MakePgnState.Pre,
       ply: 0,
-      node: variations.next().value,
+      node: getNextNode(variations),
       sidelines: variations,
       inVariation: false,
     });
@@ -61,7 +74,7 @@ export const makePgnMoveTokens = <T extends PgnNodeData>(
     }
 
     switch (frame.state) {
-      // @ts-ignore
+      // @ts-expect-error
       case MakePgnState.Pre:
         if (forceMoveNumber || frame.ply % 2 === 0) {
           addToken({
@@ -86,7 +99,7 @@ export const makePgnMoveTokens = <T extends PgnNodeData>(
             stack.push({
               state: MakePgnState.Pre,
               ply: frame.ply + 1,
-              node: variations.next().value,
+              node: getNextNode(variations),
               sidelines: variations,
               inVariation: false,
             });

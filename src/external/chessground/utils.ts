@@ -1,5 +1,5 @@
-import { DrawShape } from "chessground/draw";
-import { Api } from "chessground/api";
+import type { DrawShape } from "chessground/draw";
+import type { Api } from "chessground/api";
 
 export const chessgroundMap: Map<string, Api> = new Map();
 

@@ -1,6 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
+import type {
+  Credential} from "@/features/google-drive/googleCredentialStore.ts";
 import {
-  Credential,
   googleCredentialStore,
 } from "@/features/google-drive/googleCredentialStore.ts";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";

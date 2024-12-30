@@ -1,16 +1,18 @@
-import { Game, PgnNodeData, startingPosition } from "chessops/pgn";
+import type { Game, PgnNodeData} from "chessops/pgn";
+import { startingPosition } from "chessops/pgn";
 import { isNotEmptyArray } from "@/common/utils/utils.ts";
 import { isNumber } from "lodash";
 import { makeFen } from "chessops/fen";
 import { makeSanAndPlay, parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
-import { Position } from "chessops";
-import {
+import type { Position } from "chessops";
+import type {
   ImportPgnGameOptions,
   ImportPgnOptions,
 } from "@/features/pgn/import/defs.ts";
+import type {
+  AnnotationSetting} from "@/features/annotations/defs.ts";
 import {
-  AnnotationSetting,
   MOVE_ANNOTATIONS,
 } from "@/features/annotations/defs.ts";
 import { PGN_HEADERS } from "@/features/pgn/defs.ts";

@@ -1,4 +1,5 @@
-import { ElementProps, FORMATS } from "./defs.ts";
+import type { ElementProps} from "./defs.ts";
+import { FORMATS } from "./defs.ts";
 import { ImageElement } from "./image/ImageElement.tsx";
 
 export const Element = (props: ElementProps) => {

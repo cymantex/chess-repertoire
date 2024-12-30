@@ -1,13 +1,13 @@
-import { Chess } from "chess.js";
+import type { Chess } from "chess.js";
 import { isNumber, orderBy, uniqBy } from "lodash";
 import { findNextMoveBySan } from "@/external/chessjs/utils.ts";
-import {
+import type {
   AnnotatedMove,
   RepertoireMove,
   RepertoireOpeningExplorerMove,
 } from "@/features/repertoire/defs.ts";
 import { removeDecorations } from "@/common/utils/utils.ts";
-import { OpeningExplorerMove } from "@/features/opening-explorer/defs.ts";
+import type { OpeningExplorerMove } from "@/features/opening-explorer/defs.ts";
 
 const NUMBER_LARGER_THAN_WORST_ANNOTATION = 10000;
 const NUMBER_LARGER_THAN_TOTAL_GAMES = 1000_000_000;

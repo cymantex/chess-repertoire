@@ -1,4 +1,5 @@
-import { get, set, UseStore } from "idb-keyval";
+import type { UseStore } from "idb-keyval";
+import { get, set } from "idb-keyval";
 import { createOrGet } from "./utils.ts";
 
 const SELECTED_DB_KEY = "selectedRepertoireDb";

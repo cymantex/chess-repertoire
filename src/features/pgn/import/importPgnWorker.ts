@@ -1,5 +1,5 @@
 import { importPgn } from "@/features/pgn/import/importPgn.ts";
-import { ImportPgnOptions } from "@/features/pgn/import/defs.ts";
+import type { ImportPgnOptions } from "@/features/pgn/import/defs.ts";
 
 self.onmessage = async (
   event: MessageEvent<{

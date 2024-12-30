@@ -1,6 +1,6 @@
 import type { Element, Node } from "slate";
-import { BaseElement } from "slate";
-import { RenderElementProps } from "slate-react/dist/components/editable";
+import type { BaseElement } from "slate";
+import type { RenderElementProps } from "slate-react/dist/components/editable";
 
 export const FORMATS = {
   BOLD: "bold",

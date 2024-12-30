@@ -1,5 +1,5 @@
-import { Chess } from "chess.js";
-import { PgnMoveData } from "@/external/chessops/defs.ts";
+import type { Chess } from "chess.js";
+import type { PgnMoveData } from "@/external/chessops/defs.ts";
 
 export const toPgn = (chess: Chess) => {
   chess.header("Result", "*");

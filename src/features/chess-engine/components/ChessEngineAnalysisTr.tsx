@@ -1,9 +1,10 @@
-import {
-  ANALYSIS_STATE,
+import type {
   AnalysisResult,
-  AnalysisState,
+  AnalysisState} from "@/features/chess-engine/stockfish/defs.ts";
+import {
+  ANALYSIS_STATE
 } from "@/features/chess-engine/stockfish/defs.ts";
-import { Position } from "chessops";
+import type { Position } from "chessops";
 import { TdWithOverflowCaret } from "@/common/components/TdWithOverflowCaret.tsx";
 import { Eval } from "@/common/components/Eval.tsx";
 import { uciMovesToSan } from "@/external/chessops/utils.ts";

@@ -1,5 +1,5 @@
 import { isNumber } from "lodash";
-import {
+import type {
   AnalysisResult,
   BestMove,
 } from "@/features/chess-engine/stockfish/defs.ts";

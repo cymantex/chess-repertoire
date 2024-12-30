@@ -1,4 +1,4 @@
-import { DrawShape } from "chessground/draw";
+import type { DrawShape } from "chessground/draw";
 import { useEffect } from "react";
 import {
   isChessgroundReady,

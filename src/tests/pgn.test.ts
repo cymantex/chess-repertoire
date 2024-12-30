@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
-import { ChildNode, parsePgn, PgnNodeData } from "chessops/pgn";
+import type { ChildNode, PgnNodeData } from "chessops/pgn";
+import { parsePgn } from "chessops/pgn";
 import {
   findCurrentMove,
   getRemainingMainMoves,

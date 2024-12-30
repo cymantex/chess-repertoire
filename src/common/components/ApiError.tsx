@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { ReactNode } from "react";
+import type { AxiosError } from "axios";
+import type { ReactNode } from "react";
 
 interface Props {
   error: AxiosError;
