@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useSyncExternalStore } from "react";
 import { LoadingModal } from "@/common/components/Modal/LoadingModal.tsx";
 import {
   ConfirmModal,
-  ConfirmModalProps,
+  Props,
 } from "@/common/components/Modal/ConfirmModal.tsx";
 
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
@@ -23,7 +23,7 @@ export const modalStore = {
     children,
     onConfirm,
     ...props
-  }: Pick<ConfirmModalProps, "onConfirm"> & Partial<ConfirmModalProps>) =>
+  }: Pick<Props, "onConfirm"> & Partial<Props>) =>
     modalStore.addModal(
       <ConfirmModal
         id={MODAL_IDS.CONFIRM}

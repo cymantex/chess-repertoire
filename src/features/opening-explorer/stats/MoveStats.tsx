@@ -8,12 +8,12 @@ import { WinPercentageBar } from "@/features/opening-explorer/stats/WinPercentag
 import { LargeNumber } from "@/features/opening-explorer/components/LargeNumber.tsx";
 import { Tooltip } from "@/common/components/Tooltip/Tooltip.tsx";
 
-interface MoveStatsProps {
+interface Props {
   totalGamesForPosition: number;
   move: RepertoireOpeningExplorerMove;
 }
 
-export const MoveStats = ({ totalGamesForPosition, move }: MoveStatsProps) => {
+export const MoveStats = ({ totalGamesForPosition, move }: Props) => {
   if (!isOpeningExplorerMove(move)) return null;
 
   const totalGamesForMove = move.white + move.draws + move.black;

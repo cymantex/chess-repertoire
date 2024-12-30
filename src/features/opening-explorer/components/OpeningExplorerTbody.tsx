@@ -18,13 +18,11 @@ import {
 import { selectCurrentRepertoirePositionMoves } from "@/features/repertoire/repertoireSlice.ts";
 import { OpeningExplorerMove } from "@/features/opening-explorer/defs.ts";
 
-interface OpeningExplorerTbodyProps {
+interface Props {
   openingExplorerMoves?: OpeningExplorerMove[];
 }
 
-export const OpeningExplorerTbody = ({
-  openingExplorerMoves = [],
-}: OpeningExplorerTbodyProps) => {
+export const OpeningExplorerTbody = ({ openingExplorerMoves = [] }: Props) => {
   const chess = useRepertoireStore(selectChess);
   const setHoveredOpeningMove = useRepertoireStore(selectSetHoveredOpeningMove);
   const handleOpeningExplorerMove = useRepertoireStore(

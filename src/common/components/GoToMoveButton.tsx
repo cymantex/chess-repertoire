@@ -6,9 +6,7 @@ import { Tooltip } from "@/common/components/Tooltip/Tooltip.tsx";
 import { MiniChessboard } from "@/features/chessboard/MiniChessboard.tsx";
 import { selectGoToPosition } from "@/features/navigation/navigationSlice.ts";
 
-interface GoToMoveButtonProps<
-  TMove extends Pick<PgnMoveData, "san" | "moveNumber">,
-> {
+interface Props<TMove extends Pick<PgnMoveData, "san" | "moveNumber">> {
   disabled: boolean;
   selected?: boolean;
   italic?: boolean;
@@ -24,7 +22,7 @@ export const GoToMoveButton = <
   italic = false,
   move,
   getVariation,
-}: GoToMoveButtonProps<TMove>) => {
+}: Props<TMove>) => {
   const goToPosition = useRepertoireStore(selectGoToPosition);
 
   const handleGoToPosition = () => {

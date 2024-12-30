@@ -3,13 +3,11 @@ import { ReactNode } from "react";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { GoogleDriveShortcuts } from "@/features/google-drive/GoogleDriveShortcuts.tsx";
 
-interface OptionalGoogleAuthProviderProps {
+interface Props {
   children: ReactNode;
 }
 
-export const OptionalGoogleAuthProvider = ({
-  children,
-}: OptionalGoogleAuthProviderProps) => {
+export const OptionalGoogleAuthProvider = ({ children }: Props) => {
   const repertoireSettings = useRepertoireSettings();
 
   if (!repertoireSettings.googleDriveEnabled) {

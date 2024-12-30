@@ -1,9 +1,6 @@
 import { ReactNode } from "react";
 import "./ThMenu.scss";
-import {
-  IconButton,
-  IconButtonProps,
-} from "@/common/components/IconButton.tsx";
+import { IconButton, Props } from "@/common/components/IconButton.tsx";
 import classNames from "classnames";
 
 import { withOptionalTooltip } from "@/common/components/Tooltip/withOptionalTooltip.tsx";
@@ -22,12 +19,7 @@ ThMenu.Item = ({ children }: { children: ReactNode }) => {
   );
 };
 
-ThMenu.IconButton = ({
-  title,
-  className,
-  children,
-  ...props
-}: IconButtonProps) =>
+ThMenu.IconButton = ({ title, className, children, ...props }: Props) =>
   withOptionalTooltip(
     <IconButton
       className={classNames(

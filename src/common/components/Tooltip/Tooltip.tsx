@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import "./Tooltip.scss";
 import classNames from "classnames";
 
-interface TooltipProps {
+interface Props {
   align?: "right" | "center";
   containerClassName?: string;
   className?: string;
@@ -25,7 +25,7 @@ export const Tooltip = ({
   renderTooltip,
   tooltip,
   children,
-}: TooltipProps) => {
+}: Props) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [coords, setCoords] = useState({
     top: 0,

@@ -8,7 +8,7 @@ import {
   AnalysisState,
 } from "@/features/chess-engine/stockfish/defs.ts";
 
-interface ChessEngineAnalysisTbodyProps {
+interface Props {
   analysisState?: AnalysisState;
   analysisResults: AnalysisResult[];
 }
@@ -16,7 +16,7 @@ interface ChessEngineAnalysisTbodyProps {
 export const ChessEngineAnalysisTbody = ({
   analysisResults,
   analysisState,
-}: ChessEngineAnalysisTbodyProps) => {
+}: Props) => {
   const fen = useRepertoireStore(selectFen);
   const chessopsPosition = parsePosition(fen);
 

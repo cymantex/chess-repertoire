@@ -3,7 +3,7 @@ import { isNotEmptyArray } from "@/common/utils/utils.ts";
 
 import { AnnotationSetting } from "@/features/annotations/defs.ts";
 
-interface PgnImportSettingsProps {
+interface Props {
   disabled?: boolean;
   selectedPlayerName?: string;
   playerNames: string[];
@@ -41,7 +41,7 @@ export const PgnImportSettings = ({
   onSelectOpponentAnnotationSetting,
   playerAnnotationSetting,
   onSelectPlayerAnnotationSetting,
-}: PgnImportSettingsProps) => (
+}: Props) => (
   <>
     <div className="divider" />
     <h4 className="font-bold text-sm mb-4">Import settings</h4>

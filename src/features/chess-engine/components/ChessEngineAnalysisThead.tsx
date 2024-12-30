@@ -12,7 +12,7 @@ import {
   toSearchTimeDisplayName,
 } from "@/common/utils/converters.ts";
 
-interface ChessEngineAnalysisTheadProps {
+interface Props {
   analysisState: AnalysisState;
   onChange: () => Promise<void>;
   result?: AnalysisResult;
@@ -28,7 +28,7 @@ export const ChessEngineAnalysisThead = ({
   onRemoveLine,
   result,
   children,
-}: ChessEngineAnalysisTheadProps) => {
+}: Props) => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
 

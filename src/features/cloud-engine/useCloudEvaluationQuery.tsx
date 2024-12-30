@@ -1,6 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { CloudEvaluationResponse } from "@/features/cloud-engine/defs.ts";
+
+export interface CloudEvaluationResponse {
+  fen: string;
+  knodes: number;
+  depth: number;
+  pvs: {
+    moves: string;
+    cp: number;
+  }[];
+}
 
 export const useCloudEvaluationQuery = (fen: string) =>
   useQuery<CloudEvaluationResponse, AxiosError>({

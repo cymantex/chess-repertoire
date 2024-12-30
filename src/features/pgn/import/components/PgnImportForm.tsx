@@ -13,15 +13,12 @@ import {
   AnnotationSetting,
 } from "@/features/annotations/defs.ts";
 
-interface PgnImportFormProps {
+interface Props {
   importPgnProgress?: Partial<ImportPgnProgress>;
   onUpload: (file: File, options: ImportPgnOptions) => void;
 }
 
-export const PgnImportForm = ({
-  importPgnProgress,
-  onUpload,
-}: PgnImportFormProps) => {
+export const PgnImportForm = ({ importPgnProgress, onUpload }: Props) => {
   const { annotationSetting } = useRepertoireSettings();
   const [file, setFile] = useState<File | null>(null);
 

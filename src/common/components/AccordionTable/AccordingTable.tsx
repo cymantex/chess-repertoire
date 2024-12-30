@@ -1,5 +1,5 @@
 import { FaCaretDown } from "react-icons/fa6";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import classNames from "classnames";
 import "./AccordionTable.scss";
 import { TOGGLE_STATE, ToggleSection } from "@/features/repertoire/defs.ts";
@@ -9,7 +9,7 @@ import {
 } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { FaCaretRight } from "react-icons/fa";
 
-interface AccordingTableProps {
+interface Props {
   renderTheadTrChildren: (
     toggleButton: ReactNode,
     collapsed: boolean,
@@ -24,7 +24,7 @@ export const AccordingTable = ({
   renderChildren,
   className,
   section,
-}: AccordingTableProps) => {
+}: Props) => {
   const { sections } = useRepertoireSettings();
   const collapsed = sections[section] === TOGGLE_STATE.OFF;
 

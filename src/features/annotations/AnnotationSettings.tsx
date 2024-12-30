@@ -10,7 +10,7 @@ import {
 } from "@/features/annotations/defs.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
 
-interface AnnotationSettingsProps {
+interface Props {
   disabled?: boolean;
   annotationSetting: AnnotationSetting;
   onSelect: (annotationSetting: AnnotationSetting) => void;
@@ -20,7 +20,7 @@ export const AnnotationSettings = ({
   disabled,
   annotationSetting,
   onSelect,
-}: AnnotationSettingsProps) => {
+}: Props) => {
   const { AnnotationIconButton } = getAnnotation(annotationSetting);
 
   return (

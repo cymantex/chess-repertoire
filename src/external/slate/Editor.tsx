@@ -19,7 +19,7 @@ import {
 import { withImages } from "./image/withImages.tsx";
 import classNames from "classnames";
 
-interface EditorProps extends Partial<EditableProps> {
+interface Props extends Partial<EditableProps> {
   initialValue: Descendant[];
   onValueChange: (value: Descendant[]) => void;
   label?: string;
@@ -31,7 +31,7 @@ export const Editor = ({
   onValueChange,
   label,
   ...editableProps
-}: EditorProps) => {
+}: Props) => {
   const renderElement = useCallback(
     (props: ElementProps) => <Element {...props} />,
     [],
