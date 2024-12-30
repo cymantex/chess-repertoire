@@ -4,7 +4,7 @@ import {
   findCurrentMove,
   getRemainingMainMoves,
 } from "../external/chessops/pgn.ts";
-import { parseVariation } from "@/pgn/utils.ts";
+import { parseVariation } from "@/features/pgn/utils.ts";
 
 test("findCurrentMove", () => {
   // Arrange

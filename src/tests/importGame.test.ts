@@ -1,12 +1,16 @@
 import { describe, expect, test } from "vitest";
 import { parsePgn } from "chessops/pgn";
-import { FEN_STARTING_POSITION } from "@/defs.ts";
 import { DrawShape } from "chessground/draw";
 import { FEN_SICILIAN } from "@/tests/testUtils.ts";
-import { importGame } from "@/pgn/import/importGame.ts";
-import { ImportPgnOptions } from "@/pgn/import/defs.ts";
-import { RepertoireMove } from "@/repertoire/defs.ts";
-import { ANNOTATION_SETTINGS, AnnotationSetting } from "@/annotations/defs.ts";
+import { importGame } from "@/features/pgn/import/importGame.ts";
+import { ImportPgnOptions } from "@/features/pgn/import/defs.ts";
+import { RepertoireMove } from "@/features/repertoire/defs.ts";
+import {
+  ANNOTATION_SETTINGS,
+  AnnotationSetting,
+} from "@/features/annotations/defs.ts";
+
+import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";
 
 const importPgn = async (
   pgn: string,

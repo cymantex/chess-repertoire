@@ -1,0 +1,34 @@
+.th-menu {
+  &__item {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-right: 1px solid oklch(var(--p));
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+      border-right: none;
+    }
+  }
+
+  &__icon-button {
+    svg {
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    &:hover {
+      span {
+        color: oklch(var(--bc));
+      }
+
+      svg {
+        transform: scale(1.25);
+      }
+    }
+  }
+}

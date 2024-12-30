@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && cp src/stockfish/stockfish-nnue-16.wasm dist/assets",
+    "build": "tsc && vite build && cp src/features/chess-engine/stockfish/stockfish-nnue-16.wasm dist/assets",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
