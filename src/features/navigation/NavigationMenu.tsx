@@ -1,4 +1,4 @@
-import { FaRotate } from "react-icons/fa6";
+import { FaArrowRightToBracket, FaRotate } from "react-icons/fa6";
 import {
   FaFastBackward,
   FaFastForward,
@@ -9,9 +9,7 @@ import {
 import {
   selectChess,
   selectFen,
-  selectOpenSidebar,
   selectPgn,
-  selectSidebar,
   useRepertoireStore,
 } from "@/app/zustand/store.ts";
 import { AnnotationSettings } from "@/features/annotations/AnnotationSettings.tsx";
@@ -30,7 +28,13 @@ import {
   selectGoToPreviousMove,
 } from "@/features/navigation/navigationSlice.ts";
 import { selectPendingPromotionMove } from "@/features/chessboard/chessboardSlice.ts";
-import { SIDEBARS } from "@/features/sidebar/defs.ts";
+import { SIDEBAR_IDS } from "@/features/sidebar/defs.ts";
+import {
+  selectOpenSidebar,
+  selectSidebarId,
+  selectToggleSidebar,
+} from "@/features/sidebar/sidebarSlice.ts";
+import { isMobileSize } from "@/common/utils/utils.ts";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);
@@ -41,8 +45,9 @@ export const NavigationMenu = () => {
   const goToPreviousMove = useRepertoireStore(selectGoToPreviousMove);
   const goToNextMove = useRepertoireStore(selectGoToNextMove);
   const goToLastMove = useRepertoireStore(selectGoToLastMove);
-  const sidebar = useRepertoireStore(selectSidebar);
+  const sidebarId = useRepertoireStore(selectSidebarId);
   const openSidebar = useRepertoireStore(selectOpenSidebar);
+  const toggleSidebar = useRepertoireStore(selectToggleSidebar);
   const { annotationSetting } = useRepertoireSettings();
 
   const previousMoveDisabled =
@@ -80,13 +85,13 @@ export const NavigationMenu = () => {
 
       <IconButton
         className={classNames("cursor-pointer", {
-          "text-primary": sidebar === SIDEBARS.SETTINGS,
+          "text-primary": sidebarId === SIDEBAR_IDS.SETTINGS,
         })}
         onClick={() => {
           openSidebar(
-            sidebar === SIDEBARS.OPENING_EXPLORER
-              ? SIDEBARS.SETTINGS
-              : SIDEBARS.OPENING_EXPLORER,
+            sidebarId === SIDEBAR_IDS.OPENING_EXPLORER
+              ? SIDEBAR_IDS.SETTINGS
+              : SIDEBAR_IDS.OPENING_EXPLORER,
           );
         }}
       >
@@ -94,6 +99,13 @@ export const NavigationMenu = () => {
           <FaSlidersH />
         </Tooltip>
       </IconButton>
+      {!isMobileSize() && (
+        <IconButton onClick={toggleSidebar}>
+          <Tooltip tooltip="Collapse">
+            <FaArrowRightToBracket />
+          </Tooltip>
+        </IconButton>
+      )}
     </nav>
   );
 };

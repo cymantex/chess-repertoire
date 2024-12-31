@@ -3,22 +3,17 @@ import { exportRepertoireFile } from "@/features/repertoire/database/io.ts";
 import type { ChangeEvent } from "react";
 import { repertoireSettingsStore } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import type { DaisyUiTheme } from "@/features/repertoire/defs.ts";
-import type {
-  BoardTheme,
-  PieceTheme} from "@/external/chessground/defs.tsx";
+import type { BoardTheme, PieceTheme } from "@/external/chessground/defs.tsx";
 import {
   BOARD_THEME_ATTRIBUTE,
-  PIECE_THEME_ATTRIBUTE
+  PIECE_THEME_ATTRIBUTE,
 } from "@/external/chessground/defs.tsx";
 import {
   getErrorMessage,
   openErrorToast,
 } from "@/external/react-toastify/toasts.ts";
-import type {
-  AnnotationTheme} from "@/features/annotations/defs.ts";
-import {
-  ANNOTATION_THEME_ATTRIBUTE
-} from "@/features/annotations/defs.ts";
+import type { AnnotationTheme } from "@/features/annotations/defs.ts";
+import { ANNOTATION_THEME_ATTRIBUTE } from "@/features/annotations/defs.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
 
 export async function exportRepertoire() {
@@ -86,5 +81,5 @@ export const changeAnnotationTheme = (annotationTheme: AnnotationTheme) => {
     annotationTheme,
   });
 
-  import(`@/annotations/annotations.${annotationTheme}.css`);
+  import(`@/features/annotations/annotations.${annotationTheme}.css`);
 };
