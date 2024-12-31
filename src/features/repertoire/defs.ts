@@ -1,29 +1,30 @@
-// Repertoire
 import type { DrawShape } from "chessground/draw";
 import type { Move } from "chess.js";
 import type {
   BoardTheme,
   CgColor,
-  PieceTheme} from "@/external/chessground/defs.tsx";
+  PieceTheme,
+} from "@/external/chessground/defs.tsx";
 import {
   BOARD_THEMES,
   CG_WHITE,
-  PIECE_THEMES
+  PIECE_THEMES,
 } from "@/external/chessground/defs.tsx";
 import type { Descendant } from "slate";
 import type {
   AnnotationSetting,
   AnnotationTheme,
-  MoveAnnotation} from "@/features/annotations/defs.ts";
+  MoveAnnotation,
+} from "@/features/annotations/defs.ts";
 import {
   ANNOTATION_THEMES,
-  MOVE_ANNOTATIONS
+  MOVE_ANNOTATIONS,
 } from "@/features/annotations/defs.ts";
 import type {
-  OpeningExplorerMove} from "@/features/opening-explorer/defs.ts";
-import {
-  OPENING_EXPLORER_API
+  OpeningExplorerApi,
+  OpeningExplorerMove,
 } from "@/features/opening-explorer/defs.ts";
+import { OPENING_EXPLORER_API } from "@/features/opening-explorer/defs.ts";
 
 export interface AnnotatedMove extends Move {
   annotation?: MoveAnnotation;
@@ -63,9 +64,6 @@ export type ToggleSection =
   (typeof TOGGLE_SECTIONS)[keyof typeof TOGGLE_SECTIONS];
 
 export type ToggleState = (typeof TOGGLE_STATE)[keyof typeof TOGGLE_STATE];
-
-export type OpeningExplorerApi =
-  (typeof OPENING_EXPLORER_API)[keyof typeof OPENING_EXPLORER_API];
 
 export interface EngineSettings {
   searchTimeSeconds: number;

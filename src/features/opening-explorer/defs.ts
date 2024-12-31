@@ -12,6 +12,9 @@ export const OPENING_EXPLORER_API = {
   NONE: "none",
 } as const;
 
+export type OpeningExplorerApi =
+  (typeof OPENING_EXPLORER_API)[keyof typeof OPENING_EXPLORER_API];
+
 export interface TopGamesResponse {
   black: { name: string; rating: number };
   white: { name: string; rating: number };

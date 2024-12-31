@@ -15,11 +15,11 @@ import {
   getNonReactiveState,
   handlePositionStateChange,
 } from "@/app/zustand/utils.ts";
-import type { Sidebar } from "@/features/sidebar/defs.ts";
-import { SIDEBARS } from "@/features/sidebar/defs.ts";
 import { PGN_HEADERS } from "@/features/pgn/defs.ts";
 
 import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";
+import type { SidebarSlice } from "@/features/sidebar/sidebarSlice.ts";
+import { createSidebarSlice } from "@/features/sidebar/sidebarSlice.ts";
 
 const initHeaders = () => new Map([[PGN_HEADERS.FEN, FEN_STARTING_POSITION]]);
 
@@ -34,8 +34,7 @@ export interface ChessRepertoireStore
   pgn: Game<PgnNodeData>;
   savePgn: (pgn: string) => Promise<void>;
 
-  sidebar: Sidebar;
-  openSidebar: (sidebar: Sidebar) => void;
+  sidebar: SidebarSlice;
 }
 
 export type SetState = (
@@ -53,9 +52,7 @@ export const useRepertoireStore = create(
     fen: FEN_STARTING_POSITION,
     chess: new Chess(),
     pgn: defaultGame(initHeaders),
-    sidebar: SIDEBARS.OPENING_EXPLORER,
 
-    openSidebar: (sidebar) => set({ sidebar }),
     savePgn: (pgn) => {
       const chess = selectChess(getNonReactiveState());
       const games = parsePgn(pgn, initHeaders);
@@ -75,6 +72,7 @@ export const useRepertoireStore = create(
 
       return Promise.resolve();
     },
+    sidebar: createSidebarSlice(set),
     ...createRepertoireSlice(set),
     ...createChessboardSlice(set),
     ...createOpeningExplorerSlice(set),
@@ -86,6 +84,3 @@ export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.fen;
 export const selectPgn = (state: ChessRepertoireStore) => state.pgn;
 export const selectSavePgn = (state: ChessRepertoireStore) => state.savePgn;
-export const selectSidebar = (state: ChessRepertoireStore) => state.sidebar;
-export const selectOpenSidebar = (state: ChessRepertoireStore) =>
-  state.openSidebar;

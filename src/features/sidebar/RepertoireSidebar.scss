@@ -26,6 +26,11 @@ $navigationHeight: calc(25px + 1rem);
     padding: 0;
     gap: 0;
 
+    &--collapsed {
+      grid-template-rows: 1fr;
+      border: none;
+    }
+
     &--settings {
       grid-template-rows: 1fr $navigationHeight;
     }
