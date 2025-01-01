@@ -35,7 +35,7 @@ export default defineConfig({
             "chessops",
             "chessground",
             "classnames",
-            "idb-keyval",
+            "idb",
             "local-storage-superjson",
             "lodash",
             "slate",
