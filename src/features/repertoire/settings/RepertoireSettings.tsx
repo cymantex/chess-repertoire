@@ -2,7 +2,7 @@ import { useRepertoireStore } from "@/app/zustand/store.ts";
 import React from "react";
 import { useClearRepertoire } from "@/features/repertoire/useClearRepertoire.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import { DatabaseModal } from "@/features/repertoire/database/DatabaseModal.tsx";
+import { DatabaseModal } from "@/features/repertoire/database/components/DatabaseModal.tsx";
 import { PgnImport } from "@/features/pgn/import/components/PgnImport.tsx";
 import { exportPgnAsync } from "@/features/pgn/export/exportPgnAsync.tsx";
 import { exportRepertoire } from "@/features/sidebar/settings/actions.tsx";

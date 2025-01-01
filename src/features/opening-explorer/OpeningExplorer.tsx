@@ -1,5 +1,5 @@
 import { TOGGLE_SECTIONS } from "@/features/repertoire/defs.ts";
-import { AccordingTable } from "@/common/components/AccordionTable/AccordingTable.tsx";
+import { AccordionTable } from "@/common/components/AccordionTable/AccordionTable.tsx";
 import {
   repertoireSettingsStore,
   useRepertoireSettings,
@@ -8,7 +8,7 @@ import { FaChessBoard, FaDatabase } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { selectFen, useRepertoireStore } from "@/app/zustand/store.ts";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import { DatabaseModal } from "@/features/repertoire/database/DatabaseModal.tsx";
+import { DatabaseModal } from "@/features/repertoire/database/components/DatabaseModal.tsx";
 import { TopGamesButton } from "@/features/opening-explorer/top-games/TopGamesButton.tsx";
 import { ThMenu } from "@/common/components/ThMenu/ThMenu.tsx";
 import { OpeningExplorerQueryTbody } from "@/features/opening-explorer/components/OpeningExplorerQueryTbody.tsx";
@@ -45,7 +45,7 @@ export const OpeningExplorer = () => {
   };
 
   return (
-    <AccordingTable
+    <AccordionTable
       className="table-sm table-zebra select-none"
       section={TOGGLE_SECTIONS.OPENING_EXPLORER}
       renderTheadTrChildren={(toggleButton, collapsed) => (

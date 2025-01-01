@@ -1,5 +1,5 @@
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import { exportRepertoireFile } from "@/features/repertoire/database/io.ts";
+import { exportRepertoireFile } from "@/features/repertoire/database/io/io.ts";
 import type { ChangeEvent } from "react";
 import { repertoireSettingsStore } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import type { DaisyUiTheme } from "@/features/repertoire/defs.ts";

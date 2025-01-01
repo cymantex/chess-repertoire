@@ -1,6 +1,5 @@
 import { FaCaretDown } from "react-icons/fa6";
 import type { ReactNode } from "react";
-import type React from "react";
 import classNames from "classnames";
 import "./AccordionTable.scss";
 import type { ToggleSection } from "@/features/repertoire/defs.ts";
@@ -15,13 +14,13 @@ interface Props {
   renderTheadTrChildren: (
     toggleButton: ReactNode,
     collapsed: boolean,
-  ) => React.ReactNode;
-  renderChildren: (collapsed: boolean) => React.ReactNode;
+  ) => ReactNode;
+  renderChildren: (collapsed: boolean) => ReactNode;
   className?: string;
   section: ToggleSection;
 }
 
-export const AccordingTable = ({
+export const AccordionTable = ({
   renderTheadTrChildren,
   renderChildren,
   className,

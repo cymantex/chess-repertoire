@@ -9,25 +9,15 @@ import {
 } from "@/app/zustand/utils.ts";
 import type {
   RepertoireMove,
-  RepertoirePosition} from "@/features/repertoire/defs.ts";
-import {
-  DEFAULT_REPERTOIRE_POSITION
+  RepertoirePosition,
 } from "@/features/repertoire/defs.ts";
-import {
-  idbCreateDatabase,
-  idbGetSelectedDbDisplayName,
-  idbListUserRepertoireDbDisplayNames,
-  idbSelectDb,
-} from "@/external/idb-keyval/adapter.ts";
-import { toDbName } from "@/external/idb-keyval/utils.ts";
+import { DEFAULT_REPERTOIRE_POSITION } from "@/features/repertoire/defs.ts";
 import type { AnnotationSetting } from "@/features/annotations/defs.ts";
 import type { DrawShape } from "chessground/draw";
-import type {
-  ChessRepertoireStore,
-  SetState} from "@/app/zustand/store.ts";
-import {
-  selectFen
-} from "@/app/zustand/store.ts";
+import type { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
+import { selectFen } from "@/app/zustand/store.ts";
+import { repertoireDb } from "@/features/repertoire/database/repertoireDb.ts";
+import { settingsDb } from "@/features/repertoire/database/settingsDb.ts";
 
 export interface RepertoireSlice {
   databases: string[];
@@ -54,12 +44,12 @@ export const createRepertoireSlice = (set: SetState): RepertoireSlice => ({
   fetchingRepertoirePosition: false,
 
   selectDatabase: async (dbDisplayName) => {
-    await idbSelectDb(toDbName(dbDisplayName));
+    await settingsDb.setSelectedRepertoireDbName(dbDisplayName);
     await getCurrentRepertoirePosition(set);
     set({ selectedDatabase: dbDisplayName });
   },
   createDatabase: async (dbDisplayName) => {
-    await idbCreateDatabase(toDbName(dbDisplayName));
+    await repertoireDb.create(dbDisplayName);
     await listDatabases(set);
     await getCurrentRepertoirePosition(set);
   },
@@ -84,8 +74,9 @@ const getCurrentRepertoirePosition = async (set: SetState) =>
   updateCurrentRepertoirePosition(set, selectFen(getNonReactiveState()));
 
 const listDatabases = async (set: SetState) => {
-  const selectedDatabase = await idbGetSelectedDbDisplayName();
-  const databases = await idbListUserRepertoireDbDisplayNames();
+  const selectedDatabase =
+    await settingsDb.getSelectedRepertoireDbDisplayName();
+  const databases = await repertoireDb.listDisplayNames();
   set({
     selectedDatabase,
     databases,

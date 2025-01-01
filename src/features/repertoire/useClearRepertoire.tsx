@@ -1,5 +1,4 @@
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import { idbClear } from "@/external/idb-keyval/adapter.ts";
 import { useRepertoireStore } from "@/app/zustand/store.ts";
 import {
   openDefaultErrorToast,
@@ -7,6 +6,8 @@ import {
 } from "@/external/react-toastify/toasts.ts";
 import { selectGetCurrentRepertoirePosition } from "@/features/repertoire/repertoireSlice.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
+
+import { positionsStore } from "@/features/repertoire/database/positionsStore.ts";
 
 export const useClearRepertoire = () => {
   const getCurrentRepertoirePosition = useRepertoireStore(
@@ -22,7 +23,7 @@ export const useClearRepertoire = () => {
     );
 
     try {
-      await idbClear();
+      await positionsStore.clear();
       openSuccessToast("Repertoire cleared.");
     } catch (error) {
       openDefaultErrorToast(error);

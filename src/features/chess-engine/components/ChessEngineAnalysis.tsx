@@ -5,7 +5,7 @@ import {
 import { useStockfish } from "@/features/chess-engine/stockfish/useStockfish.ts";
 import { head } from "lodash";
 import { TOGGLE_SECTIONS } from "@/features/repertoire/defs.ts";
-import { AccordingTable } from "@/common/components/AccordionTable/AccordingTable.tsx";
+import { AccordionTable } from "@/common/components/AccordionTable/AccordionTable.tsx";
 import { ChessEngineAnalysisThead } from "@/features/chess-engine/components/ChessEngineAnalysisThead.tsx";
 import { ChessEngineAnalysisTbody } from "@/features/chess-engine/components/ChessEngineAnalysisTbody.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
@@ -31,7 +31,7 @@ export const ChessEngineAnalysis = () => {
   };
 
   return (
-    <AccordingTable
+    <AccordionTable
       className="table-xs"
       section={TOGGLE_SECTIONS.CHESS_ENGINE_ANALYSIS}
       renderTheadTrChildren={(toggleButton) => (

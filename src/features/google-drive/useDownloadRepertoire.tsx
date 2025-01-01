@@ -10,7 +10,6 @@ import type {
   GoogleDriveLoginParams,
 } from "@/features/google-drive/defs.ts";
 import { useRepertoireStore } from "@/app/zustand/store.ts";
-import { idbSetEntries } from "@/external/idb-keyval/adapter.ts";
 import { useCallback } from "react";
 import { toRepertoireFileNameWithoutDate } from "@/common/utils/converters.ts";
 import {
@@ -18,6 +17,8 @@ import {
   selectSelectedDatabase,
 } from "@/features/repertoire/repertoireSlice.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
+
+import { positionsStore } from "@/features/repertoire/database/positionsStore.ts";
 
 export const useDownloadRepertoire = ({
   isLoginRequired,
@@ -38,7 +39,7 @@ export const useDownloadRepertoire = ({
       );
 
       modalStore.setLoadingModal(`Importing ${repertoireFileName}...`);
-      await idbSetEntries(repertoire);
+      await positionsStore.setEntries(repertoire);
       await getCurrentRepertoirePosition();
       openSuccessToast(`Imported ${repertoireFileName}.`);
       modalStore.closeModal(MODAL_IDS.LOADING);

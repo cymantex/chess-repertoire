@@ -1,24 +1,20 @@
 import type { DrawShape } from "chessground/draw";
-import { idbGet, idbUpsert } from "@/external/idb-keyval/adapter.ts";
 import type {
   RepertoireMove,
-  RepertoirePosition} from "@/features/repertoire/defs.ts";
-import {
-  DEFAULT_REPERTOIRE_POSITION
+  RepertoirePosition,
 } from "@/features/repertoire/defs.ts";
+import { DEFAULT_REPERTOIRE_POSITION } from "@/features/repertoire/defs.ts";
 import type { Descendant } from "slate";
 import type {
   AnnotationSetting,
-  MoveAnnotation} from "@/features/annotations/defs.ts";
-import {
-  ANNOTATION_SETTINGS
+  MoveAnnotation,
 } from "@/features/annotations/defs.ts";
+import { ANNOTATION_SETTINGS } from "@/features/annotations/defs.ts";
 
-export const getRepertoirePosition = async (fen: string) =>
-  idbGet<RepertoirePosition>(fen);
+import { positionsStore } from "@/features/repertoire/database/positionsStore.ts";
 
 export const deleteRepertoireMove = async (fen: string, san: string) =>
-  idbUpsert<RepertoirePosition>(
+  positionsStore.upsert(
     fen,
     DEFAULT_REPERTOIRE_POSITION,
     (data: RepertoirePosition) => ({
@@ -55,7 +51,7 @@ export const upsertRepertoireMove = async (
     };
   };
 
-  return idbUpsert<RepertoirePosition>(
+  return positionsStore.upsert(
     fen,
     { moves: [withSelectedAutomaticAnnotation(repertoireMove)] },
     (data: RepertoirePosition) => {
@@ -98,7 +94,7 @@ export const setRepertoirePositionShapes = async (
   fen: string,
   shapes: DrawShape[],
 ) =>
-  idbUpsert<RepertoirePosition>(
+  positionsStore.upsert(
     fen,
     { ...DEFAULT_REPERTOIRE_POSITION, shapes },
     (data) => ({
@@ -111,7 +107,7 @@ export const setRepertoirePositionComments = async (
   fen: string,
   comments: Descendant[],
 ) =>
-  idbUpsert<RepertoirePosition>(
+  positionsStore.upsert(
     fen,
     { ...DEFAULT_REPERTOIRE_POSITION, comments },
     (data) => ({
