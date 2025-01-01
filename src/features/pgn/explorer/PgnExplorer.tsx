@@ -1,5 +1,5 @@
 import { TOGGLE_SECTIONS } from "@/features/repertoire/defs.ts";
-import { AccordingTable } from "@/common/components/AccordionTable/AccordingTable.tsx";
+import { AccordionTable } from "@/common/components/AccordionTable/AccordionTable.tsx";
 import { PgnTr } from "@/features/pgn/explorer/PgnTr.tsx";
 import { selectPgn, useRepertoireStore } from "@/app/zustand/store.ts";
 import { FaCopy, FaEdit } from "react-icons/fa";
@@ -26,7 +26,7 @@ export const PgnExplorer = () => {
   };
 
   return (
-    <AccordingTable
+    <AccordionTable
       renderTheadTrChildren={(toggleButton) => (
         <td>
           <ThMenu.Container>

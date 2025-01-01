@@ -2,10 +2,8 @@ import { useRepertoireStore } from "@/app/zustand/store.ts";
 import type { ModalId } from "@/common/components/Modal/Modal.tsx";
 import { Modal } from "@/common/components/Modal/Modal.tsx";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import { toDbName } from "@/external/idb-keyval/utils.ts";
-import { idbDeleteDatabase } from "@/external/idb-keyval/adapter.ts";
-import { CreateDatabaseTr } from "@/features/repertoire/database/CreateDatabaseTr.tsx";
-import { DatabaseTr } from "@/features/repertoire/database/DatabaseTr.tsx";
+import { CreateDatabaseTr } from "@/features/repertoire/database/components/CreateDatabaseTr.tsx";
+import { DatabaseTr } from "@/features/repertoire/database/components/DatabaseTr.tsx";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 import {
   selectCreateDatabase,
@@ -16,6 +14,7 @@ import {
   selectSelectedDatabase,
 } from "@/features/repertoire/repertoireSlice.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
+import { repertoireDb } from "@/features/repertoire/database/repertoireDb.ts";
 
 export const DatabaseModal = ({ id }: ModalId) => {
   const selectedDatabase = useRepertoireStore(selectSelectedDatabase);
@@ -31,7 +30,7 @@ export const DatabaseModal = ({ id }: ModalId) => {
     modalStore.addLoadingModal("Deleting database...");
 
     try {
-      await idbDeleteDatabase(toDbName(dbDisplayName));
+      await repertoireDb.delete(dbDisplayName);
       await listDatabases();
       await getCurrentRepertoirePosition();
     } catch (error) {

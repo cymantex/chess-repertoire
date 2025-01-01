@@ -1,13 +1,6 @@
-import {
-  getRepertoirePosition,
-  upsertRepertoireMove,
-} from "@/features/repertoire/repository.ts";
-import type {
-  ChessRepertoireStore,
-  SetState} from "@/app/zustand/store.ts";
-import {
-  useRepertoireStore,
-} from "@/app/zustand/store.ts";
+import { upsertRepertoireMove } from "@/features/repertoire/repository.ts";
+import type { ChessRepertoireStore, SetState } from "@/app/zustand/store.ts";
+import { useRepertoireStore } from "@/app/zustand/store.ts";
 import type { Move } from "chess.js";
 import { CJ_PROMOTION_FLAG } from "@/external/chessjs/defs.ts";
 import { getAnnotationSetting } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
@@ -16,6 +9,8 @@ import { addMoveToPgn } from "@/external/chessops/pgn.ts";
 import { DEFAULT_REPERTOIRE_POSITION } from "@/features/repertoire/defs.ts";
 
 import { PGN_HEADERS } from "@/features/pgn/defs.ts";
+
+import { positionsStore } from "@/features/repertoire/database/positionsStore.ts";
 
 /**
  * This function should always be called whenever a change in the position (FEN)
@@ -63,7 +58,7 @@ export const updateCurrentRepertoirePosition = async (
   fen: string,
 ) => {
   set({ fetchingRepertoirePosition: true });
-  const data = await getRepertoirePosition(fen);
+  const data = await positionsStore.get(fen);
   set({
     fetchingRepertoirePosition: false,
     currentRepertoirePosition: data,

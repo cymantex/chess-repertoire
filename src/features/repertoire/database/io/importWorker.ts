@@ -1,4 +1,4 @@
-import { idbSetEntries } from "@/external/idb-keyval/adapter.ts";
+import { positionsStore } from "@/features/repertoire/database/positionsStore.ts";
 
 self.onmessage = async (event: MessageEvent<File>) => {
   const file = event.data;
@@ -9,7 +9,7 @@ self.onmessage = async (event: MessageEvent<File>) => {
     try {
       const repertoireJson = event.target!.result as string;
       const entries = JSON.parse(repertoireJson);
-      await idbSetEntries(entries);
+      await positionsStore.setEntries(entries);
       self.postMessage({ done: true });
     } catch (err) {
       console.error(err);

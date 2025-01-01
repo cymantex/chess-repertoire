@@ -1,12 +1,13 @@
-import RepertoireImportWorker from "@/features/repertoire/database/importWorker.ts?worker";
-import RepertoireExportWorker from "@/features/repertoire/database/exportWorker.ts?worker";
+import RepertoireImportWorker from "@/features/repertoire/database/io/importWorker.ts?worker";
+import RepertoireExportWorker from "@/features/repertoire/database/io/exportWorker.ts?worker";
 import { downloadUInt8Array } from "@/common/utils/utils.ts";
-import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { toRepertoireFileName } from "@/common/utils/converters.ts";
+import { settingsDb } from "@/features/repertoire/database/settingsDb.ts";
 
 export const exportRepertoireFile = async () => {
   const uint8array = await startExportRepertoireWorker();
-  const repertoireDisplayName = await idbGetSelectedDbDisplayName();
+  const repertoireDisplayName =
+    await settingsDb.getSelectedRepertoireDbDisplayName();
   downloadUInt8Array(
     uint8array,
     `${toRepertoireFileName(repertoireDisplayName)}.json`,

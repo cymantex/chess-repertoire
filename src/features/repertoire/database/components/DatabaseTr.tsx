@@ -1,4 +1,4 @@
-import { DEFAULT_DB_DISPLAY_NAME } from "@/external/idb-keyval/utils.ts";
+import { DEFAULT_DB_DISPLAY_NAME } from "@/features/repertoire/database/utils.ts";
 import classNames from "classnames";
 import { IconButton } from "@/common/components/IconButton.tsx";
 import { FaTrash } from "react-icons/fa";

@@ -1,10 +1,10 @@
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
 import { downloadUrl } from "@/common/utils/utils.ts";
 import ExportPgnWorker from "@/features/pgn/export/exportPgnWorker.ts?worker";
-import { idbGetSelectedDbDisplayName } from "@/external/idb-keyval/adapter.ts";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 import { toRepertoireFileName } from "@/common/utils/converters.ts";
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
+import { settingsDb } from "@/features/repertoire/database/settingsDb.ts";
 
 export const exportPgnAsync = async () => {
   try {
@@ -17,7 +17,8 @@ export const exportPgnAsync = async () => {
         </>,
       ),
     );
-    const repertoireDisplayName = await idbGetSelectedDbDisplayName();
+    const repertoireDisplayName =
+      await settingsDb.getSelectedRepertoireDbDisplayName();
     downloadUrl(
       URL.createObjectURL(blob),
       `${toRepertoireFileName(repertoireDisplayName)}.pgn`,
