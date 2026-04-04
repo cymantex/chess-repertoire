@@ -14,7 +14,7 @@ If you prefer to just explore without saving, you can switch to **view mode** to
 
 ## How It Works
 
-Here's what the app looks like with a repertoire loaded:
+Here's what the app looks like when browing my own repertoire:
 
 ![White repertoire overview](docs/screenshots/my-white-repertoire.png)
 
