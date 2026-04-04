@@ -25,3 +25,6 @@ dist-ssr
 
 # Hidden assets folder
 _assets
+
+# Large binary files (installed via npm)
+*.wasm
