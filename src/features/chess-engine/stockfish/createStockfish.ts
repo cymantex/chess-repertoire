@@ -78,7 +78,7 @@ export const createStockfish = (): Stockfish => {
         clearTimeout(id);
         clearWaitUntilMessageSubscriptions();
         reject(`Timed out waiting to receive message: ${messageToReceive}`);
-      }, 10000);
+      }, 60000);
     });
 
     return Promise.race([waitUntilMessagePromise, timeoutPromise]).catch(
