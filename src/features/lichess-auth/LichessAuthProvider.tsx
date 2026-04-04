@@ -1,5 +1,6 @@
 import type { AuthProviderProps } from "react-oidc-context";
 import { AuthProvider } from "react-oidc-context";
+import { WebStorageStateStore } from "oidc-client-ts";
 import type { PropsWithChildren } from "react";
 
 const lichessHost = "https://lichess.org";
@@ -26,6 +27,7 @@ const lichessOidcConfig: AuthProviderProps = {
     revocation_endpoint: `${lichessHost}/api/token`,
   },
   loadUserInfo: false,
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   },
