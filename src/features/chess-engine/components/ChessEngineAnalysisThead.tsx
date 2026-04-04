@@ -11,9 +11,11 @@ import {
   toAnalysisResultEvaluation,
   toSearchTimeDisplayName,
 } from "@/common/utils/converters.ts";
+import type { WasmDownloadProgress } from "@/features/chess-engine/stockfish/useWasmDownloadProgress.ts";
 
 interface Props {
   analysisState: AnalysisState;
+  downloadProgress: WasmDownloadProgress;
   onChange: () => Promise<void>;
   result?: AnalysisResult;
   onAddLine: () => undefined | Promise<void>;
@@ -23,6 +25,7 @@ interface Props {
 
 export const ChessEngineAnalysisThead = ({
   analysisState,
+  downloadProgress,
   onChange,
   onAddLine,
   onRemoveLine,
@@ -31,6 +34,7 @@ export const ChessEngineAnalysisThead = ({
 }: Props) => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv, searchTimeSeconds, threads } = engineSettings;
+  const isDownloading = analysisState === ANALYSIS_STATE.DOWNLOADING;
 
   return (
     <td>
@@ -39,7 +43,9 @@ export const ChessEngineAnalysisThead = ({
           <input
             id="analysis-toggle"
             type="checkbox"
-            disabled={analysisState === ANALYSIS_STATE.STARTING}
+            disabled={
+              analysisState === ANALYSIS_STATE.STARTING || isDownloading
+            }
             className="toggle toggle-sm"
             checked={analysisState === ANALYSIS_STATE.ANALYSING}
             onChange={onChange}
@@ -51,15 +57,28 @@ export const ChessEngineAnalysisThead = ({
           </span>
         </div>
         <div className="font-light">
-          <div className="flex gap-1">
-            <p>Stockfish 18</p>
-            <p>Depth: {result?.depth ?? 0}</p>
-          </div>
-          <div className="flex gap-1">
-            <p>Lines: {multiPv},</p>
-            <p>Threads: {threads},</p>
-            <p>Search Time: {toSearchTimeDisplayName(searchTimeSeconds)}</p>
-          </div>
+          {isDownloading ? (
+            <div>
+              <p>Downloading Stockfish… {downloadProgress.percent}%</p>
+              <progress
+                className="progress progress-info w-40"
+                value={downloadProgress.percent}
+                max={100}
+              />
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-1">
+                <p>Stockfish 18</p>
+                <p>Depth: {result?.depth ?? 0}</p>
+              </div>
+              <div className="flex gap-1">
+                <p>Lines: {multiPv},</p>
+                <p>Threads: {threads},</p>
+                <p>Search Time: {toSearchTimeDisplayName(searchTimeSeconds)}</p>
+              </div>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 ml-auto pr-4">
           <Tooltip tooltip="Add line">

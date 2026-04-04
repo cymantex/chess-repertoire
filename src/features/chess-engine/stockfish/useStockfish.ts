@@ -14,6 +14,7 @@ import {
 } from "@/features/chess-engine/stockfish/defs.ts";
 import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 import { selectPendingPromotionMove } from "@/features/chessboard/chessboardSlice.ts";
+import { useWasmDownloadProgress } from "@/features/chess-engine/stockfish/useWasmDownloadProgress.ts";
 
 const stockfish = createStockfish();
 
@@ -26,6 +27,7 @@ export const useStockfish = ({
 }: EngineSettings) => {
   const fen = useRepertoireStore(selectFen);
   const pendingPromotionMove = useRepertoireStore(selectPendingPromotionMove);
+  const downloadProgress = useWasmDownloadProgress();
   const [analysisState, setAnalysisState] = useState<AnalysisState>(
     ANALYSIS_STATE.STOPPED,
   );
@@ -99,7 +101,10 @@ export const useStockfish = ({
   );
 
   return {
-    analysisState,
+    analysisState: downloadProgress.downloading
+      ? ANALYSIS_STATE.DOWNLOADING
+      : analysisState,
+    downloadProgress,
     analysisResults: pendingPromotionMove
       ? []
       : analysisResultsOrderedByMateThenCp,

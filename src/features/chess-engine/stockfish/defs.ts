@@ -172,6 +172,7 @@ export type StockfishOption =
   (typeof STOCKFISH_OPTIONS)[keyof typeof STOCKFISH_OPTIONS];
 
 export const ANALYSIS_STATE = {
+  DOWNLOADING: "DOWNLOADING",
   STARTING: "STARTING",
   ANALYSING: "ANALYSING",
   STOPPED: "STOPPED",

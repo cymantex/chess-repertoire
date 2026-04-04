@@ -15,7 +15,7 @@ import { openDefaultErrorToast } from "@/external/react-toastify/toasts.ts";
 export const ChessEngineAnalysis = () => {
   const { engineSettings } = useRepertoireSettings();
   const { multiPv } = engineSettings;
-  const { analysisState, toggleAnalysis, analysisResults, changeMultiPv } =
+  const { analysisState, toggleAnalysis, analysisResults, changeMultiPv, downloadProgress } =
     useStockfish(engineSettings);
   const firstResult = head(analysisResults);
 
@@ -37,6 +37,7 @@ export const ChessEngineAnalysis = () => {
       renderTheadTrChildren={(toggleButton) => (
         <ChessEngineAnalysisThead
           analysisState={analysisState}
+          downloadProgress={downloadProgress}
           onChange={async () => {
             if (!window.crossOriginIsolated) {
               modalStore.addConfirmModal({

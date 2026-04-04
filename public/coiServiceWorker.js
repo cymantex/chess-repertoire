@@ -18,6 +18,52 @@ function addCoiHeaders(response) {
   });
 }
 
+function broadcastMessage(msg) {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => client.postMessage(msg));
+  });
+}
+
+async function fetchWasmWithProgress(request) {
+  const response = await fetch(request);
+  const contentLength = response.headers.get("Content-Length");
+  const total = contentLength ? parseInt(contentLength, 10) : 0;
+
+  // If we can't determine the size or there's no body, fall back
+  if (!total || !response.body) {
+    return response;
+  }
+
+  broadcastMessage({ type: "wasm-download-start", total });
+
+  const reader = response.body.getReader();
+  const chunks = [];
+  let loaded = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    loaded += value.length;
+    broadcastMessage({ type: "wasm-download-progress", loaded, total });
+  }
+
+  broadcastMessage({ type: "wasm-download-complete" });
+
+  const body = new Uint8Array(loaded);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+}
+
 const fetchEventListener = function (event) {
   const r = event.request;
   if (r.cache === "only-if-cached" && r.mode !== "same-origin") {
@@ -35,9 +81,8 @@ const fetchEventListener = function (event) {
           if (cached) {
             return cached;
           }
-          return fetch(request).then((response) => {
+          return fetchWasmWithProgress(request).then((response) => {
             const withCoi = addCoiHeaders(response);
-            // Cache a clone since the response body can only be consumed once
             cache.put(request, withCoi.clone());
             return withCoi;
           });
