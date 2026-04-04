@@ -45,7 +45,8 @@ async function fetchWasmWithProgress(request) {
     if (done) break;
     chunks.push(value);
     loaded += value.length;
-    broadcastMessage({ type: "wasm-download-progress", loaded, total });
+    // Content-Length may be the compressed size while chunks are decompressed
+    broadcastMessage({ type: "wasm-download-progress", loaded: Math.min(loaded, total), total });
   }
 
   broadcastMessage({ type: "wasm-download-complete" });
