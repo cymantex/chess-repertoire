@@ -1,6 +1,7 @@
-// Requires stockfish-18.wasm to be publicly available in the web root
-// For Vite this means it should be located in the dist/assets folder
-import StockfishWorker from "stockfish/bin/stockfish-18.js?worker";
+// Requires stockfish-18.js and stockfish-18.wasm to be in public/stockfish/
+// (copied from node_modules/stockfish/bin/ by scripts/copy-stockfish.mjs)
+// The stockfish JS resolves the .wasm path from its own URL, so both files must
+// be co-located with stable (unhashed) names.
 import {
   generateUuid,
   isAnalysisResult,
@@ -114,7 +115,8 @@ export const createStockfish = (): Stockfish => {
   };
 
   const setupStockfishWorker = (logMessages: boolean) => {
-    const worker = new StockfishWorker();
+    const stockfishUrl = `${import.meta.env.BASE_URL}stockfish/stockfish-18.js`;
+    const worker = new Worker(stockfishUrl);
 
     worker!.onmessage = (event) => {
       for (const subscriber of internalMessageSubscribers.values()) {

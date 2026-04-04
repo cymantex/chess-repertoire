@@ -26,5 +26,5 @@ dist-ssr
 # Hidden assets folder
 _assets
 
-# Large binary files (installed via npm)
-*.wasm
+# Stockfish files copied from node_modules at postinstall
+public/stockfish/

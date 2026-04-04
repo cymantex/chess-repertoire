@@ -5,8 +5,9 @@
   "type": "module",
   "license": "AGPL-3.0",
   "scripts": {
+    "postinstall": "node scripts/copy-stockfish.mjs",
     "dev": "vite",
-    "build": "tsc && vite build && cp node_modules/stockfish/bin/stockfish-18.wasm dist/assets",
+    "build": "tsc && vite build",
     "lint": "eslint --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
