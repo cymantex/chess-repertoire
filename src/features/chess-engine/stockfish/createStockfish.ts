@@ -1,6 +1,6 @@
-// Requires stockfish-nnue-16.wasm to be publicly available in the web root
+// Requires stockfish-18.wasm to be publicly available in the web root
 // For Vite this means it should be located in the dist/assets folder
-import StockfishWorker from "stockfish/src/stockfish-nnue-16.js?worker";
+import StockfishWorker from "stockfish/bin/stockfish-18.js?worker";
 import {
   generateUuid,
   isAnalysisResult,
@@ -9,10 +9,9 @@ import {
 } from "@/features/chess-engine/stockfish/utils.ts";
 import type {
   Stockfish,
-  StockfishOption} from "@/features/chess-engine/stockfish/defs.ts";
-import {
-  ERROR_STOCKFISH_NOT_STARTED
+  StockfishOption,
 } from "@/features/chess-engine/stockfish/defs.ts";
+import { ERROR_STOCKFISH_NOT_STARTED } from "@/features/chess-engine/stockfish/defs.ts";
 
 export const createStockfish = (): Stockfish => {
   let stockfishWorker: Worker | null = null;

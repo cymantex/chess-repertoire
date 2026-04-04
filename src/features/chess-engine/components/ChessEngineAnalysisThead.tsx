@@ -1,9 +1,8 @@
 import type {
   AnalysisResult,
-  AnalysisState} from "@/features/chess-engine/stockfish/defs.ts";
-import {
-  ANALYSIS_STATE
+  AnalysisState,
 } from "@/features/chess-engine/stockfish/defs.ts";
+import { ANALYSIS_STATE } from "@/features/chess-engine/stockfish/defs.ts";
 import { useRepertoireSettings } from "@/features/repertoire/settings/repertoireSettingsStore.ts";
 import { IconButton } from "@/common/components/IconButton.tsx";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
@@ -53,7 +52,7 @@ export const ChessEngineAnalysisThead = ({
         </div>
         <div className="font-light">
           <div className="flex gap-1">
-            <p>Stockfish 16 NNUE</p>
+            <p>Stockfish 18</p>
             <p>Depth: {result?.depth ?? 0}</p>
           </div>
           <div className="flex gap-1">

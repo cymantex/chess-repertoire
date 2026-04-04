@@ -32,7 +32,7 @@ Browse opening theory using the **Lichess** and **Masters** databases. View win/
 
 ### 🤖 Engine Analysis
 
-Analyze positions with **Stockfish 16 NNUE** running locally in your browser via WebAssembly. Configure multi-PV lines (up to 10), search time, and thread count. Cloud engine evaluations are also available for quick lookups.
+Analyze positions with **Stockfish 18** running locally in your browser via WebAssembly. Configure multi-PV lines (up to 10), search time, and thread count. Cloud engine evaluations are also available for quick lookups.
 
 ### 📝 Move Annotations & Comments
 
