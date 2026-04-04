@@ -1,9 +1,15 @@
 import { useAuth } from "react-oidc-context";
 import { LichessLoginPage } from "@/features/lichess-auth/LichessLoginPage.tsx";
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 
 export const LichessLoginManager = ({ children }: PropsWithChildren) => {
   const auth = useAuth();
+
+  useEffect(() => {
+    return auth.events.addAccessTokenExpired(() => {
+      auth.removeUser();
+    });
+  }, [auth]);
 
   if (auth.isLoading) {
     return (
