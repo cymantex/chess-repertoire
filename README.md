@@ -79,7 +79,7 @@ Works on both desktop and mobile. The sidebar is collapsible and the layout adap
 | **State Management** | [Zustand](https://github.com/pmndrs/zustand) |
 | **Chessboard** | [Chessground](https://github.com/lichess-org/chessground) (Lichess board UI) |
 | **Chess Logic** | [chess.js](https://github.com/jhlywa/chess.js) + [chessops](https://github.com/niklasf/chessops) |
-| **Engine** | [Stockfish 16 NNUE](https://stockfishchess.org/) (WASM) |
+| **Engine** | [Stockfish 18](https://stockfishchess.org/) (WASM) |
 | **Storage** | IndexedDB ([idb](https://github.com/jakearchibald/idb)) + localStorage |
 | **Styling** | [Tailwind CSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/) + Sass |
 | **Rich Text** | [Slate](https://docs.slatejs.org/) |
