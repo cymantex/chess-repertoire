@@ -4,6 +4,7 @@ import { CommentEditorContainer } from "@/features/comment-editor/CommentEditorC
 import { RepertoireSidebar } from "@/features/sidebar/RepertoireSidebar.tsx";
 import { ToastContainer } from "react-toastify";
 import { ModalContainer } from "@/common/components/Modal/ModalContainer.tsx";
+import { isMobileSize } from "@/common/utils/utils.ts";
 
 export const ChessRepertoire = () => (
   <>
@@ -13,7 +14,11 @@ export const ChessRepertoire = () => (
     >
       <main>
         <Chessboard />
-        <CommentEditorContainer />
+        {!isMobileSize() && (
+          <div className="mt-1">
+            <CommentEditorContainer />
+          </div>
+        )}
       </main>
       <RepertoireSidebar />
     </div>

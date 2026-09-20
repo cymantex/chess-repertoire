@@ -6,6 +6,8 @@ import { ConfirmModal } from "@/common/components/Modal/ConfirmModal.tsx";
 
 import { MODAL_IDS } from "@/common/components/Modal/defs.ts";
 import type { ModalId } from "@/common/components/Modal/Modal.tsx";
+import { Modal } from "@/common/components/Modal/Modal.tsx";
+import { CommentEditorContainer } from "@/features/comment-editor/CommentEditorContainer.tsx";
 
 const subscribers = new Set<() => void>();
 const notifySubscribers = () => subscribers.forEach((callback) => callback());
@@ -49,6 +51,18 @@ export const modalStore = {
       <LoadingModal id={MODAL_IDS.LOADING} show>
         {children}
       </LoadingModal>,
+    ),
+  addCommentModal: () =>
+    modalStore.addModal(
+      <Modal id={MODAL_IDS.COMMENT} show>
+        <CommentEditorContainer style={{ height: "250px" }} />
+        <button
+          className="btn btn-sm btn-secondary mt-4"
+          onClick={() => modalStore.closeModal(MODAL_IDS.COMMENT)}
+        >
+          Close
+        </button>
+      </Modal>,
     ),
   setModal: (modal: ReactNode) => {
     currentModals = [modal];

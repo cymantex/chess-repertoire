@@ -1,4 +1,9 @@
-import { FaArrowRightToBracket, FaRotate } from "react-icons/fa6";
+import {
+  FaArrowRightToBracket,
+  FaComment,
+  FaRegComment,
+  FaRotate,
+} from "react-icons/fa6";
 import {
   FaFastBackward,
   FaFastForward,
@@ -12,7 +17,9 @@ import {
   selectPgn,
   useRepertoireStore,
 } from "@/app/zustand/store.ts";
-import { AnnotationSettings } from "@/features/annotations/AnnotationSettings.tsx";
+import {
+  AnnotationSettings
+} from "@/features/annotations/AnnotationSettings.tsx";
 import {
   repertoireSettingsStore,
   useRepertoireSettings,
@@ -27,14 +34,20 @@ import {
   selectGoToNextMove,
   selectGoToPreviousMove,
 } from "@/features/navigation/navigationSlice.ts";
-import { selectPendingPromotionMove } from "@/features/chessboard/chessboardSlice.ts";
+import {
+  selectPendingPromotionMove
+} from "@/features/chessboard/chessboardSlice.ts";
 import { SIDEBAR_IDS } from "@/features/sidebar/defs.ts";
 import {
   selectOpenSidebar,
   selectSidebarId,
   selectToggleSidebar,
 } from "@/features/sidebar/sidebarSlice.ts";
-import { isMobileSize } from "@/common/utils/utils.ts";
+import { isMobileSize, isNotEmptyArray } from "@/common/utils/utils.ts";
+import { modalStore } from "@/common/components/Modal/modalStore.tsx";
+import {
+  selectCurrentRepertoirePositionComments
+} from "@/features/repertoire/repertoireSlice.ts";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);
@@ -54,6 +67,8 @@ export const NavigationMenu = () => {
     !fen || !!pendingPromotionMove || chess.history().length <= 0;
   const nextMoveDisabled =
     !fen || !!pendingPromotionMove || !hasNextMove(pgn, chess.history());
+
+  const comments = useRepertoireStore(selectCurrentRepertoirePositionComments);
 
   return (
     <nav className="p-2 flex items-start justify-evenly text-2xl">
@@ -99,10 +114,16 @@ export const NavigationMenu = () => {
           <FaSlidersH />
         </Tooltip>
       </IconButton>
-      {!isMobileSize() && (
+      {!isMobileSize() ? (
         <IconButton onClick={toggleSidebar}>
           <Tooltip tooltip="Collapse">
             <FaArrowRightToBracket />
+          </Tooltip>
+        </IconButton>
+      ) : (
+        <IconButton onClick={() => modalStore.addCommentModal()}>
+          <Tooltip tooltip="Collapse">
+            {isNotEmptyArray(comments) ? <FaComment /> : <FaRegComment />}
           </Tooltip>
         </IconButton>
       )}

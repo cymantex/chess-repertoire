@@ -1,4 +1,5 @@
 export const MODAL_IDS = {
+  COMMENT: "comment-modal",
   CONFIRM: "confirm-modal",
   LOADING: "loading-modal",
   DATABASE: "database-modal",
