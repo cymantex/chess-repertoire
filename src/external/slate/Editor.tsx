@@ -63,7 +63,15 @@ export const Editor = ({
     });
 
   return (
-    <div className="pt-8 relative">
+    <div
+      className="pt-8 relative"
+      onFocus={() => setEditorFocused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setEditorFocused(false);
+        }
+      }}
+    >
       <Slate
         editor={editor}
         initialValue={initialValue}
@@ -82,8 +90,6 @@ export const Editor = ({
           )}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
-          onFocus={() => setEditorFocused(true)}
-          onBlur={() => setEditorFocused(false)}
           onKeyDown={handleHotkeys}
           {...editableProps}
         />

@@ -15,6 +15,7 @@ import {
   LuUnderline,
 } from "react-icons/lu";
 import { BlockButton } from "./BlockButton.tsx";
+import { AutoChessFontButton } from "./AutoChessFontButton.tsx";
 
 const EDITOR_BUTTON_CLASS_NAME = "p-1 border border-primary";
 
@@ -26,6 +27,7 @@ export const EditorToolbar = () => (
       format={FORMATS.CHESS}
       icon={<div className="leading-none font-chess">N</div>}
     />
+    <AutoChessFontButton className={EDITOR_BUTTON_CLASS_NAME} />
     <MarkButton
       title={`Bold (${HOTKEYS[FORMATS.BOLD]})`}
       className={EDITOR_BUTTON_CLASS_NAME}
