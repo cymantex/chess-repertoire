@@ -1,48 +1,42 @@
-import { PGN_TOKEN_TYPES } from "@/external/chessops/makePgnMoveTokens.ts";
+import { startingPosition } from "chessops/pgn";
 import { useInteractivePgn } from "@/features/pgn/explorer/useInteractivePgn.ts";
-import { GoToMoveButton } from "@/common/components/GoToMoveButton.tsx";
+import { PgnContextMenu } from "./PgnContextMenu.tsx";
+import { PgnMoves } from "./PgnMoves.tsx";
+import { usePgnContextMenu } from "./usePgnContextMenu.ts";
+import "./PgnTr.scss";
 
 export const PgnTr = () => {
-  const { pgnMoveTokens, disabled, isSelectedMove, getVariation } =
-    useInteractivePgn();
+  const { pgn, disabled, isSelectedMove } = useInteractivePgn();
+  const position = startingPosition(pgn.headers).unwrap();
+  const initialPly =
+    (position.fullmoves - 1) * 2 + Number(position.turn === "black");
+  const { menuTarget, openMenu, closeMenu, handleKeyDown } = usePgnContextMenu(
+    initialPly,
+    disabled,
+  );
 
-  if (pgnMoveTokens.length === 0) return null;
-
-  let variationCount = 0;
+  if (pgn.moves.children.length === 0) return null;
 
   return (
     <tr className="font-chess">
       <td>
-        <div className="flex flex-wrap text-sm select-none">
-          {pgnMoveTokens.map((token, i) => {
-            if (token.type === PGN_TOKEN_TYPES.START_VARIATION) {
-              variationCount++;
-            } else if (token.type === PGN_TOKEN_TYPES.END_VARIATION) {
-              variationCount--;
-            }
-
-            const moveOrString = token.value;
-
-            if (typeof moveOrString === "string") {
-              return (
-                <span className="text-base-content/50" key={i}>
-                  {moveOrString}
-                </span>
-              );
-            }
-
-            return (
-              <GoToMoveButton
-                key={i}
-                disabled={disabled}
-                italic={variationCount > 0}
-                selected={isSelectedMove(moveOrString)}
-                move={moveOrString}
-                getVariation={getVariation}
-              />
-            );
-          })}
+        <div
+          className="pgn-tree pgn-line text-sm select-none"
+          onContextMenu={openMenu}
+          onDoubleClick={openMenu}
+          onKeyDown={handleKeyDown}
+        >
+          <PgnMoves
+            nodes={pgn.moves.children}
+            initialPly={initialPly}
+            disabled={disabled}
+            isSelectedMove={isSelectedMove}
+            contextMenuPath={menuTarget?.path.join(" ")}
+          />
         </div>
+        {menuTarget && !disabled && (
+          <PgnContextMenu target={menuTarget} onClose={closeMenu} />
+        )}
       </td>
     </tr>
   );

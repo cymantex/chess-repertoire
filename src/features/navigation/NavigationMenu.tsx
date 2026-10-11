@@ -17,9 +17,7 @@ import {
   selectPgn,
   useRepertoireStore,
 } from "@/app/zustand/store.ts";
-import {
-  AnnotationSettings
-} from "@/features/annotations/AnnotationSettings.tsx";
+import { AnnotationSettings } from "@/features/annotations/AnnotationSettings.tsx";
 import {
   repertoireSettingsStore,
   useRepertoireSettings,
@@ -34,9 +32,7 @@ import {
   selectGoToNextMove,
   selectGoToPreviousMove,
 } from "@/features/navigation/navigationSlice.ts";
-import {
-  selectPendingPromotionMove
-} from "@/features/chessboard/chessboardSlice.ts";
+import { selectPendingPromotionMove } from "@/features/chessboard/chessboardSlice.ts";
 import { SIDEBAR_IDS } from "@/features/sidebar/defs.ts";
 import {
   selectOpenSidebar,
@@ -45,9 +41,7 @@ import {
 } from "@/features/sidebar/sidebarSlice.ts";
 import { isMobileSize, isNotEmptyArray } from "@/common/utils/utils.ts";
 import { modalStore } from "@/common/components/Modal/modalStore.tsx";
-import {
-  selectCurrentRepertoirePositionComments
-} from "@/features/repertoire/repertoireSlice.ts";
+import { selectCurrentRepertoirePositionComments } from "@/features/repertoire/repertoireSlice.ts";
 
 export const NavigationMenu = () => {
   const fen = useRepertoireStore(selectFen);

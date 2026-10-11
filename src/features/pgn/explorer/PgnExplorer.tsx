@@ -27,6 +27,7 @@ export const PgnExplorer = () => {
 
   return (
     <AccordionTable
+      className="table-fixed"
       renderTheadTrChildren={(toggleButton) => (
         <td>
           <ThMenu.Container>

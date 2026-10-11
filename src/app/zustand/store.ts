@@ -20,6 +20,8 @@ import { PGN_HEADERS } from "@/features/pgn/defs.ts";
 import { FEN_STARTING_POSITION } from "@/external/chessops/defs.ts";
 import type { SidebarSlice } from "@/features/sidebar/sidebarSlice.ts";
 import { createSidebarSlice } from "@/features/sidebar/sidebarSlice.ts";
+import type { PgnMoveAction } from "@/features/pgn/explorer/pgnActions.ts";
+import { updatePgnTree } from "@/features/pgn/explorer/pgnActions.ts";
 
 const initHeaders = () => new Map([[PGN_HEADERS.FEN, FEN_STARTING_POSITION]]);
 
@@ -33,6 +35,7 @@ export interface ChessRepertoireStore
 
   pgn: Game<PgnNodeData>;
   savePgn: (pgn: string) => Promise<void>;
+  editPgnMove: (path: string[], action: PgnMoveAction) => Promise<void>;
 
   sidebar: SidebarSlice;
 }
@@ -72,6 +75,26 @@ export const useRepertoireStore = create(
 
       return Promise.resolve();
     },
+    editPgnMove: async (path, action) => {
+      const { pgn, chess, pendingPromotionMove } = getNonReactiveState();
+      if (pendingPromotionMove) return;
+
+      const updatedPgn = updatePgnTree(pgn, path, action);
+      const currentPath = chess.history();
+
+      if (
+        action === "delete" &&
+        path.every((san, index) => currentPath[index] === san)
+      ) {
+        for (let i = currentPath.length; i >= path.length; i--) chess.undo();
+        return handlePositionStateChange({
+          set,
+          newState: { pgn: updatedPgn },
+        });
+      }
+
+      set({ pgn: updatedPgn });
+    },
     sidebar: createSidebarSlice(set),
     ...createRepertoireSlice(set),
     ...createChessboardSlice(set),
@@ -84,3 +107,5 @@ export const selectChess = (state: ChessRepertoireStore) => state.chess;
 export const selectFen = (state: ChessRepertoireStore) => state.fen;
 export const selectPgn = (state: ChessRepertoireStore) => state.pgn;
 export const selectSavePgn = (state: ChessRepertoireStore) => state.savePgn;
+export const selectEditPgnMove = (state: ChessRepertoireStore) =>
+  state.editPgnMove;

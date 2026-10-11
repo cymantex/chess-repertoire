@@ -1,5 +1,4 @@
 import type { Chess } from "chess.js";
-import type { PgnMoveData } from "@/external/chessops/defs.ts";
 
 export const toPgn = (chess: Chess) => {
   chess.header("Result", "*");
@@ -20,30 +19,6 @@ export const extractPlayerNames = (partialPgn: string) => {
   }
 
   return Array.from(playerNames);
-};
-
-export const makeVariation = (
-  moves: PgnMoveData[],
-  { fenBefore, san }: PgnMoveData,
-  initialFen: string,
-) => {
-  const previousMoves = [{ san }];
-  let currentFen = fenBefore;
-  let iterationCount = 0;
-
-  while (currentFen && currentFen !== initialFen) {
-    iterationCount++;
-    const move = moves.find((move) => move.fen === currentFen);
-
-    if (!move || iterationCount > 5000) {
-      return undefined;
-    }
-
-    previousMoves.unshift(move);
-    currentFen = move.fenBefore;
-  }
-
-  return previousMoves.map((move) => move.san);
 };
 
 /**

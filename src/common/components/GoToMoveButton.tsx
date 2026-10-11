@@ -10,6 +10,7 @@ interface Props<TMove extends Pick<PgnMoveData, "san" | "moveNumber">> {
   disabled: boolean;
   selected?: boolean;
   italic?: boolean;
+  contextMenuOpen?: boolean;
   move: TMove;
   getVariation: (move: TMove) => string[] | undefined;
 }
@@ -20,6 +21,7 @@ export const GoToMoveButton = <
   disabled,
   selected = false,
   italic = false,
+  contextMenuOpen,
   move,
   getVariation,
 }: Props<TMove>) => {
@@ -36,14 +38,17 @@ export const GoToMoveButton = <
     return goToPosition(variation);
   };
 
-  // TODO: Variation indentation level
   return (
     <Tooltip
       className="hidden md:block"
       renderTooltip={() => <MiniChessboard moves={getVariation(move)} />}
     >
       <button
+        type="button"
         disabled={disabled}
+        aria-haspopup={contextMenuOpen === undefined ? undefined : "menu"}
+        aria-expanded={contextMenuOpen}
+        aria-controls={contextMenuOpen ? "pgn-context-menu" : undefined}
         onClick={handleGoToPosition}
         className={classNames(
           "flex p-0.5 gap-1 pt-0.5 pb-0.5 rounded transition-all",
