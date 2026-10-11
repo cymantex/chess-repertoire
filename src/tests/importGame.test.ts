@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { parsePgn } from "chessops/pgn";
 import type { DrawShape } from "chessground/draw";
 import { FEN_SICILIAN } from "@/tests/testUtils.ts";
@@ -51,6 +51,32 @@ test("Import comment", async () => {
   const { comments } = await importPgn("1. e4 {Here is a comment}");
 
   expect(comments).toEqual(["Here is a comment"]);
+});
+
+test("preserves move and comment positions when castling", async () => {
+  const upsertMove = vi.fn().mockResolvedValue(undefined);
+  const setComment = vi.fn().mockResolvedValue(undefined);
+  await importGame(
+    parsePgn("1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. O-O {Castled}")[0],
+    {
+      upsertMove,
+      setComment,
+      replaceAnnotations: true,
+      annotationSetting: ANNOTATION_SETTINGS.GOOD,
+      includeComments: true,
+    },
+  );
+
+  expect(upsertMove).toHaveBeenLastCalledWith(
+    "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+    { san: "O-O" },
+    ANNOTATION_SETTINGS.GOOD,
+    true,
+  );
+  expect(setComment).toHaveBeenCalledWith(
+    "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 4",
+    "Castled",
+  );
 });
 
 test("Respects includeComments option", async () => {

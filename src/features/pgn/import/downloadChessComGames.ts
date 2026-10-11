@@ -80,11 +80,8 @@ export const downloadChessComGames = async ({
         !game.pgn.trimStart().startsWith("[") ||
         typeof game.rules !== "string" ||
         !Number.isFinite(game.end_time)
-      ) {
-        throw new Error(
-          "Chess.com returned an invalid game. Please try again later.",
-        );
-      }
+      )
+        continue;
       if (
         game.rules !== "chess" ||
         (sinceTime !== undefined && game.end_time * 1000 < sinceTime)

@@ -31,7 +31,7 @@ export const PgnImportSettingsModal = ({
   const [playerName, setPlayerName] = useState(pgn.playerName);
   const [includeComments, setIncludeComments] = useState(true);
   const [replaceAnnotations, setReplaceAnnotations] = useState(true);
-  const [maxMoveNumber, setMaxMoveNumber] = useState<number | "">("");
+  const [maxMoveNumber, setMaxMoveNumber] = useState<number | "">(20);
   const [opponentAnnotationSetting, setOpponentAnnotationSetting] =
     useState<AnnotationSetting>(ANNOTATION_SETTINGS.NEUTRAL);
   const [playerAnnotationSetting, setPlayerAnnotationSetting] =

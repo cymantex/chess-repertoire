@@ -1,4 +1,4 @@
-import { type DBSchema, deleteDB, openDB } from "idb";
+import { type DBSchema, type IDBPDatabase, deleteDB, openDB } from "idb";
 import {
   DEFAULT_DB_DISPLAY_NAME,
   isUserRepertoireDbName,
@@ -19,18 +19,35 @@ export interface RepertoireDb extends DBSchema {
   };
 }
 
-export const openRepertoireDb = (dbName: string) =>
-  openDB<RepertoireDb>(dbName, 1, {
+const connections = new Map<string, Promise<IDBPDatabase<RepertoireDb>>>();
+
+export const openRepertoireDb = (dbName: string) => {
+  const existing = connections.get(dbName);
+  if (existing) return existing;
+
+  const forgetConnection = () => {
+    if (connections.get(dbName) === connection) connections.delete(dbName);
+  };
+  const connection = openDB<RepertoireDb>(dbName, 1, {
     upgrade: (db) =>
       Object.values(REPERTOIRE_STORE_KEYS).forEach((storeKey) => {
         db.createObjectStore(storeKey);
       }),
+    blocking: () => {
+      // Release the connection so another tab or worker can delete or upgrade it.
+      void connection.then((db) => db.close());
+      forgetConnection();
+    },
+    terminated: forgetConnection,
   });
+  connections.set(dbName, connection);
+  void connection.catch(forgetConnection);
+  return connection;
+};
 
 export const repertoireDb = {
   create: async (dbDisplayName: string) => {
-    const db = await openRepertoireDb(toRepertoireDbName(dbDisplayName));
-    db.close();
+    await openRepertoireDb(toRepertoireDbName(dbDisplayName));
   },
   delete: async (dbDisplayName: string) => {
     if (

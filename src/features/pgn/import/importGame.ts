@@ -3,7 +3,7 @@ import { startingPosition } from "chessops/pgn";
 import { isNotEmptyArray } from "@/common/utils/utils.ts";
 import { isNumber } from "lodash";
 import { makeFen } from "chessops/fen";
-import { makeSanAndPlay, parseSan } from "chessops/san";
+import { parseSan } from "chessops/san";
 import { CG_BLACK, CG_WHITE } from "@/external/chessground/defs.tsx";
 import type { Position } from "chessops";
 import type {
@@ -64,7 +64,7 @@ const importMove = async (
   );
 
   try {
-    makeSanAndPlay(pos, move!);
+    pos.play(move!);
   } catch (e) {
     console.error(`Error importing move ${node.san}`, e);
     return;
