@@ -8,6 +8,7 @@ interface Props {
 export const PgnFileInput = ({ onFileUpload, disabled }: Props) => (
   <input
     type="file"
+    aria-label="PGN file"
     className="file-input file-input-ghost file-input-bordered w-full"
     disabled={disabled}
     onChange={(e) => {

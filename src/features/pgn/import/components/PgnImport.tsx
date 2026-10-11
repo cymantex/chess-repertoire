@@ -5,8 +5,10 @@ import { useRepertoireStore } from "@/app/zustand/store.ts";
 import type {
   ImportPgnOptions,
   ImportPgnProgress,
+  PgnImportFile,
 } from "@/features/pgn/import/defs.ts";
 import { PgnImportForm } from "@/features/pgn/import/components/PgnImportForm.tsx";
+import { PgnImportSettingsModal } from "./PgnImportSettingsModal.tsx";
 import { isNumber } from "lodash";
 import { Modal } from "@/common/components/Modal/Modal.tsx";
 import {
@@ -22,6 +24,7 @@ export const PgnImport = ({
   renderTrigger: (open: () => void) => ReactNode;
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedPgn, setSelectedPgn] = useState<PgnImportFile | null>(null);
 
   const getCurrentRepertoirePosition = useRepertoireStore(
     selectGetCurrentRepertoirePosition,
@@ -32,6 +35,11 @@ export const PgnImport = ({
   >();
 
   const importInProgress = importPgnProgress !== undefined;
+
+  const close = () => {
+    setShowModal(false);
+    setSelectedPgn(null);
+  };
 
   const handlePgnImport = async (file: File, options: ImportPgnOptions) => {
     setImportPgnProgress({});
@@ -58,7 +66,7 @@ export const PgnImport = ({
 
     await getCurrentRepertoirePosition();
 
-    setShowModal(false);
+    close();
     setImportPgnProgress(undefined);
   };
 
@@ -66,18 +74,26 @@ export const PgnImport = ({
     <div>
       {renderTrigger(() => setShowModal(true))}
       {showModal && (
-        <Modal show={showModal}>
-          <Modal.CloseButton
-            onClick={() => setShowModal(false)}
-            disabled={importInProgress}
-          />
-          <Modal.Title>Import PGN</Modal.Title>
-          <PgnImportForm
-            key={showModal ? "open" : "closed"}
-            onUpload={handlePgnImport}
-            importPgnProgress={importPgnProgress}
-          />
-        </Modal>
+        <>
+          <Modal show={!selectedPgn} aria-label="Choose a PGN">
+            <Modal.CloseButton
+              onClick={close}
+              disabled={importInProgress}
+              aria-label="Close PGN import"
+            />
+            <Modal.Title>Import PGN</Modal.Title>
+            <PgnImportForm onFileSelected={setSelectedPgn} />
+          </Modal>
+          {selectedPgn && (
+            <PgnImportSettingsModal
+              pgn={selectedPgn}
+              onBack={() => setSelectedPgn(null)}
+              onClose={close}
+              onImport={handlePgnImport}
+              importPgnProgress={importPgnProgress}
+            />
+          )}
+        </>
       )}
     </div>
   );

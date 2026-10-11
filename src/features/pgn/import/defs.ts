@@ -2,6 +2,25 @@ import type { RepertoireMove } from "@/features/repertoire/defs.ts";
 
 import type { AnnotationSetting } from "@/features/annotations/defs.ts";
 
+export interface PgnImportFile {
+  file: File;
+  playerNames: string[];
+  playerName?: string;
+}
+
+export interface GameDownloadProgress {
+  message: string;
+  bytesReceived?: number;
+}
+
+export interface GameDownloadOptions {
+  username: string;
+  sinceTime?: number;
+  maxGames?: number;
+  signal: AbortSignal;
+  onProgress: (progress: GameDownloadProgress) => void;
+}
+
 export interface ImportPgnOptions {
   annotationSetting: AnnotationSetting;
   playerSettings?: ImportPgnPlayerSettings;

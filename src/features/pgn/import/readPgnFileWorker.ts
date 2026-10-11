@@ -14,7 +14,7 @@ self.onmessage = async (event: MessageEvent<File>) => {
       if (chunks.length === 0) {
         self.postMessage([null, null]);
       } else if (chunks.length === 1) {
-        self.postMessage([chunks[0], null]);
+        self.postMessage([chunks[0].join("\n\n["), null]);
       } else {
         self.postMessage([
           chunks[0].join("\n\n["),

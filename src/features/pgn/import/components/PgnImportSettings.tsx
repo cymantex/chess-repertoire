@@ -43,8 +43,6 @@ export const PgnImportSettings = ({
   onSelectPlayerAnnotationSetting,
 }: Props) => (
   <>
-    <div className="divider" />
-    <h4 className="font-bold text-sm mb-4">Import settings</h4>
     {isNotEmptyArray(playerNames) && (
       <>
         <div className="label">
@@ -55,6 +53,7 @@ export const PgnImportSettings = ({
         <select
           className="select select-bordered w-full max-w-xs"
           disabled={disabled}
+          value={selectedPlayerName ?? NO_SELECTION}
           onChange={(e) => {
             const playerName = e.target.value;
             onSelectPlayerName(
@@ -157,6 +156,5 @@ export const PgnImportSettings = ({
         </span>
       </div>
     </div>
-    <div className="divider" />
   </>
 );
