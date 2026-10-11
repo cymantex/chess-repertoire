@@ -11,7 +11,7 @@ export const useOpeningExplorerQuery = (fen: string) => {
   const { openingExplorerApi } = useRepertoireSettings();
 
   return useQuery<OpeningExplorerResponse, AxiosError>({
-    queryKey: [`opening-explorer-${fen}`],
+    queryKey: ["opening-explorer", openingExplorerApi, fen],
     queryFn: () =>
       axios
         .get(`https://explorer.lichess.ovh/${openingExplorerApi}?fen=${fen}`, {
