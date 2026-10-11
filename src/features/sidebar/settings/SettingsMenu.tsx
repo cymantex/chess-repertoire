@@ -9,12 +9,25 @@ export const SettingsMenu = () => {
   const { googleDriveEnabled } = useRepertoireSettings();
 
   return (
-    <>
-      <RepertoireSettings />
-      <ThemeSettings />
-      <EngineSettings />
-      {googleDriveEnabled && <GoogleDriveSettings />}
-      <LichessLogoutSettings />
-    </>
+    <div className="space-y-6 p-4">
+      <h2 className="text-lg font-semibold">Settings</h2>
+      <section>
+        <ThemeSettings />
+      </section>
+      <section>
+        <EngineSettings />
+      </section>
+      <section>
+        <RepertoireSettings />
+      </section>
+      {googleDriveEnabled && (
+        <section>
+          <GoogleDriveSettings />
+        </section>
+      )}
+      <section>
+        <LichessLogoutSettings />
+      </section>
+    </div>
   );
 };

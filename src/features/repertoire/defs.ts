@@ -93,7 +93,7 @@ export const DEFAULT_SETTINGS: RepertoireSettings = {
   theme: "black",
   pieceTheme: PIECE_THEMES.CARDINAL,
   boardTheme: BOARD_THEMES.BLUE2,
-  annotationTheme: ANNOTATION_THEMES.DEFAULT,
+  annotationTheme: ANNOTATION_THEMES.DICE,
   openingExplorerApi: OPENING_EXPLORER_API.MASTERS,
   engineSettings: {
     searchTimeSeconds: Infinity,

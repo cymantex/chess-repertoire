@@ -8,15 +8,14 @@ export const SettingsMenuAlert = ({
   ...props
 }: Omit<HTMLAttributes<HTMLDivElement>, "title"> & { title: ReactNode }) => (
   <div
-    role="alert"
     className={classNames(
-      "alert bg-base-300 mb-2 text-center block",
+      "mb-3 border-b border-base-300 pb-3 text-left",
       className,
     )}
     {...props}
   >
     <div className="w-full">
-      <h3 className="font-bold text-base">{title}</h3>
+      <h3 className="text-sm font-semibold">{title}</h3>
       {children}
     </div>
   </div>
